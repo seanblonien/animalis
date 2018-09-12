@@ -16,7 +16,7 @@ export class Home extends React.Component {
 					<li><Link to="/login">Login</Link></li>
 					<li><Link to="/editprofile">Edit Profile</Link></li>
 					<li><Link to="/schedulesession">Schedule Session</Link></li>
-					<li><Link to="/page-3">Rate</Link></li>
+					<li><Link to="/rate">Rate</Link></li>
                     <li><Link to="/testendpoint">Test</Link></li>
 				</ul>
 			</div>
