@@ -17,6 +17,7 @@ export class Home extends React.Component {
 					<li><Link to="/editprofile">Edit Profile</Link></li>
 					<li><Link to="/schedulesession">Schedule Session</Link></li>
 					<li><Link to="/page-3">Rate</Link></li>
+                    <li><Link to="/testendpoint">Test</Link></li>
 				</ul>
 			</div>
 		);
@@ -73,6 +74,8 @@ class EditProfile extends React.Component {
 	}
 }
 
+
+
 EditProfile = connect(
 	state => ({
 		authentication: Users.State.getAuthentication(state),
@@ -100,4 +103,14 @@ export class Rate extends React.Component {
 			</div>
 		);
 	}
+}
+
+export class TestEndpoint extends React.Component {
+    render() {
+        return (
+            <div className="container padded">
+                Testing an endpoint.
+            </div>
+        );
+    }
 }
