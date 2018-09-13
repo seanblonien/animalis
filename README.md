@@ -1,7 +1,11 @@
 # Readme
 This is Group 5's Tempeturs project.
 [Our Heroku page link](https://temperature-group5.herokuapp.com/)
+
+
 [Our Trello page link](https://trello.com/b/XZJmAk9w/tempetur-web-app)
+
+
 
 ## Elastic Search
 This application uses elastic search as a data backend. To run the app you will have to either install elastic search locally or point to a remote elastic search instance. Configuration options are provided in `application.yml`.
