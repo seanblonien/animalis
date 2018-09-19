@@ -24,6 +24,11 @@ export class Home extends React.Component {
 	}
 }
 
+var welcomeStyle = {
+	color: 'black',
+	fontSize: 24
+};
+
 export class RegisterPage extends React.Component {
 	render() {
 		return (
@@ -33,6 +38,9 @@ export class RegisterPage extends React.Component {
 						<h2>Register</h2>
 						<hr />
 						<Login.RegistrationForm />
+                        { _.isDefined(this.props.user) &&
+                        <div style={welcomeStyle}>Welcome, {this.props.user.principal}!</div>
+                        }
 					</div>
 				</div>
 			</div>
