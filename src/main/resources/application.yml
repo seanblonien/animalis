@@ -31,8 +31,8 @@ web:
     css-bundle-location: /statics/petfinder-site.css
 
 elastic-search:
-  host: temperature-group5.herokuapp.com
-  port: 9200
-  scheme: http
-  user-name:
-  password:
+  host: apricot-914639.us-east-1.bonsaisearch.net
+  port: 443
+  scheme: https
+  user-name: ecqsuc3il3
+  password: sgftlakv4a
