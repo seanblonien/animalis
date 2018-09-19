@@ -10,7 +10,7 @@ export class Home extends React.Component {
 	render() {
 		return (
 			<div className="container padded">
-				<p> Welcome to the Tempeturs Web App Home Page!!!!!!!!! </p>
+				<p> Welcome to the Tempeturs Web App Home Page! </p>
 				<ul>
 					<li><Link to="/register">Register</Link></li>
 					<li><Link to="/login">Login</Link></li>
