@@ -6,8 +6,14 @@ import * as Validation from 'js/alloy/utils/validation';
 import * as Bessemer from 'js/alloy/bessemer/components';
 
 import * as Users from 'js/users';
+import CheckboxContainer from 'js/CheckboxContainer';
 
 class LoginForm extends React.Component {
+	constructor(props) {
+		super(props);
+
+	}
+
 	onSubmit = ({principal, password}) => {
 		return this.props.authenticate(principal, password);
 	};
@@ -47,7 +53,7 @@ class RegistrationForm extends React.Component {
 		return this.props.register(user);
 	};
 
-	render() {
+    render() {
 		let { handleSubmit, submitting } = this.props;
 
 		return (
@@ -58,6 +64,8 @@ class RegistrationForm extends React.Component {
 				<Bessemer.Field name="password" friendlyName="Password"
 				                validators={[Validation.requiredValidator, Validation.passwordValidator]}
 				                field={<input className="form-control" type="password" />} />
+
+				<CheckboxContainer/>
 
 				<Bessemer.Button loading={submitting}>Register</Bessemer.Button>
 			</form>
