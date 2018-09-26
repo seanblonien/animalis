@@ -7,6 +7,7 @@ import * as Bessemer from 'js/alloy/bessemer/components';
 
 import * as Users from 'js/users';
 import Checkbox from 'js/Checkbox';
+import {Link} from "react-router-dom";
 
 class LoginForm extends React.Component {
 	constructor(props) {
@@ -30,7 +31,7 @@ class LoginForm extends React.Component {
 								validators={[Validation.requiredValidator, Validation.passwordValidator]}
                                 field={<input className="form-control" type="password" />} />
 
-				<Bessemer.Button loading={submitting}>Sign In</Bessemer.Button>
+                <Bessemer.Button loading={submitting}><Link to="/" style={{color: '#FFF'}}>Sign In</Link></Bessemer.Button>
 			</form>
 		);
 	}
