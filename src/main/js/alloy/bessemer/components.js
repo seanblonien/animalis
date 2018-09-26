@@ -61,7 +61,7 @@ export class Field extends React.Component {
 	getReifiedProps = () => {
 		let reifiedProps = _.clone(this.props);
 		if(_.isNil(reifiedProps.field)) {
-			reifiedProps.field = <input className="form-control" placeholder="Value" />;
+			reifiedProps.field = <input className="form-control" placeholder={reifiedProps.placeholder} />;
 		}
 
 		if(_.isNil(reifiedProps.label)) {

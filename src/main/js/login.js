@@ -24,10 +24,10 @@ class LoginForm extends React.Component {
 		return (
 			<form name="form" onSubmit={handleSubmit(form => this.onSubmit(form))}>
 				<Bessemer.Field name="principal" friendlyName="Email Address"
-				                validators={[Validation.requiredValidator, Validation.emailValidator]} />
+								validators={[Validation.requiredValidator, Validation.emailValidator]} />
 
 				<Bessemer.Field name="password" friendlyName="Password"
-				                validators={[Validation.requiredValidator, Validation.passwordValidator]} />
+								validators={[Validation.requiredValidator, Validation.passwordValidator]} />
 
 				<Bessemer.Button loading={submitting}>Sign In</Bessemer.Button>
 			</form>
@@ -49,84 +49,84 @@ LoginForm = connect(
 export { LoginForm };
 
 const checkboxes = [
-    {
-        name: 'pet-owner',
-        key: 'pet-owner-box',
-        label: 'I am a pet owner.',
-    },
-    {
-        name: 'pet-sitter',
-        key: 'pet-sitter-box',
-        label: 'I am a pet sitter.',
-    },
-    {
-        name: 'email-notification',
-        key: 'email-notification-box',
-        label: 'Send me an email when I get a new message or request.',
-    },
+	{
+		name: 'pet-owner',
+		key: 'pet-owner-box',
+		label: 'I am a pet owner.',
+	},
+	{
+		name: 'pet-sitter',
+		key: 'pet-sitter-box',
+		label: 'I am a pet sitter.',
+	},
+	{
+		name: 'email-notification',
+		key: 'email-notification-box',
+		label: 'Send me an email when I get a new message or request.',
+	},
 ];
 
 class RegistrationForm extends React.Component {
-    constructor(props) {
-        super(props);
+	constructor(props) {
+		super(props);
 
-        this.checkBoxState = {
-            checkedItems: new Map(),
-        };
+		this.checkBoxState = {
+			checkedItems: new Map(),
+		};
 
-        this.handleCheckboxChange = this.handleCheckboxChange.bind(this);
-    }
+		this.handleCheckboxChange = this.handleCheckboxChange.bind(this);
+	}
 
 	onSubmit = user => {
 		return this.props.register(user);
 	};
 
-    handleCheckboxChange(e) {
-        const item = e.target.name;
-        const isChecked = e.target.checked;
-        this.setState(prevState => ({ checkedItems: prevState.checkedItems.set(item, isChecked) }));
-    }
+	handleCheckboxChange(e) {
+		const item = e.target.name;
+		const isChecked = e.target.checked;
+		this.setState(prevState => ({ checkedItems: prevState.checkedItems.set(item, isChecked) }));
+	}
 
-    render() {
+	render() {
 		let { handleSubmit, submitting } = this.props;
 
 		return (
 			<form name="form" onSubmit={handleSubmit(form => this.onSubmit(form))}>
 				<Bessemer.Field name="principal" friendlyName="Email Address"
-				                validators={[Validation.requiredValidator, Validation.emailValidator]} />
+								validators={[Validation.requiredValidator, Validation.emailValidator]} />
 
 				<Bessemer.Field name="password" friendlyName="Password"
-				                validators={[Validation.requiredValidator, Validation.passwordValidator]}
-				                field={<input className="form-control" type="password" />} />
+								validators={[Validation.requiredValidator, Validation.passwordValidator]}
+								field={<input className="form-control" type="password" />} />
 
-                <Bessemer.Field name="fname" friendlyName="First Name"
-                                validators={[Validation.requiredValidator]} />
+				<Bessemer.Field name="fname" friendlyName="First Name" placeholder="John"
+								validators={[Validation.requiredValidator]} />
 
-                <Bessemer.Field name="lname" friendlyName="Last Name"
-                                validators={[Validation.requiredValidator]} />
+				<Bessemer.Field name="lname" friendlyName="Last Name" placeholder="Doe"
+								validators={[Validation.requiredValidator]} />
 
-                <Bessemer.Field name="phone" friendlyName="Phone Number"
-                                validators={[Validation.requiredValidator, Validation.phoneNumberValidator]} />
+				<Bessemer.Field name="phone" friendlyName="Phone Number" placeholder="987-654-3210"
+								validators={[Validation.requiredValidator, Validation.phoneNumberValidator]} />
 
-                <Bessemer.Field name="address" friendlyName="Street Address"
-                                validators={[Validation.requiredValidator]} />
+				<Bessemer.Field name="address" friendlyName="Street Address" placeholder="7342 Pumpkin Hill St."
+								validators={[Validation.requiredValidator]} />
 
-                <Bessemer.Field name="city" friendlyName="City"
-                                validators={[Validation.requiredValidator]} />
+				<Bessemer.Field name="city" friendlyName="City" placeholder="Duluth"
+								validators={[Validation.requiredValidator]} />
 
-                <Bessemer.Field name="state" friendlyName="State"
-                                validators={[Validation.requiredValidator]} />
+				<Bessemer.Field name="state" friendlyName="State" placeholder="GA"
+								validators={[Validation.requiredValidator]} />
 
-                <Bessemer.Field name="zip" friendlyName="ZIP"
-                                validators={[Validation.requiredValidator]} />
+				<Bessemer.Field name="zip" friendlyName="ZIP" placeholder="30096"
+								validators={[Validation.requiredValidator]} />
 
 				<hr/>
 				{
-                    checkboxes.map(item => (
-                        <div>
-                            <Checkbox name={item.name} checked={this.checkBoxState.checkedItems.get(item.name)} onChange={this.handleCheckboxChange} />  <label key={item.key}> {item.label} </label>
-                        </div>
-                    ))
+					checkboxes.map(item => (
+						<div>
+							<Checkbox name={item.name} checked={this.checkBoxState.checkedItems.get(item.name)} onChange={this.handleCheckboxChange} />  <label key={item.key}> {item.label} </label>
+						</div>
+					))
 				}
 
 				<Bessemer.Button loading={submitting}>Register</Bessemer.Button>
