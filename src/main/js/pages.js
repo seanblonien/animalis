@@ -5,20 +5,37 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import * as Users from 'js/users';
 import * as Login from 'js/login';
+import * as Validation from 'js/alloy/utils/validation';
+import * as Bessemer from 'js/alloy/bessemer/components';
 
 export class Home extends React.Component {
 	render() {
 		return (
 			<div className="container padded">
-				<p> Welcome to the Tempeturs Web App Home Page! </p>
+				<h1> Welcome to the Tempeturs Web App Home Page! </h1>
+
+                <img src="https://img.huffingtonpost.com/asset/5b7fdeab1900001d035028dc.jpeg?cache=sixpwrbb1s&ops=1910_1000" height="225" width="430"/>
+
+                <div>
+					<div>
+						<Bessemer.Button><Link to="/register" style={{color: '#FFF'}}>Register Now!</Link></Bessemer.Button>
+					</div>
+					<div>
+						<h6>OR</h6>
+					</div>
+					<div>
+						<Bessemer.Button><Link to="/login" style={{color: '#FFF'}}>Login</Link></Bessemer.Button>
+					</div>
+				</div>
+
 				<ul>
-					<li><Link to="/register">Register</Link></li>
-					<li><Link to="/login">Login</Link></li>
 					<li><Link to="/editprofile">Edit Profile</Link></li>
 					<li><Link to="/schedulesession">Schedule Session</Link></li>
 					<li><Link to="/rate">Rate</Link></li>
                     <li><Link to="/testendpoint">Test</Link></li>
 				</ul>
+
+
 			</div>
 		);
 	}
