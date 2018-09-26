@@ -7,7 +7,7 @@ import * as Bessemer from 'js/alloy/bessemer/components';
 
 import * as Users from 'js/users';
 import Checkbox from 'js/Checkbox';
-import {Link} from "react-router-dom";
+import {Link} from 'react-router-dom';
 
 class LoginForm extends React.Component {
 	constructor(props) {
