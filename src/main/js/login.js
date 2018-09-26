@@ -70,7 +70,7 @@ class RegistrationForm extends React.Component {
 	constructor(props) {
 		super(props);
 
-		this.checkBoxState = {
+		this.state = {
 			checkedItems: new Map(),
 		};
 
@@ -121,13 +121,15 @@ class RegistrationForm extends React.Component {
 								validators={[Validation.requiredValidator]} />
 
 				<hr/>
-				{
-					checkboxes.map(item => (
-						<div>
-							<Checkbox name={item.name} checked={this.checkBoxState.checkedItems.get(item.name)} onChange={this.handleCheckboxChange} />  <label key={item.key}> {item.label} </label>
-						</div>
-					))
-				}
+                <React.Fragment>
+					{
+						checkboxes.map(item => (
+							<div>
+								<Checkbox name={item.name} checked={this.state.checkedItems.get(item.name)} onChange={this.handleCheckboxChange} />  <label key={item.key}> {item.label} </label>
+							</div>
+						))
+					}
+				</React.Fragment>
 
 				<Bessemer.Button loading={submitting}>Register</Bessemer.Button>
 			</form>
