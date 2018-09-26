@@ -120,7 +120,6 @@ class RegistrationForm extends React.Component {
                 <Bessemer.Field name="zip" friendlyName="ZIP"
                                 validators={[Validation.requiredValidator]} />
 
-				<CheckboxContainer/>
 				<hr/>
 				{
                     checkboxes.map(item => (
