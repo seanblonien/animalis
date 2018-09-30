@@ -7,6 +7,8 @@ import * as Bessemer from 'js/alloy/bessemer/components';
 
 import * as Users from 'js/users';
 import Checkbox from 'js/Checkbox';
+import OwnerRegister from 'js/OwnerRegister';
+import SitterRegister from 'js/SitterRegister';
 import {Link} from 'react-router-dom';
 
 class LoginForm extends React.Component {
@@ -95,7 +97,8 @@ class RegistrationForm extends React.Component {
 		return (
 			<form name="form" onSubmit={handleSubmit(form => this.onSubmit(form))}>
 				<Bessemer.Field name="principal" friendlyName="Email Address"
-								validators={[Validation.requiredValidator, Validation.emailValidator]} />
+								validators={[Validation.requiredValidator, Validation.emailValidator]}
+								field={<input className="form-control" type="email" />} />
 
 				<Bessemer.Field name="password" friendlyName="Password"
 								validators={[Validation.requiredValidator, Validation.passwordValidator]}
@@ -122,16 +125,20 @@ class RegistrationForm extends React.Component {
 				<Bessemer.Field name="zip" friendlyName="ZIP" placeholder="30096"
 								validators={[Validation.requiredValidator]} />
 
-				<hr/>
-                <React.Fragment>
-					{
-						checkboxes.map(item => (
-							<div>
-								<Checkbox name={item.name} checked={this.state.checkedItems.get(item.name)} onChange={this.handleCheckboxChange} />  <label key={item.key}> {item.label} </label>
-							</div>
-						))
-					}
-				</React.Fragment>
+				{
+					checkboxes.map(item => (
+						<div>
+							<Bessemer.Field name={item.name} friendlyName={item.label}
+											onChange={this.handleCheckboxChange}
+											field={<input type="checkbox" value={this.state.checkedItems.get(item.name)} />} />
+						</div>
+					))
+				}
+
+
+				{this.state.checkedItems.get('pet-owner') ? <OwnerRegister /> : null}
+
+				{this.state.checkedItems.get('pet-sitter') ? <SitterRegister /> : null}
 
 				<Bessemer.Button loading={submitting}>Register</Bessemer.Button>
 			</form>

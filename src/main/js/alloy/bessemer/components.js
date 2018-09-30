@@ -5,6 +5,7 @@ import * as ReduxForm from 'redux-form';
 
 import * as Utils from 'js/alloy/utils/core-utils';
 import * as Validation from 'js/alloy/utils/validation';
+import PropTypes from 'prop-types';
 
 function buildReduxValidator(validator, props) {
 	return value => validator.spec(value) ? undefined : validator.error(props, value);
@@ -61,7 +62,7 @@ export class Field extends React.Component {
 	getReifiedProps = () => {
 		let reifiedProps = _.clone(this.props);
 		if(_.isNil(reifiedProps.field)) {
-			reifiedProps.field = <input className="form-control" placeholder={reifiedProps.placeholder} />;
+			reifiedProps.field = <input className="form-control" placeholder={reifiedProps.placeholder}/>;
 		}
 
 		if(_.isNil(reifiedProps.label)) {
@@ -113,6 +114,7 @@ export class Field extends React.Component {
 		let props = this.getReifiedProps();
 
 		let field = this.buildField(props, input);
+
 		if(field.props.type === 'checkbox') {
 			let { label, validators } = props;
 			let resolvedCheckbox = null;
@@ -124,9 +126,10 @@ export class Field extends React.Component {
 				<div className={'form-group ' + this.props.className}>
 					<div className="form-check">
 						{ resolvedCheckbox }
+						{' '}
 						{
 							<label className={'form-check-label'}>
-								{ label.text }
+								{ label.text}
 								{ validators.map(validator => validator.spec).includes(Validation.required) && <span className="required">*</span> }
 							</label>
 						}
@@ -161,8 +164,9 @@ export class Field extends React.Component {
 		let props = this.getReifiedProps();
 
 		return <ReduxForm.Field name={ props.name }
-		              component={ this.renderField }
-		              validate={ props.validators.map(validator => buildReduxValidator(validator, props)) } />;
+								onChange={props.onChange}
+								component={ this.renderField }
+								validate={ props.validators.map(validator => buildReduxValidator(validator, props)) } />;
 	}
 }
 
