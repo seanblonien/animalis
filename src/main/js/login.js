@@ -52,24 +52,6 @@ LoginForm = connect(
 
 export { LoginForm };
 
-const checkboxes = [
-	{
-		name: 'pet-owner',
-		key: 'pet-owner-box',
-		label: 'I am a pet owner.',
-	},
-	{
-		name: 'pet-sitter',
-		key: 'pet-sitter-box',
-		label: 'I am a pet sitter.',
-	},
-	{
-		name: 'email-notification',
-		key: 'email-notification-box',
-		label: 'Send me an email when I get a new message or request.',
-	},
-];
-
 class RegistrationForm extends React.Component {
 	constructor(props) {
 		super(props);
@@ -125,16 +107,17 @@ class RegistrationForm extends React.Component {
 				<Bessemer.Field name="zip" friendlyName="ZIP" placeholder="30096"
 								validators={[Validation.requiredValidator]} />
 
-				{
-					checkboxes.map(item => (
-						<div>
-							<Bessemer.Field name={item.name} friendlyName={item.label}
-											onChange={this.handleCheckboxChange}
-											field={<input type="checkbox" value={this.state.checkedItems.get(item.name)} />} />
-						</div>
-					))
-				}
+				<Bessemer.Field name={'pet-owner'} friendlyName={'I am a pet owner.'}
+								onChange={this.handleCheckboxChange}
+								field={<input type="checkbox" value={this.state.checkedItems.get('pet-owner')} />} />
 
+				<Bessemer.Field name={'pet-sitter'} friendlyName={'I am a pet sitter.'}
+								onChange={this.handleCheckboxChange}
+								field={<input type="checkbox" value={this.state.checkedItems.get('pet-sitter')} />} />
+
+				<Bessemer.Field name={'email-notification'} friendlyName={'Send me an email when I get a new message or request.'}
+								onChange={this.handleCheckboxChange}
+								field={<input type="checkbox" value={this.state.checkedItems.get('email-notification')} />} />
 
 				{this.state.checkedItems.get('pet-owner') ? <OwnerRegister /> : null}
 
