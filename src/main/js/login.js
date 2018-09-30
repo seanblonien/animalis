@@ -27,7 +27,8 @@ class LoginForm extends React.Component {
 		return (
 			<form name="form" onSubmit={handleSubmit(form => this.onSubmit(form))}>
 				<Bessemer.Field name="principal" friendlyName="Email Address"
-								validators={[Validation.requiredValidator, Validation.emailValidator]} />
+								validators={[Validation.requiredValidator, Validation.emailValidator]}
+								field={<input className="form-control" type="email" />} />
 
 				<Bessemer.Field name="password" friendlyName="Password"
 								validators={[Validation.requiredValidator, Validation.passwordValidator]}
@@ -123,7 +124,7 @@ class RegistrationForm extends React.Component {
 
 				{this.state.checkedItems.get('pet-sitter') ? <SitterRegister /> : null}
 
-				<Bessemer.Button loading={submitting}>Register</Bessemer.Button>
+				<Bessemer.Button loading={submitting}><Link to="/" style={{color: '#FFF'}}>Register</Link></Bessemer.Button>
 			</form>
 		);
 	}
