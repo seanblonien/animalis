@@ -88,8 +88,8 @@ public class UserService {
 			List<String> myRoles = new ArrayList<>();
 
 			System.out.println();
-			System.out.print(this.petOwner);
-			System.out.print(this.petSitter);
+			System.out.println(this.petOwner);
+			System.out.println(this.petSitter);
 			System.out.println();
 
 			if(this.petOwner != null && !this.petOwner.equals("")) {
@@ -102,7 +102,91 @@ public class UserService {
 			if(myRoles.isEmpty()) myRoles.add("None");
 			return myRoles;
 		}
-	}
+
+        public void setPrincipal(String principal) {
+            this.principal = principal;
+        }
+
+        public String getFname() {
+            return fname;
+        }
+
+        public void setFname(String fname) {
+            this.fname = fname;
+        }
+
+        public String getLname() {
+            return lname;
+        }
+
+        public void setLname(String lname) {
+            this.lname = lname;
+        }
+
+        public String getPhone() {
+            return phone;
+        }
+
+        public void setPhone(String phone) {
+            this.phone = phone;
+        }
+
+        public String getAddress() {
+            return address;
+        }
+
+        public void setAddress(String address) {
+            this.address = address;
+        }
+
+        public String getCity() {
+            return city;
+        }
+
+        public void setCity(String city) {
+            this.city = city;
+        }
+
+        public String getState() {
+            return state;
+        }
+
+        public void setState(String state) {
+            this.state = state;
+        }
+
+        public String getZip() {
+            return zip;
+        }
+
+        public void setZip(String zip) {
+            this.zip = zip;
+        }
+
+        public String getPetSitter() {
+            return petSitter;
+        }
+
+        public void setPetSitter(String petSitter) {
+            this.petSitter = petSitter;
+        }
+
+        public String getPetOwner() {
+            return petOwner;
+        }
+
+        public void setPetOwner(String petOwner) {
+            this.petOwner = petOwner;
+        }
+
+        public String getEmailNotifications() {
+            return emailNotifications;
+        }
+
+        public void setEmailNotifications(String emailNotifications) {
+            this.emailNotifications = emailNotifications;
+        }
+    }
 
 	public UserDto register(RegistrationRequest request) {
 		System.out.print(request.getAttributes());
