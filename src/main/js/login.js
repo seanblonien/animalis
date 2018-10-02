@@ -108,21 +108,21 @@ class RegistrationForm extends React.Component {
 				<Bessemer.Field name="zip" friendlyName="ZIP" placeholder="30096"
 								validators={[Validation.requiredValidator]} />
 
-				<Bessemer.Field name={'pet-owner'} friendlyName={'I am a pet owner.'}
+				<Bessemer.Field name={'petOwner'} friendlyName={'I am a pet owner.'}
 								onChange={this.handleCheckboxChange}
-								field={<input type="checkbox" value={this.state.checkedItems.get('pet-owner')} />} />
+								field={<input type="checkbox" value={this.state.checkedItems.get('petOwner')} />} />
 
-				<Bessemer.Field name={'pet-sitter'} friendlyName={'I am a pet sitter.'}
+				<Bessemer.Field name={'petSitter'} friendlyName={'I am a pet sitter.'}
 								onChange={this.handleCheckboxChange}
-								field={<input type="checkbox" value={this.state.checkedItems.get('pet-sitter')} />} />
+								field={<input type="checkbox" value={this.state.checkedItems.get('petSitter')} />} />
 
-				<Bessemer.Field name={'email-notification'} friendlyName={'Send me an email when I get a new message or request.'}
+				<Bessemer.Field name={'emailNotifications'} friendlyName={'Send me an email when I get a new message or request.'}
 								onChange={this.handleCheckboxChange}
-								field={<input type="checkbox" value={this.state.checkedItems.get('email-notification')} />} />
+								field={<input type="checkbox" value={this.state.checkedItems.get('emailNotifications')} />} />
 
-				{this.state.checkedItems.get('pet-owner') ? <OwnerRegister /> : null}
+				{this.state.checkedItems.get('petOwner') ? <OwnerRegister /> : null}
 
-				{this.state.checkedItems.get('pet-sitter') ? <SitterRegister /> : null}
+				{this.state.checkedItems.get('petSitter') ? <SitterRegister /> : null}
 
 				<Bessemer.Button loading={submitting}><Link to="/" style={{color: '#FFF'}}>Register</Link></Bessemer.Button>
 			</form>

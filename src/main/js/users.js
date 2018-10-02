@@ -1,7 +1,21 @@
 import axios from 'axios';
 
 export function register(user) {
-	return axios.post('/api/user/register', user);
+	// return axios.post('/api/user/register', user);
+    return axios.post('/api/user/register', {
+    		principal: user.principal,
+			password: user.password,
+            fname: user.fname,
+            lname: user.lname,
+            phone: user.phone,
+            address: user.address,
+            city: user.city,
+            state: user.state,
+            zip: user.zip,
+            petSitter: user.petSitter,
+            petOwner: user.petOwner,
+            emailNotifications: user.emailNotifications
+	});
 }
 
 export function authenticate(username, password) {
