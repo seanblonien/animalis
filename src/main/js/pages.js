@@ -6,6 +6,8 @@ import { connect } from 'react-redux';
 import * as Users from 'js/users';
 import * as Login from 'js/login';
 import * as Bessemer from 'js/alloy/bessemer/components';
+import * as Validation from 'js/alloy/utils/validation';
+import AddPet from 'js/AddPet';
 
 export class NavBar1 extends React.Component {
     render() {
@@ -112,15 +114,23 @@ class EditProfile extends React.Component {
             <div>
                 <NavBar1/>
                 <div className="container padded">
-                    <p>Edit your profile here.</p>
+                    <div className="row">
+                        <div className="col-6 offset-md-3">
+                            <h2>Edit your profile</h2>
+                            Enter pet information.
 
-                    { _.isDefined(this.props.authentication) &&
-                    <div>{this.props.authentication['access_token']}</div>
-                    }
+                            <AddPet/>
 
-                    { _.isDefined(this.props.user) &&
-                    <div>Welcome, {this.props.user.principal}!</div>
-                    }
+
+                            { _.isDefined(this.props.authentication) &&
+                            <div>{this.props.authentication['access_token']}</div>
+                            }
+
+                            { _.isDefined(this.props.user) &&
+                            <div>Welcome, {this.props.user.principal}!</div>
+                            }
+                        </div>
+                    </div>
                 </div>
             </div>
         );
