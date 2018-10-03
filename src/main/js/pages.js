@@ -117,7 +117,8 @@ class EditProfile extends React.Component {
                     <div className="row">
                         <div className="col-6 offset-md-3">
                             <h2>Edit your profile</h2>
-                            Enter pet information.
+
+                            <h4>Enter pet information:</h4>
 
                             <AddPet/>
 

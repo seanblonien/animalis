@@ -18,8 +18,8 @@ class AddPet extends React.Component {
         super();
     }
 
-    onSubmit = user => {
-        return this.props.register(user);
+    onSubmit = pet => {
+        return this.props.register(pet);
     };
 
     render() {
@@ -36,34 +36,32 @@ class AddPet extends React.Component {
                 <Bessemer.Field name="petsize" friendlyName="Pet Size" placeholder="Medium"
                                 validators={[Validation.requiredValidator]} />
 
-                <Bessemer.Field name="petsex" friendlyName="Pet Sex" placeholder="M"
-                                validators={[Validation.requiredValidator]} />
-
-                <ButtonToolbar>
-                    <DropdownButton title="Default button" id="dropdown-size-medium">
-                        <MenuItem eventKey="1">Action</MenuItem>
-                        <MenuItem eventKey="2">Another action</MenuItem>
-                        <MenuItem eventKey="3">Something else here</MenuItem>
-                    </DropdownButton>
-                </ButtonToolbar>
+                <div className="col-6 offset-md-4">
+                    <ButtonToolbar>
+                        <DropdownButton title="Pet Sex" id="dropdown-size-medium">
+                            <MenuItem eventKey="1">Male</MenuItem>
+                            <MenuItem eventKey="2">Female</MenuItem>
+                        </DropdownButton>
+                    </ButtonToolbar>
+                </div>
 
                 <Bessemer.Field name="petage" friendlyName="Pet Age" placeholder="6"
                                 validators={[Validation.requiredValidator]} />
 
-                <Bessemer.Button loading={submitting}><Link to="/" style={{color: '#FFF'}}>Register</Link></Bessemer.Button>
+                <Bessemer.Button loading={submitting}><Link to="/" style={{color: '#FFF'}}>Add Pet</Link></Bessemer.Button>
             </form>
         );
     }
 }
 
-AddPet = ReduxForm.reduxForm({form: 'register'})(AddPet);
+AddPet = ReduxForm.reduxForm({form: 'editProfile'})(AddPet);
 
 AddPet = connect(
     state => ({
 
     }),
     dispatch => ({
-        register: user => dispatch(Users.Actions.register(user))
+        register: pet => dispatch(Users.Actions.addpet(pet))
     })
 )(AddPet);
 
