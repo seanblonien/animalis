@@ -12,6 +12,7 @@ import alloy.util.AlloyAuthentication;
 import alloy.util.Wait;
 import alloy.util._Lists;
 import alloy.util._Maps;
+import petfinder.site.common.pet.PetDto;
 import petfinder.site.common.user.UserDto.UserType;
 
 /**
@@ -25,9 +26,6 @@ public class UserService {
 	@Autowired
 	private PasswordEncoder passwordEncoder;
 
-	public Optional<UserDto> findUser(String id) {
-		return userDao.findUser(id).map(UserAuthenticationDto::getUser);
-	}
 
 	public Optional<UserDto> findUserByPrincipal(String principal) {
 		return userDao.findUserByPrincipal(principal).map(UserAuthenticationDto::getUser);
@@ -195,5 +193,13 @@ public class UserService {
 
 		userDao.save(userAuthentication);
 		return userAuthentication.getUser();
+	}
+
+	public UserPetDto save(UserPetDto userPetDto) {
+		return userDao.save(userPetDto);
+	}
+
+	public List<PetDto> findPets(UserDto user) {
+		return userDao.findPets(user);
 	}
 }
