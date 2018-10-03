@@ -5,7 +5,6 @@ import * as ReduxForm from 'redux-form';
 
 import * as Utils from 'js/alloy/utils/core-utils';
 import * as Validation from 'js/alloy/utils/validation';
-import PropTypes from 'prop-types';
 
 function buildReduxValidator(validator, props) {
 	return value => validator.spec(value) ? undefined : validator.error(props, value);

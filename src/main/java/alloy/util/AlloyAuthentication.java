@@ -1,11 +1,5 @@
 package alloy.util;
 
-import java.util.Optional;
-
-import org.springframework.security.authentication.AnonymousAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UserDetails;
-
 /**
  * Created by jlutteringer on 1/15/18.
  */

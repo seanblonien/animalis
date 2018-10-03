@@ -2,8 +2,6 @@ package alloy.util;
 
 import java.util.Map;
 
-import alloy.util.Momento.Momentizer;
-
 /**
  * Created by jlutteringer on 1/16/18.
  */

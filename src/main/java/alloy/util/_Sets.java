@@ -1,10 +1,10 @@
 package alloy.util;
 
-import java.util.Collection;
-import java.util.Set;
-
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
+
+import java.util.Collection;
+import java.util.Set;
 
 /**
  * Created by jlutteringer on 1/15/18.

@@ -1,9 +1,9 @@
 package petfinder.site.common.pet;
 
-import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 /**
  * Created by jlutteringer on 8/23/17.

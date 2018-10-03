@@ -4,17 +4,15 @@ package alloy.util;
  * Created by jlutteringer on 1/15/18.
  */
 
-import java.util.List;
-import java.util.Optional;
-
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableList.Builder;
+import com.google.common.collect.Lists;
 
 import java.util.Collection;
+import java.util.List;
+import java.util.Optional;
 import java.util.function.BiFunction;
 import java.util.stream.Collectors;
-
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.Lists;
 
 /**
  * Created by jlutteringer on 2/13/17.

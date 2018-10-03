@@ -1,14 +1,10 @@
 package petfinder.site.common.user;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
-
+import alloy.util.Momento;
 import org.codehaus.jackson.annotate.JsonIgnore;
 
-import alloy.util.Identifiable;
-import alloy.util.Momento;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by jlutteringer on 8/23/17.

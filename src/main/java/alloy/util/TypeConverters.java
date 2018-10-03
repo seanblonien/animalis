@@ -1,10 +1,5 @@
 package alloy.util;
 
-import java.io.IOException;
-import java.util.Map;
-import java.util.Optional;
-import java.util.function.Function;
-
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -15,6 +10,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+
+import java.io.IOException;
+import java.util.Map;
+import java.util.Optional;
+import java.util.function.Function;
 
 /**
  * Created by jlutteringer on 1/15/18.

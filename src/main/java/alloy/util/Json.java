@@ -1,11 +1,9 @@
 package alloy.util;
 
-import java.lang.reflect.Type;
-import java.util.HashMap;
-import java.util.Map;
-
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+
+import java.util.HashMap;
 
 /**
  * Created by jlutteringer on 1/15/18.

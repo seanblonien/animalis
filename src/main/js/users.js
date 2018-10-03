@@ -36,6 +36,16 @@ export function authenticate(username, password) {
 	);
 }
 
+export function addpet(pet) {
+	return axios.post('/api/user/pet', {
+		id: pet.id,
+		petId: pet.petId,
+		userPrincipal: pet.userPrincipal,
+		pet_name: pet.pet_name,
+		pet_species: pet.pet_species
+	});
+}
+
 export function getUserDetails() {
 	return axios.get('/api/user');
 }
@@ -57,6 +67,10 @@ let Actions = {};
 Actions.Types = {
 	SET_AUTHENTICATION: 'SET_AUTHENTICATION',
 	SET_USER: 'SET_USER'
+};
+
+Actions.addpet = pet => {
+	return addpet(pet);
 };
 
 Actions.register = user => {

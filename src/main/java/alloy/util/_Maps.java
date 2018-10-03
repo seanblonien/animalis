@@ -4,21 +4,15 @@ package alloy.util;
  * Created by jlutteringer on 1/15/18.
  */
 
-import java.util.List;
-import java.util.Map;
+import alloy.util.Tuple.Pair;
+import com.google.common.collect.*;
+import org.springframework.util.MultiValueMap;
+
+import java.util.*;
 import java.util.Map.Entry;
-import java.util.Properties;
 import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
-
-import java.util.*;
-
-import org.springframework.util.MultiValueMap;
-
-import com.google.common.collect.*;
-
-import alloy.util.Tuple.Pair;
 
 
 /**

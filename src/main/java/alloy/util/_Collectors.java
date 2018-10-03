@@ -4,26 +4,18 @@ package alloy.util;
  * Created by jlutteringer on 1/15/18.
  */
 
+import alloy.util.Tuple.Pair;
+import com.google.common.collect.*;
+
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.function.BiConsumer;
-import java.util.function.Supplier;
-
-import java.util.Collection;
 import java.util.Set;
+import java.util.function.BiConsumer;
 import java.util.function.BinaryOperator;
+import java.util.function.Supplier;
 import java.util.stream.Collector;
-
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.ImmutableSet;
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
-import com.google.common.collect.Multimap;
-import com.google.common.collect.Multimaps;
-
-import alloy.util.Tuple.Pair;
 
 /**
  * Created by jlutteringer on 4/27/16.

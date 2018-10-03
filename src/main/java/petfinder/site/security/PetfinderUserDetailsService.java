@@ -1,7 +1,5 @@
 package petfinder.site.security;
 
-import java.util.stream.Collectors;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
@@ -9,10 +7,10 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-
 import petfinder.site.common.user.UserAuthenticationDto;
-import petfinder.site.common.user.UserDao;
 import petfinder.site.common.user.UserService;
+
+import java.util.stream.Collectors;
 
 /**
  * Created by jlutteringer on 1/15/18.

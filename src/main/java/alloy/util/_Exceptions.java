@@ -1,5 +1,8 @@
 package alloy.util;
 
+import com.google.common.base.Throwables;
+import com.google.common.collect.Sets;
+
 import java.io.IOException;
 import java.net.SocketException;
 import java.net.SocketTimeoutException;
@@ -10,9 +13,6 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
-
-import com.google.common.base.Throwables;
-import com.google.common.collect.Sets;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
