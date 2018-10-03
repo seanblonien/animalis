@@ -189,10 +189,11 @@ public class UserService {
 	}
 
 	public UserPetDto save(UserPetDto userPetDto) {
+		System.out.println("saving pet to userPetDao");
 		return userDao.save(userPetDto);
 	}
 
-	public List<PetDto> findPets(UserDto user) {
+	public List<UserPetDto> findPets(UserDto user) {
 		return userDao.findPets(user);
 	}
 }

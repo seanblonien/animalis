@@ -2,19 +2,19 @@ import axios from 'axios';
 
 export function register(user) {
 	// return axios.post('/api/user/register', user);
-    return axios.post('/api/user/register', {
-    		principal: user.principal,
+	return axios.post('/api/user/register', {
+			principal: user.principal,
 			password: user.password,
-            fname: user.fname,
-            lname: user.lname,
-            phone: user.phone,
-            address: user.address,
-            city: user.city,
-            state: user.state,
-            zip: user.zip,
-            petSitter: user.petSitter,
-            petOwner: user.petOwner,
-            emailNotifications: user.emailNotifications
+			fname: user.fname,
+			lname: user.lname,
+			phone: user.phone,
+			address: user.address,
+			city: user.city,
+			state: user.state,
+			zip: user.zip,
+			petSitter: user.petSitter,
+			petOwner: user.petOwner,
+			emailNotifications: user.emailNotifications
 	});
 }
 
@@ -37,12 +37,16 @@ export function authenticate(username, password) {
 }
 
 export function addpet(pet) {
+	console.log('=====');
+	console.log('Adding Pet');
+	console.log(pet.pet_name);
+	console.log('=====');
 	return axios.post('/api/user/pet', {
 		id: pet.id,
 		petId: pet.petId,
 		userPrincipal: pet.userPrincipal,
-		pet_name: pet.pet_name,
-		pet_species: pet.pet_species
+		pet_name: pet.name,
+		pet_species: pet.species
 	}).then(function (response) {
 		console.log(response);
 	})
@@ -73,6 +77,10 @@ State.getUser = state => {
 	return state.user;
 };
 
+State.getPet = state => {
+	return state.pet;
+};
+
 export { State };
 
 let Actions = {};
@@ -84,7 +92,9 @@ Actions.Types = {
 };
 
 Actions.addpet = pet => {
+	console.log('dispatching');
 	return (dispatch) => {
+		console.log('calling add pet');
 		return addpet(pet).then((addedpet)  => {
 			return dispatch(Actions.setPet(addedpet));
 		});
