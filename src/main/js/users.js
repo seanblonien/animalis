@@ -43,6 +43,19 @@ export function addpet(pet) {
 		userPrincipal: pet.userPrincipal,
 		pet_name: pet.pet_name,
 		pet_species: pet.pet_species
+	}).then(function (response) {
+		console.log(response);
+	})
+	.catch(function (error) {
+		console.log(error);
+	});
+}
+
+export function displayPets(){
+	return axios.get('/api/user/pet').then(function (response) {
+		console.log(response);
+	}).catch(function (error) {
+		console.log(error);
 	});
 }
 
@@ -66,11 +79,16 @@ let Actions = {};
 
 Actions.Types = {
 	SET_AUTHENTICATION: 'SET_AUTHENTICATION',
-	SET_USER: 'SET_USER'
+	SET_USER: 'SET_USER',
+	ADD_PET: 'ADD_PET'
 };
 
 Actions.addpet = pet => {
-	return addpet(pet);
+	return (dispatch) => {
+		return addpet(pet).then((addedpet)  => {
+			return dispatch(Actions.setPet(addedpet));
+		});
+	};
 };
 
 Actions.register = user => {
@@ -99,7 +117,12 @@ Actions.logout = () => {
 	return (dispatch) => {
 		dispatch(Actions.setAuthentication(null));
 		dispatch(Actions.setUser(null));
+		dispatch(Actions.setPet(null));
 	};
+};
+
+Actions.setPet = pet => {
+	return{type: Actions.Types.ADD_PET, pet};
 };
 
 Actions.setAuthentication = authentication => {
@@ -132,6 +155,17 @@ Reducers.user = (user = null, action) => {
 		}
 		default: {
 			return user;
+		}
+	}
+};
+
+Reducers.pet = (pet = null, action) => {
+	switch (action.type) {
+		case Actions.Types.ADD_PET: {
+			return action.pet;
+		}
+		default: {
+			return pet;
 		}
 	}
 };

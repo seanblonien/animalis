@@ -1,12 +1,11 @@
 import React from 'react';
 import * as ReduxForm from 'redux-form';
-import { connect } from 'react-redux';
+import {connect} from 'react-redux';
 
 import * as Validation from 'js/alloy/utils/validation';
 import * as Bessemer from 'js/alloy/bessemer/components';
 
 import * as Users from 'js/users';
-import Checkbox from 'js/Checkbox';
 import OwnerRegister from 'js/OwnerRegister';
 import SitterRegister from 'js/SitterRegister';
 import {Link} from 'react-router-dom';
@@ -74,38 +73,60 @@ class RegistrationForm extends React.Component {
 		this.setState(prevState => ({ checkedItems: prevState.checkedItems.set(item, isChecked) }));
 	}
 
+	handleFieldChange(e) {
+		// console.log('=====');
+		// console.log(Object.values(e.target));
+		// // console.log(Object.keys(e.target._valueTracker));
+		// console.log(e.target.name);
+		// console.log(this.props);
+		// console.log('=====');
+		// const field = e.target.name;
+		// const value = e.target.value;
+		//
+		// this.setState(prevState => ({ validatedFields: prevState.validatedFields.set(field, value) }));
+	}
+
 	render() {
 		let { handleSubmit, submitting } = this.props;
 
 		return (
 			<form name="form" onSubmit={handleSubmit(form => this.onSubmit(form))}>
-				<Bessemer.Field name="principal" friendlyName="Email Address"
+				<Bessemer.Field name="principal" friendlyName="Email Address" placeholder="JohnDoe@gmail.com"
+								onChange={this.handleFieldChange}
 								validators={[Validation.requiredValidator, Validation.emailValidator]}
 								field={<input className="form-control" type="email" />} />
 
-				<Bessemer.Field name="password" friendlyName="Password"
+				<Bessemer.Field name="password" friendlyName="Password" placeholder="At least 6 characters"
+								onChange={this.handleFieldChange}
 								validators={[Validation.requiredValidator, Validation.passwordValidator]}
 								field={<input className="form-control" type="password" />} />
 
 				<Bessemer.Field name="fname" friendlyName="First Name" placeholder="John"
+								onChange={this.handleFieldChange}
 								validators={[Validation.requiredValidator]} />
 
 				<Bessemer.Field name="lname" friendlyName="Last Name" placeholder="Doe"
+								onChange={this.handleFieldChange}
 								validators={[Validation.requiredValidator]} />
 
 				<Bessemer.Field name="phone" friendlyName="Phone Number" placeholder="987-654-3210"
+								onChange={this.handleFieldChange}
 								validators={[Validation.requiredValidator, Validation.phoneNumberValidator]} />
 
 				<Bessemer.Field name="address" friendlyName="Street Address" placeholder="7342 Pumpkin Hill St."
+								onChange={this.handleFieldChange}
 								validators={[Validation.requiredValidator]} />
 
 				<Bessemer.Field name="city" friendlyName="City" placeholder="Duluth"
+								onChange={this.handleFieldChange}
 								validators={[Validation.requiredValidator]} />
 
 				<Bessemer.Field name="state" friendlyName="State" placeholder="GA"
+								onChange={this.handleFieldChange}
 								validators={[Validation.requiredValidator]} />
 
 				<Bessemer.Field name="zip" friendlyName="ZIP" placeholder="30096"
+								onChange={this.handleFieldChange}
 								validators={[Validation.requiredValidator]} />
 
 				<Bessemer.Field name={'petOwner'} friendlyName={'I am a pet owner.'}

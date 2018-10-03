@@ -1,11 +1,12 @@
 import _ from 'lodash';
 
 import React from 'react';
-import { Link } from 'react-router-dom';
-import { connect } from 'react-redux';
+import {connect} from 'react-redux';
 import * as Users from 'js/users';
 import * as Login from 'js/login';
 import * as Bessemer from 'js/alloy/bessemer/components';
+import * as Validation from 'js/alloy/utils/validation';
+import * as ReduxForm from 'redux-form';
 
 export class NavBar1 extends React.Component {
     render() {
@@ -106,20 +107,130 @@ export class LoginPage extends React.Component {
     }
 }
 
+class AddPetForm extends React.Component {
+	// constructor(props) {
+	// 	super(props);
+    //
+	// 	this.state = {
+	// 		pet_attributes: new Map()
+	// 	};
+    //
+	// 	this.state.pet_attributes.set('pet_name', '').set('pet_species', '').set('pet_breed', '')
+	// 		.set('pet_weight', 0.0).set('pet_color', '').set('pet_birthdate', 0).set('pet_sex', '');
+    //
+	// 	this.handleFieldChange = this.handleFieldChange.bind(this);
+	// }
+    //
+	//
+    //
+	// handleFieldChange(e) {
+	// 	const field = e.target.name;
+	// 	const value = e.target.value;
+    //
+	// 	this.setState(prevState => ({ validatedFields: prevState.validatedFields.set(field, value) }));
+	// }
+
+	onSubmit = pet => {
+	    pet.userPrincipal = this.props.user.principal;
+		return this.props.addPet(pet);
+	};
+
+	render() {
+		let { handleSubmit, submitting } = this.props;
+
+		return (
+            <form name="form" onSubmit={handleSubmit(form => this.onSubmit(form))}>
+                <Bessemer.Field name="name" friendlyName="Pet Name"
+                                validators={[Validation.requiredValidator]}
+                                field={<input className="form-control" type="textfield" />} />
+
+                <Bessemer.Field name="species" friendlyName="Pet Species"
+                                validators={[Validation.requiredValidator]}
+                                field={<input className="form-control" type="textfield" />} />
+
+                <Bessemer.Button loading={submitting}><span style={{color: '#FFF'}}>Add Pet</span></Bessemer.Button>
+            </form>
+        );
+    }
+}
+
+AddPetForm = ReduxForm.reduxForm({form: 'addpet'})(AddPetForm);
+
+AddPetForm = connect(
+	state => ({
+
+	}),
+	dispatch => ({
+		addpet: pet => dispatch(Users.Actions.addpet(pet))
+	})
+)(AddPetForm);
+
+export { AddPetForm };
+
+class DisplayPetsForm extends React.Component {
+	constructor(props) {
+		super(props);
+
+        this.state = {
+            pet_list: new Array(),
+        };
+
+		this.handleClick = this.handleClick.bind(this);
+	}
+
+	handleClick()  {
+	    this.state.pet_list = Users.Actions.displayPets;
+	    console.log(this.state.pet_list);
+	    return;
+	};
+
+	render() {
+		return (
+            <div>
+                <Bessemer.Button onClick={this.handleClick}><span style={{color: '#FFF'}}>Get Pets</span></Bessemer.Button>
+            </div>
+		);
+	}
+}
+
+DisplayPetsForm = ReduxForm.reduxForm({form: 'displayPets'})(DisplayPetsForm);
+
+DisplayPetsForm = connect(
+	state => ({
+
+	}),
+	dispatch => ({
+		displayPets: () => dispatch(Users.Actions.displayPets())
+	})
+)(DisplayPetsForm);
+
+export { DisplayPetsForm };
+
 class EditProfile extends React.Component {
+
     render() {
         return (
             <div>
                 <NavBar1/>
                 <div className="container padded">
-                    <p>Edit your profile here.</p>
-
-                    { _.isDefined(this.props.authentication) &&
+                    {/*{ _.isDefined(this.props.authentication) &&
                     <div>{this.props.authentication['access_token']}</div>
-                    }
+                    }*/}
 
                     { _.isDefined(this.props.user) &&
-                    <div>Welcome, {this.props.user.principal}!</div>
+                        <div>
+                            <div>Welcome, {this.props.user.principal}! You are logged in.</div>
+                            <div>Please edit your profile here.</div>
+                            <h2>Your Pets</h2>
+                            <DisplayPetsForm/>
+
+                            <h2>Add Pets</h2>
+                            <AddPetForm/>
+                        </div>
+                    }
+
+                    {_.isUndefined(this.props.user) &&
+					    <p>Please login first to edit your profile.</p>
                     }
                 </div>
             </div>
