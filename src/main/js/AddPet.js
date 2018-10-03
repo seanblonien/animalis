@@ -19,7 +19,7 @@ class AddPet extends React.Component {
     }
 
     onSubmit = pet => {
-        return this.props.register(pet);
+        return this.props.addpet(pet);
     };
 
     render() {
