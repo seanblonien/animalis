@@ -82,11 +82,17 @@ Actions.register = user => {
 };
 
 Actions.authenticate = (username, password) => {
+	localStorage.setItem('name', username);
+	localStorage.setItem('pass', password);
+    localStorage.setItem('user', JSON.stringify(getUserDetails()));
+
+
 	return (dispatch) => {
-		return authenticate(username, password).then(
+		let authh = authenticate(username, password);
+        localStorage.setItem('auth', JSON.stringify(authh));
+		return authh.then(
 			authentication => {
 				dispatch(Actions.setAuthentication(authentication));
-
 				return getUserDetails().then(user => {
 					dispatch(Actions.setUser(user));
 				});

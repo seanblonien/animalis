@@ -19,8 +19,11 @@ const reducers = [
 	Users.Reducers
 ];
 
+let currAuth = JSON.parse(localStorage.getItem('auth'));
+let currUser = JSON.parse(localStorage.getItem('user'));
+
 const reducer = Utils.combineReducers(reducers);
-const store = createStore(reducer, {authentication: null, user: null}, applyMiddleware(thunkMiddleware, createLogger()));
+const store = createStore(reducer, {authentication: currAuth, user: currUser}, applyMiddleware(thunkMiddleware, createLogger()));
 
 axios.defaults.headers.post['Content-Type'] = 'application/json';
 axios.defaults.headers.put['Content-Type'] = 'application/json';
