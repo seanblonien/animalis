@@ -192,7 +192,7 @@ public class UserService {
 		return userDao.save(userPetDto);
 	}
 
-	public List<PetDto> findPets(UserDto user) {
+	public List<UserPetDto> findPets(UserDto user) {
 		return userDao.findPets(user);
 	}
 }

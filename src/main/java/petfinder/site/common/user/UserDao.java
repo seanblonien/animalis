@@ -41,16 +41,17 @@ public class UserDao {
 		userRepository.save(userAuthentication);
 	}
 
-	public List<PetDto> findPets(UserDto user) {
+	public List<UserPetDto> findPets(UserDto user) {
 		SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
 
 		String queryString = String.format("userPrincipal=\"%s\"", user.getPrincipal().replace("\"", ""));
 		searchSourceBuilder.query(QueryBuilders.queryStringQuery(queryString));
 
-		List<UserPetDto> userPets = userPetRepository.search(searchSourceBuilder);
-		return userPets.stream()
-				.map(userPet -> petRepository.find(userPet.getPetId()).get())
-				.collect(Collectors.toList());
+		return userPetRepository.search(searchSourceBuilder);
+//		List<UserPetDto> userPets = userPetRepository.search(searchSourceBuilder);
+//		return userPets.stream()
+//				.map(userPet -> petRepository.find(userPet.getPetId()).get())
+//				.collect(Collectors.toList());
 	}
 
 	public UserPetDto save(UserPetDto userPetDto) {

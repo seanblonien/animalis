@@ -2,19 +2,19 @@ import axios from 'axios';
 
 export function register(user) {
 	// return axios.post('/api/user/register', user);
-    return axios.post('/api/user/register', {
-    		principal: user.principal,
+	return axios.post('/api/user/register', {
+			principal: user.principal,
 			password: user.password,
-            fname: user.fname,
-            lname: user.lname,
-            phone: user.phone,
-            address: user.address,
-            city: user.city,
-            state: user.state,
-            zip: user.zip,
-            petSitter: user.petSitter,
-            petOwner: user.petOwner,
-            emailNotifications: user.emailNotifications
+			fname: user.fname,
+			lname: user.lname,
+			phone: user.phone,
+			address: user.address,
+			city: user.city,
+			state: user.state,
+			zip: user.zip,
+			petSitter: user.petSitter,
+			petOwner: user.petOwner,
+			emailNotifications: user.emailNotifications
 	});
 }
 
@@ -41,8 +41,21 @@ export function addpet(pet) {
 		id: pet.id,
 		petId: pet.petId,
 		userPrincipal: pet.userPrincipal,
-		pet_name: pet.pet_name,
-		pet_species: pet.pet_species
+		pet_name: pet.name,
+		pet_species: pet.species
+	}).then(function (response) {
+		console.log(response);
+	})
+	.catch(function (error) {
+		console.log(error);
+	});
+}
+
+export function displayPets(){
+	return axios.get('/api/user/pet').then(function (response) {
+		console.log(response);
+	}).catch(function (error) {
+		console.log(error);
 	});
 }
 

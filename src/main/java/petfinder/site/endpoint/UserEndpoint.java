@@ -33,7 +33,7 @@ public class UserEndpoint {
 	}
 
 	@GetMapping(value = "/pet")
-	public List<PetDto> getPets() {
+	public List<UserPetDto> getPets() {
 		String principal = SecurityContextHolder.getContext().getAuthentication().getName();
 		UserDto user = userService.findUserByPrincipal(principal).get();
 		return userService.findPets(user);
