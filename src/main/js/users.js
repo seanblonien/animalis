@@ -37,12 +37,13 @@ export function authenticate(username, password) {
 }
 
 export function addpet(pet) {
+	console.log('POSTING PET');
 	return axios.post('/api/user/pet', {
-		id: pet.id,
 		petId: pet.petId,
 		userPrincipal: pet.userPrincipal,
-		pet_name: pet.name,
-		pet_species: pet.species
+		pet_name: pet.petname,
+		pet_species: pet.petspecies,
+		pet_age: pet.petage,
 	}).then(function (response) {
 		console.log(response);
 	})
@@ -51,7 +52,8 @@ export function addpet(pet) {
 	});
 }
 
-export function displayPets(){
+export function getPets(){
+	console.log('GETTING PET');
 	return axios.get('/api/user/pet').then(function (response) {
 		console.log(response);
 	}).catch(function (error) {
@@ -73,17 +75,32 @@ State.getUser = state => {
 	return state.user;
 };
 
+State.getPets = state => {
+	return state.pets;
+};
+
 export { State };
 
 let Actions = {};
 
 Actions.Types = {
 	SET_AUTHENTICATION: 'SET_AUTHENTICATION',
-	SET_USER: 'SET_USER'
+	SET_USER: 'SET_USER',
+	SET_PETS: 'SET_PETS'
 };
 
 Actions.addpet = pet => {
-	return addpet(pet);
+    console.log('=====');
+	console.log('IN ACTIONS');
+    console.log('Keys: ' + Object.keys(pet));
+	console.log('=====');
+	return (dispatch) =>  {
+		return addpet(pet).then(() => {
+            return getPets(pet).then(pets => {
+                return dispatch(Actions.setPets(pets));
+            });
+		});
+    };
 };
 
 Actions.register = user => {
@@ -98,7 +115,6 @@ Actions.authenticate = (username, password) => {
 	localStorage.setItem('name', username);
 	localStorage.setItem('pass', password);
     localStorage.setItem('user', JSON.stringify(getUserDetails()));
-
 
 	return (dispatch) => {
 		let authh = authenticate(username, password);
@@ -118,6 +134,7 @@ Actions.logout = () => {
 	return (dispatch) => {
 		dispatch(Actions.setAuthentication(null));
 		dispatch(Actions.setUser(null));
+        dispatch(Actions.setPets(null));
 	};
 };
 
@@ -127,6 +144,10 @@ Actions.setAuthentication = authentication => {
 
 Actions.setUser = user => {
 	return {type: Actions.Types.SET_USER, user};
+};
+
+Actions.setPets = pets => {
+	return {type: Actions.Types.SET_PETS, pets};
 };
 
 export { Actions };
@@ -153,6 +174,17 @@ Reducers.user = (user = null, action) => {
 			return user;
 		}
 	}
+};
+
+Reducers.pets = (pets = null, action) => {
+    switch (action.type) {
+        case Actions.Types.SET_PETS: {
+            return action.pets;
+        }
+        default: {
+            return pets;
+        }
+    }
 };
 
 export { Reducers };

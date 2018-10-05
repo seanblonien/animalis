@@ -19,6 +19,7 @@ class AddPet extends React.Component {
     }
 
     onSubmit = pet => {
+        pet.userPrincipal = this.props.user.principal;
         return this.props.addpet(pet);
     };
 
@@ -48,20 +49,21 @@ class AddPet extends React.Component {
                 <Bessemer.Field name="petage" friendlyName="Pet Age" placeholder="6"
                                 validators={[Validation.requiredValidator]} />
 
-                <Bessemer.Button loading={submitting}><Link to="/" style={{color: '#FFF'}}>Add Pet</Link></Bessemer.Button>
+                <Bessemer.Button loading={submitting}><div style={{color: '#FFF'}}>Add Pet</div></Bessemer.Button>
             </form>
         );
     }
 }
 
-AddPet = ReduxForm.reduxForm({form: 'editProfile'})(AddPet);
+AddPet = ReduxForm.reduxForm({form: 'addpet'})(AddPet);
 
 AddPet = connect(
     state => ({
-
+        pets: Users.State.getPets(state),
+        user: Users.State.getUser(state)
     }),
     dispatch => ({
-        register: pet => dispatch(Users.Actions.addpet(pet))
+        addpet: pet => dispatch(Users.Actions.addpet(pet))
     })
 )(AddPet);
 
