@@ -11,19 +11,23 @@ import axios from 'axios';
 import Index from 'js/index';
 import * as Users from 'js/users';
 import * as Utils from 'js/alloy/utils/core-utils';
+import Cookies  from 'universal-cookie';
 
 import 'styles/main.scss';
 
+// Set our initial reducers for User actions
 const reducers = [
 	{form: formReducer},
 	Users.Reducers
 ];
-
-let currAuth = JSON.parse(localStorage.getItem('auth'));
-let currUser = JSON.parse(localStorage.getItem('user'));
-
+// Combine the reducers of the user actions for the store creation
 const reducer = Utils.combineReducers(reducers);
-const store = createStore(reducer, {authentication: null, user: null, pets: [] }, applyMiddleware(thunkMiddleware, createLogger()));
+
+// Initialize object to get cookies with
+const cookies = new Cookies();
+
+// Create the Redux store with the combined reducers, the cached authentication key and user values
+const store = createStore(reducer, {authentication: cookies.get('authentication'), user: cookies.get('user'), pets: [] }, applyMiddleware(thunkMiddleware, createLogger()));
 
 axios.defaults.headers.post['Content-Type'] = 'application/json';
 axios.defaults.headers.put['Content-Type'] = 'application/json';

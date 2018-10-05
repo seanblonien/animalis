@@ -1,7 +1,7 @@
 import axios from 'axios';
+import Cookies from 'universal-cookie';
 
 export function register(user) {
-	// return axios.post('/api/user/register', user);
 	return axios.post('/api/user/register', {
 			principal: user.principal,
 			password: user.password,
@@ -37,23 +37,16 @@ export function authenticate(username, password) {
 }
 
 export function addpet(pet) {
-	//console.log('POSTING PET');
 	return axios.post('/api/user/pet', {
 		petId: pet.petId,
 		userPrincipal: pet.userPrincipal,
 		pet_name: pet.petname,
 		pet_species: pet.petspecies,
 		pet_age: pet.petage,
-	})/*.then(function (response) {
-		console.log(response);
-	})
-	.catch(function (error) {
-		console.log(error);
-	})*/;
+	});
 }
 
 export function getPets(){
-	//console.log('GETTING PET');
 	return axios.get('/api/user/pet');
 }
 
@@ -86,34 +79,34 @@ Actions.Types = {
 };
 
 Actions.addpet = pet => {
-    addpet(pet);
 	return (dispatch) =>  {
-		return getPets(pet).then(pets => {
-			return dispatch(Actions.setPets(pets));
+		return addpet(pet).then(() => {
+			return getPets(pet).then(pets => {
+				return dispatch(Actions.setPets(pets));
+			});
 		});
     };
 };
 
 Actions.register = user => {
 	return (dispatch) => {
+		// Register the user with the server (make account on the server)
 		return register(user).then(() => {
+			// Authenticate the user with the newly created account
 			return dispatch(Actions.authenticate(user.principal, user.password));
 		});
 	};
 };
 
 Actions.authenticate = (username, password) => {
-	localStorage.setItem('name', username);
-	localStorage.setItem('pass', password);
-    localStorage.setItem('user', JSON.stringify(getUserDetails()));
-
 	return (dispatch) => {
-		let authh = authenticate(username, password);
-        localStorage.setItem('auth', JSON.stringify(authh));
-		return authh.then(
-			authentication => {
+		// First authenticate the user with the server
+		return authenticate(username, password).then(authentication => {
+				// Save the authentication key from the returned promise in a state
 				dispatch(Actions.setAuthentication(authentication));
+				// Get the user details after authentication
 				return getUserDetails().then(user => {
+					// Save the user details from the returned promise in a state
 					dispatch(Actions.setUser(user));
 				});
 			}
@@ -123,6 +116,7 @@ Actions.authenticate = (username, password) => {
 
 Actions.logout = () => {
 	return (dispatch) => {
+		// Reset all User Action states
 		dispatch(Actions.setAuthentication(null));
 		dispatch(Actions.setUser(null));
         dispatch(Actions.setPets(null));
@@ -130,10 +124,16 @@ Actions.logout = () => {
 };
 
 Actions.setAuthentication = authentication => {
+	// Set authentication cookie
+	const cookies = new Cookies();
+	cookies.set('authentication', authentication, { path: '/' });
 	return {type: Actions.Types.SET_AUTHENTICATION, authentication};
 };
 
 Actions.setUser = user => {
+	// Set user cookie
+	const cookies = new Cookies();
+	cookies.set('user', user, { path: '/' });
 	return {type: Actions.Types.SET_USER, user};
 };
 
@@ -144,17 +144,6 @@ Actions.setPets = pets => {
 export { Actions };
 
 let Reducers = {};
-
-Reducers.pets = (pets = [], action) => {
-    switch (action.type) {
-        case Actions.Types.SET_PETS: {
-            return action.pets;
-        }
-        default: {
-            return pets;
-        }
-    }
-};
 
 Reducers.authentication = (authentication = null, action) => {
 	switch (action.type) {
@@ -174,6 +163,17 @@ Reducers.user = (user = null, action) => {
 		}
 		default: {
 			return user;
+		}
+	}
+};
+
+Reducers.pets = (pets = [], action) => {
+	switch (action.type) {
+		case Actions.Types.SET_PETS: {
+			return action.pets;
+		}
+		default: {
+			return pets;
 		}
 	}
 };

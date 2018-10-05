@@ -12,11 +12,9 @@ import OwnerRegister from 'js/OwnerRegister';
 import SitterRegister from 'js/SitterRegister';
 import {Link} from 'react-router-dom';
 
-
 class AddPet extends React.Component {
-
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
     }
 
     onSubmit = pet => {
@@ -54,14 +52,18 @@ class AddPet extends React.Component {
 
                 <hr />
 
+
+
                 { _.isDefined(this.props.pets) &&
                     this.props.pets.map(pet => (
-                        <div>
-                            <p>Name: <span>{pet.pet_name}</span></p>
-                            <p>Species: <span>{pet.pet_species}</span></p>
-                            <p></p>
+                        <div key={pet.pet_name + '_' + pet.id} className="card" style={{width: '18rem', marginBottom: 10}}>
+							<div className="card-header">
+								Name: {pet.pet_name}
+							</div>
+							<ul className="list-group list-group-flush">
+								<li className="list-group-item"><span className="text-muted">Species: </span>{pet.pet_species}</li>
+							</ul>
                         </div>
-
                     ))
                 }
 
