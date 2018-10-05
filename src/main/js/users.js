@@ -37,28 +37,24 @@ export function authenticate(username, password) {
 }
 
 export function addpet(pet) {
-	console.log('POSTING PET');
+	//console.log('POSTING PET');
 	return axios.post('/api/user/pet', {
 		petId: pet.petId,
 		userPrincipal: pet.userPrincipal,
 		pet_name: pet.petname,
 		pet_species: pet.petspecies,
 		pet_age: pet.petage,
-	}).then(function (response) {
+	})/*.then(function (response) {
 		console.log(response);
 	})
 	.catch(function (error) {
 		console.log(error);
-	});
+	})*/;
 }
 
 export function getPets(){
-	console.log('GETTING PET');
-	return axios.get('/api/user/pet').then(function (response) {
-		console.log(response);
-	}).catch(function (error) {
-		console.log(error);
-	});
+	//console.log('GETTING PET');
+	return axios.get('/api/user/pet');
 }
 
 export function getUserDetails() {
@@ -90,15 +86,10 @@ Actions.Types = {
 };
 
 Actions.addpet = pet => {
-    console.log('=====');
-	console.log('IN ACTIONS');
-    console.log('Keys: ' + Object.keys(pet));
-	console.log('=====');
+    addpet(pet);
 	return (dispatch) =>  {
-		return addpet(pet).then(() => {
-            return getPets(pet).then(pets => {
-                return dispatch(Actions.setPets(pets));
-            });
+		return getPets(pet).then(pets => {
+			return dispatch(Actions.setPets(pets));
 		});
     };
 };
@@ -154,6 +145,17 @@ export { Actions };
 
 let Reducers = {};
 
+Reducers.pets = (pets = [], action) => {
+    switch (action.type) {
+        case Actions.Types.SET_PETS: {
+            return action.pets;
+        }
+        default: {
+            return pets;
+        }
+    }
+};
+
 Reducers.authentication = (authentication = null, action) => {
 	switch (action.type) {
 		case Actions.Types.SET_AUTHENTICATION: {
@@ -174,17 +176,6 @@ Reducers.user = (user = null, action) => {
 			return user;
 		}
 	}
-};
-
-Reducers.pets = (pets = null, action) => {
-    switch (action.type) {
-        case Actions.Types.SET_PETS: {
-            return action.pets;
-        }
-        default: {
-            return pets;
-        }
-    }
 };
 
 export { Reducers };

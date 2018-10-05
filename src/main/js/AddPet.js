@@ -5,6 +5,7 @@ import * as Users from 'js/users';
 import * as ReduxForm from 'redux-form';
 import {connect} from 'react-redux';
 import {ButtonToolbar, DropdownButton, MenuItem} from 'react-bootstrap';
+import _ from 'lodash';
 
 import Checkbox from 'js/Checkbox';
 import OwnerRegister from 'js/OwnerRegister';
@@ -50,6 +51,21 @@ class AddPet extends React.Component {
                                 validators={[Validation.requiredValidator]} />
 
                 <Bessemer.Button loading={submitting}><div style={{color: '#FFF'}}>Add Pet</div></Bessemer.Button>
+
+                <hr />
+
+                { _.isDefined(this.props.pets) &&
+                    this.props.pets.map(pet => (
+                        <div>
+                            <p>Name: <span>{pet.pet_name}</span></p>
+                            <p>Species: <span>{pet.pet_species}</span></p>
+                            <p></p>
+                        </div>
+
+                    ))
+                }
+
+                <hr />
             </form>
         );
     }
