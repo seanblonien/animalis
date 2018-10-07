@@ -8,6 +8,7 @@ import * as Login from 'js/login';
 import * as Bessemer from 'js/alloy/bessemer/components';
 import * as Validation from 'js/alloy/utils/validation';
 import AddPet from 'js/AddPet';
+import ScheduleSession from 'js/ScheduleSession';
 import Cookies from 'universal-cookie';
 
 /* Color Codes
@@ -154,6 +155,7 @@ class EditProfile extends React.Component {
                 <div className="container padded">
                     <div className="row">
                         <div className="col-6 offset-md-3">
+
                             <h2>Edit your profile</h2>
 
                             <h4>Enter pet information:</h4>
@@ -187,14 +189,21 @@ EditProfile = connect(
 
 export { EditProfile };
 
-export class ScheduleSession extends React.Component {
+export class SessionPage extends React.Component {
     render() {
         return (
             <div>
                 <NavBar1/>
                 <div className="container padded">
+                    <div className="row">
+                        <div className="col-6 offset-md-3">
 
-                    <ScheduleSession/>
+                            <h2>Schedule A Session</h2>
+
+                            <ScheduleSession/>
+
+                        </div>
+                    </div>
                 </div>
             </div>
         );
