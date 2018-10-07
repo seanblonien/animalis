@@ -4,12 +4,8 @@ import * as Bessemer from 'js/alloy/bessemer/components';
 import * as Users from 'js/users';
 import * as ReduxForm from 'redux-form';
 import {connect} from 'react-redux';
-import {ButtonToolbar, DropdownButton, MenuItem} from 'react-bootstrap';
 import _ from 'lodash';
 
-import Checkbox from 'js/Checkbox';
-import OwnerRegister from 'js/OwnerRegister';
-import SitterRegister from 'js/SitterRegister';
 import {Link} from 'react-router-dom';
 
 class AddPet extends React.Component {
@@ -24,9 +20,10 @@ class AddPet extends React.Component {
 
     render() {
         let { handleSubmit, submitting } = this.props;
+        let choices = ['Male', 'Female'];
 
         return (
-            <form name="form" onSubmit={handleSubmit(form => this.onSubmit(form))}>
+            <form name="name" onSubmit={handleSubmit(form => this.onSubmit(form))}>
                 <Bessemer.Field name="petname" friendlyName="Pet Name" placeholder="Fido"
                                 validators={[Validation.requiredValidator]} />
 
@@ -36,17 +33,13 @@ class AddPet extends React.Component {
                 <Bessemer.Field name="petsize" friendlyName="Pet Size" placeholder="Medium"
                                 validators={[Validation.requiredValidator]} />
 
-                <div className="col-6 offset-md-4">
-                    <ButtonToolbar>
-                        <DropdownButton title="Pet Sex" id="dropdown-size-medium">
-                            <MenuItem eventKey="1">Male</MenuItem>
-                            <MenuItem eventKey="2">Female</MenuItem>
-                        </DropdownButton>
-                    </ButtonToolbar>
-                </div>
+                <Bessemer.Select name="petsex" friendlyName="Pet Sex" placeholder="Male"
+                                 validators={[Validation.requiredValidator]} />
 
                 <Bessemer.Field name="petage" friendlyName="Pet Age" placeholder="6"
                                 validators={[Validation.requiredValidator]} />
+
+                <Bessemer.Field name="petinfo" friendlyName="Additional Information" />
 
                 <Bessemer.Button loading={submitting}><div style={{color: '#FFF'}}>Add Pet</div></Bessemer.Button>
 
@@ -67,7 +60,6 @@ class AddPet extends React.Component {
                     ))
                 }
 
-                <hr />
             </form>
         );
     }
