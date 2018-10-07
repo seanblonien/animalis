@@ -24,6 +24,10 @@ export class NavBar1 extends React.Component {
         return <Redirect to='/editprofile' />;
     };
 
+    logoutClick = () => {
+        return this.props.logout();
+    }
+
     render() {
         return (
             <nav style={{backgroundColor: '#ff5500'}} className="navbar navbar-expand-md">
@@ -71,7 +75,7 @@ export class NavBar1 extends React.Component {
                         }
                         {_.isDefined(this.props.user) &&
                             <li className="nav-item">
-                                <a className="nav-link" href="/#/testendpoint" style={{color: 'white'}}> Logout </a>
+                                <a className="nav-link" href="/#/" style={{color: 'white'}} onClick={this.logoutClick}> Logout </a>
                             </li>
                         }
                     </ul>
@@ -84,6 +88,9 @@ export class NavBar1 extends React.Component {
 NavBar1 = connect(
     state => ({
         user: Users.State.getUser(state)
+    }),
+    dispatch => ({
+        logout: () => dispatch(Users.Actions.logout())
     })
 )(NavBar1);
 
