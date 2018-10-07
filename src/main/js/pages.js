@@ -35,6 +35,11 @@ export class NavBar1 extends React.Component {
 
                 <div className="collapse navbar-collapse justify-content-end" id="navbarCollapse" >
                     <ul style={{color:'white', float:'right'}} className="nav navbar-nav navbn ml-auto" >
+                        {_.isDefined(this.props.user) &&
+                        <li className="nav-item">
+                            <a className="nav-link" style={{color: 'white'}}> Welcome, {this.props.user.principal} </a>
+                        </li>
+                        }
                         <li className="nav-item ">
                             <a className="nav-link" href="/#" style={{color:'white'}} > Home <span className="sr-only">(current)</span></a>
                         </li>
@@ -156,13 +161,13 @@ class EditProfile extends React.Component {
                             <AddPet/>
 
 
-                            { _.isDefined(this.props.authentication) &&
-                            <div>{this.props.authentication['access_token']}</div>
-                            }
+                            {/*{ _.isDefined(this.props.authentication) &&*/}
+                            {/*<div>{this.props.authentication['access_token']}</div>*/}
+                            {/*}*/}
 
-                            { _.isDefined(this.props.user) &&
-                            <div>Welcome, {this.props.user.principal}!</div>
-                            }
+                            {/*{ _.isDefined(this.props.user) &&*/}
+                            {/*<div>Welcome, {this.props.user.principal}!</div>*/}
+                            {/*}*/}
                         </div>
                     </div>
                 </div>
@@ -188,7 +193,8 @@ export class ScheduleSession extends React.Component {
             <div>
                 <NavBar1/>
                 <div className="container padded">
-                    Schedule your session here.
+
+                    <ScheduleSession/>
                 </div>
             </div>
         );
