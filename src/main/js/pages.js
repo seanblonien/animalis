@@ -42,7 +42,7 @@ export class NavBar1 extends React.Component {
                 <div className="collapse navbar-collapse justify-content-end" id="navbarCollapse" >
                     <ul style={{color:'white', float:'right'}} className="nav navbar-nav navbn ml-auto" >
                         {_.isDefined(this.props.user) &&
-                        <li className="nav-item">
+                        <li className="nav-item" style={{borderRight:'1px solid white'}}>
                             <a className="nav-link" style={{color: 'white'}}> Welcome, {this.props.user.principal} </a>
                         </li>
                         }
@@ -64,12 +64,12 @@ export class NavBar1 extends React.Component {
                                 <a className="nav-link" href="/#/editprofile" style={{color: 'white'}}> Profile </a>
                             </li>
                         }
-                        {_.isDefined(this.props.user) && (this.props.user.roles == 'OWNER') &&
+                        {_.isDefined(this.props.user) && (this.props.user.roles[0] == 'OWNER') &&
                         <li className="nav-item">
                             <a className="nav-link" href="/#/schedulesession" style={{color: 'white'}}> Schedule </a>
                         </li>
                         }
-                        {_.isDefined(this.props.user) && (this.props.user.roles == 'SITTER') &&
+                        {_.isDefined(this.props.user) && ((this.props.user.roles[0] == 'SITTER') || (this.props.user.roles[1] == 'SITTER')) &&
                         <li className="nav-item">
                             <a className="nav-link" href="/#/scheduleposting" style={{color: 'white'}}> Postings </a>
                         </li>
