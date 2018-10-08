@@ -13,15 +13,17 @@ public class UserDto implements Momento<String> {
 	private String principal;
 	private List<String> roles;
 	private Map<String, Object> attributes;
+	private Map<String, Object> address;
 
 	private UserDto() {
 
 	}
 
-	public UserDto(String principal, List<String> roles, Map<String, Object> attributes) {
+	public UserDto(String principal, List<String> roles, Map<String, Object> attributes, Map<String, Object> address) {
 		this.principal = principal;
 		this.roles = roles;
 		this.attributes = attributes;
+		this.address = address;
 	}
 
 	public String getPrincipal() {
@@ -34,6 +36,10 @@ public class UserDto implements Momento<String> {
 
 	public Map<String, Object> getAttributes() {
 		return attributes;
+	}
+
+	public Map<String, Object> getAddress() {
+		return address;
 	}
 
 	@JsonIgnore

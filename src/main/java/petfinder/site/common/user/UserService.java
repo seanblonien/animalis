@@ -35,7 +35,7 @@ public class UserService {
 		private String fname;
 		private String lname;
 		private String phone;
-		private String address;
+		private String street;
 		private String city;
 		private String state;
 		private String zip;
@@ -61,15 +61,21 @@ public class UserService {
 			this.password = password;
 		}
 
+		public Map<String, Object> getAddress() {
+			Map<String, Object> myAddress = new HashMap<>();
+			myAddress.put("street", this.street);
+			myAddress.put("city", this.city);
+			myAddress.put("state", this.state);
+			myAddress.put("zip", this.zip);
+
+			return myAddress;
+		}
+
 		public Map<String, Object> getAttributes() {
 			Map<String, Object> myAttributes = new HashMap<>();
 			myAttributes.put("fname", this.fname);
 			myAttributes.put("lname", this.lname);
 			myAttributes.put("phone", this.phone);
-			myAttributes.put("address", this.address);
-			myAttributes.put("city", this.city);
-			myAttributes.put("state", this.state);
-			myAttributes.put("zip", this.zip);
 			myAttributes.put("emailNotifications", this.emailNotifications);
 
 			return myAttributes;
@@ -77,11 +83,6 @@ public class UserService {
 
 		public List<String> getRoles() {
 			List<String> myRoles = new ArrayList<>();
-
-			System.out.println();
-			System.out.println(this.petOwner);
-			System.out.println(this.petSitter);
-			System.out.println();
 
 			if(this.petOwner != null && !this.petOwner.equals("")) {
 				myRoles.add(UserType.OWNER.toString());
@@ -122,12 +123,12 @@ public class UserService {
             this.phone = phone;
         }
 
-        public String getAddress() {
-            return address;
+        public String getStreet() {
+            return street;
         }
 
-        public void setAddress(String address) {
-            this.address = address;
+        public void setStreet(String street) {
+            this.street = street;
         }
 
         public String getCity() {
@@ -182,7 +183,7 @@ public class UserService {
 	public UserDto register(RegistrationRequest request) {
 		System.out.print(request.getAttributes());
 		UserAuthenticationDto userAuthentication = new UserAuthenticationDto(
-				new UserDto(request.getPrincipal(), request.getRoles(), request.getAttributes()), passwordEncoder.encode(request.getPassword()));
+				new UserDto(request.getPrincipal(), request.getRoles(), request.getAttributes(), request.getAddress()), passwordEncoder.encode(request.getPassword()));
 
 		userDao.save(userAuthentication);
 		return userAuthentication.getUser();

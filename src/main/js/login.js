@@ -101,7 +101,7 @@ class RegistrationForm extends React.Component {
 				<Bessemer.Field name="phone" friendlyName="Phone Number" placeholder="987-654-3210"
 								validators={[Validation.requiredValidator, Validation.phoneNumberValidator]} />
 
-				<Bessemer.Field name="address" friendlyName="Street Address" placeholder="7342 Pumpkin Hill St."
+				<Bessemer.Field name="street" friendlyName="Street Address" placeholder="7342 Pumpkin Hill St."
 								validators={[Validation.requiredValidator]} />
 
 				<Bessemer.Field name="city" friendlyName="City" placeholder="Duluth"

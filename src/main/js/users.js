@@ -8,7 +8,7 @@ export function register(user) {
 			fname: user.fname,
 			lname: user.lname,
 			phone: user.phone,
-			address: user.address,
+			street: user.street,
 			city: user.city,
 			state: user.state,
 			zip: user.zip,
