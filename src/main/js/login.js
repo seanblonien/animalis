@@ -26,7 +26,7 @@ class LoginForm extends React.Component {
 		let { handleSubmit, submitting } = this.props;
 
 		if(this.props.user){
-			return <Redirect to='/editprofile' />;
+			return <Redirect to='/' />;
         }
 
 		return (
