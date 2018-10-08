@@ -142,8 +142,9 @@ RegistrationForm = connect(
 
 	}),
 	dispatch => ({
-		register: user => dispatch(Users.Actions.register(user))
-	})
+		register: user => dispatch(Users.Actions.register(user)),
+        // authenticate: (principal, password) => dispatch(Users.Actions.authenticate(principal, password))
+    })
 )(RegistrationForm);
 
 export { RegistrationForm };

@@ -9,6 +9,7 @@ import * as Bessemer from 'js/alloy/bessemer/components';
 import * as Validation from 'js/alloy/utils/validation';
 import AddPet from 'js/AddPet';
 import ScheduleSession from 'js/ScheduleSession';
+import HomePage from 'js/HomePage';
 import Cookies from 'universal-cookie';
 
 /* Color Codes
@@ -99,11 +100,8 @@ export class Home extends React.Component {
 		return (
 			<div>
 				<NavBar1/>
-				<div style={{float:'center',marginRight:'25%', marginLeft:'25%', marginTop:'25px',
-                    borderRadius:'20px', backgroundColor:'#D5D5D5'}} >
-					<h1 style={{float:'center',marginRight:'5%', marginLeft:'5%', marginTop:'5px'}} > Welcome to the Tempeturs Web App Home Page! </h1>
-					<img style={{padding:'5%'}} src="https://img.huffingtonpost.com/asset/5b7fdeab1900001d035028dc.jpeg?cache=sixpwrbb1s&ops=1910_1000" height="225" width="430"/>
-				</div>
+
+                <HomePage/>
 			</div>
 		);
 	}
@@ -169,14 +167,6 @@ class EditProfile extends React.Component {
 
                             <AddPet/>
 
-
-                            {/*{ _.isDefined(this.props.authentication) &&*/}
-                            {/*<div>{this.props.authentication['access_token']}</div>*/}
-                            {/*}*/}
-
-                            {/*{ _.isDefined(this.props.user) &&*/}
-                            {/*<div>Welcome, {this.props.user.principal}!</div>*/}
-                            {/*}*/}
                         </div>
                     </div>
                 </div>
