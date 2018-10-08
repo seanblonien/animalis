@@ -120,6 +120,9 @@ Actions.logout = () => {
 		dispatch(Actions.setAuthentication(null));
 		dispatch(Actions.setUser(null));
         dispatch(Actions.setPets(null));
+		const cookies = new Cookies();
+		cookies.remove('authentication');
+		cookies.remove('user');
 	};
 };
 

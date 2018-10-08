@@ -82,6 +82,10 @@ class RegistrationForm extends React.Component {
 	render() {
 		let { handleSubmit, submitting } = this.props;
 
+		if(this.props.user){
+			return <Redirect to='/' />;
+		}
+
 		return (
 			<form name="form" onSubmit={handleSubmit(form => this.onSubmit(form))}>
 				<Bessemer.Field name="principal" friendlyName="Email Address" placeholder="JohnDoe@gmail.com"
@@ -133,7 +137,7 @@ class RegistrationForm extends React.Component {
 
 				{this.state.checkedItems.get('petSitter') ? <SitterRegister /> : null}
 
-				<Bessemer.Button loading={submitting}><Link to="/" style={{color: '#FFF'}}>Register</Link></Bessemer.Button>
+				<Bessemer.Button loading={submitting}>Register</Bessemer.Button>
 			</form>
 		);
 	}
@@ -143,7 +147,7 @@ RegistrationForm = ReduxForm.reduxForm({form: 'register'})(RegistrationForm);
 
 RegistrationForm = connect(
 	state => ({
-
+		user: Users.State.getUser(state)
 	}),
 	dispatch => ({
 		register: user => dispatch(Users.Actions.register(user)),
