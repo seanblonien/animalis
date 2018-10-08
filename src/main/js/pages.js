@@ -30,7 +30,7 @@ export class NavBar1 extends React.Component {
 
     render() {
         return (
-            <nav style={{backgroundColor: '#ff5500'}} className="navbar navbar-expand-md">
+            <nav style={{backgroundColor: '#000000'}} className="navbar navbar-expand-md">
                 <a className="navbar-brand" href="/#" style={{color:'white'}} >Tempeturs Web App </a>
                 <button className="navbar-toggler" type="button" data-toggle="collapse"
                         data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
