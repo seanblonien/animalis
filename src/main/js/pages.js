@@ -43,7 +43,7 @@ export class NavBar1 extends React.Component {
                     <ul style={{color:'white', float:'right'}} className="nav navbar-nav navbn ml-auto" >
                         {_.isDefined(this.props.user) &&
                         <li className="nav-item" style={{borderRight:'1px solid white'}}>
-                            <a className="nav-link" style={{color: 'white'}}> Welcome, {this.props.user.principal} </a>
+                            <a className="nav-link" style={{color: 'white'}}> Welcome, {this.props.user.attributes.fname} </a>
                         </li>
                         }
                         <li className="nav-item ">
