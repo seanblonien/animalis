@@ -64,9 +64,14 @@ export class NavBar1 extends React.Component {
                                 <a className="nav-link" href="/#/editprofile" style={{color: 'white'}}> Profile </a>
                             </li>
                         }
-                        {_.isDefined(this.props.user) &&
+                        {_.isDefined(this.props.user) && (this.props.user.roles == 'OWNER') &&
                         <li className="nav-item">
                             <a className="nav-link" href="/#/schedulesession" style={{color: 'white'}}> Schedule </a>
+                        </li>
+                        }
+                        {_.isDefined(this.props.user) && (this.props.user.roles == 'SITTER') &&
+                        <li className="nav-item">
+                            <a className="nav-link" href="/#/scheduleposting" style={{color: 'white'}}> Postings </a>
                         </li>
                         }
                         {_.isDefined(this.props.user) &&
@@ -196,6 +201,27 @@ export class SessionPage extends React.Component {
                         <div className="col-6 offset-md-3">
 
                             <h2>Schedule A Session</h2>
+
+                            <ScheduleSession/>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        );
+    }
+}
+
+export class PostingPage extends React.Component {
+    render() {
+        return (
+            <div>
+                <NavBar1/>
+                <div className="container padded">
+                    <div className="row">
+                        <div className="col-6 offset-md-3">
+
+                            <h2>Find A Session</h2>
 
                             <ScheduleSession/>
 
