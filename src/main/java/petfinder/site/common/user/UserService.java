@@ -3,7 +3,6 @@ package petfinder.site.common.user;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import petfinder.site.common.pet.PetDto;
 import petfinder.site.common.user.UserDto.UserType;
 
 import java.util.*;

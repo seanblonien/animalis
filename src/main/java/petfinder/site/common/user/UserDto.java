@@ -15,6 +15,7 @@ public class UserDto implements Momento<String> {
 	private Map<String, Object> attributes;
 	private Map<String, Object> address;
 
+
 	private UserDto() {
 
 	}
