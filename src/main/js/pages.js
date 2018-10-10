@@ -13,6 +13,8 @@ import HomePage from 'js/HomePage';
 import {DeleteAccount} from 'js/login';
 import Cookies from 'universal-cookie';
 import {RegistrationForm} from 'js/login';
+import OwnerProfile from 'js/OwnerProfile';
+import SitterProfile from 'js/SitterProfile';
 
 /* Color Codes
     Dark Blue:   #01395E
@@ -76,7 +78,7 @@ export class NavBar1 extends React.Component {
                             <a className="nav-link" href="/#/scheduleposting" style={{color: 'white'}}> Postings </a>
                         </li>
                         }
-                        {_.isDefined(this.props.user) &&
+                        {_.isDefined(this.props.user) && (this.props.user.roles[0] == 'OWNER') &&
                             <li className="nav-item">
                                 <a className="nav-link" href="/#/rate" style={{color: 'white'}}> Rate </a>
                             </li>
@@ -159,7 +161,7 @@ export class LoginPage extends React.Component {
     }
 }
 
-class EditProfile extends React.Component {
+class ProfilePage extends React.Component {
     render() {
         return (
             <div>
@@ -170,9 +172,15 @@ class EditProfile extends React.Component {
 
                             <h2>My Profile</h2>
 
+                            {/*_.isDefined(this.props.user) && (this.props.user.roles[0] == 'OWNER') &&
+                            <OwnerProfile/>*/
+                            }
                             <h3>Update My Account Information</h3>
                             <RegistrationForm editProfile="true"/>
-
+                            
+                            {/*_.isDefined(this.props.user) && (this.props.user.roles[0] == 'SITTER') &&
+                            <SitterProfile/>
+                            */}
                             <h3>Add a Pet</h3>
                             <AddPet/>
 
@@ -188,14 +196,14 @@ class EditProfile extends React.Component {
 
 
 
-EditProfile = connect(
+ProfilePage = connect(
     state => ({
         authentication: Users.State.getAuthentication(state),
         user: Users.State.getUser(state)
     })
-)(EditProfile);
+)(ProfilePage);
 
-export { EditProfile };
+export { ProfilePage };
 
 export class SessionPage extends React.Component {
     render() {
@@ -239,26 +247,13 @@ export class PostingPage extends React.Component {
     }
 }
 
-export class Rate extends React.Component {
+export class RatePage extends React.Component {
     render() {
         return (
             <div>
                 <NavBar1/>
                 <div className="container padded">
                     Rate your sitters here.
-                </div>
-            </div>
-        );
-    }
-}
-
-export class TestEndpoint extends React.Component {
-    render() {
-        return (
-            <div>
-                <NavBar1/>
-                <div className="container padded">
-                    Testing an endpoint.
                 </div>
             </div>
         );

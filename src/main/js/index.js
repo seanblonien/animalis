@@ -11,10 +11,10 @@ export default class Index extends React.Component {
 					<Route exact path="/" component={Pages.Home} />
 					<Route exact path="/register" component={Pages.RegisterPage} />
 					<Route exact path="/login" component={Pages.LoginPage} />
-					<Route exact path="/editprofile" component={Pages.EditProfile} />
+					<Route exact path="/editprofile" component={Pages.ProfilePage} />
 					<Route exact path="/schedulesession" component={Pages.SessionPage} />
                     <Route exact path="/scheduleposting" component={Pages.PostingPage} />
-					<Route exact path="/rate" component={Pages.Rate} />
+					<Route exact path="/rate" component={Pages.RatePage} />
                     <Route exact path="/testendpoint" component={Pages.TestEndpoint} />
 				</div>
 			</HashRouter>

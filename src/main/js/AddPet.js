@@ -6,8 +6,6 @@ import * as ReduxForm from 'redux-form';
 import {connect} from 'react-redux';
 import _ from 'lodash';
 
-import {Link} from 'react-router-dom';
-
 class AddPet extends React.Component {
     constructor(props) {
         super(props);
