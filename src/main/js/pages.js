@@ -11,6 +11,8 @@ import AddPet from 'js/AddPet';
 import ScheduleSession from 'js/ScheduleSession';
 import HomePage from 'js/HomePage';
 import Cookies from 'universal-cookie';
+import OwnerProfile from 'js/OwnerProfile';
+import SitterProfile from 'js/SitterProfile';
 
 /* Color Codes
     Dark Blue:   #01395E
@@ -157,7 +159,7 @@ export class LoginPage extends React.Component {
     }
 }
 
-class EditProfile extends React.Component {
+class ProfilePage extends React.Component {
     render() {
         return (
             <div>
@@ -166,11 +168,13 @@ class EditProfile extends React.Component {
                     <div className="row">
                         <div className="col-6 offset-md-3">
 
-                            <h2>Edit your profile</h2>
+                            {_.isDefined(this.props.user) && (this.props.user.roles[0] == 'OWNER') &&
+                            <OwnerProfile/>
+                            }
 
-                            <h4>Enter pet information:</h4>
-
-                            <AddPet/>
+                            {_.isDefined(this.props.user) && (this.props.user.roles[0] == 'SITTER') &&
+                            <SitterProfile/>
+                            }
 
                         </div>
                     </div>
@@ -182,14 +186,14 @@ class EditProfile extends React.Component {
 
 
 
-EditProfile = connect(
+ProfilePage = connect(
     state => ({
         authentication: Users.State.getAuthentication(state),
         user: Users.State.getUser(state)
     })
-)(EditProfile);
+)(ProfilePage);
 
-export { EditProfile };
+export { ProfilePage };
 
 export class SessionPage extends React.Component {
     render() {
@@ -233,26 +237,13 @@ export class PostingPage extends React.Component {
     }
 }
 
-export class Rate extends React.Component {
+export class RatePage extends React.Component {
     render() {
         return (
             <div>
                 <NavBar1/>
                 <div className="container padded">
                     Rate your sitters here.
-                </div>
-            </div>
-        );
-    }
-}
-
-export class TestEndpoint extends React.Component {
-    render() {
-        return (
-            <div>
-                <NavBar1/>
-                <div className="container padded">
-                    Testing an endpoint.
                 </div>
             </div>
         );

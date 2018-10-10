@@ -6,7 +6,7 @@ import * as ReduxForm from 'redux-form';
 import {connect} from 'react-redux';
 import _ from 'lodash';
 
-class AddPet extends React.Component {
+class OwnerProfile extends React.Component {
     constructor(props) {
         super(props);
     }
@@ -22,6 +22,7 @@ class AddPet extends React.Component {
 
         return (
             <form name="name" onSubmit={handleSubmit(form => this.onSubmit(form))}>
+                <h1>Owner Profile Page</h1>
                 <Bessemer.Field name="petname" friendlyName="Pet Name" placeholder="Fido"
                                 validators={[Validation.requiredValidator]} />
 
@@ -46,16 +47,16 @@ class AddPet extends React.Component {
 
 
                 { _.isDefined(this.props.pets) &&
-                    this.props.pets.map(pet => (
-                        <div key={pet.pet_name + '_' + pet.id} className="card" style={{width: '18rem', marginBottom: 10}}>
-							<div className="card-header">
-								Name: {pet.pet_name}
-							</div>
-							<ul className="list-group list-group-flush">
-								<li className="list-group-item"><span className="text-muted">Species: </span>{pet.pet_species}</li>
-							</ul>
+                this.props.pets.map(pet => (
+                    <div key={pet.pet_name + '_' + pet.id} className="card" style={{width: '18rem', marginBottom: 10}}>
+                        <div className="card-header">
+                            Name: {pet.pet_name}
                         </div>
-                    ))
+                        <ul className="list-group list-group-flush">
+                            <li className="list-group-item"><span className="text-muted">Species: </span>{pet.pet_species}</li>
+                        </ul>
+                    </div>
+                ))
                 }
 
             </form>
@@ -63,9 +64,9 @@ class AddPet extends React.Component {
     }
 }
 
-AddPet = ReduxForm.reduxForm({form: 'addpet'})(AddPet);
+OwnerProfile = ReduxForm.reduxForm({form: 'addpet'})(OwnerProfile);
 
-AddPet = connect(
+OwnerProfile = connect(
     state => ({
         pets: Users.State.getPets(state),
         user: Users.State.getUser(state)
@@ -73,6 +74,6 @@ AddPet = connect(
     dispatch => ({
         addpet: pet => dispatch(Users.Actions.addpet(pet))
     })
-)(AddPet);
+)(OwnerProfile);
 
-export default AddPet;
+export default OwnerProfile;
