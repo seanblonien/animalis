@@ -13,8 +13,7 @@ import HomePage from 'js/HomePage';
 import {DeleteAccount} from 'js/login';
 import Cookies from 'universal-cookie';
 import {RegistrationForm} from 'js/login';
-import OwnerProfile from 'js/OwnerProfile';
-import SitterProfile from 'js/SitterProfile';
+import Redirect from 'react-router-dom/es/Redirect';
 
 /* Color Codes
     Dark Blue:   #01395E
@@ -163,6 +162,10 @@ export class LoginPage extends React.Component {
 
 class ProfilePage extends React.Component {
     render() {
+        if(this.props.user == null){
+            return <Redirect to='/' />;
+        }
+
         return (
             <div>
                 <NavBar1/>
@@ -172,17 +175,23 @@ class ProfilePage extends React.Component {
 
                             <h2>My Profile</h2>
 
-                            {/*_.isDefined(this.props.user) && (this.props.user.roles[0] == 'OWNER') &&
-                            <OwnerProfile/>*/
-                            }
                             <h3>Update My Account Information</h3>
                             <RegistrationForm editProfile="true"/>
                             
-                            {/*_.isDefined(this.props.user) && (this.props.user.roles[0] == 'SITTER') &&
-                            <SitterProfile/>
-                            */}
-                            <h3>Add a Pet</h3>
-                            <AddPet/>
+                            {_.isDefined(this.props.user) && (this.props.user.roles.includes('OWNER')) &&
+                                <div>
+                                    <h3>Add a Pet</h3>
+                                    <AddPet/>
+                                </div>
+                            }
+
+                            {_.isDefined(this.props.user) && (this.props.user.roles.includes('SITTER')) &&
+                                <div>
+                                    <h3>Sitter Preferences</h3>
+                                    <p>Any sitter specific settings here.</p>
+                                </div>
+                            }
+
 
                             <h3>Delete My Account</h3>
                             <DeleteAccount/>
@@ -193,8 +202,6 @@ class ProfilePage extends React.Component {
         );
     }
 }
-
-
 
 ProfilePage = connect(
     state => ({

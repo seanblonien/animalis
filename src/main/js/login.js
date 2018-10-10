@@ -108,17 +108,18 @@ class RegistrationForm extends React.Component {
 		super(props);
 
 		this.state = {
-			checkedItems: new Map(this.props.user == null ? [] : [['petOwner', this.props.user.attributes.petOwner],
-				['petSitter', this.props.user.attributes.petSitter],
-				['emailNotifications', this.props.user.attributes.emailNotifications]]),
+			checkedItems: new Map(),
 		};
 
-		// if(this.props.editProfile != null) {
-        //     console.log('My Checked items keys: ' + Object.keys(this.state.checkedItems));
-        //     console.log('My Checked items values: ' + Object.values(this.state.checkedItems));
-        //     console.log('Owner: ' + (this.state.checkedItems.get('emailNotifications')));
-        //     console.log('Owner: ' + this.props.user.attributes.petOwner);
-		// }
+        if(this.props.user){
+            this.state.checkedItems.set('petOwner', this.props.user.attributes.petOwner);
+            this.state.checkedItems.set('petSitter', this.props.user.attributes.petSitter);
+            this.state.checkedItems.set('emailNotifications', this.props.user.attributes.emailNotifications);
+            console.log('User attribute checkbox values: ' +
+                this.state.checkedItems.get('petOwner') + ', ' +
+                this.state.checkedItems.get('petSitter') + ', ' +
+                this.state.checkedItems.get('emailNotifications'));
+        }
 
 		this.handleCheckboxChange = this.handleCheckboxChange.bind(this);
 	}
@@ -161,7 +162,7 @@ class RegistrationForm extends React.Component {
 
 		return (
 			<form name="form" onSubmit={handleSubmit(form => this.onSubmit(form))}>
-				{!_.isDefined(this.props.editProfile) &&
+				{_.isUndefined(this.props.editProfile) &&
 					<div>
                         <Bessemer.Field name="principal" friendlyName="Email Address" placeholder="JohnDoe@gmail.com"
                                         validators={[Validation.requiredValidator, Validation.emailValidator]}
@@ -210,7 +211,7 @@ class RegistrationForm extends React.Component {
 								onChange={this.handleCheckboxChange}
 								field={<input type="checkbox" value={this.state.checkedItems.get('emailNotifications')} />} />
 
-                {!_.isDefined(this.props.editProfile) &&
+                {_.isUndefined(this.props.editProfile) &&
                 <div>
                     {this.state.checkedItems.get('petOwner') ? <OwnerRegister /> : null}
 
