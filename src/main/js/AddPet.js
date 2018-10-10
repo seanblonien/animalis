@@ -56,7 +56,7 @@ class AddPet extends React.Component {
                     this.props.pets.map(pet => (
                         <div key={pet.pet_name + '_' + pet.id} className="card" style={{width: '18rem', marginBottom: 10}}>
                             <div className="card-header">
-                                Name: {pet.pet_name} {Object.keys(pet).join(', ')}
+                                Name: {pet.pet_name}
                             </div>
                             <ul className="list-group list-group-flush">
                                 <li className="list-group-item"><span className="text-muted">Species: </span>{pet.pet_species}</li>
