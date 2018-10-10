@@ -10,7 +10,9 @@ import * as Validation from 'js/alloy/utils/validation';
 import AddPet from 'js/AddPet';
 import ScheduleSession from 'js/ScheduleSession';
 import HomePage from 'js/HomePage';
+import {DeleteAccount} from 'js/login';
 import Cookies from 'universal-cookie';
+import {RegistrationForm} from 'js/login';
 
 /* Color Codes
     Dark Blue:   #01395E
@@ -166,12 +168,16 @@ class EditProfile extends React.Component {
                     <div className="row">
                         <div className="col-6 offset-md-3">
 
-                            <h2>Edit your profile</h2>
+                            <h2>My Profile</h2>
 
-                            <h4>Enter pet information:</h4>
+                            <h3>Update My Account Information</h3>
+                            <RegistrationForm editProfile="true"/>
 
+                            <h3>Add a Pet</h3>
                             <AddPet/>
 
+                            <h3>Delete My Account</h3>
+                            <DeleteAccount/>
                         </div>
                     </div>
                 </div>

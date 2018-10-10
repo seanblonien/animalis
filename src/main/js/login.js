@@ -11,6 +11,49 @@ import OwnerRegister from 'js/OwnerRegister';
 import SitterRegister from 'js/SitterRegister';
 import {Link} from 'react-router-dom';
 import Redirect from 'react-router-dom/es/Redirect';
+import _ from 'lodash';
+
+class DeleteAccount extends React.Component {
+    constructor(props) {
+        super(props);
+    }
+
+    onSubmit = () => {
+        return this.props.deleteAccount(this.props.user);
+    };
+
+    render() {
+        let { handleSubmit, submitting } = this.props;
+
+        if(this.props.user == null){
+            return <Redirect to='/' />;
+        }
+
+        return (
+            <form name="form" action={'/'} onSubmit={handleSubmit(form => this.onSubmit(form))}>
+				<p>To delete your account, please write "<span className="font-weight-bold font-italic">Delete my account.</span>" to confirm that you really want to delete your account. Once deleted, the account cannot be recovered.</p>
+                <Bessemer.Field name="confirmDeletion" friendlyName="Confirm Deletion"
+                                validators={[Validation.requiredValidator, Validation.deleteValidator]}
+                                field={<input className="form-control" type="textbox" />} />
+
+                <Bessemer.Button loading={submitting}> Delete Account </Bessemer.Button>
+            </form>
+        );
+    }
+}
+
+DeleteAccount = ReduxForm.reduxForm({form: 'deleteAccount'})(DeleteAccount);
+
+DeleteAccount = connect(
+    state => ({
+        user: Users.State.getUser(state)
+    }),
+    dispatch => ({
+        deleteAccount: (user) => dispatch(Users.Actions.deleteAccount(user))
+    })
+)(DeleteAccount);
+
+export { DeleteAccount };
 
 class LoginForm extends React.Component {
 	constructor(props) {
@@ -58,19 +101,49 @@ LoginForm = connect(
 
 export { LoginForm };
 
+const checkBoxes = ['petOwner', 'petSitter', 'emailNotifications'];
+
 class RegistrationForm extends React.Component {
 	constructor(props) {
 		super(props);
 
 		this.state = {
-			checkedItems: new Map(),
+			checkedItems: new Map(this.props.user == null ? [] : [['petOwner', this.props.user.attributes.petOwner],
+				['petSitter', this.props.user.attributes.petSitter],
+				['emailNotifications', this.props.user.attributes.emailNotifications]]),
 		};
+
+		// if(this.props.editProfile != null) {
+        //     console.log('My Checked items keys: ' + Object.keys(this.state.checkedItems));
+        //     console.log('My Checked items values: ' + Object.values(this.state.checkedItems));
+        //     console.log('Owner: ' + (this.state.checkedItems.get('emailNotifications')));
+        //     console.log('Owner: ' + this.props.user.attributes.petOwner);
+		// }
 
 		this.handleCheckboxChange = this.handleCheckboxChange.bind(this);
 	}
 
 	onSubmit = user => {
-		return this.props.register(user);
+
+        if(this.props.editProfile == null) {
+            return this.props.register(user);
+		} else {
+        	user.principal = this.props.user.principal;
+        	user.password = user.passwordConfirm;
+
+			if(user.fname == null) user.fname = this.props.user.attributes.fname;
+            if(user.lname == null) user.lname = this.props.user.attributes.lname;
+            if(user.phone == null) user.phone = this.props.user.attributes.phone;
+            if(user.street == null) user.street = this.props.user.address.street;
+            if(user.city == null) user.city = this.props.user.address.city;
+            if(user.state == null) user.state = this.props.user.address.state;
+            if(user.zip == null) user.zip = this.props.user.address.zip;
+            if(user.petSitter == null) user.petSitter = this.props.user.attributes.petSitter;
+            if(user.petOwner == null) user.petOwner = this.props.user.attributes.petOwner;
+            if(user.emailNotifications == null) user.emailNotifications = this.props.user.attributes.emailNotifications;
+
+            return this.props.update(user);
+		}
 	};
 
 	handleCheckboxChange(e) {
@@ -82,44 +155,48 @@ class RegistrationForm extends React.Component {
 	render() {
 		let { handleSubmit, submitting } = this.props;
 
-		if(this.props.user){
+		if(this.props.editProfile == null && this.props.user){
 			return <Redirect to='/' />;
 		}
 
 		return (
 			<form name="form" onSubmit={handleSubmit(form => this.onSubmit(form))}>
-				<Bessemer.Field name="principal" friendlyName="Email Address" placeholder="JohnDoe@gmail.com"
-								validators={[Validation.requiredValidator, Validation.emailValidator]}
-								field={<input className="form-control" type="email" />} />
+				{!_.isDefined(this.props.editProfile) &&
+					<div>
+                        <Bessemer.Field name="principal" friendlyName="Email Address" placeholder="JohnDoe@gmail.com"
+                                        validators={[Validation.requiredValidator, Validation.emailValidator]}
+                                        field={<input className="form-control" type="email" />} />
 
-				<Bessemer.Field name="password" friendlyName="Password" placeholder="At least 6 characters"
-								validators={[Validation.requiredValidator, Validation.passwordValidator]}
-								field={<input className="form-control" type="password" />} />
+                        <Bessemer.Field name="password" friendlyName="Password" placeholder="At least 6 characters"
+                                        validators={[Validation.requiredValidator, Validation.passwordValidator]}
+                                        field={<input className="form-control" type="password" />} />
 
-                <Bessemer.Field name="password2" friendlyName="Confirm Password"
-                                validators={[Validation.requiredValidator, Validation.passwordValidator]}
-                                field={<input className="form-control" type="password" />} />
+                        <Bessemer.Field name="password2" friendlyName="Confirm Password"
+                                        validators={[Validation.requiredValidator, Validation.passwordValidator]}
+                                        field={<input className="form-control" type="password" />} />
+					</div>
+				}
 
-				<Bessemer.Field name="fname" friendlyName="First Name" placeholder="John"
-								validators={[Validation.requiredValidator]} />
+				<Bessemer.Field name="fname" friendlyName="First Name" placeholder={this.props.editProfile == null ? 'John' : this.props.user.attributes.fname}
+                                validators={this.props.editProfile == null ? [Validation.requiredValidator] : []} />
 
-				<Bessemer.Field name="lname" friendlyName="Last Name" placeholder="Doe"
-								validators={[Validation.requiredValidator]} />
+				<Bessemer.Field name="lname" friendlyName="Last Name" placeholder={this.props.editProfile == null ? 'Doe' : this.props.user.attributes.lname}
+                                validators={this.props.editProfile == null ? [Validation.requiredValidator] : []} />
 
-				<Bessemer.Field name="phone" friendlyName="Phone Number" placeholder="987-654-3210"
-								validators={[Validation.requiredValidator, Validation.phoneNumberValidator]} />
+				<Bessemer.Field name="phone" friendlyName="Phone Number" placeholder={this.props.editProfile == null ? '987-654-3210' : this.props.user.attributes.phone}
+								validators={this.props.editProfile == null ? [Validation.requiredValidator, Validation.phoneNumberValidator] : []} />
 
-				<Bessemer.Field name="street" friendlyName="Street Address" placeholder="7342 Pumpkin Hill St."
-								validators={[Validation.requiredValidator]} />
+				<Bessemer.Field name="street" friendlyName="Street Address" placeholder={this.props.editProfile == null ? '7342 Pumpkin Hill St.' : this.props.user.address.street}
+								validators={this.props.editProfile == null ? [Validation.requiredValidator] : []} />
 
-				<Bessemer.Field name="city" friendlyName="City" placeholder="Duluth"
-								validators={[Validation.requiredValidator]} />
+				<Bessemer.Field name="city" friendlyName="City" placeholder={this.props.editProfile == null ? 'Duluth' : this.props.user.address.city}
+								validators={this.props.editProfile == null ? [Validation.requiredValidator] : []} />
 
-				<Bessemer.Field name="state" friendlyName="State" placeholder="GA"
-								validators={[Validation.requiredValidator]} />
+				<Bessemer.Field name="state" friendlyName="State" placeholder={this.props.editProfile == null ? 'GA' : this.props.user.address.state}
+								validators={this.props.editProfile == null ? [Validation.requiredValidator] : []} />
 
-				<Bessemer.Field name="zip" friendlyName="ZIP" placeholder="30096"
-								validators={[Validation.requiredValidator]} />
+				<Bessemer.Field name="zip" friendlyName="ZIP" placeholder={this.props.editProfile == null ? '30096' : this.props.user.address.zip}
+								validators={this.props.editProfile == null ? [Validation.requiredValidator] : []} />
 
 				<Bessemer.Field name={'petOwner'} friendlyName={'I am a pet owner.'}
 								onChange={this.handleCheckboxChange}
@@ -133,11 +210,27 @@ class RegistrationForm extends React.Component {
 								onChange={this.handleCheckboxChange}
 								field={<input type="checkbox" value={this.state.checkedItems.get('emailNotifications')} />} />
 
-				{this.state.checkedItems.get('petOwner') ? <OwnerRegister /> : null}
+                {!_.isDefined(this.props.editProfile) &&
+                <div>
+                    {this.state.checkedItems.get('petOwner') ? <OwnerRegister /> : null}
 
-				{this.state.checkedItems.get('petSitter') ? <SitterRegister /> : null}
+                    {this.state.checkedItems.get('petSitter') ? <SitterRegister /> : null}
+				</div>
+                }
 
-				<Bessemer.Button loading={submitting}>Register</Bessemer.Button>
+                {_.isDefined(this.props.editProfile) &&
+					<div>
+						<p>Enter in your password to update your profile.</p>
+                        <Bessemer.Field name="passwordConfirm"  friendlyName="Enter Password to Edit"
+                                        validators={[Validation.requiredValidator, Validation.passwordValidator]}
+                                        field={<input className="form-control" type="password" />} />
+                        <Bessemer.Button loading={submitting}>Update Information</Bessemer.Button>
+					</div>
+
+                }
+				{_.isUndefined(this.props.editProfile) &&
+                	<Bessemer.Button loading={submitting}>Register</Bessemer.Button>
+				}
 			</form>
 		);
 	}
@@ -147,11 +240,11 @@ RegistrationForm = ReduxForm.reduxForm({form: 'register'})(RegistrationForm);
 
 RegistrationForm = connect(
 	state => ({
-		user: Users.State.getUser(state)
+		user: Users.State.getUser(state),
 	}),
 	dispatch => ({
 		register: user => dispatch(Users.Actions.register(user)),
-        // authenticate: (principal, password) => dispatch(Users.Actions.authenticate(principal, password))
+		update: user => dispatch(Users.Actions.update(user)),
     })
 )(RegistrationForm);
 

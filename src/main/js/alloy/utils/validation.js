@@ -24,3 +24,6 @@ export const phoneNumberValidator = new Validator(isPhoneNumber, (details, value
 
 export const isValidPassword = (val) => val.toString().length >= 6 && val.match(/^[a-zA-Z0-9!@#$%^&*]{6,64}$/);
 export const passwordValidator = new Validator(isValidPassword, (details) => details.friendlyName + ' must be a valid password.');
+
+export const isConfirmDeletion = (val) => val.match(/^Delete my account.$/);
+export const deleteValidator = new Validator(isConfirmDeletion, () => 'Please enter \'Delete my account.\' exactly as it appears!');

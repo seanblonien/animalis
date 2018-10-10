@@ -2,9 +2,13 @@ package petfinder.site.common.user;
 
 import alloy.util.Momento;
 import org.codehaus.jackson.annotate.JsonIgnore;
+import org.elasticsearch.common.xcontent.XContentBuilder;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
+
+import static org.elasticsearch.common.xcontent.XContentFactory.jsonBuilder;
 
 /**
  * Created by jlutteringer on 8/23/17.
@@ -41,6 +45,22 @@ public class UserDto implements Momento<String> {
 
 	public Map<String, Object> getAddress() {
 		return address;
+	}
+
+	public XContentBuilder getUserDto() {
+		try {
+			return jsonBuilder()
+					.startObject()
+					.field("principal", this.getPrincipal())
+					.field("attributes", this.getAttributes())
+					.field("roles", this.getRoles())
+					.field("address", this.getAddress())
+					.endObject();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		return null;
 	}
 
 	@JsonIgnore

@@ -18,6 +18,30 @@ export function register(user) {
 	});
 }
 
+export function deleteAccount(user) {
+	console.log('Posting delete...');
+    return axios.post('/api/user/delete', {
+        principal: user.principal
+    });
+}
+
+export function update(user) {
+    return axios.post('/api/user/update', {
+        principal: user.principal,
+        password: user.password,
+        fname: user.fname,
+        lname: user.lname,
+        phone: user.phone,
+        street: user.street,
+        city: user.city,
+        state: user.state,
+        zip: user.zip,
+        petSitter: user.petSitter,
+        petOwner: user.petOwner,
+        emailNotifications: user.emailNotifications
+    });
+}
+
 export function authenticate(username, password) {
 	return axios(
 		{
@@ -78,13 +102,41 @@ Actions.Types = {
 	SET_PETS: 'SET_PETS'
 };
 
+Actions.getPets = () => {
+    return (dispatch) => {
+        return getPets().then(pets => {
+            return dispatch(Actions.setPets(pets));
+        });
+    };
+};
+
 Actions.addpet = pet => {
 	return (dispatch) =>  {
 		return addpet(pet).then(() => {
-			return getPets(pet).then(pets => {
+			return getPets().then(pets => {
 				return dispatch(Actions.setPets(pets));
 			});
 		});
+    };
+};
+
+Actions.deleteAccount = user => {
+    return (dispatch) => {
+        // Delete the user account on the server
+        return deleteAccount(user).then(() => {
+            // Logout the user after removed
+            return dispatch(Actions.logout());
+        });
+    };
+};
+
+Actions.update = user => {
+    return (dispatch) => {
+        // Update the user details on the server
+        return update(user).then(() => {
+            // Authenticate the user modified user
+            return dispatch(Actions.authenticate(user.principal, user.password));
+        });
     };
 };
 

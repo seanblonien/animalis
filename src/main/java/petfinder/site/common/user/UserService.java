@@ -5,6 +5,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import petfinder.site.common.user.UserDto.UserType;
 
+import java.io.IOException;
 import java.util.*;
 
 /**
@@ -25,6 +26,18 @@ public class UserService {
 
 	public Optional<UserAuthenticationDto> findUserAuthenticationByPrincipal(String principal) {
 		return userDao.findUserByPrincipal(principal);
+	}
+
+	public static class DeleteRequest {
+		private String principal;
+
+		public String getPrincipal() {
+			return principal;
+		}
+
+		public void setPrincipal(String principal) {
+			this.principal = principal;
+		}
 	}
 
 	public static class RegistrationRequest {
@@ -179,11 +192,27 @@ public class UserService {
         }
     }
 
-	public UserDto register(RegistrationRequest request) {
-		System.out.print(request.getAttributes());
-		UserAuthenticationDto userAuthentication = new UserAuthenticationDto(
-				new UserDto(request.getPrincipal(), request.getRoles(), request.getAttributes(), request.getAddress()), passwordEncoder.encode(request.getPassword()));
+    private UserDto constructUser(RegistrationRequest request){
+		return new UserDto(request.getPrincipal(), request.getRoles(), request.getAttributes(), request.getAddress());
+	}
 
+	public void delete(DeleteRequest request) {
+		userDao.delete(request);
+	}
+
+    public UserDto update(RegistrationRequest request) {
+		System.out.println("Updating user...");
+		UserDto myUser = constructUser(request);
+		try {
+			userDao.update(myUser);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return myUser;
+	}
+
+	public UserDto register(RegistrationRequest request) {
+		UserAuthenticationDto userAuthentication = new UserAuthenticationDto(constructUser(request), passwordEncoder.encode(request.getPassword()));
 		userDao.save(userAuthentication);
 		return userAuthentication.getUser();
 	}

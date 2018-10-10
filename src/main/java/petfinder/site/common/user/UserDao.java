@@ -1,6 +1,10 @@
 package petfinder.site.common.user;
 
+import alloy.elasticsearch.ElasticSearchClientProvider;
+import org.elasticsearch.action.update.UpdateRequest;
+import org.elasticsearch.action.update.UpdateResponse;
 import org.elasticsearch.index.query.QueryBuilders;
+import org.elasticsearch.script.Script;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -9,9 +13,12 @@ import petfinder.site.elasticsearch.PetElasticsearchRepository;
 import petfinder.site.elasticsearch.UserElasticSearchRepository;
 import petfinder.site.elasticsearch.UserPetElasticsearchRepository;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+
+import static org.elasticsearch.common.xcontent.XContentFactory.jsonBuilder;
 
 /**
  * Created by jlutteringer on 8/23/17.
@@ -23,6 +30,9 @@ public class UserDao {
 
 	@Autowired
 	private UserPetElasticsearchRepository userPetRepository;
+
+	@Autowired
+	private ElasticSearchClientProvider elasticSearchClientProvider;
 
 	@Autowired
 	private PetElasticsearchRepository petRepository;
@@ -37,8 +47,29 @@ public class UserDao {
 	}
 
 	public void save(UserAuthenticationDto userAuthentication) {
-
 		userRepository.save(userAuthentication);
+	}
+
+	public void delete(UserService.DeleteRequest request) {
+		userRepository.delete(request.getPrincipal());
+	}
+
+	public void update(UserDto user) throws IOException {
+		UpdateRequest updateRequest = new UpdateRequest();
+		updateRequest.index("petfinder-users");
+		updateRequest.type("doc");
+		updateRequest.id(user.getPrincipal());
+		updateRequest.doc(jsonBuilder()
+				.startObject()
+					.startObject("user")
+						.field("principal", user.getPrincipal())
+						.field("attributes", user.getAttributes())
+						.field("roles", user.getRoles())
+						.field("address", user.getAddress())
+					.endObject()
+				.endObject());
+		UpdateResponse response = elasticSearchClientProvider.getClient().update(updateRequest);
+		System.out.println("response: " + response);
 	}
 
 	public List<UserPetDto> findPets(UserDto user) {

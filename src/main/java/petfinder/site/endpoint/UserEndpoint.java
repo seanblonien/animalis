@@ -1,5 +1,6 @@
 package petfinder.site.endpoint;
 
+import org.elasticsearch.index.engine.Engine;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
@@ -30,6 +31,17 @@ public class UserEndpoint {
 	@PostMapping(value = "/register")
 	public UserDto register(@RequestBody RegistrationRequest request) {
 		return userService.register(request);
+	}
+
+	@PostMapping(value = "/update")
+	public UserDto update(@RequestBody RegistrationRequest request) {
+		System.out.println("Got to endpoint");
+		return userService.update(request);
+	}
+
+	@PostMapping(value = "/delete")
+	public void delete(@RequestBody UserService.DeleteRequest request) {
+		userService.delete(request);
 	}
 
 	@GetMapping(value = "/pet")
