@@ -28,6 +28,18 @@ public class UserService {
 		return userDao.findUserByPrincipal(principal);
 	}
 
+	public static class PetDeleteRequest {
+		public Long getPetId() {
+			return petId;
+		}
+
+		public void setPetId(Long petId) {
+			this.petId = petId;
+		}
+
+		private Long petId;
+	}
+
 	public static class DeleteRequest {
 		private String principal;
 
@@ -197,6 +209,10 @@ public class UserService {
 	}
 
 	public void delete(DeleteRequest request) {
+		userDao.delete(request);
+	}
+
+	public void delete(PetDeleteRequest request) {
 		userDao.delete(request);
 	}
 

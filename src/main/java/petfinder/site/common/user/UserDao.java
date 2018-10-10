@@ -54,6 +54,10 @@ public class UserDao {
 		userRepository.delete(request.getPrincipal());
 	}
 
+	public void delete(UserService.PetDeleteRequest request) {
+		userPetRepository.delete(request.getPetId());
+	}
+
 	public void update(UserDto user) throws IOException {
 		UpdateRequest updateRequest = new UpdateRequest();
 		updateRequest.index("petfinder-users");

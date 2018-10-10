@@ -60,13 +60,21 @@ export function authenticate(username, password) {
 	);
 }
 
+export function deletePet(id) {
+    return axios.post('/api/user/pet/delete', {
+        petId: id
+    });
+}
+
 export function addpet(pet) {
 	return axios.post('/api/user/pet', {
-		petId: pet.petId,
 		userPrincipal: pet.userPrincipal,
-		pet_name: pet.petname,
-		pet_species: pet.petspecies,
-		pet_age: pet.petage,
+		pet_name: pet.pet_name,
+		pet_species: pet.pet_species,
+		pet_age: pet.pet_age,
+		pet_size: pet.pet_size,
+		pet_sex: pet.pet_sex,
+		pet_info: pet.pet_info,
 	});
 }
 
@@ -106,6 +114,16 @@ Actions.getPets = () => {
     return (dispatch) => {
         return getPets().then(pets => {
             return dispatch(Actions.setPets(pets));
+        });
+    };
+};
+
+Actions.deletePet = id => {
+    return (dispatch) =>  {
+        return deletePet(id).then(() => {
+            return getPets().then(pets => {
+                return dispatch(Actions.setPets(pets));
+            });
         });
     };
 };

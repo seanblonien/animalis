@@ -44,6 +44,12 @@ public class UserEndpoint {
 		userService.delete(request);
 	}
 
+	@PostMapping(value = "/pet/delete")
+	public void delete(@RequestBody UserService.PetDeleteRequest request) {
+		System.out.println("Got to delete pet endpoint with petId of " + request.getPetId());
+		userService.delete(request);
+	}
+
 	@GetMapping(value = "/pet")
 	public List<UserPetDto> getPets() {
 		String principal = SecurityContextHolder.getContext().getAuthentication().getName();
