@@ -17,8 +17,8 @@ public class PetEndpoint {
 	private PetService petService;
 
 	@GetMapping(value = "/{id}", produces = "application/json")
-	public Optional<PetDto> getPet(@PathVariable("id") Long id) {
-		return petService.findPet(id);
+	public Optional<PetDto> getPet(@PathVariable("id") String id) {
+		return petService.findPet(Long.parseLong(id));
 	}
 
 	@PostMapping(produces = "application/json")

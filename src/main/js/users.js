@@ -14,7 +14,8 @@ export function register(user) {
 			zip: user.zip,
 			petSitter: user.petSitter,
 			petOwner: user.petOwner,
-			emailNotifications: user.emailNotifications
+			emailNotifications: user.emailNotifications,
+			pets: user.pets,
 	});
 }
 
@@ -38,7 +39,8 @@ export function update(user) {
         zip: user.zip,
         petSitter: user.petSitter,
         petOwner: user.petOwner,
-        emailNotifications: user.emailNotifications
+        emailNotifications: user.emailNotifications,
+        pets: user.pets,
     });
 }
 
@@ -61,14 +63,16 @@ export function authenticate(username, password) {
 }
 
 export function deletePet(id) {
-    return axios.post('/api/user/pet/delete', {
-        petId: id
-    });
+    return axios.post('/api/user/pet/delete/' + id);
+}
+
+export function addPetToUser(id) {
+    return axios.post('/api/user/pet/' + id);
 }
 
 export function addpet(pet) {
-	return axios.post('/api/user/pet', {
-		userPrincipal: pet.userPrincipal,
+	return axios.post('/api/pets', {
+		id: pet.id,
 		pet_name: pet.pet_name,
 		pet_species: pet.pet_species,
 		pet_age: pet.pet_age,
@@ -110,10 +114,20 @@ Actions.Types = {
 	SET_PETS: 'SET_PETS'
 };
 
-Actions.getPets = () => {
+Actions.retrieve = () => {
     return (dispatch) => {
         return getPets().then(pets => {
             return dispatch(Actions.setPets(pets));
+        });
+    };
+};
+
+Actions.addPetToUser = id => {
+    return (dispatch) =>  {
+        return addPetToUser(id).then(() => {
+            return getPets().then(pets => {
+                return dispatch(Actions.setPets(pets));
+            });
         });
     };
 };

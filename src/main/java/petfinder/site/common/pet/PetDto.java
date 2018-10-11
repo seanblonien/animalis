@@ -9,24 +9,12 @@ import java.util.Date;
  */
 public class PetDto implements Identifiable {
 	private Long id;
-	private String name;
-	private String species;
-	private String breed;
-	private Double weight;
-	private String color;
-	private Date birthdate;
-	private String sex;
-
-	public PetDto(Long id, String name, String species, String breed, Double weight, String color, Date birthdate, String sex) {
-		this.id = id;
-		this.name = name;
-		this.species = species;
-		this.breed = breed;
-		this.weight = weight;
-		this.color = color;
-		this.birthdate = birthdate;
-		this.sex = sex;
-	}
+	private String pet_name;
+	private String pet_species;
+	private String pet_age;
+	private String pet_size;
+	private String pet_sex;
+	private String pet_info;
 
 	@Override
 	public Long getId() {
@@ -37,59 +25,77 @@ public class PetDto implements Identifiable {
 		this.id = id;
 	}
 
-	public String getName() {
-		return name;
+	public String getPet_name() {
+		return pet_name;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setPet_name(String pet_name) {
+		this.pet_name = pet_name;
 	}
 
-	public String getBreed() {
-		return breed;
+	public String getPet_age() {
+		return pet_age;
 	}
 
-	public void setBreed(String breed) {
-		this.breed = breed;
+	public void setPet_age(String pet_age) {
+		this.pet_age = pet_age;
 	}
 
-	public String getSpecies() {
-		return species;
+	public String getPet_species() {
+		return pet_species;
 	}
 
-	public void setSpecies(String species) {
-		this.species = species;
+	public void setPet_species(String pet_species) {
+		this.pet_species = pet_species;
 	}
 
-	public Double getWeight() {
-		return weight;
+	public String getPet_size() {
+		return pet_size;
 	}
 
-	public void setWeight(Double weight) {
-		this.weight = weight;
+	public void setPet_size(String pet_size) {
+		this.pet_size = pet_size;
 	}
 
-	public String getColor() {
-		return color;
+	public String getPet_sex() {
+		return pet_sex;
 	}
 
-	public void setColor(String color) {
-		this.color = color;
+	public void setPet_sex(String pet_sex) {
+		this.pet_sex = pet_sex;
 	}
 
-	public Date getBirthdate() {
-		return birthdate;
+	public String getPet_info() {
+		return pet_info;
 	}
 
-	public void setBirthdate(Date birthdate) {
-		this.birthdate = birthdate;
+	public void setPet_info(String pet_info) {
+		this.pet_info = pet_info;
 	}
 
-	public String getSex() {
-		return sex;
+	private PetDto() {}
+
+
+	public PetDto(Long id, String pet_name, String pet_species, String pet_age, String pet_size, String pet_sex, String pet_info) {
+		this.id = id;
+		this.pet_name = pet_name;
+		this.pet_species = pet_species;
+		this.pet_age = pet_age;
+		this.pet_size = pet_size;
+		this.pet_sex = pet_sex;
+		this.pet_info = pet_info;
 	}
 
-	public void setSex(String sex) {
-		this.sex = sex;
+	@Override
+	public String toString() {
+		return "PetDto{" +
+				"id=" + id +
+				", pet_name='" + pet_name + '\'' +
+				", pet_age='" + pet_age + '\'' +
+				", pet_species='" + pet_species + '\'' +
+				", pet_size='" + pet_size + '\'' +
+				", pet_sex='" + pet_sex + '\'' +
+				", pet_info='" + pet_info + '\'' +
+				'}';
 	}
 }

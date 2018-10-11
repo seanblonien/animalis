@@ -1,8 +1,10 @@
 package petfinder.site.common.user;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import petfinder.site.common.pet.PetDto;
 import petfinder.site.common.user.UserDto.UserType;
 
 import java.io.IOException;
@@ -26,18 +28,6 @@ public class UserService {
 
 	public Optional<UserAuthenticationDto> findUserAuthenticationByPrincipal(String principal) {
 		return userDao.findUserByPrincipal(principal);
-	}
-
-	public static class PetDeleteRequest {
-		public Long getPetId() {
-			return petId;
-		}
-
-		public void setPetId(Long petId) {
-			this.petId = petId;
-		}
-
-		private Long petId;
 	}
 
 	public static class DeleteRequest {
@@ -66,6 +56,7 @@ public class UserService {
 		private String petSitter;
 		private String petOwner;
 		private String emailNotifications;
+		private List<Long> pets;
 
 		/*public RegistrationRequest(@JsonProperty("prinicipal")String principal, @JsonProperty("password") String password, @JsonProperty("attributes") Map<String, Object> attributes) {
 			this.principal = principal;
@@ -83,6 +74,10 @@ public class UserService {
 
 		public void setPassword(String password) {
 			this.password = password;
+		}
+
+		public List<Long> getPets() {
+			return this.pets;
 		}
 
 		public Map<String, Object> getAddress() {
@@ -204,20 +199,25 @@ public class UserService {
         }
     }
 
-    private UserDto constructUser(RegistrationRequest request){
-		return new UserDto(request.getPrincipal(), request.getRoles(), request.getAttributes(), request.getAddress());
+    public UserDto constructUser(RegistrationRequest request){
+		return new UserDto(request.getPrincipal(), request.getRoles(), request.getAttributes(), request.getAddress(), request.getPets());
 	}
 
 	public void delete(DeleteRequest request) {
 		userDao.delete(request);
 	}
 
-	public void delete(PetDeleteRequest request) {
-		userDao.delete(request);
+	public void deletePet(Long id) {
+		String principal = SecurityContextHolder.getContext().getAuthentication().getName();
+		UserDto user = this.findUserByPrincipal(principal).get();
+		try {
+			userDao.deletePet(user, id);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
     public UserDto update(RegistrationRequest request) {
-		System.out.println("Updating user...");
 		UserDto myUser = constructUser(request);
 		try {
 			userDao.update(myUser);
@@ -227,17 +227,22 @@ public class UserService {
 		return myUser;
 	}
 
+	public UserDto update(UserDto user) {
+		try {
+			userDao.update(user);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return user;
+	}
+
 	public UserDto register(RegistrationRequest request) {
 		UserAuthenticationDto userAuthentication = new UserAuthenticationDto(constructUser(request), passwordEncoder.encode(request.getPassword()));
 		userDao.save(userAuthentication);
 		return userAuthentication.getUser();
 	}
 
-	public UserPetDto save(UserPetDto userPetDto) {
-		return userDao.save(userPetDto);
-	}
-
-	public List<UserPetDto> findPets(UserDto user) {
+	public List<Optional<PetDto>> findPets(UserDto user) {
 		return userDao.findPets(user);
 	}
 }

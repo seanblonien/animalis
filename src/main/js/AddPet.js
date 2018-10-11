@@ -9,19 +9,34 @@ import _ from 'lodash';
 class AddPet extends React.Component {
     constructor(props) {
         super(props);
-        this.props.getPets();
+        this.state = {
+            editing: new Set(),
+        };
+        this.props.updatePets();
+        this.deletePet = this.deletePet.bind(this);
+        this.handleSexChange = this.handleSexChange.bind(this);
     }
 
     onSubmit = pet => {
         pet.userPrincipal = this.props.user.principal;
-        //pet.petId = Date.now() + Math.random();
-        return this.props.addpet(pet);
+        pet.id = Date.now() + Math.random();
+        this.props.addpet(pet);
+        this.props.addPetToUser(pet.id);
+    };
+
+    handleSexChange = e => {
+        if(e != null) console.log('Keys: ' + Object.keys(e).join(', '));
     };
 
     deletePet = (e, id) => {
-        console.log('Keys: ' + Object.keys(e).join(', '));
+        //console.log('Keys: ' + Object.keys(e).join(', '));
         console.log('PetId: ' + id);
-        return this.props.deletePet(id);
+        this.props.deletePet(id).then();
+    };
+
+    editPet = (e, thisPet) => {
+        console.log('Edit Pet current thisPet Keys: ' + Object.keys(thisPet).join(', '));
+        this.setState(prevState => ({ editing: prevState.editing.add(thisPet) }));
     };
 
     render() {
@@ -41,16 +56,19 @@ class AddPet extends React.Component {
                                     validators={[Validation.requiredValidator]} />
 
                     <Bessemer.Select name="pet_sex" friendlyName="Pet Sex" placeholder="Male"
-                                     validators={[Validation.requiredValidator]} />
+                                     validators={[Validation.requiredValidator]}
+                                     options={choices} values={choices}
+                                     onChange={(e) => {this.handleSexChange(e);}}/>
 
                     <Bessemer.Field name="pet_age" friendlyName="Pet Age" placeholder="6"
-                                    validators={[Validation.requiredValidator]} />
+                                    validators={[Validation.requiredValidator]}/>
 
                     <Bessemer.Field name="pet_info" friendlyName="Additional Information" />
 
-                    <Bessemer.Button loading={submitting}><div style={{color: '#FFF'}}>Add Pet</div></Bessemer.Button>
+                    <Bessemer.Button loading={submitting}><span style={{color: '#FFF'}}>Add Pet</span></Bessemer.Button>
 
                     <hr />
+                </form>
 
                     { _.isDefined(this.props.pets) &&
                     this.props.pets.map(pet => (
@@ -74,12 +92,12 @@ class AddPet extends React.Component {
                                 <li className="list-group-item"><span className="text-muted">Info: </span>{pet.pet_info}</li>
                             </ul>
 
-                            <button type="button" className="btn btn-danger" onClick={(e) => {this.deletePet(e, pet.id);}} >Delete Pet</button>
+                            <Bessemer.Button className="btn btn-danger" onClick={(e) => {this.deletePet(e, pet.id);}}><span style={{color: '#FFF'}}>Delete Pet</span></Bessemer.Button>
+                            <button type={'button'} className="btn btn-primary" onClick={(e) => {this.editPet(e, pet);}}>Edit this Pet</button>
                         </div>
                     ))
                     }
 
-                </form>
             </div>
         );
     }
@@ -94,8 +112,9 @@ AddPet = connect(
     }),
     dispatch => ({
         addpet: pet => dispatch(Users.Actions.addpet(pet)),
-        getPets: () => dispatch(Users.Actions.getPets()),
+        updatePets: () => dispatch(Users.Actions.retrieve()),
         deletePet: pet => dispatch(Users.Actions.deletePet(pet)),
+        addPetToUser: id => dispatch(Users.Actions.addPetToUser(id)),
     })
 )(AddPet);
 

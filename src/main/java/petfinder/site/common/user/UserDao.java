@@ -4,7 +4,6 @@ import alloy.elasticsearch.ElasticSearchClientProvider;
 import org.elasticsearch.action.update.UpdateRequest;
 import org.elasticsearch.action.update.UpdateResponse;
 import org.elasticsearch.index.query.QueryBuilders;
-import org.elasticsearch.script.Script;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -54,8 +53,24 @@ public class UserDao {
 		userRepository.delete(request.getPrincipal());
 	}
 
-	public void delete(UserService.PetDeleteRequest request) {
-		userPetRepository.delete(request.getPetId());
+	public void deletePet(UserDto user, Long id) throws IOException {
+		List<Long> updatedPets = user.getPets();
+		updatedPets.remove(id);
+		UpdateRequest updateRequest = new UpdateRequest();
+		updateRequest.index("petfinder-users");
+		updateRequest.type("doc");
+		updateRequest.id(user.getPrincipal());
+		updateRequest.doc(jsonBuilder()
+				.startObject()
+					.startObject("user")
+						.field("principal", user.getPrincipal())
+						.field("attributes", user.getAttributes())
+						.field("roles", user.getRoles())
+						.field("address", user.getAddress())
+						.field("pets", updatedPets)
+					.endObject()
+				.endObject());
+		UpdateResponse response = elasticSearchClientProvider.getClient().update(updateRequest);
 	}
 
 	public void update(UserDto user) throws IOException {
@@ -70,26 +85,23 @@ public class UserDao {
 						.field("attributes", user.getAttributes())
 						.field("roles", user.getRoles())
 						.field("address", user.getAddress())
+						.field("pets", user.getPets())
 					.endObject()
 				.endObject());
 		UpdateResponse response = elasticSearchClientProvider.getClient().update(updateRequest);
 		System.out.println("response: " + response);
 	}
 
-	public List<UserPetDto> findPets(UserDto user) {
+	public List<Optional<PetDto>> findPets(UserDto user) {
 		SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
 
 		String queryString = String.format("userPrincipal=\"%s\"", user.getPrincipal().replace("\"", ""));
 		searchSourceBuilder.query(QueryBuilders.queryStringQuery(queryString));
 
-		return userPetRepository.search(searchSourceBuilder);
-//		List<UserPetDto> userPets = userPetRepository.search(searchSourceBuilder);
-//		return userPets.stream()
-//				.map(userPet -> petRepository.find(userPet.getPetId()).get())
-//				.collect(Collectors.toList());
-	}
-
-	public UserPetDto save(UserPetDto userPetDto) {
-		return userPetRepository.save(userPetDto);
+//		return userPetRepository.search(searchSourceBuilder);
+		List<Long> userPets = user.getPets();
+		return userPets != null ? userPets.stream()
+				.map(id -> petRepository.find(id))
+				.collect(Collectors.toList()) : null;
 	}
 }

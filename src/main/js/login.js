@@ -127,6 +127,7 @@ class RegistrationForm extends React.Component {
 	onSubmit = user => {
 
         if(this.props.editProfile == null) {
+        	user.pets = [];
             return this.props.register(user);
 		} else {
         	user.principal = this.props.user.principal;
