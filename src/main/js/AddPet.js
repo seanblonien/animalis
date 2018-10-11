@@ -30,16 +30,15 @@ class AddPet extends React.Component {
         if(e != null) {
             this.state.pet_sex = e;
             console.log('Keys: ' + Object.keys(e).join(', '));
-            console.log(e);
             this.forceUpdate();
 
         }
     };
 
     deletePet = (e, id) => {
-        //console.log('Keys: ' + Object.keys(e).join(', '));
         console.log('PetId: ' + id);
         this.props.deletePet(id).then();
+        this.forceUpdate();
     };
 
     editPet = (e, thisPet) => {
@@ -66,7 +65,7 @@ class AddPet extends React.Component {
                     <Bessemer.Field name="pet_size" friendlyName="Pet Size" placeholder="Medium"
                                     validators={[Validation.requiredValidator]} />
 
-                    <Bessemer.Select name="pet_sex" friendlyName="Pet Sex" placeholder="Male"
+                    <Bessemer.Select style={{marginBottom: '2.5%'}} name="pet_sex" friendlyName="Pet Sex" placeholder="Male"
                                      validators={[Validation.requiredValidator]}
                                      options={choices} value={this.state.pet_sex}
                                      onChange={opt => this.handleSexChange(opt)}
