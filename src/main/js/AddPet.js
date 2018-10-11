@@ -11,6 +11,7 @@ class AddPet extends React.Component {
         super(props);
         this.state = {
             editing: new Set(),
+            pet_sex: null,
         };
         this.props.updatePets();
         this.deletePet = this.deletePet.bind(this);
@@ -20,12 +21,19 @@ class AddPet extends React.Component {
     onSubmit = pet => {
         pet.userPrincipal = this.props.user.principal;
         pet.id = Date.now() + Math.random();
+        pet.pet_sex = this.state.pet_sex;
         this.props.addpet(pet);
         this.props.addPetToUser(pet.id);
     };
 
     handleSexChange = e => {
-        if(e != null) console.log('Keys: ' + Object.keys(e).join(', '));
+        if(e != null) {
+            this.state.pet_sex = e;
+            console.log('Keys: ' + Object.keys(e).join(', '));
+            console.log(e);
+            this.forceUpdate();
+
+        }
     };
 
     deletePet = (e, id) => {
@@ -40,8 +48,11 @@ class AddPet extends React.Component {
     };
 
     render() {
-        let { handleSubmit, submitting } = this.props;
-        let choices = ['Male', 'Female'];
+        let { handleSubmit, submitting} = this.props;
+        let choices = [
+            { label: 'Male', value: 'Male' },
+            { label: 'Female', value: 'Female' }
+        ];
 
         return (
             <div>
@@ -57,8 +68,9 @@ class AddPet extends React.Component {
 
                     <Bessemer.Select name="pet_sex" friendlyName="Pet Sex" placeholder="Male"
                                      validators={[Validation.requiredValidator]}
-                                     options={choices} values={choices}
-                                     onChange={(e) => {this.handleSexChange(e);}}/>
+                                     options={choices} value={this.state.pet_sex}
+                                     onChange={opt => this.handleSexChange(opt)}
+                                     />
 
                     <Bessemer.Field name="pet_age" friendlyName="Pet Age" placeholder="6"
                                     validators={[Validation.requiredValidator]}/>

@@ -67,17 +67,17 @@ export class NavBar1 extends React.Component {
                                 <a className="nav-link" href="/#/editprofile" style={{color: 'white'}}> Profile </a>
                             </li>
                         }
-                        {_.isDefined(this.props.user) && (this.props.user.roles[0] == 'OWNER') &&
+                        {_.isDefined(this.props.user) && (this.props.user.roles.includes('OWNER')) &&
                         <li className="nav-item">
                             <a className="nav-link" href="/#/schedulesession" style={{color: 'white'}}> Schedule </a>
                         </li>
                         }
-                        {_.isDefined(this.props.user) && ((this.props.user.roles[0] == 'SITTER') || (this.props.user.roles[1] == 'SITTER')) &&
+                        {_.isDefined(this.props.user) && (this.props.user.roles.includes('SITTER')) &&
                         <li className="nav-item">
                             <a className="nav-link" href="/#/scheduleposting" style={{color: 'white'}}> Postings </a>
                         </li>
                         }
-                        {_.isDefined(this.props.user) && (this.props.user.roles[0] == 'OWNER') &&
+                        {_.isDefined(this.props.user) && (this.props.user.roles.includes('OWNER')) &&
                             <li className="nav-item">
                                 <a className="nav-link" href="/#/rate" style={{color: 'white'}}> Rate </a>
                             </li>
