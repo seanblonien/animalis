@@ -31,18 +31,24 @@ class AddPet extends React.Component {
             this.state.pet_sex = e;
             console.log('Keys: ' + Object.keys(e).join(', '));
             this.forceUpdate();
-
         }
     };
 
     deletePet = (e, id) => {
         console.log('PetId: ' + id);
-        this.props.deletePet(id).then();
+        this.props.deletePet(id);
     };
 
     editPet = (e, thisPet) => {
         console.log('Edit Pet current thisPet Keys: ' + Object.keys(thisPet).join(', '));
-        this.setState(prevState => ({ editing: prevState.editing.add(thisPet) }));
+        console.log('Edit Pet current thisPet Values: ' + Object.values(thisPet).join(', '));
+
+        if(this.state.editing.has(thisPet)) {
+            this.setState(prevState => ({ editing: prevState.editing.delete(thisPet) }));
+        } else {
+            this.setState(prevState => ({ editing: prevState.editing.add(thisPet) }));
+        }
+
     };
 
     render() {
@@ -83,8 +89,14 @@ class AddPet extends React.Component {
                     { _.isDefined(this.props.pets) &&
                     this.props.pets.map(pet => (
                         <div key={pet.pet_name + '_' + pet.id} className="card" style={{width: '18rem', marginBottom: 10}}>
+
                             <div className="card-header">
-                                Name: {pet.pet_name}
+                                {this.state.editing != null && this.state.editing.has(pet.id) &&
+                                    <div>I AM NOW EDITING THE PET!
+                                    <p>{this.state.editing.values()}</p>
+                                    </div>
+                                }
+                                Pet Name: {pet.pet_name}
                             </div>
                             <ul className="list-group list-group-flush">
                                 <li className="list-group-item"><span className="text-muted">Species: </span>{pet.pet_species}</li>
@@ -102,8 +114,11 @@ class AddPet extends React.Component {
                                 <li className="list-group-item"><span className="text-muted">Info: </span>{pet.pet_info}</li>
                             </ul>
 
-                            <Bessemer.Button className="btn btn-danger" onClick={(e) => {this.deletePet(e, pet.id);}}><span style={{color: '#FFF'}}>Delete Pet</span></Bessemer.Button>
-                            <button type={'button'} className="btn btn-primary" onClick={(e) => {this.editPet(e, pet);}}>Edit this Pet</button>
+                            <div style={{textAlign: 'center'}}>
+                                <Bessemer.Button className="btn btn-danger btn-sm"  style={{width: 'auto'}} onClick={(e) => {this.deletePet(e, pet.id);}}>Delete Pet</Bessemer.Button>
+                                <button type={'button'} className="btn btn-primary btn-sm" style={{width: 'auto'}} onClick={(e) => {this.editPet(e, pet.id);}}>Edit Pet</button>
+                            </div>
+
                         </div>
                     ))
                     }

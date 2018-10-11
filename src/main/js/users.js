@@ -225,6 +225,8 @@ Actions.setUser = user => {
 };
 
 Actions.setPets = pets => {
+    pets.forEach(pet => {pet.editing = false;});
+    console.log('setPets: ' + pets[0].editing);
 	return {type: Actions.Types.SET_PETS, pets};
 };
 
