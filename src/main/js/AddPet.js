@@ -38,7 +38,6 @@ class AddPet extends React.Component {
     deletePet = (e, id) => {
         console.log('PetId: ' + id);
         this.props.deletePet(id).then();
-        this.forceUpdate();
     };
 
     editPet = (e, thisPet) => {
