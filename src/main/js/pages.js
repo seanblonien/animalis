@@ -30,7 +30,7 @@ export class NavBar1 extends React.Component {
 
     logoutClick = () => {
         return this.props.logout();
-    }
+    };
 
     render() {
         return (
@@ -45,8 +45,8 @@ export class NavBar1 extends React.Component {
                 <div className="collapse navbar-collapse justify-content-end" id="navbarCollapse" >
                     <ul style={{color:'white', float:'right'}} className="nav navbar-nav navbn ml-auto" >
                         {_.isDefined(this.props.user) &&
-                        <li className="nav-item" style={{borderRight:'1px solid white'}}>
-                            <a className="nav-link" style={{color: 'white'}}> Welcome, {this.props.user.attributes.fname} </a>
+                        <li className="nav-item" style={{borderRight:'1.5px solid white'}}>
+                            <a className="nav-link" style={{color: 'white'}}> Hi, {this.props.user.attributes.fname} </a>
                         </li>
                         }
                         <li className="nav-item ">
