@@ -126,25 +126,27 @@ class RegistrationForm extends React.Component {
 
 	onSubmit = user => {
 
-        if(this.props.editProfile == null) {
-        	user.pets = [];
-            return this.props.register(user);
-		} else {
-        	user.principal = this.props.user.principal;
-        	user.password = user.passwordConfirm;
+		if(user != null) {
+			if(this.props.editProfile == null) {
+				user.pets = [];
+				return this.props.register(user);
+			} else {
+				user.principal = this.props.user.principal;
+				user.password = user.passwordConfirm;
 
-			if(user.fname == null) user.fname = this.props.user.attributes.fname;
-            if(user.lname == null) user.lname = this.props.user.attributes.lname;
-            if(user.phone == null) user.phone = this.props.user.attributes.phone;
-            if(user.street == null) user.street = this.props.user.address.street;
-            if(user.city == null) user.city = this.props.user.address.city;
-            if(user.state == null) user.state = this.props.user.address.state;
-            if(user.zip == null) user.zip = this.props.user.address.zip;
-            if(user.petSitter == null) user.petSitter = this.props.user.attributes.petSitter;
-            if(user.petOwner == null) user.petOwner = this.props.user.attributes.petOwner;
-            if(user.emailNotifications == null) user.emailNotifications = this.props.user.attributes.emailNotifications;
+				if(user.fname == null) user.fname = this.props.user.attributes.fname;
+				if(user.lname == null) user.lname = this.props.user.attributes.lname;
+				if(user.phone == null) user.phone = this.props.user.attributes.phone;
+				if(user.street == null) user.street = this.props.user.address.street;
+				if(user.city == null) user.city = this.props.user.address.city;
+				if(user.state == null) user.state = this.props.user.address.state;
+				if(user.zip == null) user.zip = this.props.user.address.zip;
+				if(user.petSitter == null) user.petSitter = this.props.user.attributes.petSitter;
+				if(user.petOwner == null) user.petOwner = this.props.user.attributes.petOwner;
+				if(user.emailNotifications == null) user.emailNotifications = this.props.user.attributes.emailNotifications;
 
-            return this.props.update(user);
+				return this.props.update(user);
+			}
 		}
 	};
 
