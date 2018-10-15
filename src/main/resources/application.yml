@@ -36,12 +36,3 @@ elastic-search:
   scheme: https
   user-name: ecqsuc3il3
   password: sgftlakv4a
-
----
-test:
-  stage: test
-  script:
-    - ./gradlew test
-  artifacts:
-    reports;
-      junit: build/test-results/test/TEST-*.xml
