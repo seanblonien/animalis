@@ -19,6 +19,12 @@ export function register(user) {
 	});
 }
 
+export function scheduleSession(session, user) {
+	return axios.post('/api/sessions', {
+
+	});
+}
+
 export function deleteAccount(user) {
 	console.log('Posting delete...');
     return axios.post('/api/user/delete', {

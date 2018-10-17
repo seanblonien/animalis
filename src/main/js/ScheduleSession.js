@@ -95,7 +95,7 @@ class ScheduleSession extends React.Component {
     }
 }
 
-ScheduleSession = ReduxForm.reduxForm({form: 'addpet'})(ScheduleSession);
+ScheduleSession = ReduxForm.reduxForm({form: 'schedulesession'})(ScheduleSession);
 
 // ScheduleSession = connect(
 //     state => ({
@@ -103,7 +103,7 @@ ScheduleSession = ReduxForm.reduxForm({form: 'addpet'})(ScheduleSession);
 //         user: Users.State.getUser(state)
 //     }),
 //     dispatch => ({
-//         addpet: pet => dispatch(Users.Actions.addpet(pet))
+//         scheduleSession: session => dispatch(Users.Actions.scheduleSession(session))
 //     })
 // )(ScheduleSession);
 

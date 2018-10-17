@@ -17,8 +17,9 @@ public class SessionDto implements Identifiable {
     private String notes;
     private Integer maxDistance;
     private Map<String,Object> location;
+    private Boolean isComplete;
 
-    public SessionDto(Long id, String ownerPrincipal, String sitterPrincipal, Date startDate, Date endDate, List<PetDto> pets, String notes, Integer maxDistance, Map<String,Object> location){
+    public SessionDto(Long id, String ownerPrincipal, String sitterPrincipal, Date startDate, Date endDate, List<PetDto> pets, String notes, Integer maxDistance, Map<String,Object> location, Boolean isComplete){
         this.id = id;
         this.ownerPrincipal = ownerPrincipal;
         this.sitterPrincipal = sitterPrincipal;
@@ -28,6 +29,7 @@ public class SessionDto implements Identifiable {
         this.notes = notes;
         this.maxDistance = maxDistance;
         this.location = location;
+        this.isComplete = isComplete;
     }
 
     @Override
@@ -71,6 +73,10 @@ public class SessionDto implements Identifiable {
 
     public void setLocation(Map<String, Object> location) { this.location = location; }
 
+    public Boolean getComplete() { return isComplete; }
+
+    public void setComplete(Boolean complete) { isComplete = complete; }
+
     @Override
     public String toString(){
         String sessionStr = "SessionDto{\n" +
@@ -96,7 +102,8 @@ public class SessionDto implements Identifiable {
             sessionStr += "\t" + field + "= " + location.get(field).toString() + "\n";
         }
 
-        sessionStr += "}\n";
+        sessionStr += "}\n" +
+                "isComplete= " + isComplete + "\n}\n";
 
         return sessionStr;
     }
