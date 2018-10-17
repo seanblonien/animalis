@@ -69,6 +69,7 @@
     "jquery": "^3.3.1",
     "lodash": "^4.17.4",
     "material-ui": "^0.20.2",
+    "npm": "^6.4.1",
     "prop-types": "^15.6.2",
     "rc-checkbox": "^2.1.5",
     "react": "^16.2.0",
