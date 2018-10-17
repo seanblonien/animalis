@@ -70,4 +70,34 @@ public class SessionDto implements Identifiable {
     public Map<String, Object> getLocation() { return location; }
 
     public void setLocation(Map<String, Object> location) { this.location = location; }
+
+    @Override
+    public String toString(){
+        String sessionStr = "SessionDto{\n" +
+                "id= " + id + "\n" +
+                "ownerPrincipal= " + ownerPrincipal + "\n" +
+                "sitterPrincipal= " + sitterPrincipal + "\n" +
+                "startDate= " + startDate.toString() + "\n" +
+                "endDate= " + endDate.toString() + "\n" +
+                "pets{\n";
+
+        // Get all pet info
+        for(PetDto pet: pets){
+            sessionStr += "\t" + pet.toString() + "\n";
+        }
+
+        sessionStr += "}\n" +
+                "notes= " + notes + "\n" +
+                "maxDistance= " + maxDistance + "\n" +
+                "location{\n";
+
+        // Get Location information
+        for(String field: location.keySet()){
+            sessionStr += "\t" + field + "= " + location.get(field).toString() + "\n";
+        }
+
+        sessionStr += "}\n";
+
+        return sessionStr;
+    }
 }
