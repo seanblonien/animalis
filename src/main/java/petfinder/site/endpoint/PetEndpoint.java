@@ -26,4 +26,10 @@ public class PetEndpoint {
 		petService.save(pet);
 		return pet;
 	}
+
+	@PostMapping(value = "/update")
+	public PetDto updatePet(@RequestBody PetDto pet) {
+		System.out.println("Got to update pet endpoint");
+		return petService.update(pet);
+	}
 }

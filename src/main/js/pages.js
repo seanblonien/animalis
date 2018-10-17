@@ -14,6 +14,7 @@ import {DeleteAccount} from 'js/login';
 import Cookies from 'universal-cookie';
 import {RegistrationForm} from 'js/login';
 import Redirect from 'react-router-dom/es/Redirect';
+import PetList from 'js/PetList';
 
 /* Color Codes
     Dark Blue:   #01395E
@@ -182,6 +183,7 @@ class ProfilePage extends React.Component {
                                 <div>
                                     <h3>Add a Pet</h3>
                                     <AddPet/>
+                                    <PetList/>
                                 </div>
                             }
 

@@ -27,3 +27,6 @@ export const passwordValidator = new Validator(isValidPassword, (details) => det
 
 export const isConfirmDeletion = (val) => val.match(/^Delete my account.$/);
 export const deleteValidator = new Validator(isConfirmDeletion, () => 'Please enter \'Delete my account.\' exactly as it appears!');
+
+export const isSex = (val) => val.match(/^Male|Female$/);
+export const sexValidator = new Validator(isSex, () => 'Please enter \'Male\' or \'Female\' for pet sex.');

@@ -33,7 +33,7 @@ public class UserEndpoint {
 
 	@PostMapping(value = "/update")
 	public UserDto update(@RequestBody RegistrationRequest request) {
-		System.out.println("Got to endpoint");
+		System.out.println("Got to update user endpoint");
 		return userService.update(request);
 	}
 
@@ -51,6 +51,7 @@ public class UserEndpoint {
 	@GetMapping(value = "/pet")
 	public List<Optional<PetDto>> getPets() {
 		String principal = SecurityContextHolder.getContext().getAuthentication().getName();
+		System.out.println("Getting pets from user " + principal);
 		UserDto user = userService.findUserByPrincipal(principal).get();
 		return userService.findPets(user);
 	}

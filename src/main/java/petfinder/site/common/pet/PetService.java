@@ -3,6 +3,7 @@ package petfinder.site.common.pet;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.Optional;
 
 /**
@@ -19,5 +20,10 @@ public class PetService {
 
 	public void save(PetDto pet) {
 		petDao.save(pet);
+	}
+
+	public PetDto update(PetDto pet) {
+		petDao.save(pet);
+		return pet;
 	}
 }

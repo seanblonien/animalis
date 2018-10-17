@@ -70,6 +70,10 @@ export function addPetToUser(id) {
     return axios.post('/api/user/pet/' + id);
 }
 
+export function getPet(id) {
+    return axios.post('/api/pets/' + id);
+}
+
 export function addpet(pet) {
 	return axios.post('/api/pets', {
 		id: pet.id,
@@ -79,6 +83,18 @@ export function addpet(pet) {
 		pet_size: pet.pet_size,
 		pet_sex: pet.pet_sex,
 		pet_info: pet.pet_info,
+	});
+}
+
+export function updatePet(pet) {
+    return axios.post('/api/pets/update/', {
+        id: pet.id,
+        pet_name: pet.pet_name,
+        pet_species: pet.pet_species,
+        pet_age: pet.pet_age,
+        pet_size: pet.pet_size,
+        pet_sex: pet.pet_sex,
+        pet_info: pet.pet_info,
 	});
 }
 
@@ -149,6 +165,16 @@ Actions.addpet = pet => {
 				return dispatch(Actions.setPets(pets));
 			});
 		});
+    };
+};
+
+Actions.updatePet = pet => {
+    return (dispatch) =>  {
+        return updatePet(pet).then(() => {
+            return getPets().then(pets => {
+                return dispatch(Actions.setPets(pets));
+            });
+        });
     };
 };
 
@@ -226,8 +252,11 @@ Actions.setUser = user => {
 
 Actions.setPets = pets => {
 	if(pets != null) {
-		pets.forEach(pet => {pet.editing = false;});
-		console.log('setPets: ' + pets[0].editing);
+		pets.forEach(pet => {
+			if(pet == null) return;
+			pet.editing = false;
+			console.log('Updating editing values for pet '+ pet.name);
+		});
 	}
 	return {type: Actions.Types.SET_PETS, pets};
 };
