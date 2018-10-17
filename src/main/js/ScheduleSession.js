@@ -59,6 +59,8 @@ class ScheduleSession extends React.Component {
                                     placeholder="10" validators={[Validation.requiredValidator]} /> :
                     null}
 
+                <Bessemer.Field name="notes" friendlyName="Notes" placeholder="Special Instructions"/>
+
                 <Bessemer.Button loading={submitting}><div style={{color: '#FFF'}}>Add Session</div></Bessemer.Button>
 
                 <hr />
