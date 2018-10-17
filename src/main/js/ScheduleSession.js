@@ -20,7 +20,9 @@ class ScheduleSession extends React.Component {
     }
 
     onSubmit = session => {
-        return this.props.create(session);
+        console.log('Session keys: ' + Object.keys(session));
+		console.log('Session values: ' + Object.values(session));
+        //return this.props.create(session);
     };
 
     handleCheckboxChange(e) {
@@ -29,56 +31,54 @@ class ScheduleSession extends React.Component {
         this.setState(prevState => ({ checkedItems: prevState.checkedItems.set(item, isChecked) }));
     }
 
+    getCurrentDate = () => {
+		return new Date().toJSON().slice(0,10);
+    };
+
+	getCurrentTime = () => {
+		let d = new Date(),
+			h = (d.getHours()<10?'0':'') + d.getHours(),
+			m = (d.getMinutes()<10?'0':'') + d.getMinutes();
+		return h + ':' + m;
+	};
+
     render() {
         let { handleSubmit, submitting } = this.props;
 
+
         return (
             <form name="name" onSubmit={handleSubmit(form => this.onSubmit(form))}>
-                <Bessemer.Field name="startday" friendlyName="Start Day" placeholder="29"
-                                validators={[Validation.requiredValidator]} />
+				<Bessemer.Field name="startDate" friendlyName="Start Date"
+								validators={[Validation.requiredValidator]}
+								field={<input type="date"
+                                              min={this.getCurrentDate()}
+                                              className={'form-control form-group'}/>} />
 
-                <Bessemer.Field name="startmonth" friendlyName="Start Month" placeholder="November"
-                                validators={[Validation.requiredValidator]} />
+				<Bessemer.Field name="startTime" friendlyName="Start Time"
+								validators={[Validation.requiredValidator]}
+								field={<input type="time"
+											  min={this.getCurrentTime()}
+											  className={'form-control form-group'}/>} />
 
-                <Bessemer.Field name="startyear" friendlyName="Start Year" placeholder="2018"
-                                validators={[Validation.requiredValidator]} />
+				<Bessemer.Field name="endDate" friendlyName="End Date"
+								validators={[Validation.requiredValidator]}
+								field={<input type="date"
+											  className={'form-control form-group'}/>} />
 
-                <Bessemer.Field name="starthour" friendlyName="Start Hour" placeholder="3"
-                                validators={[Validation.requiredValidator]} />
-
-                <Bessemer.Field name="startminute" friendlyName="Start Minute" placeholder="00"
-                                validators={[Validation.requiredValidator]} />
-
-                <Bessemer.Field name="startampm" friendlyName="Start AM/PM" placeholder="PM"
-                                validators={[Validation.requiredValidator]} />
-
-                <Bessemer.Field name="endday" friendlyName="End Day" placeholder="2"
-                                validators={[Validation.requiredValidator]} />
-
-                <Bessemer.Field name="endmonth" friendlyName="End Month" placeholder="December"
-                                validators={[Validation.requiredValidator]} />
-
-                <Bessemer.Field name="endyear" friendlyName="End Year" placeholder="2018"
-                                validators={[Validation.requiredValidator]} />
-
-                <Bessemer.Field name="endhour" friendlyName="End Hour" placeholder="10"
-                                validators={[Validation.requiredValidator]} />
-
-                <Bessemer.Field name="endminute" friendlyName="End Minute" placeholder="30"
-                                validators={[Validation.requiredValidator]} />
-
-                <Bessemer.Field name="endampm" friendlyName="End AM/PM" placeholder="AM"
-                                validators={[Validation.requiredValidator]} />
+				<Bessemer.Field name="endTime" friendlyName="End Time"
+								validators={[Validation.requiredValidator]}
+								field={<input type="time"
+											  className={'form-control form-group'}/>} />
 
                 <label>Location of Sitting:</label>
 
                 <Bessemer.Field name={'ownerLocation'} friendlyName={'My address'}
                                 onChange={this.handleCheckboxChange}
-                                field={<input type="checkbox" value={this.state.checkedItems.get('petOwner')} />} />
+                                field={<input type="checkbox" value={this.state.checkedItems.get('ownerLocation')} />} />
 
                 <Bessemer.Field name={'sitterLocation'} friendlyName={'Sitter\'s address'}
                                 onChange={this.handleCheckboxChange}
-                                field={<input type="checkbox" value={this.state.checkedItems.get('petOwner')} />} />
+                                field={<input type="checkbox" value={this.state.checkedItems.get('sitterLocation')} />} />
 
                 {this.state.checkedItems.get('sitterLocation') ?
                     <Bessemer.Field name="maxdist" friendlyName="Maximum distance away (miles)"
@@ -87,7 +87,7 @@ class ScheduleSession extends React.Component {
 
                 <Bessemer.Field name="notes" friendlyName="Notes" placeholder="Special Instructions"/>
 
-                <Bessemer.Button loading={submitting}><div style={{color: '#FFF'}}>Add Session</div></Bessemer.Button>
+                <Bessemer.Button loading={submitting}>Add Session</Bessemer.Button>
 
                 <hr />
             </form>
