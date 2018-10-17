@@ -178,12 +178,14 @@ class ProfilePage extends React.Component {
 
                             <h3>Update My Account Information</h3>
                             <RegistrationForm editProfile="true"/>
+							<hr/>
                             
                             {_.isDefined(this.props.user) && (this.props.user.roles.includes('OWNER')) &&
                                 <div>
                                     <h3>Add a Pet</h3>
                                     <AddPet/>
                                     <PetList/>
+                                    <hr/>
                                 </div>
                             }
 
@@ -191,12 +193,14 @@ class ProfilePage extends React.Component {
                                 <div>
                                     <h3>Sitter Preferences</h3>
                                     <p>Any sitter specific settings here.</p>
+									<hr/>
                                 </div>
                             }
 
 
                             <h3>Delete My Account</h3>
                             <DeleteAccount/>
+							<hr/>
                         </div>
                     </div>
                 </div>

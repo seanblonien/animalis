@@ -19,9 +19,11 @@ class PetList extends React.Component {
     };
 
     editPet = (e, pet) => {
-        console.log('Editing pet with id: ' + pet.id + ' with editing status of ' + pet.editing);
-        pet.editing = !pet.editing;
-        this.forceUpdate();
+        if(this.props.pets.includes(pet)){
+			console.log('Editing pet with id: ' + pet.id + ' with editing status of ' + pet.editing);
+			pet.editing = !pet.editing;
+			this.forceUpdate();
+        }
     };
 
     submitPet = (petForm, pet) => {
@@ -50,120 +52,124 @@ class PetList extends React.Component {
         return (
             <div>
                 { _.isDefined(this.props.pets) &&
-                this.props.pets.map(pet => (
-                    <div key={pet.pet_name + '_' + pet.id} className="card" style={{width: '20rem', marginBottom: 10}}>
-                        <form name="editPet" onSubmit={handleSubmit(form => parent.submitPet(form, pet))}>
-                            <div className="card-header">
-                                <div style={{display: 'inline'}}>
-                                    { pet.editing == true &&
-                                    <Bessemer.Field name="pet_name" friendlyName="Pet Name"
-                                                    placeholder={pet.pet_name == null ? 'Fido' : pet.pet_name} />
-                                    }
-                                    { pet.editing == false &&
-                                        <div>
-                                            <span className="text-muted">Pet Name: </span>{pet.pet_name}
+                    <div>
+                        <h3>Pet List</h3>
+                        {this.props.pets.map(pet => (
+                            _.isDefined(pet) && _.isDefined(pet.pet_name) &&
+                            <div key={pet.pet_name + '_' + pet.id} className="card" style={{width: '20rem', marginBottom: 10}}>
+                                <form name="editPet" onSubmit={handleSubmit(form => parent.submitPet(form, pet))}>
+                                    <div className="card-header">
+                                        <div style={{display: 'inline'}}>
+                                            { pet.editing === true &&
+                                            <Bessemer.Field name="pet_name" friendlyName="Pet Name"
+                                                            placeholder={pet.pet_name == null ? 'Fido' : pet.pet_name} />
+                                            }
+                                            { pet.editing === false &&
+                                                <div>
+                                                    <span className="text-muted">Pet Name: </span>{pet.pet_name}
+                                                </div>
+                                            }
                                         </div>
-                                    }
-                                </div>
+                                    </div>
+                                    <ul className="list-group list-group-flush">
+                                        <li className="list-group-item">
+                                            <div style={{display: 'inline'}}>
+                                                { pet.editing === true &&
+                                                <Bessemer.Field name="pet_species" friendlyName="Pet Species"
+                                                                placeholder={pet.pet_species == null ? 'Dog' : pet.pet_species}/>
+                                                }
+                                                { pet.editing === false &&
+                                                <div>
+                                                    <span className="text-muted">Species: </span>{pet.pet_species}
+                                                </div>
+                                                }
+                                            </div>
+                                        </li>
+                                    </ul>
+
+                                    <ul className="list-group list-group-flush">
+                                        <li className="list-group-item">
+                                            <div style={{display: 'inline'}}>
+                                                { pet.editing === true &&
+                                                <Bessemer.Field name="pet_size" friendlyName="Pet Size"
+                                                                placeholder={pet.pet_size == null ? 'Medium' : pet.pet_size}/>
+                                                }
+                                                { pet.editing === false &&
+                                                <div>
+                                                    <span className="text-muted">Size: </span>{pet.pet_size}
+                                                </div>
+                                                }
+                                            </div>
+                                        </li>
+                                    </ul>
+
+                                    <ul className="list-group list-group-flush">
+                                        <li className="list-group-item">
+                                            <div style={{display: 'inline'}}>
+                                                { pet.editing === true &&
+                                                <Bessemer.Field name="pet_sex" friendlyName="Pet Sex"
+                                                                placeholder={pet.pet_sex == null ? 'Male' : pet.pet_sex}/>
+                                                }
+                                                { pet.editing === false &&
+                                                <div>
+                                                    <span className="text-muted">Sex: </span>{pet.pet_sex}
+                                                </div>
+                                                }
+                                            </div>
+                                        </li>
+                                    </ul>
+
+                                    <ul className="list-group list-group-flush">
+                                        <li className="list-group-item">
+                                            <div style={{display: 'inline'}}>
+                                                { pet.editing === true &&
+                                                <Bessemer.Field name="pet_age" friendlyName="Pet Age"
+                                                                placeholder={pet.pet_age == null ? '4' : pet.pet_age}/>
+                                                }
+                                                { pet.editing === false &&
+                                                <div>
+                                                    <span className="text-muted">Age: </span>{pet.pet_age}
+                                                </div>
+                                                }
+                                            </div>
+                                        </li>
+                                    </ul>
+
+                                    <ul className="list-group list-group-flush">
+                                        <li className="list-group-item">
+                                            <div style={{display: 'inline'}}>
+                                                { pet.editing === true &&
+                                                <Bessemer.Field name="pet_info" friendlyName="Pet Info"
+                                                                placeholder={pet.pet_info == null ? 'Additional pet information here.' : pet.pet_info}/>
+                                                }
+                                                { pet.editing === false &&
+                                                <div>
+                                                    <span className="text-muted">Info: </span>{pet.pet_info}
+                                                </div>
+                                                }
+                                            </div>
+                                        </li>
+                                    </ul>
+
+                                    <div style={{textAlign: 'center', marginTop: 10}}>
+
+                                        {pet.editing === false &&
+                                        <div>
+                                            <button type={'button'} className="btn btn-danger btn-sm"  style={{width: 'auto', margin: 10}}
+                                                    onClick={(e) => {parent.deletePet(e, pet.id);}}>Delete Pet</button>
+                                            <button type={'button'} className="btn btn-primary btn-sm" style={{width: 'auto', margin: 10}}
+                                                    onClick={(e) => {parent.editPet(e, pet);}}>Edit Pet</button>
+                                        </div>
+                                        }
+                                        {pet.editing === true &&
+                                        <Bessemer.Button className="btn btn-success btn-sm" style={{width: 'auto'}}
+                                                         loading={submitting}>Done Editing Pet</Bessemer.Button>
+                                        }
+                                    </div>
+                                </form>
                             </div>
-                            <ul className="list-group list-group-flush">
-                                <li className="list-group-item">
-                                    <div style={{display: 'inline'}}>
-                                        { pet.editing == true &&
-                                        <Bessemer.Field name="pet_species" friendlyName="Pet Species"
-                                                        placeholder={pet.pet_species == null ? 'Dog' : pet.pet_species}/>
-                                        }
-                                        { pet.editing == false &&
-                                        <div>
-                                            <span className="text-muted">Species: </span>{pet.pet_species}
-                                        </div>
-                                        }
-                                    </div>
-                                </li>
-                            </ul>
+                        ))}</div>
 
-                            <ul className="list-group list-group-flush">
-                                <li className="list-group-item">
-                                    <div style={{display: 'inline'}}>
-                                        { pet.editing == true &&
-                                        <Bessemer.Field name="pet_size" friendlyName="Pet Size"
-                                                        placeholder={pet.pet_size == null ? 'Medium' : pet.pet_size}/>
-                                        }
-                                        { pet.editing == false &&
-                                        <div>
-                                            <span className="text-muted">Size: </span>{pet.pet_size}
-                                        </div>
-                                        }
-                                    </div>
-                                </li>
-                            </ul>
-
-                            <ul className="list-group list-group-flush">
-                                <li className="list-group-item">
-                                    <div style={{display: 'inline'}}>
-                                        { pet.editing == true &&
-                                        <Bessemer.Field name="pet_sex" friendlyName="Pet Sex"
-                                                        placeholder={pet.pet_sex == null ? 'Male' : pet.pet_sex}/>
-                                        }
-                                        { pet.editing == false &&
-                                        <div>
-                                            <span className="text-muted">Sex: </span>{pet.pet_sex}
-                                        </div>
-                                        }
-                                    </div>
-                                </li>
-                            </ul>
-
-                            <ul className="list-group list-group-flush">
-                                <li className="list-group-item">
-                                    <div style={{display: 'inline'}}>
-                                        { pet.editing == true &&
-                                        <Bessemer.Field name="pet_age" friendlyName="Pet Age"
-                                                        placeholder={pet.pet_age == null ? '4' : pet.pet_age}/>
-                                        }
-                                        { pet.editing == false &&
-                                        <div>
-                                            <span className="text-muted">Age: </span>{pet.pet_age}
-                                        </div>
-                                        }
-                                    </div>
-                                </li>
-                            </ul>
-
-                            <ul className="list-group list-group-flush">
-                                <li className="list-group-item">
-                                    <div style={{display: 'inline'}}>
-                                        { pet.editing == true &&
-                                        <Bessemer.Field name="pet_info" friendlyName="Pet Info"
-                                                        placeholder={pet.pet_info == null ? 'Additional pet information here.' : pet.pet_info}/>
-                                        }
-                                        { pet.editing == false &&
-                                        <div>
-                                            <span className="text-muted">Info: </span>{pet.pet_info}
-                                        </div>
-                                        }
-                                    </div>
-                                </li>
-                            </ul>
-
-                            <div style={{textAlign: 'center', marginTop: 10}}>
-
-                                {pet.editing == false &&
-                                <div>
-                                    <button type={'button'} className="btn btn-danger btn-sm"  style={{width: 'auto', margin: 10}}
-                                            onClick={(e) => {parent.deletePet(e, pet.id);}}>Delete Pet</button>
-                                    <button type={'button'} className="btn btn-primary btn-sm" style={{width: 'auto', margin: 10}}
-                                            onClick={(e) => {parent.editPet(e, pet);}}>Edit Pet</button>
-                                </div>
-                                }
-                                {pet.editing == true &&
-                                <Bessemer.Button className="btn btn-success btn-sm" style={{width: 'auto'}}
-                                                 loading={submitting}>Done Editing Pet</Bessemer.Button>
-                                }
-                            </div>
-                        </form>
-                    </div>
-                ))
                 }
 
             </div>

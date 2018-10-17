@@ -19,7 +19,6 @@ class AddPet extends React.Component {
     onSubmit = pet => {
         pet.userPrincipal = this.props.user.principal;
         pet.id = Date.now() + Math.random();
-        pet.pet_sex = this.state.pet_sex;
         this.props.addpet(pet);
         this.props.addPetToUser(pet.id);
     };
@@ -58,9 +57,8 @@ class AddPet extends React.Component {
 
                     <Bessemer.Field name="pet_info" friendlyName="Additional Pet Info" />
 
-                    <Bessemer.Button loading={submitting}><span style={{color: '#FFF'}}>Add Pet</span></Bessemer.Button>
+                    <Bessemer.Button loading={submitting}>Add Pet</Bessemer.Button>
 
-                    <hr />
                 </form>
 
             </div>
