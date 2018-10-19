@@ -5,6 +5,7 @@ import * as Users from 'js/users';
 import * as ReduxForm from 'redux-form';
 import {connect} from 'react-redux';
 import _ from 'lodash';
+import waitToUpdateTime from 'js/PetList';
 
 class AddPet extends React.Component {
     constructor(props) {
@@ -13,17 +14,17 @@ class AddPet extends React.Component {
             editing: new Set(),
             pet_sex: null,
         };
-        this.props.retrievePets();
         this.handleSexChange = this.handleSexChange.bind(this);
     }
 
     onSubmit = pet => {
         pet.userPrincipal = this.props.user.principal;
-        pet.id = Date.now() + Math.random();
+        pet.id = Math.round(Date.now() + Math.random());
         pet.pet_sex = this.state.pet_sex;
         console.log('Values: ' + Object.values(pet).join(', '));
         this.props.addpet(pet);
         this.props.addPetToUser(pet.id);
+		setTimeout(this.props.retrievePets, waitToUpdateTime);
     };
 
     handleSexChange = e => {

@@ -157,9 +157,7 @@ Actions.addPetToUser = id => {
 Actions.deletePet = id => {
     return (dispatch) =>  {
         return deletePet(id).then(() => {
-            return getPets().then(pets => {
-                return dispatch(Actions.setPets(pets));
-            });
+			return dispatch(Actions.retrieve());
         });
     };
 };

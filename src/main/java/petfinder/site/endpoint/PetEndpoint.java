@@ -23,6 +23,7 @@ public class PetEndpoint {
 
 	@PostMapping(produces = "application/json")
 	public PetDto savePet(@RequestBody PetDto pet) {
+		System.out.println("Saving pet " + pet.getId());
 		petService.save(pet);
 		return pet;
 	}

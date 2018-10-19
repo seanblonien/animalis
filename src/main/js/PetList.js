@@ -6,6 +6,8 @@ import * as ReduxForm from 'redux-form';
 import {connect} from 'react-redux';
 import _ from 'lodash';
 
+export const waitToUpdateTime = 2000; // ms
+
 class PetList extends React.Component {
     constructor(props) {
         super(props);
@@ -16,13 +18,13 @@ class PetList extends React.Component {
     deletePet = (e, id) => {
         console.log('Deleting pet with id: ' + id);
         this.props.deletePet(id);
+		setTimeout(this.props.retrievePets, waitToUpdateTime);
     };
 
     editPet = (e, pet) => {
         if(this.props.pets.includes(pet)){
 			console.log('Editing pet with id: ' + pet.id + ' with editing status of ' + pet.editing);
 			pet.editing = !pet.editing;
-			this.forceUpdate();
         }
     };
 
@@ -42,6 +44,7 @@ class PetList extends React.Component {
         if(petForm.pet_info == null) petForm.pet_info = pet.pet_info;
 
         this.props.updatePet(petForm);
+		setTimeout(this.props.retrievePets, waitToUpdateTime);
     };
 
     render() {

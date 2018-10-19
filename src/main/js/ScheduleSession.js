@@ -35,13 +35,6 @@ class ScheduleSession extends React.Component {
 		return new Date().toJSON().slice(0,10);
     };
 
-	getCurrentTime = () => {
-		let d = new Date(),
-			h = (d.getHours()<10?'0':'') + d.getHours(),
-			m = (d.getMinutes()<10?'0':'') + d.getMinutes();
-		return h + ':' + m;
-	};
-
     render() {
         let { handleSubmit, submitting } = this.props;
 
@@ -57,7 +50,6 @@ class ScheduleSession extends React.Component {
 				<Bessemer.Field name="startTime" friendlyName="Start Time"
 								validators={[Validation.requiredValidator]}
 								field={<input type="time"
-											  min={this.getCurrentTime()}
 											  className={'form-control form-group'}/>} />
 
 				<Bessemer.Field name="endDate" friendlyName="End Date"
