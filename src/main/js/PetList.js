@@ -51,7 +51,7 @@ class PetList extends React.Component {
 
         return (
             <div>
-                { _.isDefined(this.props.pets) &&
+                { _.isDefined(this.props.pets) && this.props.pets.length !== 0 &&
                     <div>
                         <h3>Pet List</h3>
                         {this.props.pets.map(pet => (

@@ -14,13 +14,23 @@ class AddPet extends React.Component {
             pet_sex: null,
         };
         this.props.retrievePets();
+        this.handleSexChange = this.handleSexChange.bind(this);
     }
 
     onSubmit = pet => {
         pet.userPrincipal = this.props.user.principal;
         pet.id = Date.now() + Math.random();
+        pet.pet_sex = this.state.pet_sex;
+        console.log('Values: ' + Object.values(pet).join(', '));
         this.props.addpet(pet);
         this.props.addPetToUser(pet.id);
+    };
+
+    handleSexChange = e => {
+        if(e != null) {
+            this.state.pet_sex = e;
+            this.forceUpdate();
+        }
     };
 
     render() {
@@ -42,14 +52,20 @@ class AddPet extends React.Component {
                     <Bessemer.Field name="pet_size" friendlyName="Pet Size" placeholder="Medium"
                                     validators={[Validation.requiredValidator]} />
 
-                    <Bessemer.Field name="pet_sex" friendlyName="Pet Sex" placeholder="Male"
-                                    validators={[Validation.requiredValidator, Validation.sexValidator]} />
+                    {/*<Bessemer.Field name="pet_sex" friendlyName="Pet Sex" placeholder="Male"*/}
+                                    {/*validators={[Validation.requiredValidator, Validation.sexValidator]} />*/}
 
-                    {/*Pet Sex<Bessemer.Select style={{marginBottom: '2.5%'}} name="pet_sex"*/}
-                                     {/*friendlyName="Pet Sex" placeholder="Male"*/}
-                                     {/*validators={[Validation.requiredValidator]}*/}
-                                     {/*options={choices} value={this.state.pet_sex}*/}
-                                     {/*onChange={opt => this.handleSexChange(opt)} />*/}
+                    {/*<Bessemer.Field name="pet_sex" friendlyName="Pet Sex" placeholder="Male"*/}
+                                    {/*validators={[Validation.requiredValidator]}*/}
+                                    {/*field={<input type="date"*/}
+                                                  {/*className={'form-control form-group'}/>} />*/}
+
+                    <Bessemer.Select style={{marginBottom: '2.5%'}} name="pet_sex"
+                                     label={'Pet Sex'}
+                                     friendlyName="Pet Sex" placeholder="Male"
+                                     validators={[Validation.requiredValidator]}
+                                     options={choices} value={this.state.pet_sex}
+                                     onChange={opt => this.handleSexChange(opt)} /> {/*  */}
 
 
                     <Bessemer.Field name="pet_age" friendlyName="Pet Age" placeholder="6"

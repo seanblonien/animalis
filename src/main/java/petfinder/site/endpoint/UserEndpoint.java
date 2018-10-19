@@ -60,8 +60,8 @@ public class UserEndpoint {
 	public UserDto addPet(@PathVariable("id") Long id) {
 		String principal = SecurityContextHolder.getContext().getAuthentication().getName();
 		UserDto user = userService.findUserByPrincipal(principal).get();
-		user.addPet(id);
 		System.out.println("Adding pet with id " + id);
+		user.addPet(id);
 		System.out.println("User has pets: " + user.getPets().toString());
 		return userService.update(user);
 	}
