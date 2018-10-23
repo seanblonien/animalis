@@ -1,12 +1,17 @@
 package petfinder.site.endpoint;
 
+import com.mashape.unirest.http.exceptions.UnirestException;
+import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import petfinder.site.common.pet.PetDto;
+import petfinder.site.common.user.UserDao;
 import petfinder.site.common.user.UserDto;
 import petfinder.site.common.user.UserService;
 import petfinder.site.common.user.UserService.RegistrationRequest;
+import petfinder.site.common.MailGun.MGEmail;
+
 
 import java.util.List;
 import java.util.Optional;
@@ -35,6 +40,28 @@ public class UserEndpoint {
 	public UserDto update(@RequestBody RegistrationRequest request) {
 		System.out.println("Got to update user endpoint");
 		return userService.update(request);
+	}
+
+	@PostMapping(value = "/sendEmailRegister")
+	public void sendEmailReg() throws UnirestException {
+		String principal = SecurityContextHolder.getContext().getAuthentication().getName();
+		UserDto user = userService.findUserByPrincipal(principal).get();
+		String subject = "Thanks for registering!";
+		String text = "Thanks for registering on our website!!";
+		System.out.println(MGEmail.sendComplexMessage(subject, text, user.getPrincipal()));
+	}
+
+	@PostMapping(value = "/sendEmailPost")
+	public void sendEmailPost() throws UnirestException {
+		String currUser = SecurityContextHolder.getContext().getAuthentication().getName();
+		UserDto user = userService.findUserByPrincipal(currUser).get();
+		String subject = "New Bid!!";
+		String text = "Hello " + currUser + "!!" +
+				      "\n A new sitter has applied for your post : " + " CURR POSTING HERE" +
+				      " Check it out! \n " + "LINK HERE" + "\n";
+
+		System.out.println(MGEmail.sendComplexMessage(subject, text, user.getPrincipal()));
+
 	}
 
 	@PostMapping(value = "/delete")

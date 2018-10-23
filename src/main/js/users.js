@@ -25,6 +25,14 @@ export function scheduleSession(session, user) {
 	});
 }
 
+export function sendEmailRegister() {
+    return axios.post('/api/user/sendEmailRegister');
+}
+
+export function sendEmailPost() {
+    return axios.post('/api/user/sendEmailPost');
+}
+
 export function deleteAccount(user) {
 	console.log('Posting delete...');
     return axios.post('/api/user/delete', {
@@ -207,7 +215,9 @@ Actions.register = user => {
 		// Register the user with the server (make account on the server)
 		return register(user).then(() => {
 			// Authenticate the user with the newly created account
-			return dispatch(Actions.authenticate(user.principal, user.password));
+			return dispatch(Actions.authenticate(user.principal, user.password)).then(() => {
+				//return sendEmailRegister();
+			});
 		});
 	};
 };
