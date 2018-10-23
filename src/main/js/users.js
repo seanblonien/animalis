@@ -26,10 +26,12 @@ export function scheduleSession(session, user) {
 }
 
 export function sendEmailRegister() {
+	// For emails when user registers their account
     return axios.post('/api/user/sendEmailRegister');
 }
 
 export function sendEmailPost() {
+	// For emails when a sitter bids on a owner's post
     return axios.post('/api/user/sendEmailPost');
 }
 
@@ -216,6 +218,7 @@ Actions.register = user => {
 		return register(user).then(() => {
 			// Authenticate the user with the newly created account
 			return dispatch(Actions.authenticate(user.principal, user.password)).then(() => {
+				// Sends current user an email about registering as a certain user
 				//return sendEmailRegister();
 			});
 		});

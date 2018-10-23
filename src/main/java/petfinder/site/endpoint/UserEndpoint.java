@@ -44,15 +44,27 @@ public class UserEndpoint {
 
 	@PostMapping(value = "/sendEmailRegister")
 	public void sendEmailReg() throws UnirestException {
+		// Get current user
 		String principal = SecurityContextHolder.getContext().getAuthentication().getName();
 		UserDto user = userService.findUserByPrincipal(principal).get();
 		String subject = "Thanks for registering!";
-		String text = "Thanks for registering on our website!!";
-		System.out.println(MGEmail.sendComplexMessage(subject, text, user.getPrincipal()));
+		String text = "Hello " + principal + "!!\nThanks for registering on our website!!  ";
+
+		// If a user is a certain role :
+		if(user.getRoles().contains("SITTER") && user.getRoles().contains("OWNER"))
+			text += "Be sure to check out and bid on posts!";
+		else if(user.getRoles().contains("OWNER"))
+			text += "Now you're ready to make a post!";
+		else if(user.getRoles().contains("SITTER"))
+			text += "Now you're able to create and bid on posts! Goodluck!";
+
+		// Send email and display confirmation to system
+		System.out.println(MGEmail.sendSimpleMessage(subject, text, user.getPrincipal()));
 	}
 
 	@PostMapping(value = "/sendEmailPost")
 	public void sendEmailPost() throws UnirestException {
+		// Get current user
 		String currUser = SecurityContextHolder.getContext().getAuthentication().getName();
 		UserDto user = userService.findUserByPrincipal(currUser).get();
 		String subject = "New Bid!!";
@@ -60,7 +72,8 @@ public class UserEndpoint {
 				      "\n A new sitter has applied for your post : " + " CURR POSTING HERE" +
 				      " Check it out! \n " + "LINK HERE" + "\n";
 
-		System.out.println(MGEmail.sendComplexMessage(subject, text, user.getPrincipal()));
+		// Send email and display confirmation to system
+		System.out.println(MGEmail.sendSimpleMessage(subject, text, user.getPrincipal()));
 
 	}
 
