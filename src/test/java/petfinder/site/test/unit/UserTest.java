@@ -37,7 +37,10 @@ public class UserTest {
         List<Long> pets = new ArrayList<Long>();
         pets.add(3543115176076623000L);
 
-        user = new UserDto("email", roles, attributes, address, pets);
+        List<Long> sessions = new ArrayList<Long>();
+        sessions.add(1876115176076625034L);
+
+        user = new UserDto("email", roles, attributes, address, pets, sessions);
     }
 
     @Test
@@ -70,5 +73,10 @@ public class UserTest {
     @Test
     public void testPets() {
         assertEquals(3543115176076623000L, (Object)user.getPets().get(0));
+    }
+
+    @Test
+    public void testSessions() {
+        assertEquals(1876115176076625034L, (Object)user.getSessions().get(0));
     }
 }
