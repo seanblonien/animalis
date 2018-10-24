@@ -223,10 +223,10 @@ Actions.setUser = user => {
 
 Actions.setPets = pets => {
 	if(pets != null) {
-		for(let pet in pets){
-			if(pet == null) return;
-			pet.editing = false;
-			console.log('Updating editing values for pet '+ pet.name);
+		for(let pet = 0; pet < pets.length; pet++){
+			if(pets[pet] == null) return;
+			pets[pet].editing = false;
+			console.log('Updating editing values for pet '+ pets[pet].name);
 		}
 	}
 	return {type: Actions.Types.SET_PETS, pets};

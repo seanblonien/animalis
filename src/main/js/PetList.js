@@ -25,6 +25,7 @@ class PetList extends React.Component {
         if(this.props.pets.includes(pet)){
 			console.log('Editing pet with id: ' + pet.id + ' with editing status of ' + pet.editing);
 			pet.editing = !pet.editing;
+			this.forceUpdate();
         }
     };
 
