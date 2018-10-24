@@ -22,6 +22,7 @@ class ScheduleSession extends React.Component {
     onSubmit = session => {
         console.log('Session keys: ' + Object.keys(session));
 		console.log('Session values: ' + Object.values(session));
+
         //return this.props.create(session);
     };
 
@@ -37,7 +38,6 @@ class ScheduleSession extends React.Component {
 
     render() {
         let { handleSubmit, submitting } = this.props;
-
 
         return (
             <form name="name" onSubmit={handleSubmit(form => this.onSubmit(form))}>
@@ -73,9 +73,8 @@ class ScheduleSession extends React.Component {
                                 field={<input type="checkbox" value={this.state.checkedItems.get('sitterLocation')} />} />
 
                 {this.state.checkedItems.get('sitterLocation') ?
-                    <Bessemer.Field name="maxdist" friendlyName="Maximum distance away (miles)"
-                                    placeholder="10" validators={[Validation.requiredValidator]} /> :
-                    null}
+                    <Bessemer.Field name="maxDistance" friendlyName="Maximum distance away (miles)"
+                                    placeholder="10" validators={[Validation.requiredValidator]} /> : null}
 
                 <Bessemer.Field name="notes" friendlyName="Notes" placeholder="Special Instructions"/>
 
@@ -89,14 +88,14 @@ class ScheduleSession extends React.Component {
 
 ScheduleSession = ReduxForm.reduxForm({form: 'schedulesession'})(ScheduleSession);
 
-// ScheduleSession = connect(
-//     state => ({
-//         pets: Users.State.getPets(state),
-//         user: Users.State.getUser(state)
-//     }),
-//     dispatch => ({
-//         scheduleSession: session => dispatch(Users.Actions.scheduleSession(session))
-//     })
-// )(ScheduleSession);
+ScheduleSession = connect(
+    state => ({
+        pets: Users.State.getPets(state),
+        user: Users.State.getUser(state)
+    }),
+    dispatch => ({
+        scheduleSession: session => dispatch(Users.Actions.scheduleSession(session))
+    })
+)(ScheduleSession);
 
 export default ScheduleSession;

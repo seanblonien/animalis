@@ -2,27 +2,11 @@ import axios from 'axios';
 import Cookies from 'universal-cookie';
 
 export function register(user) {
-	return axios.post('/api/user/register', {
-			principal: user.principal,
-			password: user.password,
-			fname: user.fname,
-			lname: user.lname,
-			phone: user.phone,
-			street: user.street,
-			city: user.city,
-			state: user.state,
-			zip: user.zip,
-			petSitter: user.petSitter,
-			petOwner: user.petOwner,
-			emailNotifications: user.emailNotifications,
-			pets: user.pets,
-	});
+	return axios.post('/api/user/register', user);
 }
 
-export function scheduleSession(session, user) {
-	return axios.post('/api/sessions', {
-
-	});
+export function scheduleSession(session) {
+	return axios.post('/api/sessions', session);
 }
 
 export function sendEmailRegister() {
@@ -43,21 +27,7 @@ export function deleteAccount(user) {
 }
 
 export function update(user) {
-    return axios.post('/api/user/update', {
-        principal: user.principal,
-        password: user.password,
-        fname: user.fname,
-        lname: user.lname,
-        phone: user.phone,
-        street: user.street,
-        city: user.city,
-        state: user.state,
-        zip: user.zip,
-        petSitter: user.petSitter,
-        petOwner: user.petOwner,
-        emailNotifications: user.emailNotifications,
-        pets: user.pets,
-    });
+    return axios.post('/api/user/update', user);
 }
 
 export function authenticate(username, password) {
@@ -91,27 +61,11 @@ export function getPet(id) {
 }
 
 export function addpet(pet) {
-	return axios.post('/api/pets', {
-		id: pet.id,
-		pet_name: pet.pet_name,
-		pet_species: pet.pet_species,
-		pet_age: pet.pet_age,
-		pet_size: pet.pet_size,
-		pet_sex: pet.pet_sex,
-		pet_info: pet.pet_info,
-	});
+	return axios.post('/api/pets', pet);
 }
 
 export function updatePet(pet) {
-    return axios.post('/api/pets/update/', {
-        id: pet.id,
-        pet_name: pet.pet_name,
-        pet_species: pet.pet_species,
-        pet_age: pet.pet_age,
-        pet_size: pet.pet_size,
-        pet_sex: pet.pet_sex,
-        pet_info: pet.pet_info,
-	});
+    return axios.post('/api/pets/update/', pet);
 }
 
 export function getPets(){
@@ -269,11 +223,11 @@ Actions.setUser = user => {
 
 Actions.setPets = pets => {
 	if(pets != null) {
-		pets.forEach(pet => {
+		for(let pet in pets){
 			if(pet == null) return;
 			pet.editing = false;
 			console.log('Updating editing values for pet '+ pet.name);
-		});
+		}
 	}
 	return {type: Actions.Types.SET_PETS, pets};
 };
