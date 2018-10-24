@@ -12,7 +12,6 @@ import petfinder.site.common.session.SessionDto;
 import petfinder.site.elasticsearch.PetElasticsearchRepository;
 import petfinder.site.elasticsearch.SessionElasticsearchRepository;
 import petfinder.site.elasticsearch.UserElasticSearchRepository;
-import petfinder.site.elasticsearch.UserPetElasticsearchRepository;
 
 import java.io.IOException;
 import java.util.List;
@@ -28,9 +27,6 @@ import static org.elasticsearch.common.xcontent.XContentFactory.jsonBuilder;
 public class UserDao {
 	@Autowired
 	private UserElasticSearchRepository userRepository;
-
-	@Autowired
-	private UserPetElasticsearchRepository userPetRepository;
 
 	@Autowired
 	private ElasticSearchClientProvider elasticSearchClientProvider;
