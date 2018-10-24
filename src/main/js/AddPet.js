@@ -45,13 +45,13 @@ class AddPet extends React.Component {
             <div>
                 <form name="name" onSubmit={handleSubmit(form => this.onSubmit(form))}>
                     <Bessemer.Field name="pet_name" friendlyName="Pet Name" placeholder="Fido"
-                                    validators={[Validation.requiredValidator]} />
+                                    validators={[Validation.requiredValidator, Validation.safeValidator]} />
 
                     <Bessemer.Field name="pet_species" friendlyName="Pet Species" placeholder="Dog"
-                                    validators={[Validation.requiredValidator]} />
+                                    validators={[Validation.requiredValidator, Validation.safeValidator]} />
 
                     <Bessemer.Field name="pet_size" friendlyName="Pet Size" placeholder="Medium"
-                                    validators={[Validation.requiredValidator]} />
+                                    validators={[Validation.requiredValidator, Validation.safeValidator]} />
 
                     {/*<Bessemer.Field name="pet_sex" friendlyName="Pet Sex" placeholder="Male"*/}
                                     {/*validators={[Validation.requiredValidator, Validation.sexValidator]} />*/}
@@ -64,15 +64,16 @@ class AddPet extends React.Component {
                     <Bessemer.Select style={{marginBottom: '2.5%'}} name="pet_sex"
                                      label={'Pet Sex'}
                                      friendlyName="Pet Sex" placeholder="Male"
-                                     validators={[Validation.requiredValidator]}
+                                     validators={[Validation.requiredValidator, Validation.safeValidator]}
                                      options={choices} value={this.state.pet_sex}
                                      onChange={opt => this.handleSexChange(opt)} /> {/*  */}
 
 
                     <Bessemer.Field name="pet_age" friendlyName="Pet Age" placeholder="6"
-                                    validators={[Validation.requiredValidator]}/>
+                                    validators={[Validation.requiredValidator, Validation.safeValidator]}/>
 
-                    <Bessemer.Field name="pet_info" friendlyName="Additional Pet Info" />
+                    <Bessemer.Field name="pet_info" friendlyName="Additional Pet Info"
+									validators={[Validation.safeValidator]}/>
 
                     <Bessemer.Button loading={submitting}>Add Pet</Bessemer.Button>
 

@@ -37,6 +37,14 @@ export const safeValidator = new Validator(isSafe, () => 'Please enter in valid 
 
 export function sanitize(strings, ...values) {
 	strings = strings ? [].concat(strings) : [];
-	const dirty = strings.reduce((prev, next, i) => `${prev}${next}${values[i]} || ''}`);
+	const dirty = isEmpty(strings) ? [] : strings.reduce((prev, next, i) => `${prev}${next}${values[i]} || ''}`);
 	return DomPurify.sanitize(dirty);
+}
+
+function isEmpty(obj) {
+	for(let key in obj) {
+		if(obj.hasOwnProperty(key))
+			return false;
+	}
+	return true;
 }

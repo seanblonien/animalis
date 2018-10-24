@@ -66,7 +66,8 @@ class PetList extends React.Component {
                                         <div style={{display: 'inline'}}>
                                             { pet.editing === true &&
                                             <Bessemer.Field name="pet_name" friendlyName="Pet Name"
-                                                            placeholder={pet.pet_name == null ? 'Fido' : pet.pet_name} />
+                                                            placeholder={pet.pet_name == null ? 'Fido' : pet.pet_name}
+															validators={[Validation.safeValidator]}/>
                                             }
                                             { pet.editing === false &&
                                                 <div>
@@ -80,7 +81,8 @@ class PetList extends React.Component {
                                             <div style={{display: 'inline'}}>
                                                 { pet.editing === true &&
                                                 <Bessemer.Field name="pet_species" friendlyName="Pet Species"
-                                                                placeholder={pet.pet_species == null ? 'Dog' : pet.pet_species}/>
+                                                                placeholder={pet.pet_species == null ? 'Dog' : pet.pet_species}
+																validators={[Validation.safeValidator]}/>
                                                 }
                                                 { pet.editing === false &&
                                                 <div>
@@ -96,7 +98,8 @@ class PetList extends React.Component {
                                             <div style={{display: 'inline'}}>
                                                 { pet.editing === true &&
                                                 <Bessemer.Field name="pet_size" friendlyName="Pet Size"
-                                                                placeholder={pet.pet_size == null ? 'Medium' : pet.pet_size}/>
+                                                                placeholder={pet.pet_size == null ? 'Medium' : pet.pet_size}
+																validators={[Validation.safeValidator]}/>
                                                 }
                                                 { pet.editing === false &&
                                                 <div>
@@ -112,7 +115,8 @@ class PetList extends React.Component {
                                             <div style={{display: 'inline'}}>
                                                 { pet.editing === true &&
                                                 <Bessemer.Field name="pet_sex" friendlyName="Pet Sex"
-                                                                placeholder={pet.pet_sex == null ? 'Male' : pet.pet_sex}/>
+                                                                placeholder={pet.pet_sex == null ? 'Male' : pet.pet_sex}
+																validators={[Validation.safeValidator]}/>
                                                 }
                                                 { pet.editing === false &&
                                                 <div>
@@ -128,7 +132,8 @@ class PetList extends React.Component {
                                             <div style={{display: 'inline'}}>
                                                 { pet.editing === true &&
                                                 <Bessemer.Field name="pet_age" friendlyName="Pet Age"
-                                                                placeholder={pet.pet_age == null ? '4' : pet.pet_age}/>
+                                                                placeholder={pet.pet_age == null ? '4' : pet.pet_age}
+																validators={[Validation.safeValidator]}/>
                                                 }
                                                 { pet.editing === false &&
                                                 <div>
@@ -144,7 +149,8 @@ class PetList extends React.Component {
                                             <div style={{display: 'inline'}}>
                                                 { pet.editing === true &&
                                                 <Bessemer.Field name="pet_info" friendlyName="Pet Info"
-                                                                placeholder={pet.pet_info == null ? 'Additional pet information here.' : pet.pet_info}/>
+                                                                placeholder={pet.pet_info == null ? 'Additional pet information here.' : pet.pet_info}
+																validators={[Validation.safeValidator]}/>
                                                 }
                                                 { pet.editing === false &&
                                                 <div>
@@ -173,9 +179,7 @@ class PetList extends React.Component {
                                 </form>
                             </div>
                         ))}</div>
-
                 }
-
             </div>
         );
     }
