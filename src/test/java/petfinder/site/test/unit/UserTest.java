@@ -38,11 +38,6 @@ public class UserTest {
         pets.add(3543115176076623000L);
 
         user = new UserDto("email", roles, attributes, address, pets);
-        testPrincipal();
-        testRoles();
-        testAttributes();
-        testAddress();
-        testPets();
     }
 
     @Test
