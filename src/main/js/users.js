@@ -173,7 +173,7 @@ Actions.register = user => {
 			// Authenticate the user with the newly created account
 			return dispatch(Actions.authenticate(user.principal, user.password)).then(() => {
 				// Sends current user an email about registering as a certain user
-				//return sendEmailRegister();
+				return sendEmailRegister();
 			});
 		});
 	};
