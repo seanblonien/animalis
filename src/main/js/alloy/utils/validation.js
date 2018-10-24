@@ -1,4 +1,5 @@
 import _ from 'lodash';
+import DomPurify from 'dompurify';
 
 export class Validator {
 	constructor(spec, error) {
@@ -30,3 +31,12 @@ export const deleteValidator = new Validator(isConfirmDeletion, () => 'Please en
 
 export const isSex = (val) => val.match(/^Male|Female$/);
 export const sexValidator = new Validator(isSex, () => 'Please enter \'Male\' or \'Female\' for pet sex.');
+
+export const isSafe = (val) => val === sanitize(val);
+export const safeValidator = new Validator(isSafe, () => 'Please enter in valid characters! No funny business allowed!');
+
+export function sanitize(strings, ...values) {
+	strings = strings ? [].concat(strings) : [];
+	const dirty = strings.reduce((prev, next, i) => `${prev}${next}${values[i]} || ''}`);
+	return DomPurify.sanitize(dirty);
+}

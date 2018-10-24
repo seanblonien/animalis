@@ -172,46 +172,49 @@ class RegistrationForm extends React.Component {
                                         field={<input className="form-control" type="email" />} />
 
                         <Bessemer.Field name="password" friendlyName="Password" placeholder="At least 6 characters"
-                                        validators={[Validation.requiredValidator, Validation.passwordValidator]}
+                                        validators={[Validation.requiredValidator, Validation.passwordValidator, Validation.safeValidator]}
                                         field={<input className="form-control" type="password" />} />
 
                         <Bessemer.Field name="password2" friendlyName="Confirm Password"
-                                        validators={[Validation.requiredValidator, Validation.passwordValidator]}
+                                        validators={[Validation.requiredValidator, Validation.passwordValidator, Validation.safeValidator]}
                                         field={<input className="form-control" type="password" />} />
 					</div>
 				}
 
 				<Bessemer.Field name="fname" friendlyName="First Name" placeholder={this.props.editProfile == null ? 'John' : this.props.user.attributes.fname}
-                                validators={this.props.editProfile == null ? [Validation.requiredValidator] : []} />
+                                validators={this.props.editProfile == null ? [Validation.requiredValidator, Validation.safeValidator] : []} />
 
 				<Bessemer.Field name="lname" friendlyName="Last Name" placeholder={this.props.editProfile == null ? 'Doe' : this.props.user.attributes.lname}
-                                validators={this.props.editProfile == null ? [Validation.requiredValidator] : []} />
+                                validators={this.props.editProfile == null ? [Validation.requiredValidator, Validation.safeValidator] : []} />
 
 				<Bessemer.Field name="phone" friendlyName="Phone Number" placeholder={this.props.editProfile == null ? '987-654-3210' : this.props.user.attributes.phone}
-								validators={this.props.editProfile == null ? [Validation.requiredValidator, Validation.phoneNumberValidator] : []} />
+								validators={this.props.editProfile == null ? [Validation.requiredValidator, Validation.phoneNumberValidator, Validation.safeValidator] : []} />
 
 				<Bessemer.Field name="street" friendlyName="Street Address" placeholder={this.props.editProfile == null ? '7342 Pumpkin Hill St.' : this.props.user.address.street}
-								validators={this.props.editProfile == null ? [Validation.requiredValidator] : []} />
+								validators={this.props.editProfile == null ? [Validation.requiredValidator, Validation.safeValidator] : []} />
 
 				<Bessemer.Field name="city" friendlyName="City" placeholder={this.props.editProfile == null ? 'Duluth' : this.props.user.address.city}
-								validators={this.props.editProfile == null ? [Validation.requiredValidator] : []} />
+								validators={this.props.editProfile == null ? [Validation.requiredValidator, Validation.safeValidator] : []} />
 
 				<Bessemer.Field name="state" friendlyName="State" placeholder={this.props.editProfile == null ? 'GA' : this.props.user.address.state}
-								validators={this.props.editProfile == null ? [Validation.requiredValidator] : []} />
+								validators={this.props.editProfile == null ? [Validation.requiredValidator, Validation.safeValidator] : []} />
 
 				<Bessemer.Field name="zip" friendlyName="ZIP" placeholder={this.props.editProfile == null ? '30096' : this.props.user.address.zip}
-								validators={this.props.editProfile == null ? [Validation.requiredValidator] : []} />
+								validators={this.props.editProfile == null ? [Validation.requiredValidator, Validation.safeValidator] : []} />
 
 				<Bessemer.Field name={'petOwner'} friendlyName={'I am a pet owner.'}
 								onChange={this.handleCheckboxChange}
+								validators={this.props.editProfile == null ? [Validation.safeValidator] : []}
 								field={<input type="checkbox" value={this.state.checkedItems.get('petOwner')} />} />
 
 				<Bessemer.Field name={'petSitter'} friendlyName={'I am a pet sitter.'}
 								onChange={this.handleCheckboxChange}
+								validators={this.props.editProfile == null ? [Validation.safeValidator] : []}
 								field={<input type="checkbox" value={this.state.checkedItems.get('petSitter')} />} />
 
 				<Bessemer.Field name={'emailNotifications'} friendlyName={'Send me an email when I get a new message or request.'}
 								onChange={this.handleCheckboxChange}
+								validators={this.props.editProfile == null ? [Validation.safeValidator] : []}
 								field={<input type="checkbox" value={this.state.checkedItems.get('emailNotifications')} />} />
 
                 {_.isUndefined(this.props.editProfile) &&
@@ -226,7 +229,7 @@ class RegistrationForm extends React.Component {
 					<div>
 						<p>Enter in your password to update your profile.</p>
                         <Bessemer.Field name="passwordConfirm"  friendlyName="Enter Password to Edit"
-                                        validators={[Validation.requiredValidator, Validation.passwordValidator]}
+                                        validators={[Validation.requiredValidator, Validation.passwordValidator, Validation.safeValidator]}
                                         field={<input className="form-control" type="password" />} />
                         <Bessemer.Button loading={submitting}>Update Information</Bessemer.Button>
 					</div>
