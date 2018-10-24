@@ -209,12 +209,10 @@ class RegistrationForm extends React.Component {
 
 				<Bessemer.Field name={'petSitter'} friendlyName={'I am a pet sitter.'}
 								onChange={this.handleCheckboxChange}
-								validators={this.props.editProfile == null ? [Validation.safeValidator] : []}
 								field={<input type="checkbox" value={this.state.checkedItems.get('petSitter')} />} />
 
 				<Bessemer.Field name={'emailNotifications'} friendlyName={'Send me an email when I get a new message or request.'}
 								onChange={this.handleCheckboxChange}
-								validators={this.props.editProfile == null ? [Validation.safeValidator] : []}
 								field={<input type="checkbox" value={this.state.checkedItems.get('emailNotifications')} />} />
 
                 {_.isUndefined(this.props.editProfile) &&
