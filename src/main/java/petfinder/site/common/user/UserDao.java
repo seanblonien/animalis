@@ -8,7 +8,9 @@ import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import petfinder.site.common.pet.PetDto;
+import petfinder.site.common.session.SessionDto;
 import petfinder.site.elasticsearch.PetElasticsearchRepository;
+import petfinder.site.elasticsearch.SessionElasticsearchRepository;
 import petfinder.site.elasticsearch.UserElasticSearchRepository;
 import petfinder.site.elasticsearch.UserPetElasticsearchRepository;
 
@@ -35,6 +37,9 @@ public class UserDao {
 
 	@Autowired
 	private PetElasticsearchRepository petRepository;
+
+	@Autowired
+	private SessionElasticsearchRepository sessionRepository;
 
 	public Optional<UserAuthenticationDto> findUserByPrincipal(String principal) {
 		SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
@@ -68,6 +73,28 @@ public class UserDao {
 						.field("roles", user.getRoles())
 						.field("address", user.getAddress())
 						.field("pets", updatedPets)
+						.field("sessions", user.getSessions())
+					.endObject()
+				.endObject());
+		UpdateResponse response = elasticSearchClientProvider.getClient().update(updateRequest);
+	}
+
+	public void deleteSession(UserDto user, Long id) throws IOException {
+		List<Long> updatedSessions = user.getSessions();
+		updatedSessions.remove(id);
+		UpdateRequest updateRequest = new UpdateRequest();
+		updateRequest.index("petfinder-users");
+		updateRequest.type("doc");
+		updateRequest.id(user.getPrincipal());
+		updateRequest.doc(jsonBuilder()
+				.startObject()
+					.startObject("user")
+						.field("principal", user.getPrincipal())
+						.field("attributes", user.getAttributes())
+						.field("roles", user.getRoles())
+						.field("address", user.getAddress())
+						.field("pets", user.getPets())
+						.field("sessions", updatedSessions)
 					.endObject()
 				.endObject());
 		UpdateResponse response = elasticSearchClientProvider.getClient().update(updateRequest);
@@ -86,6 +113,7 @@ public class UserDao {
 						.field("roles", user.getRoles())
 						.field("address", user.getAddress())
 						.field("pets", user.getPets())
+						.field("sessions", user.getSessions())
 					.endObject()
 				.endObject());
 		UpdateResponse response = elasticSearchClientProvider.getClient().update(updateRequest);
@@ -102,6 +130,19 @@ public class UserDao {
 		List<Long> userPets = user.getPets();
 		return userPets != null ? userPets.stream()
 				.map(id -> petRepository.find(id))
+				.collect(Collectors.toList()) : null;
+	}
+
+	public List<Optional<SessionDto>> findSessions(UserDto user) {
+		SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
+
+		String queryString = String.format("userPrincipal=\"%s\"", user.getPrincipal().replace("\"", ""));
+		searchSourceBuilder.query(QueryBuilders.queryStringQuery(queryString));
+
+//		return userSessionRepository.search(searchSourceBuilder);
+		List<Long> userSessions = user.getSessions();
+		return userSessions != null ? userSessions.stream()
+				.map(id -> sessionRepository.find(id))
 				.collect(Collectors.toList()) : null;
 	}
 }

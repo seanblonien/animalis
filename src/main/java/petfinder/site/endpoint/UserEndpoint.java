@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import petfinder.site.common.pet.PetDto;
+import petfinder.site.common.session.SessionDto;
 import petfinder.site.common.user.UserDao;
 import petfinder.site.common.user.UserDto;
 import petfinder.site.common.user.UserService;
@@ -83,9 +84,15 @@ public class UserEndpoint {
 	}
 
 	@PostMapping(value = "/pet/delete/{id}")
-	public void delete(@PathVariable("id") Long id) {
+	public void deletePet(@PathVariable("id") Long id) {
 		System.out.println("Got to delete pet endpoint with petId of " + id);
 		userService.deletePet(id);
+	}
+
+	@PostMapping(value = "/session/delete/{id}")
+	public void deleteSession(@PathVariable("id") Long id) {
+		System.out.println("Got to delete session endpoint with sessionId of " + id);
+		userService.deleteSession(id);
 	}
 
 	@GetMapping(value = "/pet")
@@ -96,6 +103,14 @@ public class UserEndpoint {
 		return userService.findPets(user);
 	}
 
+	@GetMapping(value = "/session")
+	public List<Optional<SessionDto>> getSessions() {
+		String principal = SecurityContextHolder.getContext().getAuthentication().getName();
+		System.out.println("Getting sessions from user " + principal);
+		UserDto user = userService.findUserByPrincipal(principal).get();
+		return userService.findSessions(user);
+	}
+
 	@PostMapping(value = "/pet/{id}")
 	public UserDto addPet(@PathVariable("id") Long id) {
 		String principal = SecurityContextHolder.getContext().getAuthentication().getName();
@@ -103,6 +118,16 @@ public class UserEndpoint {
 		System.out.println("Adding pet with id " + id);
 		user.addPet(id);
 		System.out.println("User has pets: " + user.getPets().toString());
+		return userService.update(user);
+	}
+
+	@PostMapping(value = "/session/{id}")
+	public UserDto addSession(@PathVariable("id") Long id) {
+		String principal = SecurityContextHolder.getContext().getAuthentication().getName();
+		UserDto user = userService.findUserByPrincipal(principal).get();
+		System.out.println("Adding session with id " + id);
+		user.addSession(id);
+		System.out.println("User has sessions: " + user.getSessions().toString());
 		return userService.update(user);
 	}
 }

@@ -5,6 +5,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import petfinder.site.common.pet.PetDto;
+import petfinder.site.common.session.SessionDto;
 import petfinder.site.common.user.UserDto.UserType;
 
 import java.io.IOException;
@@ -57,6 +58,7 @@ public class UserService {
 		private String petOwner;
 		private String emailNotifications;
 		private List<Long> pets;
+		private List<Long> sessions;
 
 		/*public RegistrationRequest(@JsonProperty("prinicipal")String principal, @JsonProperty("password") String password, @JsonProperty("attributes") Map<String, Object> attributes) {
 			this.principal = principal;
@@ -78,6 +80,10 @@ public class UserService {
 
 		public List<Long> getPets() {
 			return this.pets;
+		}
+
+		public List<Long> getSessions() {
+			return this.sessions;
 		}
 
 		public Map<String, Object> getAddress() {
@@ -200,7 +206,7 @@ public class UserService {
     }
 
     public UserDto constructUser(RegistrationRequest request){
-		return new UserDto(request.getPrincipal(), request.getRoles(), request.getAttributes(), request.getAddress(), request.getPets());
+		return new UserDto(request.getPrincipal(), request.getRoles(), request.getAttributes(), request.getAddress(), request.getPets(), request.getSessions());
 	}
 
 	public void delete(DeleteRequest request) {
@@ -212,6 +218,16 @@ public class UserService {
 		UserDto user = this.findUserByPrincipal(principal).get();
 		try {
 			userDao.deletePet(user, id);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void deleteSession(Long id) {
+		String principal = SecurityContextHolder.getContext().getAuthentication().getName();
+		UserDto user = this.findUserByPrincipal(principal).get();
+		try {
+			userDao.deleteSession(user, id);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -244,5 +260,9 @@ public class UserService {
 
 	public List<Optional<PetDto>> findPets(UserDto user) {
 		return userDao.findPets(user);
+	}
+
+	public List<Optional<SessionDto>> findSessions(UserDto user) {
+		return userDao.findSessions(user);
 	}
 }

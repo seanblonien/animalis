@@ -20,19 +20,25 @@ public class UserDto implements Momento<String> {
 	private Map<String, Object> attributes;
 	private Map<String, Object> address;
 	private List<Long> pets;
+	private List<Long> sessions;
 
 	private UserDto() {}
 
-	public UserDto(String principal, List<String> roles, Map<String, Object> attributes, Map<String, Object> address, List<Long> pets) {
+	public UserDto(String principal, List<String> roles, Map<String, Object> attributes, Map<String, Object> address, List<Long> pets, List<Long> sessions) {
 		this.principal = principal;
 		this.roles = roles;
 		this.attributes = attributes;
 		this.address = address;
 		this.pets = pets;
+		this.sessions = sessions;
 	}
 
 	public List<Long> getPets() {
 		return pets;
+	}
+
+	public List<Long> getSessions() {
+		return sessions;
 	}
 
 	public String getPrincipal() {
@@ -55,6 +61,10 @@ public class UserDto implements Momento<String> {
 		this.pets = pets;
 	}
 
+	public void setSessions(List<Long> sessions) {
+		this.sessions = sessions;
+	}
+
 	public void addPet(Long id) {
 		if(this.pets == null) {
 			this.pets = new ArrayList<Long>();
@@ -62,21 +72,11 @@ public class UserDto implements Momento<String> {
 		this.pets.add(id);
 	}
 
-	public XContentBuilder getUserDto() {
-		try {
-			return jsonBuilder()
-					.startObject()
-					.field("principal", this.getPrincipal())
-					.field("roles", this.getRoles())
-					.field("attributes", this.getAttributes())
-					.field("pets", this.getPets())
-					.field("address", this.getAddress())
-					.endObject();
-		} catch (IOException e) {
-			e.printStackTrace();
+	public void addSession(Long id) {
+		if(this.sessions == null) {
+			this.sessions = new ArrayList<Long>();
 		}
-
-		return null;
+		this.sessions.add(id);
 	}
 
 	@JsonIgnore

@@ -16,10 +16,10 @@ public class SessionDto implements Identifiable {
     private List<PetDto> pets;
     private String notes;
     private Integer maxDistance;
-    private Map<String,Object> location;
+    private String location; // "Owner" or "Sitter"
     private Boolean isComplete;
 
-    public SessionDto(Long id, String ownerPrincipal, String sitterPrincipal, Date startDate, Date endDate, List<PetDto> pets, String notes, Integer maxDistance, Map<String,Object> location, Boolean isComplete){
+    public SessionDto(Long id, String ownerPrincipal, String sitterPrincipal, Date startDate, Date endDate, List<PetDto> pets, String notes, Integer maxDistance, String location, Boolean isComplete){
         this.id = id;
         this.ownerPrincipal = ownerPrincipal;
         this.sitterPrincipal = sitterPrincipal;
@@ -69,9 +69,9 @@ public class SessionDto implements Identifiable {
 
     public void setMaxDistance(Integer maxDistance) { this.maxDistance = maxDistance; }
 
-    public Map<String, Object> getLocation() { return location; }
+    public String getLocation() { return location; }
 
-    public void setLocation(Map<String, Object> location) { this.location = location; }
+    public void setLocation(String location) { this.location = location; }
 
     public Boolean getComplete() { return isComplete; }
 
@@ -95,14 +95,7 @@ public class SessionDto implements Identifiable {
         sessionStr += "}\n" +
                 "notes= " + notes + "\n" +
                 "maxDistance= " + maxDistance + "\n" +
-                "location{\n";
-
-        // Get Location information
-        for(String field: location.keySet()){
-            sessionStr += "\t" + field + "= " + location.get(field).toString() + "\n";
-        }
-
-        sessionStr += "}\n" +
+                "location= " + location + "\n" +
                 "isComplete= " + isComplete + "\n}\n";
 
         return sessionStr;
