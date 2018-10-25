@@ -204,7 +204,6 @@ class RegistrationForm extends React.Component {
 
 				<Bessemer.Field name={'petOwner'} friendlyName={'I am a pet owner.'}
 								onChange={this.handleCheckboxChange}
-								validators={this.props.editProfile == null ? [Validation.safeValidator] : []}
 								field={<input type="checkbox" value={this.state.checkedItems.get('petOwner')} />} />
 
 				<Bessemer.Field name={'petSitter'} friendlyName={'I am a pet sitter.'}
