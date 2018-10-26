@@ -29,7 +29,7 @@ public class OAuth2AuthorizationServerConfig extends AuthorizationServerConfigur
 	private AuthenticationManager authenticationManager;
 
 	@Override
-	public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
+	public void configure(AuthorizationServerEndpointsConfigurer endpoints) {
 		endpoints
 				.authenticationManager(this.authenticationManager)
 				.tokenServices(tokenServices())
@@ -38,7 +38,7 @@ public class OAuth2AuthorizationServerConfig extends AuthorizationServerConfigur
 	}
 
 	@Override
-	public void configure(AuthorizationServerSecurityConfigurer oauthServer) throws Exception {
+	public void configure(AuthorizationServerSecurityConfigurer oauthServer) {
 		oauthServer
 				// we're allowing access to the token only for clients with 'ROLE_TRUSTED_CLIENT' authority
 				.tokenKeyAccess("hasAuthority('ROLE_TRUSTED_CLIENT')")

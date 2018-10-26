@@ -1,13 +1,12 @@
 import React from 'react';
 import * as Validation from 'js/alloy/utils/validation';
 import * as Bessemer from 'js/alloy/bessemer/components';
-import * as Users from 'js/users';
+import * as Users from 'js/User/users';
 import * as ReduxForm from 'redux-form';
 import {connect} from 'react-redux';
-import _ from 'lodash';
-import waitToUpdateTime from 'js/PetList';
+import waitToUpdateTime from 'js/Pet/PetList';
 
-class AddPet extends React.Component {
+class AddPetForm extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -84,9 +83,9 @@ class AddPet extends React.Component {
     }
 }
 
-AddPet = ReduxForm.reduxForm({form: 'addpet'})(AddPet);
+AddPetForm = ReduxForm.reduxForm({form: 'addpet'})(AddPetForm);
 
-AddPet = connect(
+AddPetForm = connect(
     state => ({
         pets: Users.State.getPets(state),
         user: Users.State.getUser(state),
@@ -96,6 +95,6 @@ AddPet = connect(
         retrievePets: () => dispatch(Users.Actions.retrieve()),
         addPetToUser: id => dispatch(Users.Actions.addPetToUser(id)),
     })
-)(AddPet);
+)(AddPetForm);
 
-export default AddPet;
+export default AddPetForm;

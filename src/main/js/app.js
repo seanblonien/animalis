@@ -9,9 +9,9 @@ import {reducer as formReducer} from 'redux-form';
 import axios from 'axios';
 
 import Index from 'js/index';
-import * as Users from 'js/users';
+import * as Users from 'js/User/users';
 import * as Utils from 'js/alloy/utils/core-utils';
-import Cookies  from 'universal-cookie';
+import Cookies from 'universal-cookie';
 
 import 'styles/main.scss';
 

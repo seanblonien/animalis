@@ -1,12 +1,9 @@
 import React from 'react';
 import * as Validation from 'js/alloy/utils/validation';
 import * as Bessemer from 'js/alloy/bessemer/components';
-import * as Users from 'js/users';
+import * as Users from 'js/User/users';
 import * as ReduxForm from 'redux-form';
 import {connect} from 'react-redux';
-import _ from 'lodash';
-
-import {Link} from 'react-router-dom';
 
 class ScheduleSession extends React.Component {
     constructor(props) {

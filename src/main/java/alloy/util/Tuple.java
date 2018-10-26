@@ -62,9 +62,9 @@ public interface Tuple {
 		@Override
 		public Iterator<Object> iterator() {
 			return Arrays.<Object> asList(_1).iterator();
-		};
+		}
 
-		@Override
+        @Override
 		public boolean equals(Object o) {
 			if (this == o) {
 				return true;
@@ -113,9 +113,9 @@ public interface Tuple {
 		@Override
 		public Iterator<Object> iterator() {
 			return Arrays.asList(_1, _2).iterator();
-		};
+		}
 
-		@Override
+        @Override
 		public boolean equals(Object o) {
 			if (this == o) {
 				return true;
@@ -163,14 +163,14 @@ public interface Tuple {
 		@Override
 		public String toString() {
 			return String.format("Tuple3(%s,%s,%s)", _1, _2, _3);
-		};
+		}
 
-		@Override
+        @Override
 		public Iterator<Object> iterator() {
-			return Arrays.<Object> asList(_1, _2, _3).iterator();
-		};
+			return Arrays.asList(_1, _2, _3).iterator();
+		}
 
-		@Override
+        @Override
 		public boolean equals(Object o) {
 			if (this == o) {
 				return true;

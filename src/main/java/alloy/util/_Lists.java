@@ -56,7 +56,7 @@ public class _Lists {
 
 	@SafeVarargs
 	public static <T> List<T> concat(List<? extends T>... lists) {
-		Builder<T> builder = ImmutableList.<T> builder();
+		Builder<T> builder = ImmutableList.builder();
 		for(List<? extends T> list : lists) {
 			builder.addAll(list);
 		}

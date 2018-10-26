@@ -2,14 +2,10 @@ package petfinder.site.common.user;
 
 import alloy.util.Momento;
 import org.codehaus.jackson.annotate.JsonIgnore;
-import org.elasticsearch.common.xcontent.XContentBuilder;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-
-import static org.elasticsearch.common.xcontent.XContentFactory.jsonBuilder;
 
 /**
  * Created by jlutteringer on 8/23/17.

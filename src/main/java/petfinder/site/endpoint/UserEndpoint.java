@@ -1,18 +1,15 @@
 package petfinder.site.endpoint;
 
 import com.mashape.unirest.http.exceptions.UnirestException;
-import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+import petfinder.site.common.MailGun.MGEmail;
 import petfinder.site.common.pet.PetDto;
 import petfinder.site.common.session.SessionDto;
-import petfinder.site.common.user.UserDao;
 import petfinder.site.common.user.UserDto;
 import petfinder.site.common.user.UserService;
 import petfinder.site.common.user.UserService.RegistrationRequest;
-import petfinder.site.common.MailGun.MGEmail;
-
 
 import java.util.List;
 import java.util.Optional;

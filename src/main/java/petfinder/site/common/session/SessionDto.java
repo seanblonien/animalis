@@ -1,11 +1,10 @@
 package petfinder.site.common.session;
 
 import alloy.util.Identifiable;
+import petfinder.site.common.pet.PetDto;
+
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
-
-import petfinder.site.common.pet.PetDto;
 
 public class SessionDto implements Identifiable {
     private Long id;

@@ -2,8 +2,6 @@ package petfinder.site.common.pet;
 
 import alloy.util.Identifiable;
 
-import java.util.Date;
-
 /**
  * Created by jlutteringer on 8/23/17.
  */

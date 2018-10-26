@@ -1,20 +1,17 @@
 import _ from 'lodash';
 
 import React from 'react';
-import { Link } from 'react-router-dom';
-import { connect } from 'react-redux';
-import * as Users from 'js/users';
-import * as Login from 'js/login';
-import * as Bessemer from 'js/alloy/bessemer/components';
-import * as Validation from 'js/alloy/utils/validation';
-import AddPet from 'js/AddPet';
-import ScheduleSession from 'js/ScheduleSession';
+import {connect} from 'react-redux';
+import * as Users from 'js/User/users';
+import * as Login from 'js/LoginRegister/LoginForm';
+import AddPetForm from 'js/Pet/AddPetForm';
+import ScheduleSession from 'js/Sesssion/ScheduleSession';
 import HomePage from 'js/HomePage';
-import {DeleteAccount} from 'js/login';
+import {DeleteAccount} from 'js/User/DeleteAccount';
 import Cookies from 'universal-cookie';
-import {RegistrationForm} from 'js/login';
+import {RegistrationForm} from 'js/LoginRegister/RegisterForm';
 import Redirect from 'react-router-dom/es/Redirect';
-import PetList from 'js/PetList';
+import PetList from 'js/Pet/PetList';
 
 /* Color Codes
     Dark Blue:   #01395E
@@ -126,7 +123,7 @@ export class RegisterPage extends React.Component {
                         <div className="col-6 offset-md-3">
                             <h2>Register</h2>
                             <hr />
-                            <Login.RegistrationForm />
+                            <RegistrationForm />
                             <hr />
 
                             { _.isDefined(this.props.user) &&
@@ -183,7 +180,7 @@ class ProfilePage extends React.Component {
                             {_.isDefined(this.props.user) && (this.props.user.roles.includes('OWNER')) &&
                                 <div>
                                     <h3>Add a Pet</h3>
-                                    <AddPet/>
+                                    <AddPetForm/>
                                     <PetList/>
                                     <hr/>
                                 </div>

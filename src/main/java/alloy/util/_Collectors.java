@@ -22,7 +22,7 @@ import java.util.stream.Collector;
  */
 public interface _Collectors {
 	static <T> Collector<T, ImmutableList.Builder<T>, List<T>> toList() {
-		return Collector.<T, ImmutableList.Builder<T>, List<T>> of(ImmutableList.Builder::new, ImmutableList.Builder::add, new BinaryOperator<ImmutableList.Builder<T>>() {
+		return Collector.of(ImmutableList.Builder::new, ImmutableList.Builder::add, new BinaryOperator<ImmutableList.Builder<T>>() {
 			@Override
 			public ImmutableList.Builder<T> apply(ImmutableList.Builder<T> first, ImmutableList.Builder<T> second) {
 				first.addAll(second.build());
@@ -32,7 +32,7 @@ public interface _Collectors {
 	}
 
 	static <T> Collector<T, ImmutableSet.Builder<T>, Set<T>> toSet() {
-		return Collector.<T, ImmutableSet.Builder<T>, Set<T>> of(ImmutableSet.Builder::new, ImmutableSet.Builder::add, new BinaryOperator<ImmutableSet.Builder<T>>() {
+		return Collector.of(ImmutableSet.Builder::new, ImmutableSet.Builder::add, new BinaryOperator<ImmutableSet.Builder<T>>() {
 			@Override
 			public ImmutableSet.Builder<T> apply(ImmutableSet.Builder<T> first, ImmutableSet.Builder<T> second) {
 				first.addAll(second.build());
