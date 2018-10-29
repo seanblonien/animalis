@@ -11,17 +11,26 @@ class ScheduleSession extends React.Component {
 
         this.state = {
             checkedItems: new Map(),
+            sessionType: null,
         };
 
         this.handleCheckboxChange = this.handleCheckboxChange.bind(this);
     }
 
     onSubmit = session => {
-        console.log('Session keys: ' + Object.keys(session));
-		console.log('Session values: ' + Object.values(session));
-
-        //return this.props.create(session);
+        console.log('Session keys: ' + Object.keys(session).join(', '));
+		console.log('Session values: ' + Object.values(session).join(', '));
+        session.cancelled = false;
+        session.session_type = this.state.sessionType;
+        return this.props.scheduleSession(session);
     };
+
+    handleSessionTypeChange(e) {
+        if(e != null) {
+            this.state.sessionType = e;
+            this.forceUpdate();
+        }
+    }
 
     handleCheckboxChange(e) {
         const item = e.target.name;
@@ -35,6 +44,13 @@ class ScheduleSession extends React.Component {
 
     render() {
         let { handleSubmit, submitting } = this.props;
+        let sessionTypes = [
+            { label: 'Pet Sitting', value: 'sitting', description: 'Sitters watch your pet overnight in your home.' },
+            { label: 'Pet Boarding', value: 'boarding', description: 'Your pet stays overnight in the sitter’s home.' },
+            { label: 'Pet Daycare', value: 'daycare', description: 'Drop off your pet at your sitter\'s home in the morning and pick them up in the evening.' },
+            { label: 'Drop-In', value: 'drop-in', description: 'Sitters stop by your home for 30 minutes to feed and play with your pet.' },
+        ];
+
 
         return (
             <form name="name" onSubmit={handleSubmit(form => this.onSubmit(form))}>
@@ -58,6 +74,22 @@ class ScheduleSession extends React.Component {
 								validators={[Validation.requiredValidator]}
 								field={<input type="time"
 											  className={'form-control form-group'}/>} />
+
+                <h5>Types of Services</h5>
+                    <div>
+                        {sessionTypes.map((type) => (
+                            <div>
+                                <p><b>{type.label}</b>: {type.description}</p>
+                            </div>
+                        ))}
+                    </div>
+                <label>Session Service</label>
+                <Bessemer.Select style={{marginBottom: '2.5%'}} name="session_type"
+                                 label={'Session Type'}
+                                 friendlyName="Session Type" placeholder={sessionTypes[0].label}
+                                 validators={[Validation.requiredValidator, Validation.safeValidator]}
+                                 options={sessionTypes} value={this.state.sessionType}
+                                 onChange={opt => this.handleSessionTypeChange(opt)} />
 
                 <label>Location of Sitting:</label>
 

@@ -65,7 +65,7 @@ class AddPetForm extends React.Component {
                                      friendlyName="Pet Sex" placeholder="Male"
                                      validators={[Validation.requiredValidator, Validation.safeValidator]}
                                      options={choices} value={this.state.pet_sex}
-                                     onChange={opt => this.handleSexChange(opt)} /> {/*  */}
+                                     onChange={opt => this.handleSexChange(opt)} />
 
 
                     <Bessemer.Field name="pet_age" friendlyName="Pet Age" placeholder="6"
