@@ -1,7 +1,7 @@
 import React from 'react';
 import {HashRouter, Route} from 'react-router-dom';
 
-import * as Pages from 'js/pages';
+import * as Pages from 'js/Common/Pages';
 
 export default class Index extends React.Component {
 	render() {

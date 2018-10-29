@@ -12,6 +12,7 @@ import Cookies from 'universal-cookie';
 import {RegistrationForm} from 'js/LoginRegister/RegisterForm';
 import Redirect from 'react-router-dom/es/Redirect';
 import PetList from 'js/Pet/PetList';
+import {NavBar} from 'js/Common/NavBar';
 
 /* Color Codes
     Dark Blue:   #01395E
@@ -24,7 +25,7 @@ export class Home extends React.Component {
 	render() {
 		return (
 			<div>
-				<NavBar1/>
+				<NavBar/>
 
                 <HomePage/>
 			</div>
@@ -36,7 +37,7 @@ export class RegisterPage extends React.Component {
     render() {
         return (
             <div>
-                <NavBar1/>
+                <NavBar/>
                 <div className="container padded">
                     <div className="row">
                         <div className="col-6 offset-md-3">
@@ -62,7 +63,7 @@ export class LoginPage extends React.Component {
     render() {
         return (
             <div>
-                <NavBar1/>
+                <NavBar/>
                 <div className="container padded">
                     <div className="row">
                         <div className="col-6 offset-md-3">
@@ -85,7 +86,7 @@ class ProfilePage extends React.Component {
 
         return (
             <div>
-                <NavBar1/>
+                <NavBar/>
                 <div className="container padded">
                     <div className="row">
                         <div className="col-6 offset-md-3">
@@ -138,7 +139,7 @@ export class SessionPage extends React.Component {
     render() {
         return (
             <div>
-                <NavBar1/>
+                <NavBar/>
                 <div className="container padded">
                     <div className="row">
                         <div className="col-6 offset-md-3">
@@ -159,7 +160,7 @@ export class PostingPage extends React.Component {
     render() {
         return (
             <div>
-                <NavBar1/>
+                <NavBar/>
                 <div className="container padded">
                     <div className="row">
                         <div className="col-6 offset-md-3">
@@ -180,7 +181,7 @@ export class RatePage extends React.Component {
     render() {
         return (
             <div>
-                <NavBar1/>
+                <NavBar/>
                 <div className="container padded">
                     Rate your sitters here.
                 </div>

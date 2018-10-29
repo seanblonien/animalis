@@ -78,7 +78,7 @@ class ScheduleSession extends React.Component {
                 <h5>Types of Services</h5>
                     <div>
                         {sessionTypes.map((type) => (
-                            <div>
+                            <div key={type.label}>
                                 <p><b>{type.label}</b>: {type.description}</p>
                             </div>
                         ))}
