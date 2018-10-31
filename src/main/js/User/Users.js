@@ -49,19 +49,24 @@ export function authenticate(username, password) {
 }
 
 export function deletePet(id) {
-    return axios.post('/api/user/pet/delete/' + id);
-}
+	// Delete the pet from the pets index using a pet id
+	return axios.post('/api/pets/delete/' + id).then(() => {
+		// Delete the pet from the users pet list
+		return axios.post('/api/user/pet/delete/' + id);
+	});
 
-export function addPetToUser(id) {
-    return axios.post('/api/user/pet/' + id);
 }
 
 export function getPet(id) {
     return axios.post('/api/pets/' + id);
 }
 
-export function addpet(pet) {
-	return axios.post('/api/pets', pet);
+export function addPet(pet) {
+	// Add this new pet to the pets index
+	return axios.post('/api/pets', pet).then(() => {
+		// Add the pet ID to the users pet list
+		return axios.post('/api/user/pet/' + pet.id);
+	});
 }
 
 export function updatePet(pet) {
@@ -69,7 +74,10 @@ export function updatePet(pet) {
 }
 
 export function getPets(){
-	return axios.get('/api/user/pet');
+	return axios.get('/api/user/pet').catch((e) => {
+		console.log('Error getting user pets. \n' + e);
+		return [];
+	});
 }
 
 export function getUserDetails() {
@@ -108,12 +116,10 @@ Actions.retrieve = () => {
     };
 };
 
-Actions.addPetToUser = id => {
-    return (dispatch) =>  {
-        return addPetToUser(id).then(() => {
-            return getPets().then(pets => {
-                return dispatch(Actions.setPets(pets));
-            });
+Actions.retrieve = () => {
+    return (dispatch) => {
+        return getPets().then(pets => {
+            return dispatch(Actions.setPets(pets));
         });
     };
 };
@@ -126,12 +132,10 @@ Actions.deletePet = id => {
     };
 };
 
-Actions.addpet = pet => {
+Actions.addPet = pet => {
 	return (dispatch) =>  {
-		return addpet(pet).then(() => {
-			return getPets().then(pets => {
-				return dispatch(Actions.setPets(pets));
-			});
+		return addPet(pet).then(() => {
+			return dispatch(Actions.retrieve());
 		});
     };
 };
@@ -139,9 +143,7 @@ Actions.addpet = pet => {
 Actions.updatePet = pet => {
     return (dispatch) =>  {
         return updatePet(pet).then(() => {
-            return getPets().then(pets => {
-                return dispatch(Actions.setPets(pets));
-            });
+            return dispatch(Actions.retrieve());
         });
     };
 };
