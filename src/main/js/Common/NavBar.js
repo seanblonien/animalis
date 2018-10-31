@@ -6,11 +6,6 @@ import connect from 'react-redux/es/connect/connect';
 import * as Users from 'js/User/Users';
 
 export class NavBar extends React.Component {
-	onSubmit = () => {
-		const cookies = new Cookies();
-		return <Redirect to='/editprofile' />;
-	};
-
 	logoutClick = () => {
 		return this.props.logout();
 	};
