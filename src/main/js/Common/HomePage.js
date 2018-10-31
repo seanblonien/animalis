@@ -1,5 +1,5 @@
 import React from 'react';
-import * as Users from 'js/User/users';
+import * as Users from 'js/User/Users';
 import {connect} from 'react-redux';
 import _ from 'lodash';
 

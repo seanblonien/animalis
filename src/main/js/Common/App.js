@@ -9,7 +9,7 @@ import {reducer as formReducer} from 'redux-form';
 import axios from 'axios';
 
 import Index from 'js/Common/index';
-import * as Users from 'js/User/users';
+import * as Users from 'js/User/Users';
 import * as Utils from 'js/alloy/utils/core-utils';
 import Cookies from 'universal-cookie';
 

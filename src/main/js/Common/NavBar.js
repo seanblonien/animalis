@@ -3,7 +3,7 @@ import Cookies from 'universal-cookie';
 import Redirect from 'react-router-dom/es/Redirect';
 import _ from 'lodash';
 import connect from 'react-redux/es/connect/connect';
-import * as Users from 'js/User/users';
+import * as Users from 'js/User/Users';
 
 export class NavBar extends React.Component {
 	onSubmit = () => {

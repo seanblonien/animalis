@@ -1,7 +1,7 @@
 import React from 'react';
 import * as Validation from 'js/alloy/utils/validation';
 import * as Bessemer from 'js/alloy/bessemer/components';
-import * as Users from 'js/User/users';
+import * as Users from 'js/User/Users';
 import * as ReduxForm from 'redux-form';
 import {connect} from 'react-redux';
 import waitToUpdateTime from 'js/Pet/PetList';
@@ -21,7 +21,7 @@ class AddPetForm extends React.Component {
         pet.id = Math.round(Date.now() + Math.random());
         pet.pet_sex = this.state.pet_sex;
         console.log('Values: ' + Object.values(pet).join(', '));
-        this.props.addpet(pet);
+        this.props.addPet(pet);
         this.props.addPetToUser(pet.id);
 		setTimeout(this.props.retrievePets, waitToUpdateTime);
     };
@@ -83,7 +83,7 @@ class AddPetForm extends React.Component {
     }
 }
 
-AddPetForm = ReduxForm.reduxForm({form: 'addpet'})(AddPetForm);
+AddPetForm = ReduxForm.reduxForm({form: 'addPet'})(AddPetForm);
 
 AddPetForm = connect(
     state => ({
@@ -91,7 +91,7 @@ AddPetForm = connect(
         user: Users.State.getUser(state),
     }),
     dispatch => ({
-        addpet: pet => dispatch(Users.Actions.addpet(pet)),
+        addpet: pet => dispatch(Users.Actions.addPet(pet)),
         retrievePets: () => dispatch(Users.Actions.retrieve()),
         addPetToUser: id => dispatch(Users.Actions.addPetToUser(id)),
     })

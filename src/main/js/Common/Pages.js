@@ -2,7 +2,7 @@ import _ from 'lodash';
 
 import React from 'react';
 import {connect} from 'react-redux';
-import * as Users from 'js/User/users';
+import * as Users from 'js/User/Users';
 import * as Login from 'js/LoginRegister/LoginForm';
 import AddPetForm from 'js/Pet/AddPetForm';
 import ScheduleSession from 'js/Sesssion/ScheduleSession';

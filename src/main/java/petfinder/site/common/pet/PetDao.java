@@ -32,4 +32,8 @@ public class PetDao {
 	public void save(PetDto pet) {
 		petElasticsearchRepository.save(pet);
 	}
+
+	public void delete(Long id) {
+		petElasticsearchRepository.delete(id);
+	}
 }

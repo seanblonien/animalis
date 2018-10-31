@@ -33,4 +33,9 @@ public class PetEndpoint {
 		System.out.println("Got to update pet endpoint");
 		return petService.update(pet);
 	}
+
+	@PostMapping(value = "/delete/{id}")
+	public void delete(@PathVariable("id") String id) {
+		petService.deletePet(Long.parseLong(id));
+	}
 }

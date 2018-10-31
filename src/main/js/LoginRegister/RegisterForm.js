@@ -7,7 +7,7 @@ import OwnerRegister from 'js/LoginRegister/OwnerRegister';
 import SitterRegister from 'js/LoginRegister/SitterRegister';
 import * as ReduxForm from 'redux-form';
 import connect from 'react-redux/es/connect/connect';
-import * as Users from 'js/User/users';
+import * as Users from 'js/User/Users';
 
 const checkBoxes = ['petOwner', 'petSitter', 'emailNotifications'];
 

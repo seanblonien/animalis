@@ -21,6 +21,10 @@ public class PetService {
 		petDao.save(pet);
 	}
 
+	public void deletePet(Long id) {
+		petDao.delete(id);
+	}
+
 	public PetDto update(PetDto pet) {
 		petDao.save(pet);
 		return pet;

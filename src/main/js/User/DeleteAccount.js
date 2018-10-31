@@ -4,7 +4,7 @@ import * as Bessemer from 'js/alloy/bessemer/components';
 import * as Validation from 'js/alloy/utils/validation';
 import * as ReduxForm from 'redux-form';
 import connect from 'react-redux/es/connect/connect';
-import * as Users from 'js/User/users';
+import * as Users from 'js/User/Users';
 
 class DeleteAccount extends React.Component {
 	constructor(props) {

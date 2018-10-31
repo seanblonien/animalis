@@ -86,7 +86,7 @@ public class UserEndpoint {
 		userService.deletePet(id);
 	}
 
-	@PostMapping(value = "/session/delete/{id}")
+	@PostMapping(value = "/sessions/delete/{id}")
 	public void deleteSession(@PathVariable("id") Long id) {
 		System.out.println("Got to delete session endpoint with sessionId of " + id);
 		userService.deleteSession(id);
@@ -100,7 +100,7 @@ public class UserEndpoint {
 		return userService.findPets(user);
 	}
 
-	@GetMapping(value = "/session")
+	@GetMapping(value = "/sessions")
 	public List<Optional<SessionDto>> getSessions() {
 		String principal = SecurityContextHolder.getContext().getAuthentication().getName();
 		System.out.println("Getting sessions from user " + principal);
@@ -118,7 +118,7 @@ public class UserEndpoint {
 		return userService.update(user);
 	}
 
-	@PostMapping(value = "/session/{id}")
+	@PostMapping(value = "/sessions/{id}")
 	public UserDto addSession(@PathVariable("id") Long id) {
 		String principal = SecurityContextHolder.getContext().getAuthentication().getName();
 		UserDto user = userService.findUserByPrincipal(principal).get();
