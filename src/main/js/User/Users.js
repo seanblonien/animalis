@@ -11,23 +11,23 @@ export function scheduleSession(session) {
 
 export function sendEmailRegister() {
 	// For emails when user registers their account
-    return axios.post('/api/user/sendEmailRegister');
+	return axios.post('/api/user/sendEmailRegister');
 }
 
 export function sendEmailPost() {
 	// For emails when a sitter bids on a owner's post
-    return axios.post('/api/user/sendEmailPost');
+	return axios.post('/api/user/sendEmailPost');
 }
 
 export function deleteAccount(user) {
 	console.log('Posting delete...');
-    return axios.post('/api/user/delete', {
-        principal: user.principal
-    });
+	return axios.post('/api/user/delete', {
+		principal: user.principal
+	});
 }
 
 export function update(user) {
-    return axios.post('/api/user/update', user);
+	return axios.post('/api/user/update', user);
 }
 
 export function authenticate(username, password) {
@@ -58,7 +58,7 @@ export function deletePet(id) {
 }
 
 export function getPet(id) {
-    return axios.post('/api/pets/' + id);
+	return axios.post('/api/pets/' + id);
 }
 
 export function addPet(pet) {
@@ -70,10 +70,10 @@ export function addPet(pet) {
 }
 
 export function updatePet(pet) {
-    return axios.post('/api/pets/update/', pet);
+	return axios.post('/api/pets/update/', pet);
 }
 
-export function getPets(){
+export function getPets() {
 	return axios.get('/api/user/pet').catch((e) => {
 		console.log('Error getting user pets. \n' + e);
 		return [];
@@ -135,7 +135,7 @@ State.getSessions = state => {
 	return state.sessions;
 };
 
-export { State };
+export {State};
 
 let Actions = {};
 
@@ -178,55 +178,55 @@ Actions.deleteSession = (id) => {
 };
 
 Actions.retrieve = () => {
-    return (dispatch) => {
-        return getPets().then(pets => {
-            return dispatch(Actions.setPets(pets));
-        });
-    };
+	return (dispatch) => {
+		return getPets().then(pets => {
+			return dispatch(Actions.setPets(pets));
+		});
+	};
 };
 
 Actions.deletePet = id => {
-    return (dispatch) =>  {
-        return deletePet(id).then(() => {
+	return (dispatch) => {
+		return deletePet(id).then(() => {
 			return dispatch(Actions.retrieve());
-        });
-    };
+		});
+	};
 };
 
 Actions.addPet = pet => {
-	return (dispatch) =>  {
+	return (dispatch) => {
 		return addPet(pet).then(() => {
 			return dispatch(Actions.retrieve());
 		});
-    };
+	};
 };
 
 Actions.updatePet = pet => {
-    return (dispatch) =>  {
-        return updatePet(pet).then(() => {
-            return dispatch(Actions.retrieve());
-        });
-    };
+	return (dispatch) => {
+		return updatePet(pet).then(() => {
+			return dispatch(Actions.retrieve());
+		});
+	};
 };
 
 Actions.deleteAccount = user => {
-    return (dispatch) => {
-        // Delete the user account on the server
-        return deleteAccount(user).then(() => {
-            // Logout the user after removed
-            return dispatch(Actions.logout());
-        });
-    };
+	return (dispatch) => {
+		// Delete the user account on the server
+		return deleteAccount(user).then(() => {
+			// Logout the user after removed
+			return dispatch(Actions.logout());
+		});
+	};
 };
 
 Actions.update = user => {
-    return (dispatch) => {
-        // Update the user details on the server
-        return update(user).then(() => {
-            // Authenticate the user modified user
-            return dispatch(Actions.authenticate(user.principal, user.password));
-        });
-    };
+	return (dispatch) => {
+		// Update the user details on the server
+		return update(user).then(() => {
+			// Authenticate the user modified user
+			return dispatch(Actions.authenticate(user.principal, user.password));
+		});
+	};
 };
 
 Actions.register = user => {
@@ -263,7 +263,7 @@ Actions.logout = () => {
 		// Reset all User Action states
 		dispatch(Actions.setAuthentication(null));
 		dispatch(Actions.setUser(null));
-        dispatch(Actions.setPets(null));
+		dispatch(Actions.setPets(null));
 		dispatch(Actions.setSessions(null));
 		const cookies = new Cookies();
 		cookies.remove('authentication');
@@ -274,23 +274,23 @@ Actions.logout = () => {
 Actions.setAuthentication = authentication => {
 	// Set authentication cookie
 	const cookies = new Cookies();
-	cookies.set('authentication', authentication, { path: '/' });
+	cookies.set('authentication', authentication, {path: '/'});
 	return {type: Actions.Types.SET_AUTHENTICATION, authentication};
 };
 
 Actions.setUser = user => {
 	// Set user cookie
 	const cookies = new Cookies();
-	cookies.set('user', user, { path: '/' });
+	cookies.set('user', user, {path: '/'});
 	return {type: Actions.Types.SET_USER, user};
 };
 
 Actions.setPets = pets => {
-	if(pets != null) {
-		for(let pet = 0; pet < pets.length; pet++){
-			if(pets[pet] == null) return;
+	if (pets != null) {
+		for (let pet = 0; pet < pets.length; pet++) {
+			if (pets[pet] == null) return;
 			pets[pet].editing = false;
-			console.log('Updating editing values for pet '+ pets[pet].name);
+			console.log('Updating editing values for pet ' + pets[pet].name);
 		}
 	}
 	return {type: Actions.Types.SET_PETS, pets};
@@ -302,7 +302,7 @@ Actions.setSessions = sessions => {
 };
 
 
-export { Actions };
+export {Actions};
 
 let Reducers = {};
 
@@ -350,4 +350,4 @@ Reducers.sessions = (sessions = [], action) => {
 	}
 };
 
-export { Reducers };
+export {Reducers};

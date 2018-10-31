@@ -27,14 +27,18 @@ const reducer = Utils.combineReducers(reducers);
 const cookies = new Cookies();
 
 // Create the Redux store with the combined reducers, the cached authentication key and user values
-const store = createStore(reducer, {authentication: cookies.get('authentication'), user: cookies.get('user'), pets: [] }, applyMiddleware(thunkMiddleware, createLogger()));
+const store = createStore(reducer, {
+	authentication: cookies.get('authentication'),
+	user: cookies.get('user'),
+	pets: []
+}, applyMiddleware(thunkMiddleware, createLogger()));
 
 axios.defaults.headers.post['Content-Type'] = 'application/json';
 axios.defaults.headers.put['Content-Type'] = 'application/json';
 
 axios.interceptors.request.use(request => {
 	let authentication = Users.State.getAuthentication(store.getState());
-	if(_.isDefined(authentication)) {
+	if (_.isDefined(authentication)) {
 		request.headers.common['Authorization'] = 'Bearer ' + authentication['access_token'];
 	}
 
@@ -44,4 +48,4 @@ axios.interceptors.request.use(request => {
 axios.interceptors.response.use(response => response.data, error => Promise.reject(error));
 
 const mountNode = document.querySelector('#main');
-ReactDOM.render(<Provider store={store}><Index /></Provider>, mountNode);
+ReactDOM.render(<Provider store={store}><Index/></Provider>, mountNode);

@@ -12,7 +12,7 @@ let Spec = {};
 
 Spec.makeOptional = spec => val => _.isEmpty(val) ? true : spec(val);
 
-export { Spec };
+export {Spec};
 
 export const required = value => !!value;
 export const requiredValidator = new Validator(required, (details) => details.friendlyName + ' is required.');
@@ -42,8 +42,8 @@ export function sanitize(strings, ...values) {
 }
 
 function isEmpty(obj) {
-	for(let key in obj) {
-		if(obj.hasOwnProperty(key))
+	for (let key in obj) {
+		if (obj.hasOwnProperty(key))
 			return false;
 	}
 	return true;

@@ -1,6 +1,4 @@
 import React from 'react';
-import Cookies from 'universal-cookie';
-import Redirect from 'react-router-dom/es/Redirect';
 import _ from 'lodash';
 import connect from 'react-redux/es/connect/connect';
 import * as Users from 'js/User/Users';
@@ -13,31 +11,33 @@ export class NavBar extends React.Component {
 	render() {
 		return (
 			<nav style={{backgroundColor: '#000000'}} className="navbar navbar-expand-md">
-				<a className="navbar-brand" href="/#" style={{color:'white'}} >Tempeturs Web App </a>
+				<a className="navbar-brand" href="/#" style={{color: 'white'}}>Tempeturs Web App </a>
 				<button className="navbar-toggler" type="button" data-toggle="collapse"
 						data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
-						aria-expanded="false" aria-label="Toggle navigation" style={{color:'white'}}>
-					<span className="navbar-toggler-icon" style={{color:'white'}}></span>
+						aria-expanded="false" aria-label="Toggle navigation" style={{color: 'white'}}>
+					<span className="navbar-toggler-icon" style={{color: 'white'}}></span>
 				</button>
 
-				<div className="collapse navbar-collapse justify-content-end" id="navbarCollapse" >
-					<ul style={{color:'white', float:'right'}} className="nav navbar-nav navbn ml-auto" >
+				<div className="collapse navbar-collapse justify-content-end" id="navbarCollapse">
+					<ul style={{color: 'white', float: 'right'}} className="nav navbar-nav navbn ml-auto">
 						{_.isDefined(this.props.user) &&
-						<li className="nav-item" style={{borderRight:'1.5px solid white'}}>
-							<a className="nav-link" style={{color: 'white'}}> Hi, {this.props.user.attributes.fname} </a>
+						<li className="nav-item" style={{borderRight: '1.5px solid white'}}>
+							<a className="nav-link"
+							   style={{color: 'white'}}> Hi, {this.props.user.attributes.fname} </a>
 						</li>
 						}
 						<li className="nav-item ">
-							<a className="nav-link" href="/#" style={{color:'white'}} > Home <span className="sr-only">(current)</span></a>
+							<a className="nav-link" href="/#" style={{color: 'white'}}> Home <span
+								className="sr-only">(current)</span></a>
 						</li>
 						{!_.isDefined(this.props.user) &&
 						<li className="nav-item">
 							<a className="nav-link" href="/#/register" style={{color: 'white'}}> Register </a>
 						</li>
 						}
-						{ !_.isDefined(this.props.user) &&
+						{!_.isDefined(this.props.user) &&
 						<li className="nav-item">
-							<a className="nav-link" href="/#/login" style={{color:'white'}} > Login </a>
+							<a className="nav-link" href="/#/login" style={{color: 'white'}}> Login </a>
 						</li>
 						}
 						{_.isDefined(this.props.user) &&
@@ -62,7 +62,8 @@ export class NavBar extends React.Component {
 						}
 						{_.isDefined(this.props.user) &&
 						<li className="nav-item">
-							<a className="nav-link" href="/#/" style={{color: 'white'}} onClick={this.logoutClick}> Logout </a>
+							<a className="nav-link" href="/#/" style={{color: 'white'}}
+							   onClick={this.logoutClick}> Logout </a>
 						</li>
 						}
 					</ul>
