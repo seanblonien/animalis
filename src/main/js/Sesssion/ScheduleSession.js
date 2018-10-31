@@ -18,10 +18,17 @@ class ScheduleSession extends React.Component {
     }
 
     onSubmit = session => {
+		session.id = Math.round(Date.now() + Math.random());
+		session.ownerPrincipal = this.props.user.principal;
+		session.sitterPrincipal = '';
+		session.isComplete = false;
+		session.sessionType = this.state.sessionType;
+		session.pets = [];
+		if(session.maxDistance == null) session.maxDistance = null;
+		if(session.notes == null) session.notes = '';
         console.log('Session keys: ' + Object.keys(session).join(', '));
 		console.log('Session values: ' + Object.values(session).join(', '));
-        session.cancelled = false;
-        session.session_type = this.state.sessionType;
+
         return this.props.scheduleSession(session);
     };
 
@@ -39,8 +46,21 @@ class ScheduleSession extends React.Component {
     }
 
     getCurrentDate = () => {
-		return new Date().toJSON().slice(0,10);
+		let today = new Date();
+		let dd = today.getDate();
+		let mm = today.getMonth()+1;
+		let yyyy = today.getFullYear();
+		if(dd<10) { dd='0'+dd; }
+		if(mm<10) { mm='0'+mm; }
+		today = yyyy+'-'+mm+'-'+dd; //today = mm+'-'+dd+'-'+yyyy;
+		return today; //new Date().toJSON().slice(0,10);
     };
+
+	getTomorrowDate = () => {
+		let today = new Date();
+		let tomorrow = new Date(today.getTime() + (24 * 60 * 60 * 1000));
+		return tomorrow.toJSON().slice(0,10);
+	};
 
     render() {
         let { handleSubmit, submitting } = this.props;
