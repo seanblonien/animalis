@@ -84,6 +84,39 @@ export function getUserDetails() {
 	return axios.get('/api/user');
 }
 
+export function getSessions() {
+	return axios.get('/api/user/sessions').catch((e) => {
+		console.log('Error getting user sessions. \n' + e);
+		return [];
+	});
+}
+
+export function getSession(id) {
+	return axios.get('/api/sessions/' + id);
+}
+
+export function updateSession(session) {
+	return axios.post('/api/sessions/update', session);
+}
+
+export function addSession(session) {
+	// Add all session data to session index
+	console.log(JSON.stringify(session));
+	return axios.post('/api/sessions/', session).then(() => {
+		console.log('Adding session ID to user');
+		// Add session ID to user
+		return axios.post('/api/user/sessions/' + session.id);
+	});
+}
+
+export function deleteSession(id) {
+	// Remove session from session index
+	return axios.post('/api/sessions/delete/' + id).then(() => {
+		// Remove session ID from users session list
+		return axios.post('/api/user/sessions/delete/' + id);
+	});
+}
+
 let State = {};
 
 State.getAuthentication = state => {
@@ -98,6 +131,10 @@ State.getPets = state => {
 	return state.pets;
 };
 
+State.getSessions = state => {
+	return state.sessions;
+};
+
 export { State };
 
 let Actions = {};
@@ -105,15 +142,39 @@ let Actions = {};
 Actions.Types = {
 	SET_AUTHENTICATION: 'SET_AUTHENTICATION',
 	SET_USER: 'SET_USER',
-	SET_PETS: 'SET_PETS'
+	SET_PETS: 'SET_PETS',
+	SET_SESSIONS: 'SET_SESSIONS',
 };
 
-Actions.retrieve = () => {
-    return (dispatch) => {
-        return getPets().then(pets => {
-            return dispatch(Actions.setPets(pets));
-        });
-    };
+Actions.updateSession = (session) => {
+	return (dispatch) => {
+		return updateSession(session).then(() => {
+			return getSessions().then(sessions => {
+				return dispatch(Actions.setSessions(sessions));
+			});
+		});
+	};
+};
+
+Actions.scheduleSession = (session) => {
+	return (dispatch) => {
+		console.log('Calling add session API');
+		return addSession(session).then(() => {
+			return getSessions().then(sessions => {
+				return dispatch(Actions.setSessions(sessions));
+			});
+		});
+	};
+};
+
+Actions.deleteSession = (id) => {
+	return (dispatch) => {
+		return deleteSession(id).then(() => {
+			return getSessions().then(sessions => {
+				return dispatch(Actions.setSessions(sessions));
+			});
+		});
+	};
 };
 
 Actions.retrieve = () => {
@@ -203,6 +264,7 @@ Actions.logout = () => {
 		dispatch(Actions.setAuthentication(null));
 		dispatch(Actions.setUser(null));
         dispatch(Actions.setPets(null));
+		dispatch(Actions.setSessions(null));
 		const cookies = new Cookies();
 		cookies.remove('authentication');
 		cookies.remove('user');
@@ -233,6 +295,12 @@ Actions.setPets = pets => {
 	}
 	return {type: Actions.Types.SET_PETS, pets};
 };
+
+Actions.setSessions = sessions => {
+	// Set the user's sessions within the redux state
+	return {type: Actions.Types.SET_SESSIONS, sessions};
+};
+
 
 export { Actions };
 
@@ -267,6 +335,17 @@ Reducers.pets = (pets = [], action) => {
 		}
 		default: {
 			return pets;
+		}
+	}
+};
+
+Reducers.sessions = (sessions = [], action) => {
+	switch (action.type) {
+		case Actions.Types.SET_SESSIONS: {
+			return action.sessions;
+		}
+		default: {
+			return sessions;
 		}
 	}
 };

@@ -58,22 +58,23 @@ class ScheduleSession extends React.Component {
 								validators={[Validation.requiredValidator]}
 								field={<input type="date"
                                               min={this.getCurrentDate()}
-                                              className={'form-control form-group'}/>} />
+                                              className={'form-control'}/>} />
 
 				<Bessemer.Field name="startTime" friendlyName="Start Time"
 								validators={[Validation.requiredValidator]}
 								field={<input type="time"
-											  className={'form-control form-group'}/>} />
+											  className={'form-control'}/>} />
 
 				<Bessemer.Field name="endDate" friendlyName="End Date"
 								validators={[Validation.requiredValidator]}
 								field={<input type="date"
-											  className={'form-control form-group'}/>} />
+											  min={this.getCurrentDate()}
+											  className={'form-control'}/>} />
 
 				<Bessemer.Field name="endTime" friendlyName="End Time"
 								validators={[Validation.requiredValidator]}
 								field={<input type="time"
-											  className={'form-control form-group'}/>} />
+											  className={'form-control'}/>} />
 
                 <h5>Types of Services</h5>
                     <div>
@@ -91,7 +92,7 @@ class ScheduleSession extends React.Component {
                                  options={sessionTypes} value={this.state.sessionType}
                                  onChange={opt => this.handleSessionTypeChange(opt)} />
 
-                <label>Location of Sitting:</label>
+                {/*<label>Location of Sitting:</label>
 
                 <Bessemer.Field name={'ownerLocation'} friendlyName={'My address'}
                                 onChange={this.handleCheckboxChange}
@@ -99,7 +100,7 @@ class ScheduleSession extends React.Component {
 
                 <Bessemer.Field name={'sitterLocation'} friendlyName={'Sitter\'s address'}
                                 onChange={this.handleCheckboxChange}
-                                field={<input type="checkbox" value={this.state.checkedItems.get('sitterLocation')} />} />
+                                field={<input type="checkbox" value={this.state.checkedItems.get('sitterLocation')} />} />*/}
 
                 {this.state.checkedItems.get('sitterLocation') ?
                     <Bessemer.Field name="maxDistance" friendlyName="Maximum distance away (miles)"
