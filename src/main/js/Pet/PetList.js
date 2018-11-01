@@ -39,22 +39,26 @@ class PetList extends React.Component {
 		}
 	};
 	submitPet = (petForm, pet) => {
-		// console.log('submitPet for UPDATING');
-		// console.log('petForm keys:' + Object.keys(petForm).join(', '));
-		// console.log('petForm values:' + Object.values(petForm).join(', '));
-		// console.log('pet keys:' + Object.keys(pet).join(', '));
-		// console.log('pet values:' + Object.values(pet).join(', '));
-		//console.log('pet id:' + pet.id);
-		petForm.id = pet.id;
-		if (petForm.pet_name == null) petForm.pet_name = pet.pet_name;
-		if (petForm.pet_species == null) petForm.pet_species = pet.pet_species;
-		if (petForm.pet_size == null) petForm.pet_size = pet.pet_size;
-		if (petForm.pet_sex == null) petForm.pet_sex = pet.pet_sex;
-		if (petForm.pet_age == null) petForm.pet_age = pet.pet_age;
-		if (petForm.pet_info == null) petForm.pet_info = pet.pet_info;
+        if (this.props.pets.includes(pet)) {
+            console.log('Done editing pet with id: ' + pet.id + ' with editing status of ' + pet.editing);
+            pet.editing = !pet.editing;
+        }
 
-		this.props.updatePet(petForm);
-		setTimeout(this.props.retrievePets, waitToUpdateTime);
+		// If something was changed
+		if(!_.isEmpty(petForm)){
+            // console.log('petForm keys:' + Object.keys(petForm).join(', '));
+            // console.log('petForm values:' + Object.values(petForm).join(', '));
+            petForm.id = pet.id;
+            if (petForm.pet_name == null) petForm.pet_name = pet.pet_name;
+            if (petForm.pet_species == null) petForm.pet_species = pet.pet_species;
+            if (petForm.pet_size == null) petForm.pet_size = pet.pet_size;
+            if (petForm.pet_sex == null) petForm.pet_sex = pet.pet_sex;
+            if (petForm.pet_age == null) petForm.pet_age = pet.pet_age;
+            if (petForm.pet_info == null) petForm.pet_info = pet.pet_info;
+
+            this.props.updatePet(petForm);
+            setTimeout(this.forceUpdate, waitToUpdateTime);
+		}
 	};
 
 	render() {

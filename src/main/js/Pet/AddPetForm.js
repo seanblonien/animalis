@@ -25,8 +25,9 @@ class AddPetForm extends React.Component {
 	onSubmit = pet => {
 		pet.id = Math.round(Date.now() + Math.random());
 		pet.pet_sex = this.state.pet_sex;
+		pet.pet_age = Number(pet.pet_age);
 		console.log('Keys: ' + Object.keys(pet).join(', '));
-		this.props.addPet(pet, this.forceUpdate);
+		this.props.addPet(pet);
 		setTimeout(this.props.retrievePets, waitToUpdateTime);
 	};
 

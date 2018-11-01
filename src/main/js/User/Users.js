@@ -294,7 +294,6 @@ Actions.setPets = pets => {
 		for (let pet = 0; pet < pets.length; pet++) {
 			if (pets[pet] == null) return;
 			pets[pet].editing = false;
-			console.log('Updating editing values for pet ' + pets[pet].name);
 		}
 	}
 	return {type: Actions.Types.SET_PETS, pets};
