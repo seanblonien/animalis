@@ -16,7 +16,7 @@ public class PetTest {
         pet = new PetDto(3543115176076623000L,
                 "Fido",
                 "Dog",
-                "6",
+                6L,
                 "Medium",
                 "Male",
                 "Takes medication for flees.");

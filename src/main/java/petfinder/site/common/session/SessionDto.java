@@ -1,7 +1,7 @@
 package petfinder.site.common.session;
 
 import alloy.util.Identifiable;
-import java.util.Date;
+
 import java.util.List;
 
 public class SessionDto implements Identifiable {
