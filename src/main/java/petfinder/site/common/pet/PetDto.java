@@ -9,7 +9,7 @@ public class PetDto implements Identifiable {
 	private Long id;
 	private String pet_name;
 	private String pet_species;
-	private String pet_age;
+	private Long pet_age;
 	private String pet_size;
 	private String pet_sex;
 	private String pet_info;
@@ -31,11 +31,11 @@ public class PetDto implements Identifiable {
 		this.pet_name = pet_name;
 	}
 
-	public String getPet_age() {
+	public Long getPet_age() {
 		return pet_age;
 	}
 
-	public void setPet_age(String pet_age) {
+	public void setPet_age(Long pet_age) {
 		this.pet_age = pet_age;
 	}
 
@@ -74,7 +74,7 @@ public class PetDto implements Identifiable {
 	private PetDto() {}
 
 
-	public PetDto(Long id, String pet_name, String pet_species, String pet_age, String pet_size, String pet_sex, String pet_info) {
+	public PetDto(Long id, String pet_name, String pet_species, Long pet_age, String pet_size, String pet_sex, String pet_info) {
 		this.id = id;
 		this.pet_name = pet_name;
 		this.pet_species = pet_species;

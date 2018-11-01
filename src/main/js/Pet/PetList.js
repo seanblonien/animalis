@@ -5,10 +5,27 @@ import * as Users from 'js/User/Users';
 import * as ReduxForm from 'redux-form';
 import {connect} from 'react-redux';
 import _ from 'lodash';
+import {sexOptions} from 'js/Pet/AddPetForm';
 
 export const waitToUpdateTime = 2000; // ms
 
 class PetList extends React.Component {
+	constructor(props) {
+		super(props);
+		this.state = {
+			pet_sex: null,
+		};
+		this.props.retrievePets();
+		this.deletePet = this.deletePet.bind(this);
+	}
+
+	handleSexChange = e => {
+		if (e != null) {
+			this.state.pet_sex = e;
+			this.forceUpdate();
+		}
+	};
+
 	deletePet = (e, id) => {
 		console.log('Deleting pet with id: ' + id);
 		this.props.deletePet(id);
@@ -40,12 +57,6 @@ class PetList extends React.Component {
 		setTimeout(this.props.retrievePets, waitToUpdateTime);
 	};
 
-	constructor(props) {
-		super(props);
-		this.props.retrievePets();
-		this.deletePet = this.deletePet.bind(this);
-	}
-
 	render() {
 		let {handleSubmit, submitting} = this.props;
 
@@ -64,9 +75,11 @@ class PetList extends React.Component {
 								<div className="card-header">
 									<div style={{display: 'inline'}}>
 										{pet.editing === true &&
-										<Bessemer.Field name="pet_name" friendlyName="Pet Name"
-														placeholder={pet.pet_name == null ? 'Fido' : pet.pet_name}
-														validators={[Validation.safeValidator]}/>
+											<div>
+												<Bessemer.Field name="pet_name" friendlyName="Pet Name"
+																placeholder={pet.pet_name == null ? 'Fido' : pet.pet_name}
+																validators={[Validation.safeValidator]}/>
+											</div>
 										}
 										{pet.editing === false &&
 										<div>
@@ -113,9 +126,15 @@ class PetList extends React.Component {
 									<li className="list-group-item">
 										<div style={{display: 'inline'}}>
 											{pet.editing === true &&
-											<Bessemer.Field name="pet_sex" friendlyName="Pet Sex"
-															placeholder={pet.pet_sex == null ? 'Male' : pet.pet_sex}
-															validators={[Validation.safeValidator]}/>
+											<span className={'row'} style={{verticalAlign: 'middle', width: '100%', marginBottom: 15}}>
+												<label className={'col-4 d-inline-block'}>Pet Sex</label>
+												<Bessemer.Select name="pet_sex"
+												className={'col-8 d-inline-block'}
+												friendlyName="Pet Sex" placeholder="Male"
+												validators={[Validation.requiredValidator, Validation.safeValidator]}
+												options={sexOptions} value={this.state.pet_sex}
+												onChange={opt => this.handleSexChange(opt)}/>
+												</span>
 											}
 											{pet.editing === false &&
 											<div>
@@ -132,7 +151,7 @@ class PetList extends React.Component {
 											{pet.editing === true &&
 											<Bessemer.Field name="pet_age" friendlyName="Pet Age"
 															placeholder={pet.pet_age == null ? '4' : pet.pet_age}
-															validators={[Validation.safeValidator]}/>
+															validators={[Validation.safeValidator, Validation.numberValidator]}/>
 											}
 											{pet.editing === false &&
 											<div>

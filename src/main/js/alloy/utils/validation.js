@@ -23,6 +23,9 @@ export const emailValidator = new Validator(isEmail, (details, value) => value +
 export const isPhoneNumber = (val) => val.match(/^[0-9]{3}-[0-9]{3}-[0-9]{4}$/) || val.match(/^[0-9]{10}$/) || val.match(/^\([0-9]{3}\)-[0-9]{3}-[0-9]{4}$/);
 export const phoneNumberValidator = new Validator(isPhoneNumber, (details, value) => value + ' is not a valid phone.');
 
+export const isNumber = (val) => !(val !== undefined && val.match(/^[0-9]+$/));
+export const numberValidator = new Validator(isNumber, () => 'Please enter in only numbers!');
+
 export const isValidPassword = (val) => val.toString().length >= 6 && val.match(/^[a-zA-Z0-9!@#$%^&*]{6,64}$/);
 export const passwordValidator = new Validator(isValidPassword, (details) => details.friendlyName + ' must be a valid password.');
 
@@ -32,12 +35,12 @@ export const deleteValidator = new Validator(isConfirmDeletion, () => 'Please en
 export const isSex = (val) => val.match(/^Male|Female$/);
 export const sexValidator = new Validator(isSex, () => 'Please enter \'Male\' or \'Female\' for pet sex.');
 
-export const isSafe = (val) => val === sanitize(val);
+export const isSafe = (val) => !(val === sanitize(val));
 export const safeValidator = new Validator(isSafe, () => 'Please enter in valid characters! No funny business allowed!');
 
 export function sanitize(strings, ...values) {
 	strings = strings ? [].concat(strings) : [];
-	const dirty = isEmpty(strings) ? [] : strings.reduce((prev, next, i) => `${prev}${next}${values[i]} || ''}`);
+	const dirty = isEmpty(strings) ? [] : strings.reduce((prev, next, i) => `${prev}${next}${values[i]} || ''}`, '');
 	return DomPurify.sanitize(dirty);
 }
 

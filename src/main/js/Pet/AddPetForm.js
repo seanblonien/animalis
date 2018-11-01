@@ -4,25 +4,14 @@ import * as Bessemer from 'js/alloy/bessemer/components';
 import * as Users from 'js/User/Users';
 import * as ReduxForm from 'redux-form';
 import {connect} from 'react-redux';
-import waitToUpdateTime from 'js/Pet/PetList';
+import {waitToUpdateTime} from 'js/Pet/PetList';
+
+export const sexOptions = [
+	{label: 'Male', value: 'Male'},
+	{label: 'Female', value: 'Female'}
+];
 
 class AddPetForm extends React.Component {
-	onSubmit = pet => {
-		pet.userPrincipal = this.props.user.principal;
-		pet.id = Math.round(Date.now() + Math.random());
-		pet.pet_sex = this.state.pet_sex;
-		console.log('Values: ' + Object.values(pet).join(', '));
-		this.props.addPet(pet);
-		this.props.addPetToUser(pet.id);
-		setTimeout(this.props.retrievePets, waitToUpdateTime);
-	};
-	handleSexChange = e => {
-		if (e != null) {
-			this.state.pet_sex = e;
-			this.forceUpdate();
-		}
-	};
-
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -32,16 +21,28 @@ class AddPetForm extends React.Component {
 		this.handleSexChange = this.handleSexChange.bind(this);
 	}
 
+
+	onSubmit = pet => {
+		pet.id = Math.round(Date.now() + Math.random());
+		pet.pet_sex = this.state.pet_sex;
+		console.log('Keys: ' + Object.keys(pet).join(', '));
+		this.props.addPet(pet, this.forceUpdate);
+		setTimeout(this.props.retrievePets, waitToUpdateTime);
+	};
+
+	handleSexChange = e => {
+		if (e != null) {
+			this.state.pet_sex = e;
+			this.forceUpdate();
+		}
+	};
+
 	render() {
 		let {handleSubmit, submitting} = this.props;
-		let choices = [
-			{label: 'Male', value: 'Male'},
-			{label: 'Female', value: 'Female'}
-		];
 
 		return (
 			<div>
-				<form name="name" onSubmit={handleSubmit(form => this.onSubmit(form))}>
+				<form name="name" onSubmit={handleSubmit(form => this.onSubmit(form))} className={'form-group'}>
 					<Bessemer.Field name="pet_name" friendlyName="Pet Name" placeholder="Fido"
 									validators={[Validation.requiredValidator, Validation.safeValidator]}/>
 
@@ -59,16 +60,18 @@ class AddPetForm extends React.Component {
 					{/*field={<input type="date"*/}
 					{/*className={'form-control form-group'}/>} />*/}
 
-					<Bessemer.Select style={{marginBottom: '2.5%'}} name="pet_sex"
-									 label={'Pet Sex'}
-									 friendlyName="Pet Sex" placeholder="Male"
-									 validators={[Validation.requiredValidator, Validation.safeValidator]}
-									 options={choices} value={this.state.pet_sex}
-									 onChange={opt => this.handleSexChange(opt)}/>
-
+					<span className={'row'} style={{verticalAlign: 'middle', width: '100%', marginBottom: 15}}>
+						<label className={'col-4 d-inline-block'}>Pet Sex*</label>
+						<Bessemer.Select name="pet_sex"
+										 className={'col-8 d-inline-block'}
+										 friendlyName="Pet Sex" placeholder="Male"
+										 validators={[Validation.requiredValidator, Validation.safeValidator]}
+										 options={sexOptions} value={this.state.pet_sex}
+										 onChange={opt => this.handleSexChange(opt)}/>
+					</span>
 
 					<Bessemer.Field name="pet_age" friendlyName="Pet Age" placeholder="6"
-									validators={[Validation.requiredValidator, Validation.safeValidator]}/>
+									validators={[Validation.requiredValidator, Validation.safeValidator, Validation.numberValidator]}/>
 
 					<Bessemer.Field name="pet_info" friendlyName="Additional Pet Info"
 									validators={[Validation.safeValidator]}/>
@@ -90,9 +93,8 @@ AddPetForm = connect(
 		user: Users.State.getUser(state),
 	}),
 	dispatch => ({
-		addpet: pet => dispatch(Users.Actions.addPet(pet)),
+		addPet: (pet) => dispatch(Users.Actions.addPet(pet)),
 		retrievePets: () => dispatch(Users.Actions.retrieve()),
-		addPetToUser: id => dispatch(Users.Actions.addPetToUser(id)),
 	})
 )(AddPetForm);
 

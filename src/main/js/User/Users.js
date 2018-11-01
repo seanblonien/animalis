@@ -63,9 +63,13 @@ export function getPet(id) {
 
 export function addPet(pet) {
 	// Add this new pet to the pets index
+	console.log(JSON.stringify(pet));
 	return axios.post('/api/pets', pet).then(() => {
 		// Add the pet ID to the users pet list
 		return axios.post('/api/user/pet/' + pet.id);
+	}).catch((e) => {
+		console.log('Error adding pet! \n' + e);
+		return [];
 	});
 }
 
