@@ -39,7 +39,7 @@ public class PetTest {
 
     @Test
     public void testAge() {
-        assertEquals("6", pet.getPet_age());
+        assertEquals((Long) 6L, pet.getPet_age());
     }
 
     @Test
