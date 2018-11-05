@@ -95,8 +95,8 @@ export function getSessions() {
 	});
 }
 
-export function getSession(id) {
-	return axios.get('/api/sessions/' + id);
+export function getAllSessions(sessionQueryObj) {
+	return axios.get('/api/sessions/all', sessionQueryObj);
 }
 
 export function updateSession(session) {
@@ -139,6 +139,10 @@ State.getSessions = state => {
 	return state.sessions;
 };
 
+State.getAllSessions = state => {
+	return state.allSessions;
+};
+
 export {State};
 
 let Actions = {};
@@ -148,6 +152,15 @@ Actions.Types = {
 	SET_USER: 'SET_USER',
 	SET_PETS: 'SET_PETS',
 	SET_SESSIONS: 'SET_SESSIONS',
+	SET_ALL_SESSIONS: 'SET_ALL_SESSIONS',
+};
+
+Actions.getAllSessions = () => {
+	return (dispatch) => {
+		return getAllSessions().then(allSessions => {
+			return dispatch(Actions.setAllSessions(allSessions));
+		});
+	};
 };
 
 Actions.updateSession = (session) => {
@@ -269,6 +282,7 @@ Actions.logout = () => {
 		dispatch(Actions.setUser(null));
 		dispatch(Actions.setPets(null));
 		dispatch(Actions.setSessions(null));
+		dispatch(Actions.setAllSessions(null));
 		const cookies = new Cookies();
 		cookies.remove('authentication');
 		cookies.remove('user');
@@ -302,6 +316,11 @@ Actions.setPets = pets => {
 Actions.setSessions = sessions => {
 	// Set the user's sessions within the redux state
 	return {type: Actions.Types.SET_SESSIONS, sessions};
+};
+
+Actions.setAllSessions = allSessions => {
+	// Set all possible sessions within the redux state
+	return {type: Actions.Types.SET_ALL_SESSIONS, allSessions};
 };
 
 
@@ -349,6 +368,17 @@ Reducers.sessions = (sessions = [], action) => {
 		}
 		default: {
 			return sessions;
+		}
+	}
+};
+
+Reducers.allSessions = (allSessions = [], action) => {
+	switch (action.type) {
+		case Actions.Types.SET_ALL_SESSIONS: {
+			return action.allSessions;
+		}
+		default: {
+			return allSessions;
 		}
 	}
 };
