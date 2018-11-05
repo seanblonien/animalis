@@ -33,7 +33,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 					.antMatchers("/editprofile**").authenticated()
 					.antMatchers("/schedulesession**").authenticated()
 					.antMatchers("/scheduleposting**").authenticated()
-					.antMatchers("/rate**").authenticated()
+					.antMatchers("/history**").authenticated()
 					.antMatchers("/api**").authenticated()
 				.and()
 				.authorizeRequests()

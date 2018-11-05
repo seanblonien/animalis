@@ -13,6 +13,7 @@ import Redirect from 'react-router-dom/es/Redirect';
 import PetList from 'js/Pet/PetList';
 import {NavBar} from 'js/Common/NavBar';
 import SessionPostings from 'js/Sesssion/SessionPostings';
+import SessionHistory from 'js/Sesssion/SessionHistory';
 
 /* Color Codes
     Dark Blue:   #01395E
@@ -177,13 +178,21 @@ export class PostingPage extends React.Component {
 	}
 }
 
-export class RatePage extends React.Component {
+export class HistoryPage extends React.Component {
 	render() {
 		return (
 			<div>
 				<NavBar/>
+
 				<div className="container padded">
-					Rate your sitters here.
+					<div className="row">
+						<div className="col-6 offset-md-3">
+
+							<h2>Session History</h2>
+							<SessionHistory/>
+
+						</div>
+					</div>
 				</div>
 			</div>
 		);

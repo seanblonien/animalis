@@ -118,15 +118,14 @@ class ScheduleSession extends React.Component {
 
 		return (
 			<div>
-				{_.isNil(this.props.pets.length)|| this.props.pets.length === 0 &&
+				{_.isEmpty(this.props.pets) &&
 					<div>
 						<p>Please add a pet before scheduling a session!</p>
-
 
 						<p>You can add pets within the <a className="link" href="/#/editprofile">Profile</a> page.</p>
 					</div>
 				}
-				{this.props.pets.length > 0 &&
+				{!_.isEmpty(this.props.pets) && this.props.pets.length > 0 &&
 					<form name="name" onSubmit={handleSubmit(form => this.onSubmit(form))}>
 						<Bessemer.Field name="startDate" friendlyName="Start Date"
 										validators={[Validation.requiredValidator]}
