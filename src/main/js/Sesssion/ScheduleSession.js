@@ -6,6 +6,21 @@ import * as ReduxForm from 'redux-form';
 import {connect} from 'react-redux';
 import _ from 'lodash';
 
+export const sessionTypes = [
+	{label: 'Pet Sitting', value: 'sitting', description: 'Sitters watch your pet overnight in your home.'},
+	{label: 'Pet Boarding', value: 'boarding', description: 'Your pet stays overnight in the sitter’s home.'},
+	{
+		label: 'Pet Daycare',
+		value: 'daycare',
+		description: 'Drop off your pet at your sitter\'s home in the morning and pick them up in the evening.'
+	},
+	{
+		label: 'Drop-In',
+		value: 'drop-in',
+		description: 'Sitters stop by your home for 30 minutes to feed and play with your pet.'
+	},
+];
+
 class ScheduleSession extends React.Component {
 	constructor(props) {
 		super(props);
@@ -59,12 +74,6 @@ class ScheduleSession extends React.Component {
 		return today; //new Date().toJSON().slice(0,10);
 	};
 
-	getTomorrowDate = () => {
-		let today = new Date();
-		let tomorrow = new Date(today.getTime() + (24 * 60 * 60 * 1000));
-		return tomorrow.toJSON().slice(0, 10);
-	};
-
 	handleSessionTypeChange(e) {
 		if (e != null) {
 			this.state.sessionType = e;
@@ -100,25 +109,10 @@ class ScheduleSession extends React.Component {
 
 	render() {
 		let {handleSubmit, submitting} = this.props;
-		let sessionTypes = [
-			{label: 'Pet Sitting', value: 'sitting', description: 'Sitters watch your pet overnight in your home.'},
-			{label: 'Pet Boarding', value: 'boarding', description: 'Your pet stays overnight in the sitter’s home.'},
-			{
-				label: 'Pet Daycare',
-				value: 'daycare',
-				description: 'Drop off your pet at your sitter\'s home in the morning and pick them up in the evening.'
-			},
-			{
-				label: 'Drop-In',
-				value: 'drop-in',
-				description: 'Sitters stop by your home for 30 minutes to feed and play with your pet.'
-			},
-		];
-
 
 		return (
 			<div>
-				{this.props.pets.length === null || this.props.pets.length === 0 &&
+				{_.isNil(this.props.pets.length)|| this.props.pets.length === 0 &&
 					<div>
 						<p>Please add a pet before scheduling a session!</p>
 
@@ -181,6 +175,10 @@ class ScheduleSession extends React.Component {
 											placeholder="10" validators={[Validation.requiredValidator]}/> : null}
 
 						<h5>Select Pets for this Session</h5>
+						<h6>Available Pets</h6>
+						{_.isEmpty(this.state.unselectedPets) &&
+							<p>No pets available!</p>
+						}
 						{this.state.unselectedPets !== null && this.state.unselectedPets.map(pet => (
 							_.isDefined(pet) && _.isDefined(pet.pet_name) &&
 							<div key={pet.pet_name + '_' + pet.id} className="card" style={{width: '20rem', marginBottom: 10}}>
@@ -195,11 +193,12 @@ class ScheduleSession extends React.Component {
 							</div>
 						))}
 
-						<Bessemer.Field name="notes" friendlyName="Notes" placeholder="Special Instructions"/>
-
+						<h6>Currently Selected Pets</h6>
+						{_.isEmpty(this.state.selectedPets) &&
+							<p>No pets selected!</p>
+						}
 						{this.state.selectedPets != null &&
 							<div>
-								<h6>Currently Selected Pets</h6>
 								{this.state.selectedPets.map(pet => (
 									_.isDefined(pet) && _.isDefined(pet.pet_name) &&
 									<div key={pet.pet_name + '_' + pet.id} className="card" style={{width: '20rem', marginBottom: 10}}>
@@ -215,6 +214,8 @@ class ScheduleSession extends React.Component {
 								))}
 							</div>
 						}
+
+						<Bessemer.Field name="notes" friendlyName="Notes" placeholder="Special Instructions"/>
 
 						<Bessemer.Button loading={submitting}>Add Session</Bessemer.Button>
 

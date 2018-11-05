@@ -12,6 +12,7 @@ import {RegistrationForm} from 'js/LoginRegister/RegisterForm';
 import Redirect from 'react-router-dom/es/Redirect';
 import PetList from 'js/Pet/PetList';
 import {NavBar} from 'js/Common/NavBar';
+import SessionPostings from 'js/Sesssion/SessionPostings';
 
 /* Color Codes
     Dark Blue:   #01395E
@@ -164,9 +165,9 @@ export class PostingPage extends React.Component {
 					<div className="row">
 						<div className="col-6 offset-md-3">
 
-							<h2>Find A Session</h2>
+							<h2>Job Postings</h2>
 
-							<ScheduleSession/>
+							<SessionPostings/>
 
 						</div>
 					</div>
