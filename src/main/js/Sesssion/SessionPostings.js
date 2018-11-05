@@ -43,8 +43,8 @@ class SessionPostings extends React.Component {
 								<div key={session.id} className="card"
 									 style={{width: '20rem', marginBottom: 10}}>
 									<div className="card-header">
-										<div style={{display: 'inline'}}>
-											Header
+										<div style={{width: '100%', textAlign: 'center'}}>
+											<img src={'https://static.thenounproject.com/png/194149-200.png'} style={{height: 60, width: 60}}/>
 										</div>
 									</div>
 									<p>Session ID: {session.id}</p>

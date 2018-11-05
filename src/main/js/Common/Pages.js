@@ -14,6 +14,7 @@ import PetList from 'js/Pet/PetList';
 import {NavBar} from 'js/Common/NavBar';
 import SessionPostings from 'js/Sesssion/SessionPostings';
 import SessionHistory from 'js/Sesssion/SessionHistory';
+import SessionTypes from 'js/Sesssion/SessionTypes';
 
 /* Color Codes
     Dark Blue:   #01395E
@@ -142,15 +143,17 @@ export class SessionPage extends React.Component {
 			<div>
 				<NavBar/>
 				<div className="container padded">
+					<h2>Schedule A Session</h2>
+					<hr/>
 					<div className="row">
-						<div className="col-6 offset-md-3">
-
-							<h2>Schedule A Session</h2>
-
+						<div className="col-4">
+							<SessionTypes/>
+						</div>
+						<div className="col-6">
 							<ScheduleSession/>
-
 						</div>
 					</div>
+					<hr/>
 				</div>
 			</div>
 		);
@@ -184,15 +187,9 @@ export class HistoryPage extends React.Component {
 			<div>
 				<NavBar/>
 
-				<div className="container padded">
-					<div className="row">
-						<div className="col-6 offset-md-3">
-
-							<h2>Session History</h2>
-							<SessionHistory/>
-
-						</div>
-					</div>
+				<div className="container padded align-content-center">
+					<h2>Session History</h2>
+					<SessionHistory/>
 				</div>
 			</div>
 		);

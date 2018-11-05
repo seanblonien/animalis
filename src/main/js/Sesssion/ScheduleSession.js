@@ -6,21 +6,7 @@ import * as ReduxForm from 'redux-form';
 import {connect} from 'react-redux';
 import _ from 'lodash';
 import Redirect from 'react-router-dom/es/Redirect';
-
-export const sessionTypes = [
-	{label: 'Pet Sitting', value: 'sitting', description: 'Sitters watch your pet overnight in your home.'},
-	{label: 'Pet Boarding', value: 'boarding', description: 'Your pet stays overnight in the sitter’s home.'},
-	{
-		label: 'Pet Daycare',
-		value: 'daycare',
-		description: 'Drop off your pet at your sitter\'s home in the morning and pick them up in the evening.'
-	},
-	{
-		label: 'Drop-In',
-		value: 'drop-in',
-		description: 'Sitters stop by your home for 30 minutes to feed and play with your pet.'
-	},
-];
+import {sessionTypes} from 'js/Sesssion/SessionTypes';
 
 class ScheduleSession extends React.Component {
 	constructor(props) {
@@ -149,14 +135,6 @@ class ScheduleSession extends React.Component {
 										field={<input type="time"
 													  className={'form-control'}/>}/>
 
-						<h5>Types of Services</h5>
-						<div>
-							{sessionTypes.map((type) => (
-								<div key={type.label}>
-									<p><b>{type.label}</b>: {type.description}</p>
-								</div>
-							))}
-						</div>
 						<label>Session Service</label>
 						<Bessemer.Select style={{marginBottom: '2.5%'}} name="session_type"
 										 label={'Session Type'}
@@ -223,8 +201,6 @@ class ScheduleSession extends React.Component {
 						<Bessemer.Field name="notes" friendlyName="Notes" placeholder="Special Instructions"/>
 
 						<Bessemer.Button loading={submitting}>Add Session</Bessemer.Button>
-
-						<hr/>
 					</form>
 				}
 			</div>
