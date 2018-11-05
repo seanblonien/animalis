@@ -46,7 +46,6 @@ public class UserService {
 	public static class RegistrationRequest {
 		private String principal;
 		private String password;
-//		private Map<String, Object> attributes;
 		private String fname;
 		private String lname;
 		private String phone;

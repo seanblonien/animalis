@@ -127,4 +127,8 @@ public class SessionDto implements Identifiable {
 
         return sessionStr;
     }
+
+    public boolean isEmpty() {
+        return id == null;
+    }
 }
