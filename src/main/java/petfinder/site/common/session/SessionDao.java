@@ -26,7 +26,6 @@ public class SessionDao {
     public Optional<SessionDto> findSessions(SessionService.SessionQuery query) {
         SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
         String queryString = String.format("sessionType=\"%s\"", query.getSessionTypes().get(0).replace("\"", ""));
-        System.out.println("searching for sessions");
         searchSourceBuilder.query(QueryBuilders.queryStringQuery(queryString));
 
         return sessionElasticsearchRepository.search(searchSourceBuilder).stream().findFirst();
@@ -36,7 +35,6 @@ public class SessionDao {
         SearchRequest searchRequest = new SearchRequest();
         SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
         searchSourceBuilder.query(QueryBuilders.matchAllQuery());
-        System.out.println("searching for sessions");
 
         List<SessionDto> sessionList = new ArrayList<>(sessionElasticsearchRepository.search(searchSourceBuilder));
 

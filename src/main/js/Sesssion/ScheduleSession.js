@@ -5,6 +5,7 @@ import * as Users from 'js/User/Users';
 import * as ReduxForm from 'redux-form';
 import {connect} from 'react-redux';
 import _ from 'lodash';
+import Redirect from 'react-router-dom/es/Redirect';
 
 export const sessionTypes = [
 	{label: 'Pet Sitting', value: 'sitting', description: 'Sitters watch your pet overnight in your home.'},
@@ -29,6 +30,7 @@ class ScheduleSession extends React.Component {
 			sessionType: null,
 			unselectedPets: [],
 			selectedPets: [],
+			submitSuccessful: false,
 		};
 		this.props.retrievePets().then(() => {
 			this.props.pets.map(pet => {
@@ -57,7 +59,9 @@ class ScheduleSession extends React.Component {
 		console.log('Session keys: ' + Object.keys(session).join(', '));
 		console.log('Session values: ' + Object.values(session).join(', '));
 
-		return this.props.scheduleSession(session);
+		this.props.scheduleSession(session);
+
+		this.state.submitSuccessful = true;
 	};
 	getCurrentDate = () => {
 		let today = new Date();
@@ -109,6 +113,8 @@ class ScheduleSession extends React.Component {
 
 	render() {
 		let {handleSubmit, submitting} = this.props;
+
+		if(this.state.submitSuccessful) { return <Redirect to='/'/>; }
 
 		return (
 			<div>
