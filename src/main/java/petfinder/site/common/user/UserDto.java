@@ -84,4 +84,16 @@ public class UserDto implements Momento<String> {
 	public enum UserType {
 		OWNER, SITTER
 	}
+
+	@Override
+	public String toString() {
+		return "UserDto{" +
+				"principal='" + principal + '\'' +
+				", roles=" + roles +
+				", attributes=" + attributes +
+				", address=" + address +
+				", pets=" + pets +
+				", sessions=" + sessions +
+				'}';
+	}
 }

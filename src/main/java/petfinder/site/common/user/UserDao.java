@@ -50,7 +50,7 @@ public class UserDao {
 		userRepository.save(userAuthentication);
 	}
 
-	public void delete(UserService.DeleteRequest request) {
+	public void delete(UserService.PrincipalRequest request) {
 		userRepository.delete(request.getPrincipal());
 	}
 

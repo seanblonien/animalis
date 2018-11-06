@@ -10,7 +10,6 @@ import petfinder.site.common.session.SessionDto;
 import petfinder.site.common.user.UserDto;
 import petfinder.site.common.user.UserService;
 import petfinder.site.common.user.UserService.RegistrationRequest;
-
 import java.util.List;
 import java.util.Optional;
 
@@ -27,6 +26,14 @@ public class UserEndpoint {
 	public Optional<UserDto> getUserDetails() {
 		String principal = SecurityContextHolder.getContext().getAuthentication().getName();
 		return userService.findUserByPrincipal(principal);
+	}
+
+	@GetMapping(value = "/public/{principal}", produces = "application/json")
+	public Optional<UserDto> getUser(@PathVariable("principal") String principal) {
+		String decodedPrincipal = principal.replace("*", ".");
+		System.out.println("Getting user with principal " + decodedPrincipal);
+		System.out.println(userService.findUserByPrincipal(decodedPrincipal).get().toString());
+		return userService.findUserByPrincipal(decodedPrincipal);
 	}
 
 	@PostMapping(value = "/register")
@@ -76,7 +83,7 @@ public class UserEndpoint {
 	}
 
 	@PostMapping(value = "/delete")
-	public void delete(@RequestBody UserService.DeleteRequest request) {
+	public void delete(@RequestBody UserService.PrincipalRequest request) {
 		userService.delete(request);
 	}
 

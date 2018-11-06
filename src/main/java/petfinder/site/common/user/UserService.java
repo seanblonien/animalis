@@ -31,7 +31,7 @@ public class UserService {
 		return userDao.findUserByPrincipal(principal);
 	}
 
-	public static class DeleteRequest {
+	public static class PrincipalRequest {
 		private String principal;
 
 		public String getPrincipal() {
@@ -208,7 +208,7 @@ public class UserService {
 		return new UserDto(request.getPrincipal(), request.getRoles(), request.getAttributes(), request.getAddress(), request.getPets(), request.getSessions());
 	}
 
-	public void delete(DeleteRequest request) {
+	public void delete(PrincipalRequest request) {
 		userDao.delete(request);
 	}
 
