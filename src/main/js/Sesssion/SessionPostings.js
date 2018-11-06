@@ -7,15 +7,27 @@ import {connect} from 'react-redux';
 import _ from 'lodash';
 import {getSessions} from 'js/User/Users';
 import {getAllSessions} from 'js/User/Users';
+import {getUser} from 'js/User/Users';
+import {getPublicUser} from 'js/User/Users';
+import {sessionTypes} from 'js/Sesssion/SessionTypes';
 
 class SessionPostings extends React.Component {
 	constructor(props) {
 		super(props);
 
 		this.props.getAllSessions();
-		setTimeout(() => {for(let x in this.props.allSessions){
-			console.log(x.id);
-		}}, 2000);
+		this.state = {
+			usersWithSessions: new Map(),
+		};
+	}
+
+	getSessionDetails(principal){
+        console.log('Getting public user with principal ' + (principal));
+        getPublicUser(principal).then((res) => {
+        	this.state.usersWithSessions.set(principal, res);
+        	console.log('## ' + this.state.usersWithSessions.get(principal));
+            this.forceUpdate();
+        });
 	}
 
 	isInFilter(session) {
@@ -43,11 +55,45 @@ class SessionPostings extends React.Component {
 								<div key={session.id} className="card"
 									 style={{width: '20rem', marginBottom: 10}}>
 									<div className="card-header">
-										<div style={{width: '100%', textAlign: 'center'}}>
-											<img src={'https://static.thenounproject.com/png/194149-200.png'} style={{height: 60, width: 60}}/>
+										<div className={'row justify-content-md-center align-items-center'}>
+											{sessionTypes.map((type) => (
+												<div key={type.label}>
+													{type.value === session.sessionType &&
+													<div className={'col-4'}>
+                                                        <img src={type.image} style={{height: 50, width: 50}}/>
+													</div>
+													}
+												</div>
+												))
+											}
+											<div  className={'container-fluid col-8 mt-2'} style={{textAlign: 'right'}}>
+                                                <button className={'btn btn-secondary'} onClick={() => this.getSessionDetails(session.ownerPrincipal)}> Get Details</button>
+											</div>
+										</div>
+										<div className={'mt-1'}>
+                                            {sessionTypes.map((type) => (
+                                                <div key={type.label}>
+                                                    {type.value === session.sessionType &&
+                                                    <div>
+                                                        <p>{type.label}</p>
+                                                    </div>
+                                                    }
+                                                </div>
+                                            ))
+                                            }
 										</div>
 									</div>
-									<p>Session ID: {session.id}</p>
+									<div className={'m-3'} style={{width: '20rem'}}>
+										{/*Session details*/}
+                                        <img src={'https://static.thenounproject.com/png/194149-200.png'} style={{height: 60, width: 60}}/>
+                                        <p>Session ID: {session.id}</p>
+										{/*Pet owner details*/}
+                                        {this.state.usersWithSessions.has(session.ownerPrincipal) && !_.isEmpty(this.state.usersWithSessions.get(session.ownerPrincipal)) &&
+                                        <div>
+                                            {this.state.usersWithSessions.get(session.ownerPrincipal).attributes.fname}
+                                        </div>
+                                        }
+									</div>
 								</div>
 						))
 						}
