@@ -205,7 +205,7 @@ public class UserService {
     }
 
     public UserDto constructUser(RegistrationRequest request){
-		return new UserDto(request.getPrincipal(), request.getRoles(), request.getAttributes(), request.getAddress(), request.getPets(), request.getSessions());
+		return new UserDto(request.getPrincipal(), request.getRoles(), request.getAttributes(), request.getAddress(), request.getPets(), request.getSessions(), null);
 	}
 
 	public void delete(PrincipalRequest request) {

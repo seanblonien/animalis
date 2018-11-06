@@ -17,16 +17,18 @@ public class UserDto implements Momento<String> {
 	private Map<String, Object> address;
 	private List<Long> pets;
 	private List<Long> sessions;
+	private List<Map<String, Object>> notifications;
 
 	private UserDto() {}
 
-	public UserDto(String principal, List<String> roles, Map<String, Object> attributes, Map<String, Object> address, List<Long> pets, List<Long> sessions) {
+	public UserDto(String principal, List<String> roles, Map<String, Object> attributes, Map<String, Object> address, List<Long> pets, List<Long> sessions, List<Map<String, Object>> notifications) {
 		this.principal = principal;
 		this.roles = roles;
 		this.attributes = attributes;
 		this.address = address;
 		this.pets = pets;
 		this.sessions = sessions;
+		this.notifications = notifications;
 	}
 
 	public List<Long> getPets() {
@@ -51,6 +53,10 @@ public class UserDto implements Momento<String> {
 
 	public Map<String, Object> getAddress() {
 		return address;
+	}
+
+	public List<Map<String, Object>> getNotifications() {
+		return notifications;
 	}
 
 	public void setPets(List<Long> pets) {
@@ -94,6 +100,7 @@ public class UserDto implements Momento<String> {
 				", address=" + address +
 				", pets=" + pets +
 				", sessions=" + sessions +
+				", notifications=" + notifications +
 				'}';
 	}
 }

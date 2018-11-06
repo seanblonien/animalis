@@ -40,7 +40,7 @@ public class UserTest {
         List<Long> sessions = new ArrayList<Long>();
         sessions.add(1876115176076625034L);
 
-        user = new UserDto("email", roles, attributes, address, pets, sessions);
+        user = new UserDto("email", roles, attributes, address, pets, sessions, null);
     }
 
     @Test
