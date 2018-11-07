@@ -36,6 +36,12 @@ public class UserEndpoint {
 		return userService.findUserByPrincipal(decodedPrincipal);
 	}
 
+	@GetMapping(value = "/confirmPassword/{pass}", produces = "application/json")
+	public boolean confirmPassword(@PathVariable("pass") String pass) {
+		System.out.println("Confirming password " + pass);
+		return userService.confirmPassword(pass);
+	}
+
 	@PostMapping(value = "/register")
 	public UserDto register(@RequestBody RegistrationRequest request) {
 		return userService.register(request);

@@ -9,6 +9,8 @@ import * as ReduxForm from 'redux-form';
 import connect from 'react-redux/es/connect/connect';
 import * as Users from 'js/User/Users';
 import Checkbox from 'js/Common/Checkbox';
+import {authenticate} from 'js/User/Users';
+import {confirmPasswordValidator} from 'js/alloy/utils/validation';
 
 const checkBoxes = ['petOwner', 'petSitter', 'emailNotifications'];
 
@@ -18,7 +20,6 @@ class RegistrationForm extends React.Component {
 
 		this.state = {
 			checkedItems: new Map(),
-			update: false,
 		};
 
 		this.state.checkedItems.set('petOwner', this.props.user ? this.props.user.roles.includes('OWNER') : false);
@@ -43,6 +44,11 @@ class RegistrationForm extends React.Component {
 
 	onSubmit = user => {
 		if (user != null) {
+			if(user.password !== user.password2){
+				console.error('Passwords do not match...');
+				return;
+			}
+
 			user.petSitter = this.state.checkedItems.get('petSitter');
 			user.petOwner = this.state.checkedItems.get('petOwner');
 			user.emailNotifications = this.state.checkedItems.get('emailNotifications');
@@ -64,7 +70,13 @@ class RegistrationForm extends React.Component {
 				if (user.zip == null) user.zip = this.props.user.address.zip;
 
 				this.props.updateUser(user);
-                setTimeout(this.props.refreshUser, 1000);
+				setTimeout(this.props.refreshUser, 1000);
+				// authenticate(user.principal, user.password).then((response) => {
+				// 	console.log('Confirm password response: ' + response);
+				// 	if(response == true){
+				//
+				// 	}
+				// });
 			}
 		}
 	};
@@ -206,7 +218,7 @@ class RegistrationForm extends React.Component {
 				<div>
 					<p>Enter in your password to update your profile.</p>
 					<Bessemer.Field name='passwordConfirm' friendlyName='Enter Password to Edit'
-									validators={[Validation.requiredValidator, Validation.passwordValidator, Validation.safeValidator]}
+									validators={[Validation.requiredValidator, Validation.passwordValidator, Validation.safeValidator, confirmPasswordValidator]}
 									field={<input className='form-control' type='password'/>}/>
 					<Bessemer.Button loading={submitting}>Update Information</Bessemer.Button>
 				</div>

@@ -48,6 +48,10 @@ export function authenticate(username, password) {
 	);
 }
 
+export function confirmPassword(password) {
+	return axios.get('/api/user/confirmPassword/' + password);
+}
+
 export function deletePet(id) {
 	// Delete the pet from the pets index using a pet id
 	return axios.post('/api/pets/delete/' + id).then(() => {

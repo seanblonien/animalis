@@ -272,9 +272,17 @@ public class UserService {
 	}
 
 	public UserDto register(RegistrationRequest request) {
-		UserAuthenticationDto userAuthentication = new UserAuthenticationDto(constructUser(request), passwordEncoder.encode(request.getPassword()));
+		UserAuthenticationDto userAuthentication = new UserAuthenticationDto(constructUser(request), this.passwordEncoder.encode(request.getPassword()));
 		userDao.save(userAuthentication);
 		return userAuthentication.getUser();
+	}
+
+	public boolean confirmPassword(String pass) {
+		String principal = SecurityContextHolder.getContext().getAuthentication().getName();
+		SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		Optional<UserAuthenticationDto> myUser = findUserAuthenticationByPrincipal(principal);
+		System.out.println("Matching: \n" + myUser.get().getPassword() + "\n" + this.passwordEncoder.encode(pass));
+		return myUser.isPresent() && this.passwordEncoder.matches(pass, myUser.get().getPassword());
 	}
 
 	public List<Optional<PetDto>> findPets(UserDto user) {
