@@ -18,9 +18,7 @@ public class SessionDto implements Identifiable {
     private Long maxDistance;
     private Boolean isComplete;
 
-    public SessionDto() {
-
-    }
+    private SessionDto() {}
 
     public SessionDto(Long id, String ownerPrincipal, String sitterPrincipal, String startDate, String endDate, String startTime, String endTime, String sessionType, List<Long> pets, String notes, Long maxDistance, Boolean isComplete) {
         this.id = id;

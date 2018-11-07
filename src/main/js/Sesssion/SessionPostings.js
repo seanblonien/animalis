@@ -22,12 +22,26 @@ class SessionPostings extends React.Component {
 	}
 
 	getSessionDetails(principal){
-        console.log('Getting public user with principal ' + (principal));
-        getPublicUser(principal).then((res) => {
-        	this.state.usersWithSessions.set(principal, res);
-        	console.log('## ' + this.state.usersWithSessions.get(principal));
-            this.forceUpdate();
-        });
+		if(this.state.usersWithSessions.has(principal)){
+			let x = this.state.usersWithSessions.get(principal);
+			x.details = !x.details;
+			console.log(JSON.stringify(x));
+			this.state.usersWithSessions.set(principal, x);
+			this.forceUpdate();
+        } else {
+            console.log('Getting public user with principal ' + (principal));
+            getPublicUser(principal).then((res) => {
+                res.details = true;
+                this.state.usersWithSessions.set(principal, res);
+                console.log('## ' + this.state.usersWithSessions.get(principal));
+                this.forceUpdate();
+            });
+		}
+
+	}
+
+	bid(session){
+
 	}
 
 	isInFilter(session) {
@@ -87,12 +101,22 @@ class SessionPostings extends React.Component {
 										{/*Session details*/}
                                         <img src={'https://static.thenounproject.com/png/194149-200.png'} style={{height: 60, width: 60}}/>
                                         <p>Session ID: {session.id}</p>
+                                        <p>Pet Breeds: {}</p>
+                                        <p>From: {session.startDate + ' ' + session.startTime}</p>
+										<p>To: {session.endDate + ' ' + session.endTime}</p>
 										{/*Pet owner details*/}
-                                        {this.state.usersWithSessions.has(session.ownerPrincipal) && !_.isEmpty(this.state.usersWithSessions.get(session.ownerPrincipal)) &&
+                                        {this.state.usersWithSessions.has(session.ownerPrincipal) && this.state.usersWithSessions.get(session.ownerPrincipal).details &&
                                         <div>
-                                            {this.state.usersWithSessions.get(session.ownerPrincipal).attributes.fname}
+											{'Owner: ' + this.state.usersWithSessions.get(session.ownerPrincipal).attributes.fname + ' ' +
+                                            this.state.usersWithSessions.get(session.ownerPrincipal).attributes.lname}
                                         </div>
                                         }
+										<div className={'container-fluid'}>
+                                            <div style={{textAlign: 'center'}} className={'row justify-content-center'}>
+                                                <button className={'btn btn-danger col-6'} onClick={() => this.bid(session)}> Bid</button>
+                                            </div>
+										</div>
+
 									</div>
 								</div>
 						))
