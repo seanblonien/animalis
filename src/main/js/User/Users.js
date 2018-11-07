@@ -248,8 +248,8 @@ Actions.update = user => {
 	return (dispatch) => {
 		// Update the user details on the server
 		return update(user).then(() => {
-			// Authenticate the user modified user
-			return dispatch(Actions.authenticate(user.principal, user.password));
+			// Refresh the user details after update
+			return dispatch(Actions.refreshUser());
 		});
 	};
 };
@@ -265,6 +265,15 @@ Actions.register = user => {
 			});
 		});
 	};
+};
+
+Actions.refreshUser = () => {
+    return (dispatch) => {
+        return getUserDetails().then(user => {
+            // Save the user details from the returned promise in a state
+            dispatch(Actions.setUser(user));
+        });
+    };
 };
 
 Actions.authenticate = (username, password) => {

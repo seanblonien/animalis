@@ -108,10 +108,10 @@ public class UserService {
 		public List<String> getRoles() {
 			List<String> myRoles = new ArrayList<>();
 
-			if(this.petOwner != null && !this.petOwner.equals("")) {
+			if(this.petOwner.equals("true")) {
 				myRoles.add(UserType.OWNER.toString());
 			}
-			if(this.petSitter != null && !this.petSitter.equals("")) {
+			if(this.petSitter.equals("true")) {
 				myRoles.add(UserType.SITTER.toString());
 			}
 
@@ -202,7 +202,27 @@ public class UserService {
         public void setEmailNotifications(String emailNotifications) {
             this.emailNotifications = emailNotifications;
         }
-    }
+
+		@Override
+		public String toString() {
+			return "RegistrationRequest{" +
+					"principal='" + principal + '\'' +
+					", password='" + password + '\'' +
+					", fname='" + fname + '\'' +
+					", lname='" + lname + '\'' +
+					", phone='" + phone + '\'' +
+					", street='" + street + '\'' +
+					", city='" + city + '\'' +
+					", state='" + state + '\'' +
+					", zip='" + zip + '\'' +
+					", petSitter='" + petSitter + '\'' +
+					", petOwner='" + petOwner + '\'' +
+					", emailNotifications='" + emailNotifications + '\'' +
+					", pets=" + pets +
+					", sessions=" + sessions +
+					'}';
+		}
+	}
 
     public UserDto constructUser(RegistrationRequest request){
 		return new UserDto(request.getPrincipal(), request.getRoles(), request.getAttributes(), request.getAddress(), request.getPets(), request.getSessions(), null);

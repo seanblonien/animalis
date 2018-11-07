@@ -43,7 +43,8 @@ public class UserEndpoint {
 
 	@PostMapping(value = "/update")
 	public UserDto update(@RequestBody RegistrationRequest request) {
-		System.out.println("Got to update user endpoint");
+		System.out.println("Got to update user endpoint with request...");
+		System.out.println(request.toString());
 		return userService.update(request);
 	}
 
