@@ -18,10 +18,11 @@ class RegistrationForm extends React.Component {
 
 		this.state = {
 			checkedItems: new Map(),
+			update: false,
 		};
 
-		this.state.checkedItems.set('petOwner', this.props.user ? this.props.user.roles.includes('OWNER') === 'true' : false);
-		this.state.checkedItems.set('petSitter', this.props.user ? this.props.user.roles.includes('SITTER') === 'true' : false);
+		this.state.checkedItems.set('petOwner', this.props.user ? this.props.user.roles.includes('OWNER') : false);
+		this.state.checkedItems.set('petSitter', this.props.user ? this.props.user.roles.includes('SITTER') : false);
 		this.state.checkedItems.set('emailNotifications', this.props.user ? this.props.user.attributes.emailNotifications === 'true' : false);
 
 		// if (this.props.user) {
@@ -63,7 +64,7 @@ class RegistrationForm extends React.Component {
 				if (user.zip == null) user.zip = this.props.user.address.zip;
 
 				this.props.updateUser(user);
-				setTimeout(this.forceUpdate(), 1500);
+                setTimeout(this.props.refreshUser, 1000);
 			}
 		}
 	};
@@ -227,6 +228,7 @@ RegistrationForm = connect(
 	}),
 	dispatch => ({
 		register: user => dispatch(Users.Actions.register(user)),
+		refreshUser: () => dispatch(Users.Actions.refreshUser()),
 		updateUser: user => dispatch(Users.Actions.update(user)),
 	})
 )(RegistrationForm);
