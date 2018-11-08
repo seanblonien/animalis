@@ -219,7 +219,7 @@ class RegistrationForm extends React.Component {
 				<div>
 					<p>Enter in your password to update your profile.</p>
 					<Bessemer.Field name='passwordConfirm' friendlyName='Enter Password to Edit'
-									validators={[Validation.requiredValidator, Validation.passwordValidator, Validation.safeValidator, Validation.confirmPasswordValidator]}
+									validators={[Validation.requiredValidator, Validation.passwordValidator, Validation.safeValidator]}
 									field={<input className='form-control' type='password'/>}/>
 					<Bessemer.Button loading={submitting}>Update Information</Bessemer.Button>
 				</div>
