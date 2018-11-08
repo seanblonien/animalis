@@ -24,7 +24,9 @@ const config = {
 	module: {
 		rules: [{
 				test: /\.js$/,
-				use: [ 'babel-loader' ],
+				use: [
+					{loader: 'babel-loader'},
+				],
 				exclude: /node_modules/
 			}, {
 				test: /.(png|jpg|jpeg|gif|svg|woff|woff2|ttf|ico|eot)$/,

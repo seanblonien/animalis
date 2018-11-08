@@ -58,7 +58,7 @@
     "style-loader": "^0.13.2",
     "url-loader": "^1.1.2",
     "webpack": "^2.4.1",
-    "webpack-dev-server": "^2.4.5"
+    "webpack-dev-server": "2.9.1"
   },
   "dependencies": {
     "all": "0.0.0",
@@ -81,6 +81,7 @@
     "react-redux": "^5.1.0",
     "react-router-dom": "4.2.0",
     "react-select": "1.2.1",
+    "react-toastify": "^4.4.0",
     "reactstrap": "5.0.0-alpha.4",
     "redux": "3.7.2",
     "redux-form": "^6.8.0",

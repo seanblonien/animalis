@@ -2,6 +2,7 @@ import React from 'react';
 import _ from 'lodash';
 import connect from 'react-redux/es/connect/connect';
 import * as Users from 'js/User/Users';
+import {ToastContainer} from 'react-toastify';
 
 export class NavBar extends React.Component {
 	logoutClick = () => {
@@ -68,6 +69,8 @@ export class NavBar extends React.Component {
 						}
 					</ul>
 				</div>
+				<ToastContainer autoClose={3000}
+								position="top-center"/>
 			</nav>
 		);
 	}

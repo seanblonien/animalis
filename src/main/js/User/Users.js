@@ -1,5 +1,6 @@
 import axios from 'axios';
 import Cookies from 'universal-cookie';
+import {toast} from 'react-toastify';
 
 export function register(user) {
 	return axios.post('/api/user/register', user);
@@ -321,6 +322,10 @@ Actions.setUser = user => {
 	// Set user cookie
 	const cookies = new Cookies();
 	cookies.set('user', user, {path: '/'});
+	toast.success('GOT USER!', {
+		position: 'top-center',
+		autoClose: 3000,
+	});
 	return {type: Actions.Types.SET_USER, user};
 };
 

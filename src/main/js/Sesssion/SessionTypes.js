@@ -1,5 +1,4 @@
 import React from 'react';
-import ScheduleSession from 'js/Sesssion/ScheduleSession';
 
 export const sessionTypes = [
 	{	label: 'Pet Sitting',

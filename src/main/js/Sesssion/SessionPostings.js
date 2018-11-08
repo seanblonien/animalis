@@ -1,14 +1,9 @@
 import React from 'react';
-import * as Validation from 'js/alloy/utils/validation';
-import * as Bessemer from 'js/alloy/bessemer/components';
 import * as Users from 'js/User/Users';
+import {getPublicUser, getUser} from 'js/User/Users';
 import * as ReduxForm from 'redux-form';
 import {connect} from 'react-redux';
 import _ from 'lodash';
-import {getSessions} from 'js/User/Users';
-import {getAllSessions} from 'js/User/Users';
-import {getUser} from 'js/User/Users';
-import {getPublicUser} from 'js/User/Users';
 import {sessionTypes} from 'js/Sesssion/SessionTypes';
 
 class SessionPostings extends React.Component {

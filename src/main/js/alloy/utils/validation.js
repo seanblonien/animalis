@@ -1,6 +1,5 @@
 import _ from 'lodash';
 import DomPurify from 'dompurify';
-import {confirmPassword} from 'js/User/Users';
 
 export class Validator {
 	constructor(spec, error) {
@@ -38,16 +37,6 @@ export const sexValidator = new Validator(isSex, () => 'Please enter \'Male\' or
 
 export const isSafe = (val) => !(val === sanitize(val));
 export const safeValidator = new Validator(isSafe, () => 'Please enter in valid characters! No funny business allowed!');
-
-export const isConfirmedPassword = (pass) => {
-	let result = false;
-	return confirmPassword(pass).then((res) => {
-		console.log('Password match: ' + String(res));
-		result = res;
-		return result;
-	});
-};
-export const confirmPasswordValidator = new Validator(isConfirmedPassword, () => 'Incorrect password, try again.');
 
 export function sanitize(strings, ...values) {
 	strings = strings ? [].concat(strings) : [];
