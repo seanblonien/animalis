@@ -1,6 +1,7 @@
 import axios from 'axios';
 import Cookies from 'universal-cookie';
 import {toast} from 'react-toastify';
+import {makeToast, Toasts as Toast, toastSuccessfulProfileUpdate} from 'js/Common/Toasts';
 
 export function register(user) {
 	return axios.post('/api/user/register', user);
@@ -188,8 +189,8 @@ Actions.updateSession = (session) => {
 
 Actions.scheduleSession = (session) => {
 	return (dispatch) => {
-		console.log('Calling add session API');
 		return addSession(session).then(() => {
+            makeToast('Successful', 'ScheduleSession');
 			return getSessions().then(sessions => {
 				return dispatch(Actions.setSessions(sessions));
 			});
@@ -226,6 +227,7 @@ Actions.deletePet = id => {
 Actions.addPet = pet => {
 	return (dispatch) => {
 		return addPet(pet).then(() => {
+            makeToast('Info', 'AddPet');
 			return dispatch(Actions.retrieve());
 		});
 	};
@@ -253,6 +255,7 @@ Actions.update = user => {
 	return (dispatch) => {
 		// Update the user details on the server
 		return update(user).then(() => {
+            makeToast('Successful', 'ProfileUpdate');
 			// Refresh the user details after update
 			return dispatch(Actions.refreshUser());
 		});
@@ -265,8 +268,11 @@ Actions.register = user => {
 		return register(user).then(() => {
 			// Authenticate the user with the newly created account
 			return dispatch(Actions.authenticate(user.principal, user.password)).then(() => {
+                makeToast('Successful', 'Register');
 				// Sends current user an email about registering as a certain user
-				return sendEmailRegister();
+				return sendEmailRegister().then(() => {
+                    makeToast('Info', 'RegisterEmailSent');
+				});
 			});
 		});
 	};
@@ -285,15 +291,15 @@ Actions.authenticate = (username, password) => {
 	return (dispatch) => {
 		// First authenticate the user with the server
 		return authenticate(username, password).then(authentication => {
+            	makeToast('Successful', 'Login');
 				// Save the authentication key from the returned promise in a state
 				dispatch(Actions.setAuthentication(authentication));
 				// Get the user details after authentication
-				return getUserDetails().then(user => {
-					// Save the user details from the returned promise in a state
-					dispatch(Actions.setUser(user));
-				});
+            	return dispatch(Actions.refreshUser());
 			}
-		);
+		).catch(() => {
+
+		});
 	};
 };
 
@@ -308,6 +314,7 @@ Actions.logout = () => {
 		const cookies = new Cookies();
 		cookies.remove('authentication');
 		cookies.remove('user');
+		makeToast('Info', 'Logout');
 	};
 };
 
@@ -322,10 +329,6 @@ Actions.setUser = user => {
 	// Set user cookie
 	const cookies = new Cookies();
 	cookies.set('user', user, {path: '/'});
-	toast.success('GOT USER!', {
-		position: 'top-center',
-		autoClose: 3000,
-	});
 	return {type: Actions.Types.SET_USER, user};
 };
 

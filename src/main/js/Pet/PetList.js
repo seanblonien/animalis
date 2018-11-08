@@ -7,7 +7,7 @@ import {connect} from 'react-redux';
 import _ from 'lodash';
 import {sexOptions} from 'js/Pet/AddPetForm';
 
-export const waitToUpdateTime = 2000; // ms
+export const waitToUpdateTime = 1500; // ms
 
 class PetList extends React.Component {
 	constructor(props) {

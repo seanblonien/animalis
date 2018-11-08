@@ -18,17 +18,16 @@ class ScheduleSession extends React.Component {
 			selectedPets: [],
 			submitSuccessful: false,
 		};
-		this.props.retrievePets().then(() => {
-			this.props.pets.map(pet => {
-				this.state.unselectedPets.push(pet);
-				//console.log(pet.id);
-			});
+		this.props.retrievePets();
 
-			this.forceUpdate();
-			// for(let i =0; i < 2; i++){
-			// 	console.log(this.state.unselectedPets[i].id);
-			// }
-		});
+		setTimeout(() => {
+            // if(this.props.pets != null){
+            this.props.pets.map(pet => {
+                this.state.unselectedPets.push(pet);
+            });
+            this.forceUpdate();
+            // }
+        }, 1500);
 
 		this.handleCheckboxChange = this.handleCheckboxChange.bind(this);
 	}

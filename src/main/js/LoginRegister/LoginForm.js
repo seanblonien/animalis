@@ -15,7 +15,6 @@ class LoginForm extends React.Component {
 
 	constructor(props) {
 		super(props);
-
 	}
 
 	render() {
@@ -29,11 +28,11 @@ class LoginForm extends React.Component {
 			<form name="form" action={'/'} onSubmit={handleSubmit(form => this.onSubmit(form))}>
 				<Bessemer.Field name="principal" friendlyName="Email Address"
 								validators={[Validation.requiredValidator, Validation.emailValidator]}
-								field={<input className="form-control" type="email"/>}/>
+								field={<input className="form-control" type="email" autoComplete="username"/>}/>
 
 				<Bessemer.Field name="password" friendlyName="Password"
 								validators={[Validation.requiredValidator, Validation.passwordValidator]}
-								field={<input className="form-control" type="password"/>}/>
+								field={<input className="form-control" type="password" autoComplete={'current-password'}/>}/>
 
 				<Bessemer.Button loading={submitting}> Submit me </Bessemer.Button>
 			</form>
