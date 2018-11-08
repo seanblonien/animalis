@@ -46,6 +46,7 @@ class RegistrationForm extends React.Component {
 		if (user != null) {
 			if(user.password !== user.password2){
 				console.error('Passwords do not match...');
+				alert('Passwords do not match...');
 				return;
 			}
 
@@ -218,7 +219,7 @@ class RegistrationForm extends React.Component {
 				<div>
 					<p>Enter in your password to update your profile.</p>
 					<Bessemer.Field name='passwordConfirm' friendlyName='Enter Password to Edit'
-									validators={[Validation.requiredValidator, Validation.passwordValidator, Validation.safeValidator, confirmPasswordValidator]}
+									validators={[Validation.requiredValidator, Validation.passwordValidator, Validation.safeValidator, Validation.confirmPasswordValidator]}
 									field={<input className='form-control' type='password'/>}/>
 					<Bessemer.Button loading={submitting}>Update Information</Bessemer.Button>
 				</div>

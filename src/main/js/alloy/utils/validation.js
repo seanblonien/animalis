@@ -39,8 +39,13 @@ export const sexValidator = new Validator(isSex, () => 'Please enter \'Male\' or
 export const isSafe = (val) => !(val === sanitize(val));
 export const safeValidator = new Validator(isSafe, () => 'Please enter in valid characters! No funny business allowed!');
 
-export const isConfirmedPassword = (pass) => {
-	return confirmPassword(pass).data;
+export const isConfirmedPassword = async (pass) => {
+	let result = false;
+	return confirmPassword(pass).then((res) => {
+		console.log('Password match: ' + String(res));
+		result = res;
+		return result;
+	});
 };
 export const confirmPasswordValidator = new Validator(isConfirmedPassword, () => 'Incorrect password, try again.');
 
