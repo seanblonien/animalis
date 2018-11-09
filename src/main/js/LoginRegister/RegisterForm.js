@@ -152,7 +152,7 @@ class RegistrationForm extends React.Component {
 													 defaultCheck={this.state.checkedItems.get('petSitter')}/>}/>
 
 					<Bessemer.Field name={'emailNotifications'}
-						//onChange={(e) => this.handleCheckboxChange(e)}
+                                    onChange={(e) => this.handleCheckboxChange(e)}
 									showLabel={false}
 									field={<Checkbox label={'Send me an email when I get a new message or request.'}
 													 handleCheckboxChange={this.handleCheckboxChange}

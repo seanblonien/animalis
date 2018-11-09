@@ -8,6 +8,21 @@ import _ from 'lodash';
 import Redirect from 'react-router-dom/es/Redirect';
 import {sessionTypes} from 'js/Sesssion/SessionTypes';
 
+export const getCurrentDate = () => {
+    let today = new Date();
+    let dd = today.getDate();
+    let mm = today.getMonth() + 1;
+    let yyyy = today.getFullYear();
+    if (dd < 10) {
+        dd = '0' + dd;
+    }
+    if (mm < 10) {
+        mm = '0' + mm;
+    }
+    today = yyyy + '-' + mm + '-' + dd; //today = mm+'-'+dd+'-'+yyyy;
+    return today; //new Date().toJSON().slice(0,10);
+};
+
 class ScheduleSession extends React.Component {
 	constructor(props) {
 		super(props);
@@ -47,20 +62,6 @@ class ScheduleSession extends React.Component {
 		this.props.scheduleSession(session);
 
 		this.state.submitSuccessful = true;
-	};
-	getCurrentDate = () => {
-		let today = new Date();
-		let dd = today.getDate();
-		let mm = today.getMonth() + 1;
-		let yyyy = today.getFullYear();
-		if (dd < 10) {
-			dd = '0' + dd;
-		}
-		if (mm < 10) {
-			mm = '0' + mm;
-		}
-		today = yyyy + '-' + mm + '-' + dd; //today = mm+'-'+dd+'-'+yyyy;
-		return today; //new Date().toJSON().slice(0,10);
 	};
 
 	handleSessionTypeChange(e) {
@@ -115,7 +116,7 @@ class ScheduleSession extends React.Component {
 						<Bessemer.Field name="startDate" friendlyName="Start Date"
 										validators={[Validation.requiredValidator]}
 										field={<input type="date"
-													  min={this.getCurrentDate()}
+													  min={getCurrentDate()}
 													  className={'form-control'}/>}/>
 
 						<Bessemer.Field name="startTime" friendlyName="Start Time"
@@ -126,7 +127,7 @@ class ScheduleSession extends React.Component {
 						<Bessemer.Field name="endDate" friendlyName="End Date"
 										validators={[Validation.requiredValidator]}
 										field={<input type="date"
-													  min={this.getCurrentDate()}
+													  min={getCurrentDate()}
 													  className={'form-control'}/>}/>
 
 						<Bessemer.Field name="endTime" friendlyName="End Time"

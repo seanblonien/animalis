@@ -5,6 +5,9 @@ import * as ReduxForm from 'redux-form';
 import {connect} from 'react-redux';
 import _ from 'lodash';
 import {sessionTypes} from 'js/Sesssion/SessionTypes';
+import * as Validation from 'js/alloy/utils/validation';
+import * as Bessemer from 'js/alloy/bessemer/components';
+import {getCurrentDate} from 'js/Sesssion/ScheduleSession';
 
 class SessionPostings extends React.Component {
 	constructor(props) {
@@ -13,7 +16,11 @@ class SessionPostings extends React.Component {
 		this.props.getAllSessions();
 		this.state = {
 			usersWithSessions: new Map(),
+			filter: new Map(),
+            checkedItems: new Map(),
 		};
+
+        this.onFormSubmit = this.onFormSubmit.bind(this);
 	}
 
 	getSessionDetails(principal){
@@ -35,11 +42,38 @@ class SessionPostings extends React.Component {
 
 	}
 
+    onFormSubmit = (filterForm) => {
+        console.log('Filter keys: ' + Object.keys(filterForm).join(', '));
+        console.log('Filter values: ' + Object.values(filterForm).join(', '));
+
+        this.state.filter = filterForm;
+	};
+
 	bid(session){
 
 	}
 
 	isInFilter(session) {
+		let self = this;
+		if(!_.isEmpty(this.state.filter)){
+			let result = true;
+            Object.keys(session).forEach(function (field) {
+				if(result) {
+                    switch (field) {
+                        case 'startDate': {
+                            console.log('Session start: ' + session.startDate);
+                            console.log('Filter start: ' + self.state.filter.startDate);
+                            const a = new Date(session.startDate);
+                            const b = new Date(self.state.filter.startDate);
+                            console.log((a >= b).toString());
+                            if(!(a >= b)) result =  false;
+                        }
+                    }
+				}
+
+            });
+            return result;
+		}
 		return true;
 	}
 
@@ -51,7 +85,29 @@ class SessionPostings extends React.Component {
 				{/* Filter Form */}
 				<div>
 					Add filter options here!
+                    <form name="name" onSubmit={handleSubmit(form => this.onFormSubmit(form))}>
+						<div>
+                            <Bessemer.Field name="startDate" friendlyName="Start Date"
+                                            field={<input type="date"
+                                                          min={getCurrentDate()}
+                                                          className={'form-control'}/>}/>
 
+                            <Bessemer.Field name="startTime" friendlyName="Start Time"
+                                            field={<input type="time"
+                                                          className={'form-control'}/>}/>
+
+                            <Bessemer.Field name="endDate" friendlyName="End Date"
+                                            field={<input type="date"
+                                                          min={getCurrentDate()}
+                                                          className={'form-control'}/>}/>
+
+                            <Bessemer.Field name="endTime" friendlyName="End Time"
+                                            field={<input type="time"
+                                                          className={'form-control'}/>}/>
+
+                            <Bessemer.Button loading={submitting}>Apply Filter</Bessemer.Button>
+						</div>
+					</form>
 					<hr/>
 				</div>
 				{/* Postings Listing */}
