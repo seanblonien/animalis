@@ -225,26 +225,6 @@ public class UserService {
 		userDao.delete(request);
 	}
 
-	public void deletePet(Long id) {
-		String principal = SecurityContextHolder.getContext().getAuthentication().getName();
-		UserDto user = this.findUserByPrincipal(principal).get();
-		try {
-			userDao.deletePet(user, id);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-
-	public void deleteSession(Long id) {
-		String principal = SecurityContextHolder.getContext().getAuthentication().getName();
-		UserDto user = this.findUserByPrincipal(principal).get();
-		try {
-			userDao.deleteSession(user, id);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-
 	public UserDto update(UserDto user) {
 		try {
 			userDao.update(user);

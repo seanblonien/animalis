@@ -97,15 +97,21 @@ public class UserEndpoint {
 	}
 
 	@PostMapping(value = "/pet/delete/{id}")
-	public void deletePet(@PathVariable("id") Long id) {
-		System.out.println("Got to delete pet endpoint with petId of " + id);
-		userService.deletePet(id);
+	public UserDto deletePet(@PathVariable("id") Long id) {
+		System.out.println("Deleting pet with id: " + id);
+		String principal = SecurityContextHolder.getContext().getAuthentication().getName();
+		UserDto user = userService.findUserByPrincipal(principal).get();
+		user.getPets().remove(id);
+		return userService.update(user);
 	}
 
 	@PostMapping(value = "/sessions/delete/{id}")
-	public void deleteSession(@PathVariable("id") Long id) {
-		System.out.println("Got to delete session endpoint with sessionId of " + id);
-		userService.deleteSession(id);
+	public UserDto deleteSession(@PathVariable("id") Long id) {
+		System.out.println("Deleting session with id: " + id);
+		String principal = SecurityContextHolder.getContext().getAuthentication().getName();
+		UserDto user = userService.findUserByPrincipal(principal).get();
+		user.getSessions().remove(id);
+		return userService.update(user);
 	}
 
 	@GetMapping(value = "/pet")
@@ -134,11 +140,19 @@ public class UserEndpoint {
 		return userService.update(user);
 	}
 
-	@PostMapping(value = "/addNotification/{id}")
+	@PostMapping(value = "/notification/add/{id}")
 	public UserDto addNotification(@PathVariable("id") Long id) {
 		String principal = SecurityContextHolder.getContext().getAuthentication().getName();
 		UserDto user = userService.findUserByPrincipal(principal).get();
 		user.addNotification(id);
+		return userService.update(user);
+	}
+
+	@PostMapping(value = "/notification/delete/{id}")
+	public UserDto deleteNotification(@PathVariable("id") Long id) {
+		String principal = SecurityContextHolder.getContext().getAuthentication().getName();
+		UserDto user = userService.findUserByPrincipal(principal).get();
+		user.deleteNotification(id);
 		return userService.update(user);
 	}
 

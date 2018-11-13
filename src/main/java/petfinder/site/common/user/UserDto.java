@@ -74,6 +74,12 @@ public class UserDto implements Momento<String> {
 		this.pets.add(id);
 	}
 
+	public void deletePet(Long id) {
+		if (this.pets != null) {
+			this.pets.remove(id);
+		}
+	}
+
 	public void addSession(Long id) {
 		if(this.sessions == null) {
 			this.sessions = new ArrayList<Long>();
@@ -81,11 +87,23 @@ public class UserDto implements Momento<String> {
 		this.sessions.add(id);
 	}
 
+	public void deleteSession(Long id) {
+		if (this.sessions != null) {
+			this.sessions.remove(id);
+		}
+	}
+
 	public void addNotification(Long id) {
 		if(this.notifications == null) {
 			this.notifications = new ArrayList<Long>();
 		}
 		this.notifications.add(id);
+	}
+
+	public void deleteNotification(Long id) {
+		if (this.notifications != null) {
+			this.notifications.remove(id);
+		}
 	}
 
 	@JsonIgnore
