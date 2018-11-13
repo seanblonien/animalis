@@ -41,10 +41,7 @@ public class SessionDao {
         List<Optional<SessionDto>> optSessionList = new ArrayList<>();
         for(SessionDto s : sessionList){
             optSessionList.add(Optional.ofNullable(s).filter(sf -> !sf.isEmpty()));
-        }
-
-        // outputs all the sessions
-        //System.out.println(Arrays.toString(optSessionList.toArray()));
+        };
 
         return optSessionList;
     }
