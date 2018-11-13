@@ -17,6 +17,12 @@ class PetList extends React.Component {
 			pet_sex: null,
 		};
 		this.props.retrievePets();
+
+        setTimeout(() => {
+            this.state.hasLoaded = true;
+            this.forceUpdate();
+        }, 1000);
+
 		this.deletePet = this.deletePet.bind(this);
 	}
 

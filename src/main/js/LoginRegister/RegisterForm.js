@@ -1,3 +1,4 @@
+import {getUserDetails} from 'js/User/Users';
 import React from 'react';
 import Redirect from 'react-router-dom/es/Redirect';
 import _ from 'lodash';
@@ -16,19 +17,30 @@ class RegistrationForm extends React.Component {
 	constructor(props) {
 		super(props);
 
+		if(this.props.user) this.props.refreshUser();
+
+        this.handleCheckboxChange = this.handleCheckboxChange.bind(this);
+        this.displayChecks = this.displayChecks.bind(this);
+        this.onSubmit = this.onSubmit.bind(this);
+        this.setCheckboxes = this.setCheckboxes.bind(this);
+
 		this.state = {
 			checkedItems: new Map(),
+            hasLoaded: false,
 		};
 
-		this.state.checkedItems.set('petOwner', this.props.user ? this.props.user.roles.includes('OWNER') : false);
-		this.state.checkedItems.set('petSitter', this.props.user ? this.props.user.roles.includes('SITTER') : false);
-		this.state.checkedItems.set('emailNotifications', this.props.user ? this.props.user.attributes.emailNotifications === 'true' : false);
-		this.displayChecks();
+        setTimeout(() => {
+            this.state.hasLoaded = true;
+            this.setCheckboxes();
+            this.forceUpdate();
+        }, 1000);
+	}
 
-		this.props.refreshUser();
-
-		this.handleCheckboxChange = this.handleCheckboxChange.bind(this);
-		this.displayChecks = this.displayChecks.bind(this);
+	setCheckboxes() {
+        this.state.checkedItems.set('petOwner', this.props.user ? this.props.user.roles.includes('OWNER') : false);
+        this.state.checkedItems.set('petSitter', this.props.user ? this.props.user.roles.includes('SITTER') : false);
+        this.state.checkedItems.set('emailNotifications', this.props.user ? this.props.user.attributes.emailNotifications === 'true' : false);
+        this.displayChecks();
 	}
 
 	onSubmit = user => {
@@ -41,9 +53,9 @@ class RegistrationForm extends React.Component {
 			if(this.props.editProfile == null){
 				if(user.password !== user.password2){
 					console.error('Passwords do not match...');
-					alert('Passwords do not match...');
 					return;
 				}
+
 				user.pets = [];
 				user.sessions = [];
 				this.props.register(user);
@@ -63,10 +75,6 @@ class RegistrationForm extends React.Component {
 						if (user.zip == null) user.zip = this.props.user.address.zip;
 
 						this.props.updateUser(user);
-
-						setTimeout(() => {
-                            this.state.hasLoaded = true;
-						}, 1000);
 					}
 				});
 			}

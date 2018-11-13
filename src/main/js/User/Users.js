@@ -256,6 +256,7 @@ Actions.updateUser = user => {
 		// Update the user details on the server
 		return update(user).then(() => {
             makeToast('Successful', 'ProfileUpdate');
+            location.reload();
 			// Refresh the user details after update
 			return dispatch(Actions.refreshUser());
 		});
