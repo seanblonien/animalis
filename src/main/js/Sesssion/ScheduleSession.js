@@ -31,6 +31,7 @@ class ScheduleSession extends React.Component {
 			sessionType: null,
 			unselectedPets: [],
 			selectedPets: [],
+			bidders: [],
 			submitSuccessful: false,
 		};
 		this.props.retrievePets();
@@ -54,6 +55,7 @@ class ScheduleSession extends React.Component {
 		session.isComplete = false;
 		session.sessionType = this.state.sessionType;
 		session.pets = [];
+		session.bidderPrincipals = [];
 		if (session.maxDistance == null) session.maxDistance = null;
 		if (session.notes == null) session.notes = '';
 		console.log('Session keys: ' + Object.keys(session).join(', '));

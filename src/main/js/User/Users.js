@@ -129,10 +129,7 @@ export function deleteSession(id) {
 
 export function getPublicUser(principal) {
     principal = principal.replace('@', '%40').replace('.', '*');
-    return axios.get('/api/user/public/' + principal);/*.then((res) => {
-    	//console.log('KEYS: ' + JSON.stringify(res));
-    	return res;
-	});*/
+    return axios.get('/api/user/public/' + principal);
 }
 
 let State = {};

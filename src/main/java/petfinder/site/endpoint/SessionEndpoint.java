@@ -34,6 +34,7 @@ public class SessionEndpoint {
     @PostMapping(produces = "application/json")
     public SessionDto saveSession(@RequestBody SessionDto session) {
         System.out.println("Saving session...");
+        System.out.println(session.toString());
         sessionService.save(session);
         return session;
     }

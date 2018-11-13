@@ -8,6 +8,7 @@ import {sessionTypes} from 'js/Sesssion/SessionTypes';
 import * as Validation from 'js/alloy/utils/validation';
 import * as Bessemer from 'js/alloy/bessemer/components';
 import {getCurrentDate} from 'js/Sesssion/ScheduleSession';
+import {updateSession} from 'js/User/Users';
 
 class SessionPostings extends React.Component {
 	constructor(props) {
@@ -50,7 +51,8 @@ class SessionPostings extends React.Component {
 	};
 
 	bid(session){
-
+		session.bidderPrincipals.push(this.props.user.principal);
+		this.props.updateSession(session);
 	}
 
 	isInFilter(session) {
@@ -153,6 +155,10 @@ class SessionPostings extends React.Component {
                                         <img src={'https://static.thenounproject.com/png/194149-200.png'} style={{height: 60, width: 60}}/>
                                         <p>Session ID: {session.id}</p>
                                         <p>Pet Breeds: {}</p>
+										<p>Bidders: {session.bidderPrincipals !== null && session.bidderPrincipals.map((bidder) => (
+                                            <span key={bidder}>{bidder} </span>
+                                        ))
+                                        }</p>
                                         <p>From: {session.startDate + ' ' + session.startTime}</p>
 										<p>To: {session.endDate + ' ' + session.endTime}</p>
 										{/*Pet owner details*/}
@@ -195,6 +201,7 @@ SessionPostings = connect(
 	}),
 	dispatch => ({
 		getAllSessions: () => dispatch(Users.Actions.getAllSessions()),
+		updateSession: (session) => dispatch(Users.Actions.updateSession(session)),
 	})
 )(SessionPostings);
 

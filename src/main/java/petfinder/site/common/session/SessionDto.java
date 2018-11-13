@@ -17,10 +17,11 @@ public class SessionDto implements Identifiable {
     private String notes;
     private Long maxDistance;
     private Boolean isComplete;
+    private List<String> bidderPrincipals;
 
     private SessionDto() {}
 
-    public SessionDto(Long id, String ownerPrincipal, String sitterPrincipal, String startDate, String endDate, String startTime, String endTime, String sessionType, List<Long> pets, String notes, Long maxDistance, Boolean isComplete) {
+    public SessionDto(Long id, String ownerPrincipal, String sitterPrincipal, String startDate, String endDate, String startTime, String endTime, String sessionType, List<Long> pets, String notes, Long maxDistance, Boolean isComplete, List<String> bidderPrincipals) {
         this.id = id;
         this.ownerPrincipal = ownerPrincipal;
         this.sitterPrincipal = sitterPrincipal;
@@ -33,6 +34,7 @@ public class SessionDto implements Identifiable {
         this.notes = notes;
         this.maxDistance = maxDistance;
         this.isComplete = isComplete;
+        this.bidderPrincipals = bidderPrincipals;
     }
 
     @Override
@@ -63,6 +65,10 @@ public class SessionDto implements Identifiable {
     public List<Long> getPets() { return pets; }
 
     public void setPets(List<Long> pets) { this.pets = pets; }
+
+    public List<String> getBidderPrincipals() { return bidderPrincipals; }
+
+    public void setBidderPrincipals(List<String> bidderPrincipals) { this.bidderPrincipals = bidderPrincipals; }
 
     public String getNotes() { return notes; }
 
@@ -116,6 +122,14 @@ public class SessionDto implements Identifiable {
         // Get all pet info
         for(Long pet: pets){
             sessionStr += "\t" + pet.toString() + "\n";
+        }
+
+        sessionStr += "}\n" +
+                "bidders{\n";
+
+        // Get all bidder info
+        for(String bidder: bidderPrincipals){
+            sessionStr += "\t" + bidder + "\n";
         }
 
         sessionStr += "}\n" +
