@@ -13,6 +13,7 @@ import Redirect from 'react-router-dom/es/Redirect';
 import PetList from 'js/Pet/PetList';
 import {NavBar} from 'js/Common/NavBar';
 import SessionPostings from 'js/Sesssion/SessionPostings';
+import MySessions from 'js/Sesssion/MySessions';
 import SessionHistory from 'js/Sesssion/SessionHistory';
 import SessionTypes from 'js/Sesssion/SessionTypes';
 
@@ -181,17 +182,32 @@ export class PostingPage extends React.Component {
 	}
 }
 
-export class HistoryPage extends React.Component {
+export class MySessionsPage extends React.Component {
 	render() {
 		return (
 			<div>
 				<NavBar/>
 
 				<div className="container padded align-content-center">
-					<h2>Session History</h2>
-					<SessionHistory/>
+					<h2>My Sessions</h2>
+					<MySessions/>
 				</div>
 			</div>
 		);
 	}
+}
+
+export class HistoryPage extends React.Component {
+    render() {
+        return (
+            <div>
+                <NavBar/>
+
+                <div className="container padded align-content-center">
+                    <h2>Session History</h2>
+                    <SessionHistory/>
+                </div>
+            </div>
+        );
+    }
 }

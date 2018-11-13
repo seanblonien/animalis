@@ -52,6 +52,12 @@ class SessionPostings extends React.Component {
 
 	bid(session){
 		let alreadyBid = false;
+
+		if(session.ownerPrincipal === this.props.user.principal){
+			alert('You cannot bid on your own session!');
+			return;
+		}
+
 		var i;
 		for (i = 0; i < session.bidderPrincipals.length; i++){
 			if(session.bidderPrincipals[i] === this.props.user.principal){
@@ -167,8 +173,9 @@ class SessionPostings extends React.Component {
                                         <img src={'https://static.thenounproject.com/png/194149-200.png'} style={{height: 60, width: 60}}/>
                                         <p>Session ID: {session.id}</p>
                                         <p>Pet Breeds: {}</p>
+                                        <p>Price: NEED TO IMPLEMENT</p>
 										<p>Bidders: {session.bidderPrincipals !== null && session.bidderPrincipals.map((bidder) => (
-                                            <span key={bidder}>{bidder} </span>
+                                            <span key={bidder}>{bidder}, </span>
                                         ))
                                         }</p>
                                         <p>From: {session.startDate + ' ' + session.startTime}</p>
