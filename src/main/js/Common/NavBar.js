@@ -59,6 +59,11 @@ export class NavBar extends React.Component {
                             }
                             {_.isDefined(this.props.user) &&
                             <li className="nav-item">
+                                <a className="nav-link" href="/#/mysessions" style={{color: 'white'}}> My Sessions </a>
+                            </li>
+                            }
+                            {_.isDefined(this.props.user) &&
+                            <li className="nav-item">
                                 <a className="nav-link" href="/#/history" style={{color: 'white'}}> History </a>
                             </li>
                             }
