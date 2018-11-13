@@ -51,7 +51,8 @@ public class UserEndpoint {
 	public UserDto update(@RequestBody RegistrationRequest request) {
 		System.out.println("Got to update user endpoint with request...");
 		System.out.println(request.toString());
-		return userService.update(request);
+		UserDto myUser = userService.constructUser(request);
+		return userService.update(myUser);
 	}
 
 	@PostMapping(value = "/sendEmailRegister")

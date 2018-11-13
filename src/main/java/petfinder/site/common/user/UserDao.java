@@ -113,7 +113,7 @@ public class UserDao {
 					.endObject()
 				.endObject());
 		UpdateResponse response = elasticSearchClientProvider.getClient().update(updateRequest);
-		System.out.println("response: " + response);
+		System.out.println("Elasticsearch response: " + response);
 	}
 
 	public List<Optional<PetDto>> findPets(UserDto user) {

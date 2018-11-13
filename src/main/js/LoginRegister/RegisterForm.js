@@ -24,6 +24,8 @@ class RegistrationForm extends React.Component {
 		this.state.checkedItems.set('emailNotifications', this.props.user ? this.props.user.attributes.emailNotifications === 'true' : false);
 		this.displayChecks();
 
+		this.props.refreshUser();
+
 		this.handleCheckboxChange = this.handleCheckboxChange.bind(this);
 		this.displayChecks = this.displayChecks.bind(this);
 	}
@@ -59,7 +61,6 @@ class RegistrationForm extends React.Component {
 						if (user.zip == null) user.zip = this.props.user.address.zip;
 
 						this.props.updateUser(user);
-						setTimeout(this.props.refreshUser, 1000);
 					}
 				});
 			}
@@ -196,7 +197,7 @@ RegistrationForm = connect(
 	dispatch => ({
 		register: user => dispatch(Users.Actions.register(user)),
 		refreshUser: () => dispatch(Users.Actions.refreshUser()),
-		updateUser: user => dispatch(Users.Actions.update(user)),
+		updateUser: user => dispatch(Users.Actions.updateUser(user)),
 	})
 )(RegistrationForm);
 

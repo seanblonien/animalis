@@ -36,12 +36,12 @@ class ScheduleSession extends React.Component {
 		this.props.retrievePets();
 
 		setTimeout(() => {
-            // if(this.props.pets != null){
+            if(_.isDefined(this.props.pets) && !_.isEmpty(this.props.pets)){
             this.props.pets.map(pet => {
                 this.state.unselectedPets.push(pet);
             });
             this.forceUpdate();
-            // }
+            }
         }, 1500);
 
 		this.handleCheckboxChange = this.handleCheckboxChange.bind(this);
@@ -100,7 +100,10 @@ class ScheduleSession extends React.Component {
 	render() {
 		let {handleSubmit, submitting} = this.props;
 
-		if(this.state.submitSuccessful) { return <Redirect to='/'/>; }
+		if(this.state.submitSuccessful) {
+			console.info('Redirecting after successful submission.');
+			return <Redirect to='/'/>;
+		}
 
 		return (
 			<div>

@@ -252,16 +252,6 @@ public class UserService {
 		}
 	}
 
-    public UserDto update(RegistrationRequest request) {
-		UserDto myUser = constructUser(request);
-		try {
-			userDao.update(myUser);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return myUser;
-	}
-
 	public UserDto update(UserDto user) {
 		try {
 			userDao.update(user);
