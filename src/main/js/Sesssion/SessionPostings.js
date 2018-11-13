@@ -51,8 +51,20 @@ class SessionPostings extends React.Component {
 	};
 
 	bid(session){
-		session.bidderPrincipals.push(this.props.user.principal);
-		this.props.updateSession(session);
+		let alreadyBid = false;
+		var i;
+		for (i = 0; i < session.bidderPrincipals.length; i++){
+			if(session.bidderPrincipals[i] === this.props.user.principal){
+				alreadyBid = true;
+			}
+		}
+
+		if(!alreadyBid){
+            session.bidderPrincipals.push(this.props.user.principal);
+            this.props.updateSession(session);
+		} else {
+			alert('You have already bid on this!');
+		}
 	}
 
 	isInFilter(session) {
