@@ -22,7 +22,6 @@ public class UserService {
 	@Autowired
 	private PasswordEncoder passwordEncoder;
 
-
 	public Optional<UserDto> findUserByPrincipal(String principal) {
 		return userDao.findUserByPrincipal(principal).map(UserAuthenticationDto::getUser);
 	}
@@ -58,12 +57,6 @@ public class UserService {
 		private String emailNotifications;
 		private List<Long> pets;
 		private List<Long> sessions;
-
-		/*public RegistrationRequest(@JsonProperty("prinicipal")String principal, @JsonProperty("password") String password, @JsonProperty("attributes") Map<String, Object> attributes) {
-			this.principal = principal;
-			this.password = password;
-			this.attributes = attributes;
-		}*/
 
 		public String getPrincipal() {
 			return principal;

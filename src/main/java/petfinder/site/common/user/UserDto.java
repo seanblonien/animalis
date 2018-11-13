@@ -17,11 +17,11 @@ public class UserDto implements Momento<String> {
 	private Map<String, Object> address;
 	private List<Long> pets;
 	private List<Long> sessions;
-	private List<Map<String, Object>> notifications;
+	private List<Long> notifications;
 
 	private UserDto() {}
 
-	public UserDto(String principal, List<String> roles, Map<String, Object> attributes, Map<String, Object> address, List<Long> pets, List<Long> sessions, List<Map<String, Object>> notifications) {
+	public UserDto(String principal, List<String> roles, Map<String, Object> attributes, Map<String, Object> address, List<Long> pets, List<Long> sessions, List<Long> notifications) {
 		this.principal = principal;
 		this.roles = roles;
 		this.attributes = attributes;
@@ -55,7 +55,7 @@ public class UserDto implements Momento<String> {
 		return address;
 	}
 
-	public List<Map<String, Object>> getNotifications() {
+	public List<Long> getNotifications() {
 		return notifications;
 	}
 
@@ -79,6 +79,13 @@ public class UserDto implements Momento<String> {
 			this.sessions = new ArrayList<Long>();
 		}
 		this.sessions.add(id);
+	}
+
+	public void addNotification(Long id) {
+		if(this.notifications == null) {
+			this.notifications = new ArrayList<Long>();
+		}
+		this.notifications.add(id);
 	}
 
 	@JsonIgnore

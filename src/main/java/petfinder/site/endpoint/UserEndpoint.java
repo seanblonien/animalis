@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import petfinder.site.common.MailGun.MGEmail;
+import petfinder.site.common.notification.NotificationDto;
 import petfinder.site.common.pet.PetDto;
 import petfinder.site.common.session.SessionDto;
 import petfinder.site.common.user.UserDto;
@@ -130,6 +131,14 @@ public class UserEndpoint {
 		System.out.println("Adding pet with id " + id);
 		user.addPet(id);
 		System.out.println("User has pets: " + user.getPets().toString());
+		return userService.update(user);
+	}
+
+	@PostMapping(value = "/addNotification/{id}")
+	public UserDto addNotification(@PathVariable("id") Long id) {
+		String principal = SecurityContextHolder.getContext().getAuthentication().getName();
+		UserDto user = userService.findUserByPrincipal(principal).get();
+		user.addNotification(id);
 		return userService.update(user);
 	}
 
