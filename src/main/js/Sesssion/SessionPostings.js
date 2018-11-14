@@ -174,7 +174,7 @@ class SessionPostings extends React.Component {
                                         <p>Session ID: {session.id}</p>
                                         <p>Pet Breeds: {}</p>
                                         <p>Price: NEED TO IMPLEMENT</p>
-										<p>Bidders: {session.bidderPrincipals !== null && session.bidderPrincipals.map((bidder) => (
+										<p>Bidders: {_.isDefined(session.bidderPrincipals) && _.isEmpty(session.bidderPrincipals) && session.bidderPrincipals.map((bidder) => (
                                             <span key={bidder}>{bidder}, </span>
                                         ))
                                         }</p>

@@ -1,7 +1,6 @@
 import axios from 'axios';
 import Cookies from 'universal-cookie';
-import {toast} from 'react-toastify';
-import {makeToast, Toasts as Toast, toastSuccessfulProfileUpdate} from 'js/Common/Toasts';
+import {makeToast, Toasts as Toast, Toasts} from 'js/Common/Toasts';
 
 export function register(user) {
 	return axios.post('/api/user/register', user);
@@ -187,7 +186,7 @@ Actions.updateSession = (session) => {
 Actions.scheduleSession = (session) => {
 	return (dispatch) => {
 		return addSession(session).then(() => {
-            makeToast('Successful', 'ScheduleSession');
+            makeToast(Toasts.Successful.ScheduleSession);
 			return getSessions().then(sessions => {
 				return dispatch(Actions.setSessions(sessions));
 			});
@@ -224,7 +223,7 @@ Actions.deletePet = id => {
 Actions.addPet = pet => {
 	return (dispatch) => {
 		return addPet(pet).then(() => {
-            makeToast('Info', 'AddPet');
+            makeToast(Toasts.Info.AddPet);
 			return dispatch(Actions.retrieve());
 		});
 	};
@@ -252,7 +251,7 @@ Actions.updateUser = user => {
 	return (dispatch) => {
 		// Update the user details on the server
 		return update(user).then(() => {
-            makeToast('Successful', 'ProfileUpdate');
+            makeToast(Toasts.Successful.ProfileUpdate);
             location.reload();
 			// Refresh the user details after update
 			return dispatch(Actions.refreshUser());
@@ -266,10 +265,10 @@ Actions.register = user => {
 		return register(user).then(() => {
 			// Authenticate the user with the newly created account
 			return dispatch(Actions.authenticate(user.principal, user.password)).then(() => {
-                makeToast('Successful', 'Register');
+                makeToast(Toasts.Successful.Register);
 				// Sends current user an email about registering as a certain user
 				return sendEmailRegister().then(() => {
-                    makeToast('Info', 'RegisterEmailSent');
+                    makeToast(Toasts.Info.RegisterEmailSent);
 				});
 			});
 		});
@@ -281,6 +280,14 @@ Actions.refreshUser = () => {
         return getUserDetails().then(user => {
             // Save the user details from the returned promise in a state
             return dispatch(Actions.setUser(user));
+        }).catch(error => {
+            if(error.response.status == 401) {
+                dispatch(Actions.logout());
+            	console.error(error.response.data.error + '\n');
+                let a = document.createElement('a');
+                window.location.href = a.origin + /#/;
+                makeToast(Toasts.Unsuccessful.Login);
+            }
         });
     };
 };
@@ -289,15 +296,13 @@ Actions.authenticate = (username, password) => {
 	return (dispatch) => {
 		// First authenticate the user with the server
 		return authenticate(username, password).then(authentication => {
-            	makeToast('Successful', 'Login');
+            	makeToast(Toasts.Successful.Login);
 				// Save the authentication key from the returned promise in a state
 				dispatch(Actions.setAuthentication(authentication));
 				// Get the user details after authentication
             	return dispatch(Actions.refreshUser());
 			}
-		).catch(() => {
-
-		});
+		);
 	};
 };
 
@@ -312,7 +317,7 @@ Actions.logout = () => {
 		const cookies = new Cookies();
 		cookies.remove('authentication');
 		cookies.remove('user');
-		makeToast('Info', 'Logout');
+        makeToast(Toast.Info.Logout);
 	};
 };
 
