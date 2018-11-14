@@ -43,3 +43,15 @@
     stroke-dashoffset: -600;
   }
 }
+
+.btn-primary {
+  background: #8C54A1;
+  border-color: #8C54A1;
+  color: #ffffff;
+}
+
+.btn-primary:hover, .btn-primary:focus, .btn-primary:active, .btn-primary.active, .open>.dropdown-toggle.btn-primary {
+  color: #ffffff;
+  background-color: #713e85;
+  border-color: #713e85;
+}

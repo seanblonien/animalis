@@ -23,14 +23,12 @@ class HomePage extends React.Component {
                             <div>
                                 {this.props.user.roles.includes('OWNER') &&
 									<div className="m-3">
-                                        <a className="btn btn-primary btn-lg"
-										   style={{backgroundColor: '#8C54A1', borderColor: '#8C54A1', color: '#FFFFFFF'}} href="/#/schedulesession">Schedule a pet service</a>
+                                        <a className="btn btn-primary btn-lg" href="/#/schedulesession">Schedule a pet service</a>
 									</div>
                                 }
                                 {this.props.user.roles.includes('SITTER') &&
 									<div>
                                         <a className="btn btn-primary btn-lg"
-										   style={{backgroundColor: '#8C54A1', borderColor: '#8C54A1', color: '#FFFFFFF'}}
 										   href="/#/postings">Look for open pet service jobs</a>
 									</div>
                                 }
@@ -47,7 +45,6 @@ class HomePage extends React.Component {
                                 </div>
                             </div>
                             <a className="btn btn-primary btn-lg"
-							   style={{backgroundColor: '#8C54A1', borderColor: '#8C54A1'}}
 							   href="/#/register">Get Started Today</a>
 						</div>
 					}
