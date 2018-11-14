@@ -11,18 +11,6 @@ class HomePage extends React.Component {
 	render() {
 		return (
 			<div>
-				{_.isDefined(this.props.user) && (this.props.user.roles.includes('OWNER')) &&
-				<div>
-					{/*<h3>Owner Home Page</h3>*/}
-				</div>
-				}
-
-				{_.isDefined(this.props.user) && (this.props.user.roles.includes('SITTER')) &&
-				<div>
-					{/*<h3>Sitter Home Page</h3>*/}
-				</div>
-				}
-
                 <div style={{width: '100%', textAlign: 'center', display: 'block'}}>
                     <img style={{borderRadius: '10px', padding: '2%'}}
                          src="https://i.imgur.com/z2x66Oa.png"
