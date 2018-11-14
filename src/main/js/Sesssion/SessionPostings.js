@@ -203,7 +203,6 @@ class SessionPostings extends React.Component {
 					{_.isNil(this.props.allSessions) &&
 					<div>Postings is empty</div>
 					}
-
 				</div>
 			</div>
 		);
