@@ -54,6 +54,8 @@ class MySessions extends React.Component {
                             _.isDefined(this.props.sessions) && this.props.sessions.map(session => (
                                 <div key={session.id} className="card" style={{width: '20rem', marginBottom: 10}}>
                                     <p>Session ID: {session.id}</p>
+                                    <p>From: {session.startDate + ' ' + session.startTime}</p>
+                                    <p>To: {session.endDate + ' ' + session.endTime}</p>
                                     <p>Sitter: {session.sitterPrincipal}</p>
                                     <p>Bidders: {session.bidderPrincipals !== null && session.bidderPrincipals.map((bidder) => (
                                         <span key={bidder}>{bidder}, </span>
@@ -84,6 +86,8 @@ class MySessions extends React.Component {
                                         </div>
                                     }
 
+                                    <p>Pets:</p>
+                                    <p>Notes: {session.notes}</p>
                                 </div>
                             ))
                         }
