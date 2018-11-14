@@ -12,6 +12,60 @@ import * as Users from 'js/User/Users';
 import Checkbox from 'js/Common/Checkbox';
 import {confirmPassword} from 'js/User/Users';
 import {Loading} from 'js/Common/Loading';
+import {sexOptions} from 'js/Pet/AddPetForm';
+
+export const stateOptions = [
+    {label: 'Alabama', value: 'AL'},
+    {label: 'Alaska', value: 'AK'},
+    {label: 'Arizona', value: 'AZ'},
+    {label: 'Arkansas', value: 'AR'},
+    {label: 'California', value: 'CA'},
+    {label: 'Colorado', value: 'CO'},
+    {label: 'Connecticut', value: 'CT'},
+    {label: 'Delaware', value: 'DE'},
+    {label: 'Florida', value: 'FL'},
+    {label: 'Georgia', value: 'GA'},
+    {label: 'Hawaii', value: 'HI'},
+    {label: 'Idaho', value: 'ID'},
+    {label: 'Illinois', value: 'IL'},
+    {label: 'Indiana', value: 'IN'},
+    {label: 'Iowa', value: 'IA'},
+    {label: 'Kansas', value: 'KS'},
+    {label: 'Kentucky', value: 'KY'},
+    {label: 'Louisiana', value: 'LA'},
+    {label: 'Maine', value: 'ME'},
+    {label: 'Maryland', value: 'MD'},
+    {label: 'Massachusetts', value: 'MA'},
+    {label: 'Michigan', value: 'MI'},
+    {label: 'Minnesota', value: 'MN'},
+    {label: 'Mississippi', value: 'MS'},
+    {label: 'Missouri', value: 'MO'},
+    {label: 'Montana', value: 'MT'},
+    {label: 'Nebraska', value: 'NE'},
+    {label: 'Nevada', value: 'NV'},
+    {label: 'New Hampshire', value: 'NH'},
+    {label: 'New Jersey', value: 'NJ'},
+    {label: 'New Mexico', value: 'NM'},
+    {label: 'New York', value: 'NY'},
+    {label: 'North Carolina', value: 'NC'},
+    {label: 'North Dakota', value: 'ND'},
+    {label: 'Ohio', value: 'OH'},
+    {label: 'Oklahoma', value: 'OK'},
+    {label: 'Oregon', value: 'OR'},
+    {label: 'Pennsylvania', value: 'PA'},
+    {label: 'Rhode Island', value: 'RI'},
+    {label: 'South Carolina', value: 'SC'},
+    {label: 'South Dakota', value: 'SD'},
+    {label: 'Tennessee', value: 'TN'},
+    {label: 'Texas', value: 'TX'},
+    {label: 'Utah', value: 'UT'},
+    {label: 'Vermont', value: 'VT'},
+    {label: 'Virginia', value: 'VA'},
+    {label: 'Washington', value: 'WA'},
+    {label: 'West Virginia', value: 'WV'},
+    {label: 'Wisconsin', value: 'WI'},
+    {label: 'Wyoming', value: 'WY'}
+];
 
 class RegistrationForm extends React.Component {
 	constructor(props) {
@@ -27,6 +81,7 @@ class RegistrationForm extends React.Component {
 		this.state = {
 			checkedItems: new Map(),
             hasLoaded: false,
+			stateChoice: '',
 		};
 
         setTimeout(() => {
@@ -89,6 +144,13 @@ class RegistrationForm extends React.Component {
 		console.log(e + ' set to ' + this.state.checkedItems.get(e));
 	}
 
+    handleStateChoiceChange = e => {
+        if (e != null) {
+            this.state.stateChoice = e;
+            this.forceUpdate();
+        }
+    };
+
 	displayChecks() {
 		console.log('User attribute checkbox values: \npetOwner-' +
 			this.state.checkedItems.get('petOwner').toString() + ',\npetSitter-' +
@@ -145,9 +207,19 @@ class RegistrationForm extends React.Component {
                                             placeholder={this.props.editProfile == null ? 'Duluth' : this.props.user.address.city}
                                             validators={this.props.editProfile == null ? [Validation.requiredValidator, Validation.safeValidator] : []}/>
 
-                            <Bessemer.Field name='state' friendlyName='State'
-                                            placeholder={this.props.editProfile == null ? 'GA' : this.props.user.address.state}
-                                            validators={this.props.editProfile == null ? [Validation.requiredValidator, Validation.safeValidator] : []}/>
+                            {/*<Bessemer.Field name='state' friendlyName='State'*/}
+                                            {/*placeholder={this.props.editProfile == null ? 'GA' : this.props.user.address.state}*/}
+                                            {/*validators={this.props.editProfile == null ? [Validation.requiredValidator, Validation.safeValidator] : []}/>*/}
+
+                            <span className={'row'} style={{verticalAlign: 'middle', width: '100%', marginBottom: 15}}>
+								<label className={'col-4 d-inline-block'}>State*</label>
+								<Bessemer.Select name="state"
+                                         className={'col-8 d-inline-block'}
+                                         friendlyName="State" placeholder="Texas"
+                                         validators={[Validation.requiredValidator, Validation.safeValidator]}
+                                         options={stateOptions} value={this.state.stateChoice}
+                                         onChange={opt => this.handleStateChoiceChange(opt)}/>
+							</span>
 
                             <Bessemer.Field name='zip' friendlyName='ZIP'
                                             placeholder={this.props.editProfile == null ? '30096' : this.props.user.address.zip}

@@ -165,12 +165,20 @@ Actions.Types = {
 	SET_ALL_SESSIONS: 'SET_ALL_SESSIONS',
 };
 
-Actions.getAllSessions = () => {
+Actions.getSessions = () => {
 	return (dispatch) => {
-		return getAllSessions().then(allSessions => {
-			return dispatch(Actions.setAllSessions(allSessions));
+		return getSessions().then(sessions => {
+			return dispatch(Actions.setSessions(sessions));
 		});
 	};
+};
+
+Actions.getAllSessions = () => {
+    return (dispatch) => {
+        return getAllSessions().then(allSessions => {
+            return dispatch(Actions.setAllSessions(allSessions));
+        });
+    };
 };
 
 Actions.updateSession = (session) => {
