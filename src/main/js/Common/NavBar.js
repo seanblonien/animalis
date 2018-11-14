@@ -34,7 +34,7 @@ export class NavBar extends React.Component {
                             {_.isDefined(this.props.user) &&
                             <li style={{borderRight: '1.5px solid white'}}>
                                 <a className="nav-link"
-                                   style={{color: 'white'}}> Hi, {this.props.user.attributes.fname} </a>
+								   style={{color: 'white'}}> Hi, {this.props.user.attributes.fname} </a>
                             </li>
                             }
                             <li className="nav-item ">
@@ -44,7 +44,7 @@ export class NavBar extends React.Component {
                             <li className="nav-item dropdown" style={{color: 'white'}}>
                                 <a className="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style={{color: 'white'}}>
-                                    +
+									+
                                 </a>
                                 <div className="dropdown-menu" aria-labelledby="navbarDropdown">
                                     {
@@ -62,26 +62,26 @@ export class NavBar extends React.Component {
                             <li className="nav-item dropdown" style={{color: 'white'}}>
                                 <a className="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style={{color: 'white'}}>
-                                    Account
-                                </a>
-                                <div className="dropdown-menu" aria-labelledby="navbarDropdown">
-                                    {
-                                        _.isDefined(this.props.user) && <a className="dropdown-item" href="#/mysessions">My Sessions</a>
-                                    }
+									Account
+								</a>
+								<div className="dropdown-menu" aria-labelledby="navbarDropdown">
+									{
+										_.isDefined(this.props.user) && <a className="dropdown-item" href="#/editprofile">My Profile</a>
+									}
 
-                                    {
-                                        _.isDefined(this.props.user) && <a className="dropdown-item" href="#/editprofile">My Profile</a>
-                                    }
+									{
+										_.isDefined(this.props.user) && <a className="dropdown-item" href="#/mysessions">My Sessions</a>
+                                   }
 
-                                    {
-                                        _.isDefined(this.props.user) && <a className="dropdown-item" href="#/history">My History</a>
-                                    }
+                                   {
+                                   		_.isDefined(this.props.user) && <a className="dropdown-item" href="#/history">My History</a>
+                                   }
 
-                                    <div className="dropdown-divider"></div>
-                                    {
-                                        _.isDefined(this.props.user) && <a className="dropdown-item" href="#/" onClick={this.logoutClick}>Log out</a>
-                                    }
-                                </div>
+                                   <div className="dropdown-divider"></div>
+                                   {
+                                   		_.isDefined(this.props.user) && <a className="dropdown-item" href="#/" onClick={this.logoutClick}>Log out</a>
+                                   }
+                                   </div>
                             </li>
 
                             {!_.isDefined(this.props.user) &&

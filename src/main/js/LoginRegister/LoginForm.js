@@ -34,7 +34,7 @@ class LoginForm extends React.Component {
 								validators={[Validation.requiredValidator, Validation.passwordValidator]}
 								field={<input className="form-control" type="password" autoComplete={'current-password'}/>}/>
 
-				<Bessemer.Button loading={submitting}> Submit me </Bessemer.Button>
+				<Bessemer.Button loading={submitting}> Log In </Bessemer.Button>
 			</form>
 		);
 	}
