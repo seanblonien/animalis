@@ -39,7 +39,7 @@ class LoginForm extends React.Component {
 						<div className="col align-self-start">
 						</div>
                         <div className="col-8 align-self-end">
-                            <Bessemer.Button loading={submitting} style={{backgroundColor: '#8C54A1', borderColor: '#8C54A1'}}>Login</Bessemer.Button>
+                            <Bessemer.Button loading={submitting}>Login</Bessemer.Button>
                         </div>
 					</div>
 				</div>
@@ -47,7 +47,7 @@ class LoginForm extends React.Component {
                 <div className="mt-2">
 					<p style={{display: 'inline-block'}}>Don't have an account yet?</p>
                     <a className="btn btn-primary ml-1"
-                       style={{backgroundColor: '#8C54A1', borderColor: '#8C54A1', display: 'inline-block'}}
+                       style={{display: 'inline-block'}}
                        href="/#/register">Sign up</a>
                 </div>
 			</form>
