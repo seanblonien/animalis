@@ -1,10 +1,15 @@
 import React from 'react';
 import _ from 'lodash';
+import Favicon from 'react-favicon';
 import connect from 'react-redux/es/connect/connect';
 import * as Users from 'js/User/Users';
-import {ToastContainer} from 'react-toastify';
 
 export class NavBar extends React.Component {
+	constructor(props) {
+		super(props);
+		document.title = 'Animalis';
+	}
+
 	logoutClick = () => {
 		return this.props.logout();
 	};
@@ -12,6 +17,7 @@ export class NavBar extends React.Component {
 	render() {
 		return (
 			<div>
+                <Favicon url="https://i.imgur.com/J9wBmWu.png" />
                 <nav style={{backgroundColor: '#000000'}} className="navbar navbar-expand-md">
                     <a className="navbar-brand" href="/#" style={{color: 'white'}}>Tempeturs Web App </a>
                     <button className="navbar-toggler" type="button" data-toggle="collapse"
