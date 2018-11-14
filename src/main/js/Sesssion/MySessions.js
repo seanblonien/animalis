@@ -3,10 +3,41 @@ import * as ReduxForm from 'redux-form';
 import connect from 'react-redux/es/connect/connect';
 import * as Users from 'js/User/Users';
 import _ from 'lodash';
+import * as Bessemer from 'js/alloy/bessemer/components';
+import * as Validation from 'js/alloy/utils/validation';
 
 class MySessions extends React.Component {
     constructor(props) {
         super(props);
+        this.props.getSessions();
+        this.state = {
+            sitter_choice: '',
+        };
+        this.handleSitterChoice = this.handleSitterChoice.bind(this);
+        this.getBidders = this.getBidders.bind(this);
+    }
+
+    handleSitterChoice = e => {
+        if (e != null) {
+            this.state.sitter_choice = e;
+            this.forceUpdate();
+        }
+    };
+
+    getBidders(bidders){
+        let list = [];
+        let i;
+        for(i = 0; i < bidders.length; i++){
+            list.push({label: bidders[i], value: bidders[i]});
+        }
+
+        return list;
+    }
+
+    chooseSitter(session){
+        session.sitterPrincipal = this.state.sitter_choice;
+        session.bidderPrincipals.splice(session.bidderPrincipals.indexOf(this.state.sitter_choice), 1);
+        this.props.updateSession(session);
     }
 
     render() {
@@ -17,7 +48,44 @@ class MySessions extends React.Component {
                         <h6>{this.props.user.attributes.fname} {this.props.user.attributes.lname}</h6>
                         {_.isDefined(this.props.user) && this.props.user.roles.includes('OWNER') &&
                         <p>Sessions as Owner:</p>
+                        }
 
+                        {
+                            _.isDefined(this.props.sessions) && this.props.sessions.map(session => (
+                                <div key={session.id} className="card" style={{width: '20rem', marginBottom: 10}}>
+                                    <p>Session ID: {session.id}</p>
+                                    <p>Sitter: {session.sitterPrincipal}</p>
+                                    <p>Bidders: {session.bidderPrincipals !== null && session.bidderPrincipals.map((bidder) => (
+                                        <span key={bidder}>{bidder}, </span>
+                                    ))
+                                    }</p>
+
+                                    {
+                                        session.sitterPrincipal === '' &&
+                                        <div>
+                                            <span className={'row'} style={{verticalAlign: 'middle', width: '100%', marginBottom: 15}}>
+						                        <label className={'col-4 d-inline-block'}>Sitter Choice</label>
+						                        <Bessemer.Select name="sitter_choice"
+                                                                 className={'col-8 d-inline-block'}
+                                                                 friendlyName="Choose Sitter" placeholder="Choose a Sitter"
+                                                                 validators={[Validation.requiredValidator, Validation.safeValidator]}
+                                                                 options={this.getBidders(session.bidderPrincipals)} value={this.state.sitter_choice}
+                                                                 onChange={opt => this.handleSitterChoice(opt)}/>
+					                        </span>
+                                        </div>
+                                    }
+
+                                    {
+                                        !_.isBlank(this.state.sitter_choice) &&
+                                        <div className={'container-fluid'}>
+                                            <div style={{textAlign: 'center'}} className={'row justify-content-center'}>
+                                                <button className={'btn btn-danger '} onClick={() => this.chooseSitter(session)}>Confirm Sitter Choice</button>
+                                            </div>
+                                        </div>
+                                    }
+
+                                </div>
+                            ))
                         }
 
                         {_.isDefined(this.props.user) && this.props.user.roles.includes('SITTER') &&
@@ -37,10 +105,10 @@ MySessions = connect(
     state => ({
         sessions: Users.State.getSessions(state),
         user: Users.State.getUser(state),
-        allSessions: Users.State.getAllSessions(state),
     }),
     dispatch => ({
-        getAllSessions: () => dispatch(Users.Actions.getAllSessions()),
+        getSessions: () => dispatch(Users.Actions.getSessions()),
+        updateSession: (session) => dispatch(Users.Actions.updateSession(session)),
     })
 )(MySessions);
 
