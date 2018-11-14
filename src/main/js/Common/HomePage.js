@@ -13,28 +13,57 @@ class HomePage extends React.Component {
 			<div>
 				{_.isDefined(this.props.user) && (this.props.user.roles.includes('OWNER')) &&
 				<div>
-					<h3>Owner Home Page</h3>
+					{/*<h3>Owner Home Page</h3>*/}
 				</div>
 				}
 
 				{_.isDefined(this.props.user) && (this.props.user.roles.includes('SITTER')) &&
 				<div>
-					<h3>Sitter Home Page</h3>
+					{/*<h3>Sitter Home Page</h3>*/}
 				</div>
 				}
 
-				<div style={{
-					float: 'center', marginRight: '25%', marginLeft: '25%', marginTop: '25px',
-					borderRadius: '20px', backgroundColor: '#D5D5D5'
-				}}>
-					<h1 style={{float: 'center', marginRight: '5%', marginLeft: '5%', marginTop: '5px'}}> Welcome to the
-						Tempeturs Web App Home Page! </h1>
-					<div style={{width: '100%', textAlign: 'center'}}>
-						<img style={{borderRadius: '25px', padding: '2%'}}
-							 src="https://img.huffingtonpost.com/asset/5b7fdeab1900001d035028dc.jpeg?cache=sixpwrbb1s&ops=1910_1000"
-							 height="255" width="430"/>
-					</div>
-				</div>
+                <div style={{width: '100%', textAlign: 'center', display: 'block'}}>
+                    <img style={{borderRadius: '10px', padding: '2%'}}
+                         src="https://i.imgur.com/z2x66Oa.png"
+                         height="408" width="974"/>
+
+					{_.isDefined(this.props.user) && !_.isEmpty(this.props.user) ?
+						<div>
+                            <h1 style={{float: 'center', marginRight: '5%', marginLeft: '5%', marginTop: '5px'}}>Welcome back to <b>Animalis</b>, {this.props.user.attributes.fname}!</h1>
+
+                            <div>
+                                {this.props.user.roles.includes('OWNER') &&
+									<div className="m-3">
+                                        <a className="btn btn-primary btn-lg"
+										   style={{backgroundColor: '#8C54A1', borderColor: '#8C54A1', color: '#FFFFFFF'}} href="/#/schedulesession">Schedule a pet service</a>
+									</div>
+                                }
+                                {this.props.user.roles.includes('SITTER') &&
+									<div>
+                                        <a className="btn btn-primary btn-lg"
+										   style={{backgroundColor: '#8C54A1', borderColor: '#8C54A1', color: '#FFFFFFF'}}
+										   href="/#/postings">Look for open pet service jobs</a>
+									</div>
+                                }
+                            </div>
+						</div>
+						:
+						<div>
+                            <h1 style={{float: 'center', marginRight: '5%', marginLeft: '5%', marginTop: '5px'}}>Welcome to <b>Animalis</b>!</h1>
+                            <div className="container padded">
+                                <div className="row">
+                                    <div className={'col-4 offset-md-4'} style={{textAlign: 'justify', textJustify: 'inter-word'}}>
+                                        <p>For animal lovers who need a helping hand, Animalis is the best pet sitting service  because it offers all the services you need for all of your pets. </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <a className="btn btn-primary btn-lg"
+							   style={{backgroundColor: '#8C54A1', borderColor: '#8C54A1'}}
+							   href="/#/register">Get Started Today</a>
+						</div>
+					}
+                </div>
 			</div>
 		);
 	}
