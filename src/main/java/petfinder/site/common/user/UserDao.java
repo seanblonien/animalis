@@ -25,84 +25,84 @@ import static org.elasticsearch.common.xcontent.XContentFactory.jsonBuilder;
  */
 @Repository
 public class UserDao {
-	@Autowired
-	private UserElasticSearchRepository userRepository;
+    @Autowired
+    private UserElasticSearchRepository userRepository;
 
-	@Autowired
-	private ElasticSearchClientProvider elasticSearchClientProvider;
+    @Autowired
+    private ElasticSearchClientProvider elasticSearchClientProvider;
 
-	@Autowired
-	private PetElasticsearchRepository petRepository;
+    @Autowired
+    private PetElasticsearchRepository petRepository;
 
-	@Autowired
-	private SessionElasticsearchRepository sessionRepository;
+    @Autowired
+    private SessionElasticsearchRepository sessionRepository;
 
-	public Optional<UserAuthenticationDto> findUserByPrincipal(String principal) {
-		SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
+    public Optional<UserAuthenticationDto> findUserByPrincipal(String principal) {
+        SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
 
-		String queryString = String.format("user.principal=\"%s\"", principal.replace("\"", ""));
-		searchSourceBuilder.query(QueryBuilders.queryStringQuery(queryString));
+        String queryString = String.format("user.principal=\"%s\"", principal.replace("\"", ""));
+        searchSourceBuilder.query(QueryBuilders.queryStringQuery(queryString));
 
-		return userRepository.search(searchSourceBuilder).stream().findFirst();
-	}
+        return userRepository.search(searchSourceBuilder).stream().findFirst();
+    }
 
-	public void save(UserAuthenticationDto userAuthentication) {
-		userRepository.save(userAuthentication);
-	}
+    public void save(UserAuthenticationDto userAuthentication) {
+        userRepository.save(userAuthentication);
+    }
 
-	public void delete(UserService.PrincipalRequest request) {
-		userRepository.delete(request.getPrincipal());
-	}
+    public void delete(UserService.PrincipalRequest request) {
+        userRepository.delete(request.getPrincipal());
+    }
 
-	private UpdateRequest buildUserFields(UserDto user) throws IOException{
-		UpdateRequest updateRequest = new UpdateRequest();
+    private UpdateRequest buildUserFields(UserDto user) throws IOException{
+        UpdateRequest updateRequest = new UpdateRequest();
 
-		updateRequest.index("petfinder-users");
-		updateRequest.type("doc");
-		updateRequest.id(user.getPrincipal());
-		updateRequest.doc(jsonBuilder()
-				.startObject()
-					.startObject("user")
-						.field("principal", user.getPrincipal())
-						.field("attributes", user.getAttributes())
-						.field("roles", user.getRoles())
-						.field("address", user.getAddress())
-						.field("pets", user.getPets())
-						.field("sessions", user.getSessions())
-						.field("notifications", user.getNotifications())
-					.endObject()
-				.endObject());
+        updateRequest.index("petfinder-users");
+        updateRequest.type("doc");
+        updateRequest.id(user.getPrincipal());
+        updateRequest.doc(jsonBuilder()
+                .startObject()
+                    .startObject("user")
+                        .field("principal", user.getPrincipal())
+                        .field("attributes", user.getAttributes())
+                        .field("roles", user.getRoles())
+                        .field("address", user.getAddress())
+                        .field("pets", user.getPets())
+                        .field("sessions", user.getSessions())
+                        .field("notifications", user.getNotifications())
+                    .endObject()
+                .endObject());
 
-		return updateRequest;
-	}
+        return updateRequest;
+    }
 
-	public void update(UserDto user) throws IOException {
-		UpdateRequest updateRequest = buildUserFields(user);
-		UpdateResponse response = elasticSearchClientProvider.getClient().update(updateRequest);
-		System.out.println("Elasticsearch response: " + response);
-	}
+    public void update(UserDto user) throws IOException {
+        UpdateRequest updateRequest = buildUserFields(user);
+        UpdateResponse response = elasticSearchClientProvider.getClient().update(updateRequest);
+        System.out.println("Elasticsearch response: " + response);
+    }
 
-	public List<Optional<PetDto>> findPets(UserDto user) {
-		SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
+    public List<Optional<PetDto>> findPets(UserDto user) {
+        SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
 
-		String queryString = String.format("userPrincipal=\"%s\"", user.getPrincipal().replace("\"", ""));
-		searchSourceBuilder.query(QueryBuilders.queryStringQuery(queryString));
+        String queryString = String.format("userPrincipal=\"%s\"", user.getPrincipal().replace("\"", ""));
+        searchSourceBuilder.query(QueryBuilders.queryStringQuery(queryString));
 
-		List<Long> userPets = user.getPets();
-		return userPets != null ? userPets.stream()
-				.map(id -> petRepository.find(id))
-				.collect(Collectors.toList()) : null;
-	}
+        List<Long> userPets = user.getPets();
+        return userPets != null ? userPets.stream()
+                .map(id -> petRepository.find(id))
+                .collect(Collectors.toList()) : null;
+    }
 
-	public List<Optional<SessionDto>> findSessions(UserDto user) {
-		SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
+    public List<Optional<SessionDto>> findSessions(UserDto user) {
+        SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
 
-		String queryString = String.format("userPrincipal=\"%s\"", user.getPrincipal().replace("\"", ""));
-		searchSourceBuilder.query(QueryBuilders.queryStringQuery(queryString));
+        String queryString = String.format("userPrincipal=\"%s\"", user.getPrincipal().replace("\"", ""));
+        searchSourceBuilder.query(QueryBuilders.queryStringQuery(queryString));
 
-		List<Long> userSessions = user.getSessions();
-		return userSessions != null ? userSessions.stream()
-				.map(id -> sessionRepository.find(id))
-				.collect(Collectors.toList()) : null;
-	}
+        List<Long> userSessions = user.getSessions();
+        return userSessions != null ? userSessions.stream()
+                .map(id -> sessionRepository.find(id))
+                .collect(Collectors.toList()) : null;
+    }
 }

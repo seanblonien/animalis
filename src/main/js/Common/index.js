@@ -5,9 +5,9 @@ import * as Pages from 'js/Common/Pages';
 import {ToastContainer} from 'react-toastify';
 
 export default class Index extends React.Component {
-	render() {
-		return (
-			<div>
+    render() {
+        return (
+            <div>
                 <ToastContainer autoClose={3000}
                                 position='bottom-center'/>
                 <HashRouter>
@@ -22,7 +22,7 @@ export default class Index extends React.Component {
                         <Route exact path='/history' component={Pages.HistoryPage}/>
                     </div>
                 </HashRouter>
-			</div>
-		);
-	}
+            </div>
+        );
+    }
 }

@@ -13,27 +13,27 @@ import java.util.Optional;
  */
 @Repository
 public class PetDao {
-	@Autowired
-	private PetElasticsearchRepository petElasticsearchRepository;
+    @Autowired
+    private PetElasticsearchRepository petElasticsearchRepository;
 
-	@Autowired
-	private ElasticSearchClientProvider elasticSearchClientProvider;
+    @Autowired
+    private ElasticSearchClientProvider elasticSearchClientProvider;
 
-	public Optional<PetDto> findPet(Long id) {
-		return petElasticsearchRepository.find(id);
-	}
+    public Optional<PetDto> findPet(Long id) {
+        return petElasticsearchRepository.find(id);
+    }
 
-	public Optional<PetDto> findPetLowTech(Long id) {
-		RestHighLevelClient client = elasticSearchClientProvider.getClient();
-		// Use the client to make your search and manually parse the results
-		return Optional.empty();
-	}
+    public Optional<PetDto> findPetLowTech(Long id) {
+        RestHighLevelClient client = elasticSearchClientProvider.getClient();
+        // Use the client to make your search and manually parse the results
+        return Optional.empty();
+    }
 
-	public void save(PetDto pet) {
-		petElasticsearchRepository.save(pet);
-	}
+    public void save(PetDto pet) {
+        petElasticsearchRepository.save(pet);
+    }
 
-	public void delete(Long id) {
-		petElasticsearchRepository.delete(id);
-	}
+    public void delete(Long id) {
+        petElasticsearchRepository.delete(id);
+    }
 }

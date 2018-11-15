@@ -68,81 +68,81 @@ export const stateOptions = [
 ];
 
 class RegistrationForm extends React.Component {
-	constructor(props) {
-		super(props);
+    constructor(props) {
+        super(props);
 
-		if(this.props.user) this.props.refreshUser();
+        if(this.props.user) this.props.refreshUser();
 
         this.handleCheckboxChange = this.handleCheckboxChange.bind(this);
         this.displayChecks = this.displayChecks.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
         this.setCheckboxes = this.setCheckboxes.bind(this);
 
-		this.state = {
-			checkedItems: new Map(),
+        this.state = {
+            checkedItems: new Map(),
             hasLoaded: false,
-			stateChoice: '',
-		};
+            stateChoice: '',
+        };
 
         setTimeout(() => {
             this.state.hasLoaded = true;
             this.setCheckboxes();
             this.forceUpdate();
         }, 1000);
-	}
+    }
 
-	setCheckboxes() {
+    setCheckboxes() {
         this.state.checkedItems.set('petOwner', this.props.user ? this.props.user.roles.includes('OWNER') : false);
         this.state.checkedItems.set('petSitter', this.props.user ? this.props.user.roles.includes('SITTER') : false);
         this.state.checkedItems.set('emailNotifications', this.props.user ? this.props.user.attributes.emailNotifications === 'true' : false);
         this.displayChecks();
-	}
+    }
 
-	onSubmit = user => {
-		if (user != null) {
-			user.petSitter = this.state.checkedItems.get('petSitter');
-			user.petOwner = this.state.checkedItems.get('petOwner');
-			user.emailNotifications = this.state.checkedItems.get('emailNotifications');
-			this.displayChecks();
+    onSubmit = user => {
+        if (user != null) {
+            user.petSitter = this.state.checkedItems.get('petSitter');
+            user.petOwner = this.state.checkedItems.get('petOwner');
+            user.emailNotifications = this.state.checkedItems.get('emailNotifications');
+            this.displayChecks();
 
-			if(this.props.editProfile == null){
-				if(user.password !== user.password2){
-					console.error('Passwords do not match...');
-					return;
-				}
+            if(this.props.editProfile == null){
+                if(user.password !== user.password2){
+                    console.error('Passwords do not match...');
+                    return;
+                }
 
-				user.pets = [];
-				user.sessions = [];
-				this.props.register(user);
-			} else {
-				confirmPassword(user.passwordConfirm).then(res => {
-					if(res) {
+                user.pets = [];
+                user.sessions = [];
+                this.props.register(user);
+            } else {
+                confirmPassword(user.passwordConfirm).then(res => {
+                    if(res) {
                         this.state.hasLoaded = false;
-						user.principal = this.props.user.principal;
-						user.password = user.passwordConfirm;
+                        user.principal = this.props.user.principal;
+                        user.password = user.passwordConfirm;
 
-						if (user.fname == null) user.fname = this.props.user.attributes.fname;
-						if (user.lname == null) user.lname = this.props.user.attributes.lname;
-						if (user.phone == null) user.phone = this.props.user.attributes.phone;
-						if (user.street == null) user.street = this.props.user.address.street;
-						if (user.city == null) user.city = this.props.user.address.city;
-						if (user.state == null) user.state = this.props.user.address.state;
-						if (user.zip == null) user.zip = this.props.user.address.zip;
+                        if (user.fname == null) user.fname = this.props.user.attributes.fname;
+                        if (user.lname == null) user.lname = this.props.user.attributes.lname;
+                        if (user.phone == null) user.phone = this.props.user.attributes.phone;
+                        if (user.street == null) user.street = this.props.user.address.street;
+                        if (user.city == null) user.city = this.props.user.address.city;
+                        if (user.state == null) user.state = this.props.user.address.state;
+                        if (user.zip == null) user.zip = this.props.user.address.zip;
 
-						this.props.updateUser(user);
-					}
-				});
-			}
-		}
-	};
+                        this.props.updateUser(user);
+                    }
+                });
+            }
+        }
+    };
 
-	handleCheckboxChange(e) {
-		let value = this.state.checkedItems;
-		value.set(e, !this.state.checkedItems.get(e));
-		this.setState({value});
+    handleCheckboxChange(e) {
+        let value = this.state.checkedItems;
+        value.set(e, !this.state.checkedItems.get(e));
+        this.setState({value});
 
-		console.log(e + ' set to ' + this.state.checkedItems.get(e));
-	}
+        console.log(e + ' set to ' + this.state.checkedItems.get(e));
+    }
 
     handleStateChoiceChange = e => {
         if (e != null) {
@@ -151,22 +151,22 @@ class RegistrationForm extends React.Component {
         }
     };
 
-	displayChecks() {
-		console.log('User attribute checkbox values: \npetOwner-' +
-			this.state.checkedItems.get('petOwner').toString() + ',\npetSitter-' +
-			this.state.checkedItems.get('petSitter').toString() + ',\nemailNotif-' +
-			this.state.checkedItems.get('emailNotifications').toString() + '\n\n');
-	}
+    displayChecks() {
+        console.log('User attribute checkbox values: \npetOwner-' +
+            this.state.checkedItems.get('petOwner').toString() + ',\npetSitter-' +
+            this.state.checkedItems.get('petSitter').toString() + ',\nemailNotif-' +
+            this.state.checkedItems.get('emailNotifications').toString() + '\n\n');
+    }
 
-	render() {
-		let {handleSubmit, submitting} = this.props;
+    render() {
+        let {handleSubmit, submitting} = this.props;
 
-		if (this.props.editProfile == null && this.props.user) {
-			return <Redirect to='/'/>;
-		}
+        if (this.props.editProfile == null && this.props.user) {
+            return <Redirect to='/'/>;
+        }
 
-		return (
-			<div>
+        return (
+            <div>
                 {this.state.hasLoaded ?
                     <div>
                         <form name='form' onSubmit={handleSubmit(form => this.onSubmit(form))}>
@@ -212,14 +212,14 @@ class RegistrationForm extends React.Component {
                                             {/*validators={this.props.editProfile == null ? [Validation.requiredValidator, Validation.safeValidator] : []}/>*/}
 
                             <span className={'row'} style={{verticalAlign: 'middle', width: '100%', marginBottom: 15}}>
-								<label className={'col-4 d-inline-block'}>State*</label>
-								<Bessemer.Select name="state"
+                                <label className={'col-4 d-inline-block'}>State*</label>
+                                <Bessemer.Select name="state"
                                          className={'col-8 d-inline-block'}
                                          friendlyName="State" placeholder="Texas"
                                          validators={[Validation.requiredValidator, Validation.safeValidator]}
                                          options={stateOptions} value={this.state.stateChoice}
                                          onChange={opt => this.handleStateChoiceChange(opt)}/>
-							</span>
+                            </span>
 
                             <Bessemer.Field name='zip' friendlyName='ZIP'
                                             placeholder={this.props.editProfile == null ? '30096' : this.props.user.address.zip}
@@ -273,27 +273,27 @@ class RegistrationForm extends React.Component {
                             }
                         </form>
                     </div>
-					:
-					<div>
-						<Loading/>
-					</div>
+                    :
+                    <div>
+                        <Loading/>
+                    </div>
                 }
-			</div>
-		);
-	}
+            </div>
+        );
+    }
 }
 
 RegistrationForm = ReduxForm.reduxForm({form: 'register'})(RegistrationForm);
 
 RegistrationForm = connect(
-	state => ({
-		user: Users.State.getUser(state),
-	}),
-	dispatch => ({
-		register: user => dispatch(Users.Actions.register(user)),
-		refreshUser: () => dispatch(Users.Actions.refreshUser()),
-		updateUser: user => dispatch(Users.Actions.updateUser(user)),
-	})
+    state => ({
+        user: Users.State.getUser(state),
+    }),
+    dispatch => ({
+        register: user => dispatch(Users.Actions.register(user)),
+        refreshUser: () => dispatch(Users.Actions.refreshUser()),
+        updateUser: user => dispatch(Users.Actions.updateUser(user)),
+    })
 )(RegistrationForm);
 
 export {RegistrationForm};

@@ -13,29 +13,29 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/api/pets")
 public class PetEndpoint {
-	@Autowired
-	private PetService petService;
+    @Autowired
+    private PetService petService;
 
-	@GetMapping(value = "/{id}", produces = "application/json")
-	public Optional<PetDto> getPet(@PathVariable("id") String id) {
-		return petService.findPet(Long.parseLong(id));
-	}
+    @GetMapping(value = "/{id}", produces = "application/json")
+    public Optional<PetDto> getPet(@PathVariable("id") String id) {
+        return petService.findPet(Long.parseLong(id));
+    }
 
-	@PostMapping(produces = "application/json")
-	public PetDto savePet(@RequestBody PetDto pet) {
-		System.out.println("Saving pet " + pet.getId());
-		petService.save(pet);
-		return pet;
-	}
+    @PostMapping(produces = "application/json")
+    public PetDto savePet(@RequestBody PetDto pet) {
+        System.out.println("Saving pet " + pet.getId());
+        petService.save(pet);
+        return pet;
+    }
 
-	@PostMapping(value = "/update")
-	public PetDto updatePet(@RequestBody PetDto pet) {
-		System.out.println("Got to update pet endpoint");
-		return petService.update(pet);
-	}
+    @PostMapping(value = "/update")
+    public PetDto updatePet(@RequestBody PetDto pet) {
+        System.out.println("Got to update pet endpoint");
+        return petService.update(pet);
+    }
 
-	@PostMapping(value = "/delete/{id}")
-	public void delete(@PathVariable("id") String id) {
-		petService.deletePet(Long.parseLong(id));
-	}
+    @PostMapping(value = "/delete/{id}")
+    public void delete(@PathVariable("id") String id) {
+        petService.deletePet(Long.parseLong(id));
+    }
 }

@@ -68,14 +68,14 @@ class MySessions extends React.Component {
                                         session.sitterPrincipal === '' &&
                                         <div>
                                             <span className={'row'} style={{verticalAlign: 'middle', width: '100%', marginBottom: 15}}>
-						                        <label className={'col-4 d-inline-block'}>Sitter Choice</label>
-						                        <Bessemer.Select name="sitter_choice"
+                                                <label className={'col-4 d-inline-block'}>Sitter Choice</label>
+                                                <Bessemer.Select name="sitter_choice"
                                                                  className={'col-8 d-inline-block'}
                                                                  friendlyName="Choose Sitter" placeholder="Choose a Sitter"
                                                                  validators={[Validation.requiredValidator, Validation.safeValidator]}
                                                                  options={this.getBidders(session.bidderPrincipals)} value={this.state.sitter_choice}
                                                                  onChange={opt => this.handleSitterChoice(opt)}/>
-					                        </span>
+                                            </span>
                                         </div>
                                     }
 

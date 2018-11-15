@@ -11,7 +11,7 @@ import petfinder.site.common.pet.PetDto;
  */
 @Service
 public class PetElasticsearchRepository extends ElasticSearchJsonRepository<PetDto, Long> {
-	public PetElasticsearchRepository(ElasticSearchClientProvider provider) {
-		super(new ElasticSearchIndex(provider, "petfinder-pets"), PetDto.class);
-	}
+    public PetElasticsearchRepository(ElasticSearchClientProvider provider) {
+        super(new ElasticSearchIndex(provider, "petfinder-pets"), PetDto.class);
+    }
 }

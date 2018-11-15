@@ -11,48 +11,48 @@ import {sexOptions} from 'js/Pet/AddPetForm';
 export const waitToUpdateTime = 1500; // ms
 
 class PetList extends React.Component {
-	constructor(props) {
-		super(props);
-		this.state = {
-			pet_sex: null,
-		};
-		this.props.retrievePets();
+    constructor(props) {
+        super(props);
+        this.state = {
+            pet_sex: null,
+        };
+        this.props.retrievePets();
 
         setTimeout(() => {
             this.state.hasLoaded = true;
             this.forceUpdate();
         }, 1000);
 
-		this.deletePet = this.deletePet.bind(this);
-	}
+        this.deletePet = this.deletePet.bind(this);
+    }
 
-	handleSexChange = e => {
-		if (e != null) {
-			this.state.pet_sex = e;
-			this.forceUpdate();
-		}
-	};
+    handleSexChange = e => {
+        if (e != null) {
+            this.state.pet_sex = e;
+            this.forceUpdate();
+        }
+    };
 
-	deletePet = (e, id) => {
-		console.log('Deleting pet with id: ' + id);
-		this.props.deletePet(id);
-		setTimeout(this.props.retrievePets, waitToUpdateTime);
-	};
-	editPet = (e, pet) => {
-		if (this.props.pets.includes(pet)) {
-			console.log('Editing pet with id: ' + pet.id + ' with editing status of ' + pet.editing);
-			pet.editing = !pet.editing;
-			this.forceUpdate();
-		}
-	};
-	submitPet = (petForm, pet) => {
+    deletePet = (e, id) => {
+        console.log('Deleting pet with id: ' + id);
+        this.props.deletePet(id);
+        setTimeout(this.props.retrievePets, waitToUpdateTime);
+    };
+    editPet = (e, pet) => {
+        if (this.props.pets.includes(pet)) {
+            console.log('Editing pet with id: ' + pet.id + ' with editing status of ' + pet.editing);
+            pet.editing = !pet.editing;
+            this.forceUpdate();
+        }
+    };
+    submitPet = (petForm, pet) => {
         if (this.props.pets.includes(pet)) {
             console.log('Done editing pet with id: ' + pet.id + ' with editing status of ' + pet.editing);
             pet.editing = !pet.editing;
         }
 
-		// If something was changed
-		if(!_.isEmpty(petForm)){
+        // If something was changed
+        if(!_.isEmpty(petForm)){
             petForm.id = pet.id;
             if (petForm.pet_name == null) petForm.pet_name = pet.pet_name;
             if (petForm.pet_species == null) petForm.pet_species = pet.pet_species;
@@ -63,18 +63,18 @@ class PetList extends React.Component {
 
             this.props.updatePet(petForm);
             setTimeout(this.forceUpdate, waitToUpdateTime);
-		}
-	};
+        }
+    };
 
-	render() {
-		let {handleSubmit, submitting} = this.props;
+    render() {
+        let {handleSubmit, submitting} = this.props;
 
-		let parent = this;
+        let parent = this;
 
-		return (
-			<div>
-				{this.state.hasLoaded ?
-					<div>
+        return (
+            <div>
+                {this.state.hasLoaded ?
+                    <div>
                         {_.isDefined(this.props.pets) && this.props.pets.length !== 0 &&
                         <div>
                             <h3>Pet List</h3>
@@ -138,14 +138,14 @@ class PetList extends React.Component {
                                                 <div style={{display: 'inline'}}>
                                                     {pet.editing === true &&
                                                     <span className={'row'} style={{verticalAlign: 'middle', width: '100%', marginBottom: 15}}>
-												<label className={'col-4 d-inline-block'}>Pet Sex</label>
-												<Bessemer.Select name="pet_sex"
+                                                <label className={'col-4 d-inline-block'}>Pet Sex</label>
+                                                <Bessemer.Select name="pet_sex"
                                                                  className={'col-8 d-inline-block'}
                                                                  friendlyName="Pet Sex" placeholder="Male"
                                                                  validators={[Validation.requiredValidator, Validation.safeValidator]}
                                                                  options={sexOptions} value={this.state.pet_sex}
                                                                  onChange={opt => this.handleSexChange(opt)}/>
-												</span>
+                                                </span>
                                                     }
                                                     {pet.editing === false &&
                                                     <div>
@@ -217,28 +217,28 @@ class PetList extends React.Component {
                                 </div>
                             ))}</div>
                         }
-					</div>
-				:
-					<Loading/>
-				}
+                    </div>
+                :
+                    <Loading/>
+                }
 
-			</div>
-		);
-	}
+            </div>
+        );
+    }
 }
 
 PetList = ReduxForm.reduxForm({form: 'PetList'})(PetList);
 
 PetList = connect(
-	state => ({
-		pets: Users.State.getPets(state),
-		user: Users.State.getUser(state)
-	}),
-	dispatch => ({
-		updatePet: pet => dispatch(Users.Actions.updatePet(pet)),
-		retrievePets: () => dispatch(Users.Actions.retrieve()),
-		deletePet: pet => dispatch(Users.Actions.deletePet(pet)),
-	})
+    state => ({
+        pets: Users.State.getPets(state),
+        user: Users.State.getUser(state)
+    }),
+    dispatch => ({
+        updatePet: pet => dispatch(Users.Actions.updatePet(pet)),
+        retrievePets: () => dispatch(Users.Actions.retrieve()),
+        deletePet: pet => dispatch(Users.Actions.deletePet(pet)),
+    })
 )(PetList);
 
 export default PetList;

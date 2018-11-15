@@ -5,24 +5,24 @@ import connect from 'react-redux/es/connect/connect';
 import * as Users from 'js/User/Users';
 
 export class NavBar extends React.Component {
-	constructor(props) {
-		super(props);
-		document.title = 'Animalis';
-	}
+    constructor(props) {
+        super(props);
+        document.title = 'Animalis';
+    }
 
-	logoutClick = () => {
-		return this.props.logout();
-	};
+    logoutClick = () => {
+        return this.props.logout();
+    };
 
-	render() {
-		return (
-			<div>
+    render() {
+        return (
+            <div>
                 <Favicon url="https://i.imgur.com/J9wBmWu.png" />
                 <nav style={{backgroundColor: '#000000'}} className="navbar navbar-expand-md">
                     <a className="navbar-brand" href="/#" style={{color: 'white'}}>
                         <img style={{margin: -9}} src="https://i.imgur.com/5YjGzlp.png"
-                             height="51" width="123	"/>
-					</a>
+                             height="51" width="123    "/>
+                    </a>
                     <button className="navbar-toggler" type="button" data-toggle="collapse"
                             data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
                             aria-expanded="false" aria-label="Toggle navigation" style={{color: 'white'}}>
@@ -94,16 +94,16 @@ export class NavBar extends React.Component {
                         </ul>
                     </div>
                 </nav>
-			</div>
-		);
-	}
+            </div>
+        );
+    }
 }
 
 NavBar = connect(
-	state => ({
-		user: Users.State.getUser(state)
-	}),
-	dispatch => ({
-		logout: () => dispatch(Users.Actions.logout())
-	})
+    state => ({
+        user: Users.State.getUser(state)
+    }),
+    dispatch => ({
+        logout: () => dispatch(Users.Actions.logout())
+    })
 )(NavBar);

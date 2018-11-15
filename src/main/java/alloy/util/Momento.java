@@ -9,21 +9,21 @@ import java.util.stream.Stream;
  * Created by jlutteringer on 1/15/18.
  */
 public interface Momento<T> extends Serializable {
-	T getMomento();
+    T getMomento();
 
-	static <T, R extends Momento<T>> Map<T, R> mapify(Collection<R> list) {
-		return mapify(list.stream());
-	}
+    static <T, R extends Momento<T>> Map<T, R> mapify(Collection<R> list) {
+        return mapify(list.stream());
+    }
 
-	static <T, R extends Momento<T>> Map<T, R> mapify(Stream<R> stream) {
-		return stream.map(element -> Tuple.pair(element.getMomento(), element)).collect(_Collectors.toMap());
-	}
+    static <T, R extends Momento<T>> Map<T, R> mapify(Stream<R> stream) {
+        return stream.map(element -> Tuple.pair(element.getMomento(), element)).collect(_Collectors.toMap());
+    }
 
-	static <T, I> Momentizer<T, String> stringMomentizer(Momentizer<T, I> momentizer) {
-		return object -> momentizer.getMomento(object).toString();
-	}
+    static <T, I> Momentizer<T, String> stringMomentizer(Momentizer<T, I> momentizer) {
+        return object -> momentizer.getMomento(object).toString();
+    }
 
-	interface Momentizer<O, T> {
-		T getMomento(O object);
-	}
+    interface Momentizer<O, T> {
+        T getMomento(O object);
+    }
 }

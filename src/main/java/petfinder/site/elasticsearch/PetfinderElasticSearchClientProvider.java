@@ -19,37 +19,37 @@ import javax.annotation.PostConstruct;
  */
 @Service
 public class PetfinderElasticSearchClientProvider implements ElasticSearchClientProvider {
-	private RestHighLevelClient client;
+    private RestHighLevelClient client;
 
-	@Value("${elastic-search.host}")
-	private String elasticSearchHost;
+    @Value("${elastic-search.host}")
+    private String elasticSearchHost;
 
-	@Value("${elastic-search.port}")
-	private int elasticSearchPort;
+    @Value("${elastic-search.port}")
+    private int elasticSearchPort;
 
-	@Value("${elastic-search.scheme}")
-	private String elasticSearchScheme;
+    @Value("${elastic-search.scheme}")
+    private String elasticSearchScheme;
 
-	@Value("${elastic-search.user-name}")
-	private String elasticSearchUserName;
+    @Value("${elastic-search.user-name}")
+    private String elasticSearchUserName;
 
-	@Value("${elastic-search.password}")
-	private String elasticSearchPassword;
+    @Value("${elastic-search.password}")
+    private String elasticSearchPassword;
 
-	@PostConstruct
-	private void initialize() {
-		RestClientBuilder builder = RestClient.builder(new HttpHost(elasticSearchHost, elasticSearchPort, elasticSearchScheme));
-		if(elasticSearchUserName != null) {
-			CredentialsProvider credentialsProvider = new BasicCredentialsProvider();
-			credentialsProvider.setCredentials(AuthScope.ANY, new UsernamePasswordCredentials(elasticSearchUserName, elasticSearchPassword));
+    @PostConstruct
+    private void initialize() {
+        RestClientBuilder builder = RestClient.builder(new HttpHost(elasticSearchHost, elasticSearchPort, elasticSearchScheme));
+        if(elasticSearchUserName != null) {
+            CredentialsProvider credentialsProvider = new BasicCredentialsProvider();
+            credentialsProvider.setCredentials(AuthScope.ANY, new UsernamePasswordCredentials(elasticSearchUserName, elasticSearchPassword));
 
-			builder.setHttpClientConfigCallback(httpClientBuilder -> httpClientBuilder.setDefaultCredentialsProvider(credentialsProvider));
-		}
+            builder.setHttpClientConfigCallback(httpClientBuilder -> httpClientBuilder.setDefaultCredentialsProvider(credentialsProvider));
+        }
 
-		client = new RestHighLevelClient(builder);
-	}
+        client = new RestHighLevelClient(builder);
+    }
 
-	public RestHighLevelClient getClient() {
-		return client;
-	}
+    public RestHighLevelClient getClient() {
+        return client;
+    }
 }

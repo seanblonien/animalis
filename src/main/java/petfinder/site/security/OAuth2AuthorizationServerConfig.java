@@ -19,64 +19,64 @@ import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
 @Configuration
 @EnableAuthorizationServer
 public class OAuth2AuthorizationServerConfig extends AuthorizationServerConfigurerAdapter {
-	private int accessTokenValiditySeconds = 10000;
-	private int refreshTokenValiditySeconds = 30000;
+    private int accessTokenValiditySeconds = 10000;
+    private int refreshTokenValiditySeconds = 30000;
 
-	@Value("${security.oauth2.resource.id}")
-	private String resourceId;
+    @Value("${security.oauth2.resource.id}")
+    private String resourceId;
 
-	@Autowired
-	private AuthenticationManager authenticationManager;
+    @Autowired
+    private AuthenticationManager authenticationManager;
 
-	@Override
-	public void configure(AuthorizationServerEndpointsConfigurer endpoints) {
-		endpoints
-				.authenticationManager(this.authenticationManager)
-				.tokenServices(tokenServices())
-				.tokenStore(tokenStore())
-				.accessTokenConverter(accessTokenConverter());
-	}
+    @Override
+    public void configure(AuthorizationServerEndpointsConfigurer endpoints) {
+        endpoints
+                .authenticationManager(this.authenticationManager)
+                .tokenServices(tokenServices())
+                .tokenStore(tokenStore())
+                .accessTokenConverter(accessTokenConverter());
+    }
 
-	@Override
-	public void configure(AuthorizationServerSecurityConfigurer oauthServer) {
-		oauthServer
-				// we're allowing access to the token only for clients with 'ROLE_TRUSTED_CLIENT' authority
-				.tokenKeyAccess("hasAuthority('ROLE_TRUSTED_CLIENT')")
-				.checkTokenAccess("hasAuthority('ROLE_TRUSTED_CLIENT')");
-	}
+    @Override
+    public void configure(AuthorizationServerSecurityConfigurer oauthServer) {
+        oauthServer
+                // we're allowing access to the token only for clients with 'ROLE_TRUSTED_CLIENT' authority
+                .tokenKeyAccess("hasAuthority('ROLE_TRUSTED_CLIENT')")
+                .checkTokenAccess("hasAuthority('ROLE_TRUSTED_CLIENT')");
+    }
 
-	@Override
-	public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
-		clients.inMemory()
-				.withClient("petfinder-app")
-					.secret("petfinder-app-secret")
-					.authorizedGrantTypes("client_credentials", "refresh_token", "password")
-					.authorities("ROLE_TRUSTED_CLIENT")
-					.scopes("read", "write")
-					.resourceIds(resourceId)
-					.accessTokenValiditySeconds(accessTokenValiditySeconds)
-					.refreshTokenValiditySeconds(refreshTokenValiditySeconds);
-	}
+    @Override
+    public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
+        clients.inMemory()
+                .withClient("petfinder-app")
+                    .secret("petfinder-app-secret")
+                    .authorizedGrantTypes("client_credentials", "refresh_token", "password")
+                    .authorities("ROLE_TRUSTED_CLIENT")
+                    .scopes("read", "write")
+                    .resourceIds(resourceId)
+                    .accessTokenValiditySeconds(accessTokenValiditySeconds)
+                    .refreshTokenValiditySeconds(refreshTokenValiditySeconds);
+    }
 
-	@Bean
-	public TokenStore tokenStore() {
-		return new JwtTokenStore(accessTokenConverter());
-	}
+    @Bean
+    public TokenStore tokenStore() {
+        return new JwtTokenStore(accessTokenConverter());
+    }
 
-	@Bean
-	public JwtAccessTokenConverter accessTokenConverter() {
-		JwtAccessTokenConverter converter = new JwtAccessTokenConverter();
-		converter.setSigningKey("123");
-		return converter;
-	}
+    @Bean
+    public JwtAccessTokenConverter accessTokenConverter() {
+        JwtAccessTokenConverter converter = new JwtAccessTokenConverter();
+        converter.setSigningKey("123");
+        return converter;
+    }
 
-	@Bean
-	@Primary
-	public DefaultTokenServices tokenServices() {
-		DefaultTokenServices defaultTokenServices = new DefaultTokenServices();
-		defaultTokenServices.setTokenStore(tokenStore());
-		defaultTokenServices.setSupportRefreshToken(true);
-		defaultTokenServices.setTokenEnhancer(accessTokenConverter());
-		return defaultTokenServices;
-	}
+    @Bean
+    @Primary
+    public DefaultTokenServices tokenServices() {
+        DefaultTokenServices defaultTokenServices = new DefaultTokenServices();
+        defaultTokenServices.setTokenStore(tokenStore());
+        defaultTokenServices.setSupportRefreshToken(true);
+        defaultTokenServices.setTokenEnhancer(accessTokenConverter());
+        return defaultTokenServices;
+    }
 }

@@ -17,19 +17,19 @@ import java.util.stream.Collectors;
  */
 @Service
 public class PetfinderUserDetailsService implements UserDetailsService {
-	@Autowired
-	private UserService userService;
+    @Autowired
+    private UserService userService;
 
-	@Override
-	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		UserAuthenticationDto userAuthentication =
-				userService.findUserAuthenticationByPrincipal(username).orElseThrow(() -> new UsernameNotFoundException(username + " not found"));
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        UserAuthenticationDto userAuthentication =
+                userService.findUserAuthenticationByPrincipal(username).orElseThrow(() -> new UsernameNotFoundException(username + " not found"));
 
-		return new User(
-				userAuthentication.getUser().getPrincipal(),
-				userAuthentication.getPassword(),
-				userAuthentication.getUser().getRoles().stream()
-						.map(SimpleGrantedAuthority::new)
-						.collect(Collectors.toList()));
-	}
+        return new User(
+                userAuthentication.getUser().getPrincipal(),
+                userAuthentication.getPassword(),
+                userAuthentication.getUser().getRoles().stream()
+                        .map(SimpleGrantedAuthority::new)
+                        .collect(Collectors.toList()));
+    }
 }

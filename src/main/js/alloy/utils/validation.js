@@ -2,10 +2,10 @@ import _ from 'lodash';
 import DomPurify from 'dompurify';
 
 export class Validator {
-	constructor(spec, error) {
-		this.spec = spec;
-		this.error = error;
-	}
+    constructor(spec, error) {
+        this.spec = spec;
+        this.error = error;
+    }
 }
 
 let Spec = {};
@@ -39,15 +39,15 @@ export const isSafe = (val) => !(val === sanitize(val));
 export const safeValidator = new Validator(isSafe, () => 'Please enter in valid characters! No funny business allowed!');
 
 export function sanitize(strings, ...values) {
-	strings = strings ? [].concat(strings) : [];
-	const dirty = isEmpty(strings) ? [] : strings.reduce((prev, next, i) => `${prev}${next}${values[i]} || ''}`, '');
-	return DomPurify.sanitize(dirty);
+    strings = strings ? [].concat(strings) : [];
+    const dirty = isEmpty(strings) ? [] : strings.reduce((prev, next, i) => `${prev}${next}${values[i]} || ''}`, '');
+    return DomPurify.sanitize(dirty);
 }
 
 function isEmpty(obj) {
-	for (let key in obj) {
-		if (obj.hasOwnProperty(key))
-			return false;
-	}
-	return true;
+    for (let key in obj) {
+        if (obj.hasOwnProperty(key))
+            return false;
+    }
+    return true;
 }

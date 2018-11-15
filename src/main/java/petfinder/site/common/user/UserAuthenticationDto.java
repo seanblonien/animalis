@@ -7,29 +7,29 @@ import org.codehaus.jackson.annotate.JsonIgnore;
  * Created by jlutteringer on 1/15/18.
  */
 public class UserAuthenticationDto implements Momento<String> {
-	private UserDto user;
-	private String password;
+    private UserDto user;
+    private String password;
 
-	private UserAuthenticationDto() {
+    private UserAuthenticationDto() {
 
-	}
+    }
 
-	public UserAuthenticationDto(UserDto user, String password) {
-		this.user = user;
-		this.password = password;
-	}
+    public UserAuthenticationDto(UserDto user, String password) {
+        this.user = user;
+        this.password = password;
+    }
 
-	public UserDto getUser() {
-		return user;
-	}
+    public UserDto getUser() {
+        return user;
+    }
 
-	public String getPassword() {
-		return password;
-	}
+    public String getPassword() {
+        return password;
+    }
 
-	@JsonIgnore
-	@Override
-	public String getMomento() {
-		return user.getMomento();
-	}
+    @JsonIgnore
+    @Override
+    public String getMomento() {
+        return user.getMomento();
+    }
 }

@@ -10,23 +10,23 @@ import java.util.Optional;
  */
 @Service
 public class PetService {
-	@Autowired
-	private PetDao petDao;
+    @Autowired
+    private PetDao petDao;
 
-	public Optional<PetDto> findPet(Long id) {
-		return petDao.findPet(id);
-	}
+    public Optional<PetDto> findPet(Long id) {
+        return petDao.findPet(id);
+    }
 
-	public void save(PetDto pet) {
-		petDao.save(pet);
-	}
+    public void save(PetDto pet) {
+        petDao.save(pet);
+    }
 
-	public void deletePet(Long id) {
-		petDao.delete(id);
-	}
+    public void deletePet(Long id) {
+        petDao.delete(id);
+    }
 
-	public PetDto update(PetDto pet) {
-		petDao.save(pet);
-		return pet;
-	}
+    public PetDto update(PetDto pet) {
+        petDao.save(pet);
+        return pet;
+    }
 }
