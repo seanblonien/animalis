@@ -48,7 +48,7 @@ class LoginForm extends React.Component {
 					<p style={{display: 'inline-block'}}>Don't have an account yet?</p>
                     <a className="btn btn-primary ml-1"
                        style={{display: 'inline-block'}}
-                       href="/#/register">Sign up</a>
+                       href="#/register">Register</a>
                 </div>
 			</form>
 		);

@@ -59,13 +59,13 @@ export const makeToast = (thisToast) => {
         if(!toast.isActive(thisToast.id)) {
             switch(thisToast.type) {
                 case 'Successful':
-                    toast.success(thisToast.message, {toastId: thisToast.id});
+                    toast.success(thisToast.message, {toastId: thisToast.id, className: 'toast-border'});
                     break;
                 case 'Unsuccessful':
-                    toast.error(thisToast.message, {toastId: thisToast.id});
+                    toast.error(thisToast.message, {toastId: thisToast.id, className: 'toast-border'});
                     break;
                 default:
-                    toast.info(thisToast.message, {toastId: thisToast.id, autoClose: 5000});
+                    toast.info(thisToast.message, {toastId: thisToast.id, className: 'toast-border', autoClose: 4000});
             }
         } else {
             console.log('Already active ' + thisToast.type + ' ' + thisToast.message + ' toast.');

@@ -84,10 +84,10 @@ export class NavBar extends React.Component {
                                 :
                                 <div className="d-inline-flex">
                                     <li className="nav-item">
-                                        <a className="nav-link" href="/#/register" style={{color: 'white'}}>Register</a>
+                                        <a className="nav-link" href="#/register" style={{color: 'white'}}>Register</a>
                                     </li>
                                     <li className="nav-item">
-                                        <a className="nav-link" href="/#/login" style={{color: 'white'}}>Login</a>
+                                        <a className="nav-link" href="#/login" style={{color: 'white'}}>Login</a>
                                     </li>
                                 </div>
                             }

@@ -181,7 +181,7 @@ class SessionPostings extends React.Component {
                                         <img src={'https://static.thenounproject.com/png/194149-200.png'} style={{height: 60, width: 60}}/>
                                         <p>Session ID: {session.id}</p>
                                         <p>Pet Breeds: {}</p>
-                                        <p>Price: NEED TO IMPLEMENT</p>
+                                        <p>Price: $30/hr</p>
                                         <p>Bidders: {_.isDefined(session.bidderPrincipals) && _.isEmpty(session.bidderPrincipals) && session.bidderPrincipals.map((bidder) => (
                                             <span key={bidder}>{bidder}, </span>
                                         ))
