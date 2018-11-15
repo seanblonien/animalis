@@ -2,7 +2,6 @@ import React from 'react';
 import * as Users from 'js/User/Users';
 import {connect} from 'react-redux';
 import _ from 'lodash';
-import { Player } from 'video-react';
 
 class HomePage extends React.Component {
     constructor(props) {
