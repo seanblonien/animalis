@@ -17,11 +17,12 @@ public class SessionDto implements Identifiable {
     private String notes;
     private Long maxDistance;
     private Boolean isComplete;
+    private Double price;
     private List<String> bidderPrincipals;
 
     private SessionDto() {}
 
-    public SessionDto(Long id, String ownerPrincipal, String sitterPrincipal, String startDate, String endDate, String startTime, String endTime, String sessionType, List<Long> pets, String notes, Long maxDistance, Boolean isComplete, List<String> bidderPrincipals) {
+    public SessionDto(Long id, String ownerPrincipal, String sitterPrincipal, String startDate, String endDate, String startTime, String endTime, String sessionType, List<Long> pets, String notes, Long maxDistance, Boolean isComplete, Double price, List<String> bidderPrincipals) {
         this.id = id;
         this.ownerPrincipal = ownerPrincipal;
         this.sitterPrincipal = sitterPrincipal;
@@ -34,6 +35,7 @@ public class SessionDto implements Identifiable {
         this.notes = notes;
         this.maxDistance = maxDistance;
         this.isComplete = isComplete;
+        this.price = price;
         this.bidderPrincipals = bidderPrincipals;
     }
 
@@ -106,38 +108,32 @@ public class SessionDto implements Identifiable {
         this.sessionType = sessionType;
     }
 
+    public Double getPrice() {
+        return price;
+    }
+
+    public void setPrice(Double price) {
+        this.price = price;
+    }
+
     @Override
-    public String toString(){
-        String sessionStr = "SessionDto{\n" +
-                "id= " + id + "\n" +
-                "ownerPrincipal= " + ownerPrincipal + "\n" +
-                "sitterPrincipal= " + sitterPrincipal + "\n" +
-                "startDate= " + startDate.toString() + "\n" +
-                "endDate= " + endDate.toString() + "\n" +
-                "startTime= " + startTime.toString() + "\n" +
-                "endTime= " + endTime.toString() + "\n" +
-                "sessionType" + sessionType.toString() + "\n" +
-                "pets{\n";
-
-        // Get all pet info
-        for(Long pet: pets){
-            sessionStr += "\t" + pet.toString() + "\n";
-        }
-
-        sessionStr += "}\n" +
-                "bidders{\n";
-
-        // Get all bidder info
-        for(String bidder: bidderPrincipals){
-            sessionStr += "\t" + bidder + "\n";
-        }
-
-        sessionStr += "}\n" +
-                "notes= " + notes + "\n" +
-                "maxDistance= " + maxDistance + "\n" +
-                "isComplete= " + isComplete + "\n}\n";
-
-        return sessionStr;
+    public String toString() {
+        return "SessionDto{" +
+                "id=" + id +
+                ", ownerPrincipal='" + ownerPrincipal + '\'' +
+                ", sitterPrincipal='" + sitterPrincipal + '\'' +
+                ", startDate='" + startDate + '\'' +
+                ", endDate='" + endDate + '\'' +
+                ", startTime='" + startTime + '\'' +
+                ", endTime='" + endTime + '\'' +
+                ", sessionType='" + sessionType + '\'' +
+                ", pets=" + pets +
+                ", notes='" + notes + '\'' +
+                ", maxDistance=" + maxDistance +
+                ", isComplete=" + isComplete +
+                ", price=" + price +
+                ", bidderPrincipals=" + bidderPrincipals +
+                '}';
     }
 
     public boolean isEmpty() {

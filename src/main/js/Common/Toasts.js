@@ -1,7 +1,7 @@
 import {toast} from 'react-toastify';
 
 export const Toasts = {
-    // Next ID 12
+    // Next ID 13
     Successful: {
         Login: {
             id: 1,
@@ -44,6 +44,11 @@ export const Toasts = {
             id: 11,
             type: 'Unsuccessful',
             message: 'You cannot bid on your own session!',
+        },
+        AuthenticationError: {
+            id: 12,
+            type: 'Unsuccessful',
+            message: 'Error authenticating with the server!',
         }
     },
     Info: {

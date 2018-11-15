@@ -6,7 +6,7 @@ import * as Users from 'js/User/Users';
 import * as ReduxForm from 'redux-form';
 import {connect} from 'react-redux';
 import _ from 'lodash';
-import {sexOptions} from 'js/Pet/AddPetForm';
+import {sexOptions, sizeOptions} from 'js/Pet/AddPetForm';
 
 export const waitToUpdateTime = 1500; // ms
 
@@ -15,6 +15,7 @@ class PetList extends React.Component {
         super(props);
         this.state = {
             pet_sex: null,
+            pet_size: null,
         };
         this.props.retrievePets();
 
@@ -24,6 +25,8 @@ class PetList extends React.Component {
         }, 1000);
 
         this.deletePet = this.deletePet.bind(this);
+        this.handleSexChange = this.handleSexChange.bind(this);
+        this.handleSizeChange = this.handleSizeChange.bind(this);
     }
 
     handleSexChange = e => {
@@ -33,11 +36,19 @@ class PetList extends React.Component {
         }
     };
 
+    handleSizeChange = e => {
+        if (e != null) {
+            this.state.pet_size = e;
+            this.forceUpdate();
+        }
+    };
+
     deletePet = (e, id) => {
         console.log('Deleting pet with id: ' + id);
         this.props.deletePet(id);
         setTimeout(this.props.retrievePets, waitToUpdateTime);
     };
+
     editPet = (e, pet) => {
         if (this.props.pets.includes(pet)) {
             console.log('Editing pet with id: ' + pet.id + ' with editing status of ' + pet.editing);
@@ -120,9 +131,15 @@ class PetList extends React.Component {
                                             <li className="list-group-item">
                                                 <div style={{display: 'inline'}}>
                                                     {pet.editing === true &&
-                                                    <Bessemer.Field name="pet_size" friendlyName="Pet Size"
-                                                                    placeholder={pet.pet_size == null ? 'Medium' : pet.pet_size}
-                                                                    validators={[Validation.safeValidator]}/>
+                                                    <span className={'row'} style={{verticalAlign: 'middle', width: '100%', marginBottom: 15}}>
+                                                        <label className={'col-4 d-inline-block'}>Pet Size*</label>
+                                                        <Bessemer.Select name="pet_size"
+                                                                         className={'col-8 d-inline-block'}
+                                                                         friendlyName="Pet Size" placeholder="Small"
+                                                                         validators={[Validation.requiredValidator, Validation.safeValidator]}
+                                                                         options={sizeOptions} value={this.state.pet_size}
+                                                                         onChange={opt => this.handleSizeChange(opt)}/>
+                                                    </span>
                                                     }
                                                     {pet.editing === false &&
                                                     <div>

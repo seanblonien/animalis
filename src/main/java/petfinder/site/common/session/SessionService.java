@@ -96,5 +96,18 @@ public class SessionService {
         public void setDistance(Double distance) {
             this.distance = distance;
         }
+
+        @Override
+        public String toString() {
+            return "SessionQuery{" +
+                    "sessionTypes=" + sessionTypes +
+                    ", petSpecies=" + petSpecies +
+                    ", dateRangeStart='" + dateRangeStart + '\'' +
+                    ", dateRangeEnd='" + dateRangeEnd + '\'' +
+                    ", timeRangeStart='" + timeRangeStart + '\'' +
+                    ", timeRangeEnd='" + timeRangeEnd + '\'' +
+                    ", distance=" + distance +
+                    '}';
+        }
     }
 }

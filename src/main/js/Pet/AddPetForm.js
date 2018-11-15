@@ -31,7 +31,6 @@ class AddPetForm extends React.Component {
         this.handleSizeChange = this.handleSizeChange.bind(this);
     }
 
-
     onSubmit = pet => {
         pet.id = Math.round(Date.now() + Math.random());
         pet.pet_sex = this.state.pet_sex;
@@ -40,7 +39,7 @@ class AddPetForm extends React.Component {
         console.log('Keys: ' + Object.keys(pet).join(', '));
         this.props.addPet(pet);
         setTimeout(this.props.retrievePets, waitToUpdateTime);
-        setTimeout(this.forceUpdate, waitToUpdateTime+100);
+        setTimeout(this.forceUpdate(), waitToUpdateTime);
     };
 
     handleSexChange = e => {
@@ -78,14 +77,6 @@ class AddPetForm extends React.Component {
                                          options={sizeOptions} value={this.state.pet_size}
                                          onChange={opt => this.handleSizeChange(opt)}/>
                     </span>
-
-                    {/*<Bessemer.Field name="pet_sex" friendlyName="Pet Sex" placeholder="Male"*/}
-                    {/*validators={[Validation.requiredValidator, Validation.sexValidator]} />*/}
-
-                    {/*<Bessemer.Field name="pet_sex" friendlyName="Pet Sex" placeholder="Male"*/}
-                    {/*validators={[Validation.requiredValidator]}*/}
-                    {/*field={<input type="date"*/}
-                    {/*className={'form-control form-group'}/>} />*/}
 
                     <span className={'row'} style={{verticalAlign: 'middle', width: '100%', marginBottom: 15}}>
                         <label className={'col-4 d-inline-block'}>Pet Sex*</label>

@@ -1,3 +1,4 @@
+import {makeToast, Toasts} from 'js/Common/Toasts';
 import _ from 'lodash';
 import React from 'react';
 import ReactDOM from 'react-dom';
@@ -42,7 +43,12 @@ axios.interceptors.request.use(request => {
     }
 
     return request;
-}, error => Promise.reject(error));
+}, error => {
+    if(error.response.status === 401){
+        makeToast(Toasts.Unsuccessful.AuthenticationError);
+    }
+    return Promise.reject(error);
+});
 
 axios.interceptors.response.use(response => response.data, error => Promise.reject(error));
 
