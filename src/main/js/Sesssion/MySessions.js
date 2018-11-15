@@ -45,8 +45,10 @@ class MySessions extends React.Component {
             <div className="row">
                 <div className="col-4">
                     <div>
-                        <h6>{this.props.user.attributes.fname} {this.props.user.attributes.lname}</h6>
-                        {_.isDefined(this.props.user) && this.props.user.roles.includes('OWNER') &&
+                        {_.isDefined(this.props.user) && !_.isEmpty(this.props.user) &&
+                            <h6>{this.props.user.attributes.fname} {this.props.user.attributes.lname}</h6>
+                        }
+                        {_.isDefined(this.props.user) && !_.isEmpty(this.props.user) && this.props.user.roles.includes('OWNER') &&
                         <p>Sessions as Owner:</p>
                         }
 
