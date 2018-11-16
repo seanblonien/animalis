@@ -46,6 +46,24 @@ export class NavBar extends React.Component {
                                     <li className="nav-item dropdown" style={{color: 'white'}}>
                                         <a className="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style={{color: 'white'}}>
+                                            (put bell icon here)
+                                        </a>
+                                        <div className="dropdown-menu" aria-labelledby="navbarDropdown">
+                                            {_.isArray(this.props.user.roles) &&
+                                            <div>
+
+                                                <a className="dropdown-item">Notification 1</a>
+                                                <a className="dropdown-item">Notification 2</a>
+                                                <a className="dropdown-item">Notification 3</a>
+                                                <div className="dropdown-divider"></div>
+                                                <a className="dropdown-item" href="#/notifications">View All</a>
+                                            </div>
+                                            }
+                                        </div>
+                                    </li>
+									<li className="nav-item dropdown" style={{color: 'white'}}>
+                                        <a className="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                                           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style={{color: 'white'}}>
                                             +
                                         </a>
                                         <div className="dropdown-menu" aria-labelledby="navbarDropdown">

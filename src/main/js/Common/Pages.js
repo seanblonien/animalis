@@ -16,6 +16,7 @@ import SessionPostings from 'js/Sesssion/SessionPostings';
 import MySessions from 'js/Sesssion/MySessions';
 import SessionHistory from 'js/Sesssion/SessionHistory';
 import SessionTypes from 'js/Sesssion/SessionTypes';
+import Notifications from 'js/User/Notifications';
 
 /* Color Codes
     Dark Blue:   #01395E
@@ -205,6 +206,21 @@ export class HistoryPage extends React.Component {
                 <div className="container padded align-content-center">
                     <h2>Session History</h2>
                     <SessionHistory/>
+                </div>
+            </div>
+        );
+    }
+}
+
+export class NotificationsPage extends React.Component {
+    render() {
+        return (
+            <div>
+                <NavBar/>
+
+                <div className="container padded align-content-center">
+                    <h2>Notifications</h2>
+                    <Notifications/>
                 </div>
             </div>
         );
