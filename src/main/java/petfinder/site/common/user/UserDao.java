@@ -5,7 +5,6 @@ import org.elasticsearch.action.update.UpdateRequest;
 import org.elasticsearch.action.update.UpdateResponse;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
-import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import petfinder.site.common.notification.NotificationDto;
@@ -59,7 +58,7 @@ public class UserDao {
         return userRepository.search(searchSourceBuilder).stream().findFirst();
     }
 
-    private UpdateRequest buildUserFields(@NotNull UserDto user) throws IOException{
+    private UpdateRequest buildUserFields(UserDto user) throws IOException{
         UpdateRequest updateRequest = new UpdateRequest();
 
         updateRequest.index("petfinder-users");
