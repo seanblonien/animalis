@@ -6,9 +6,6 @@ import com.google.common.collect.Sets;
 import java.util.Collection;
 import java.util.Set;
 
-/**
- * Created by jlutteringer on 1/15/18.
- */
 public class _Sets {
     @SafeVarargs
     public static <T> ImmutableSet<T> set(T... targets) {

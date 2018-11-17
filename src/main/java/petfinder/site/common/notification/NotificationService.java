@@ -2,6 +2,7 @@ package petfinder.site.common.notification;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import java.util.Optional;
 
 @Service
@@ -17,8 +18,7 @@ public class NotificationService {
         NotificationDao.save(notification);
     }
 
-    public NotificationDto update(NotificationDto notification) {
-        NotificationDao.save(notification);
-        return notification;
+    public void deleteNotification(Long id) {
+        NotificationDao.delete(id);
     }
 }

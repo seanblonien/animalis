@@ -5,10 +5,13 @@ import org.elasticsearch.action.update.UpdateRequest;
 import org.elasticsearch.action.update.UpdateResponse;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import petfinder.site.common.notification.NotificationDto;
 import petfinder.site.common.pet.PetDto;
 import petfinder.site.common.session.SessionDto;
+import petfinder.site.elasticsearch.NotificationElasticsearchRepository;
 import petfinder.site.elasticsearch.PetElasticsearchRepository;
 import petfinder.site.elasticsearch.SessionElasticsearchRepository;
 import petfinder.site.elasticsearch.UserElasticSearchRepository;
@@ -20,9 +23,6 @@ import java.util.stream.Collectors;
 
 import static org.elasticsearch.common.xcontent.XContentFactory.jsonBuilder;
 
-/**
- * Created by jlutteringer on 8/23/17.
- */
 @Repository
 public class UserDao {
     @Autowired
@@ -37,6 +37,19 @@ public class UserDao {
     @Autowired
     private SessionElasticsearchRepository sessionRepository;
 
+    @Autowired
+    private NotificationElasticsearchRepository notificationRepository;
+
+    public void save(UserAuthenticationDto userAuthentication) {
+        userRepository.save(userAuthentication);
+    }
+
+    public void update(UserDto user) throws IOException {
+        UpdateRequest updateRequest = buildUserFields(user);
+        UpdateResponse response = elasticSearchClientProvider.getClient().update(updateRequest);
+        System.out.println("Elasticsearch user update response: " + response);
+    }
+
     public Optional<UserAuthenticationDto> findUserByPrincipal(String principal) {
         SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
 
@@ -46,15 +59,7 @@ public class UserDao {
         return userRepository.search(searchSourceBuilder).stream().findFirst();
     }
 
-    public void save(UserAuthenticationDto userAuthentication) {
-        userRepository.save(userAuthentication);
-    }
-
-    public void delete(UserService.PrincipalRequest request) {
-        userRepository.delete(request.getPrincipal());
-    }
-
-    private UpdateRequest buildUserFields(UserDto user) throws IOException{
+    private UpdateRequest buildUserFields(@NotNull UserDto user) throws IOException{
         UpdateRequest updateRequest = new UpdateRequest();
 
         updateRequest.index("petfinder-users");
@@ -74,12 +79,6 @@ public class UserDao {
                 .endObject());
 
         return updateRequest;
-    }
-
-    public void update(UserDto user) throws IOException {
-        UpdateRequest updateRequest = buildUserFields(user);
-        UpdateResponse response = elasticSearchClientProvider.getClient().update(updateRequest);
-        System.out.println("Elasticsearch response: " + response);
     }
 
     public List<Optional<PetDto>> findPets(UserDto user) {
@@ -104,5 +103,21 @@ public class UserDao {
         return userSessions != null ? userSessions.stream()
                 .map(id -> sessionRepository.find(id))
                 .collect(Collectors.toList()) : null;
+    }
+
+    public List<Optional<NotificationDto>> findNotifications(UserDto user) {
+        SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
+
+        String queryString = String.format("userPrincipal=\"%s\"", user.getPrincipal().replace("\"", ""));
+        searchSourceBuilder.query(QueryBuilders.queryStringQuery(queryString));
+
+        List<Long> userNotifications = user.getNotifications();
+        return userNotifications != null ? userNotifications.stream()
+                .map(id -> notificationRepository.find(id))
+                .collect(Collectors.toList()) : null;
+    }
+
+    public void delete(UserService.PrincipalRequest request) {
+        userRepository.delete(request.getPrincipal());
     }
 }

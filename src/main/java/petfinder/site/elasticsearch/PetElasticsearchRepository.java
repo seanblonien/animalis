@@ -6,9 +6,6 @@ import alloy.elasticsearch.ElasticSearchRepository.ElasticSearchJsonRepository;
 import org.springframework.stereotype.Service;
 import petfinder.site.common.pet.PetDto;
 
-/**
- * Created by jlutteringer on 2/7/18.
- */
 @Service
 public class PetElasticsearchRepository extends ElasticSearchJsonRepository<PetDto, Long> {
     public PetElasticsearchRepository(ElasticSearchClientProvider provider) {

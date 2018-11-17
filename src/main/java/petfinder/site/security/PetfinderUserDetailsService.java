@@ -12,9 +12,6 @@ import petfinder.site.common.user.UserService;
 
 import java.util.stream.Collectors;
 
-/**
- * Created by jlutteringer on 1/15/18.
- */
 @Service
 public class PetfinderUserDetailsService implements UserDetailsService {
     @Autowired

@@ -5,9 +5,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.util.HashMap;
 
-/**
- * Created by jlutteringer on 1/15/18.
- */
 public class Json {
     public static String marshall(Object o) {
         return marshall(o, TypeConverters.getObjectMapper());

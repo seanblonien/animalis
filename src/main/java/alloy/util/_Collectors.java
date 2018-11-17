@@ -1,9 +1,5 @@
 package alloy.util;
 
-/**
- * Created by jlutteringer on 1/15/18.
- */
-
 import alloy.util.Tuple.Pair;
 import com.google.common.collect.*;
 
@@ -17,9 +13,6 @@ import java.util.function.BinaryOperator;
 import java.util.function.Supplier;
 import java.util.stream.Collector;
 
-/**
- * Created by jlutteringer on 4/27/16.
- */
 public interface _Collectors {
     static <T> Collector<T, ImmutableList.Builder<T>, List<T>> toList() {
         return Collector.of(ImmutableList.Builder::new, ImmutableList.Builder::add, new BinaryOperator<ImmutableList.Builder<T>>() {

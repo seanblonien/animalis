@@ -10,9 +10,6 @@ import org.elasticsearch.search.builder.SearchSourceBuilder;
 import java.util.List;
 import java.util.Optional;
 
-/**
- * Created by jlutteringer on 1/16/18.
- */
 public class ElasticSearchRepository<T, I> implements Repository<T, I>  {
     private ElasticSearchIndex index;
     private Serializer<T> serializer;

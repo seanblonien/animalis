@@ -1,23 +1,23 @@
 package petfinder.site.common.session;
 
-import alloy.elasticsearch.ElasticSearchClientProvider;
-import org.elasticsearch.action.search.SearchRequest;
-import org.elasticsearch.client.RestHighLevelClient;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import petfinder.site.elasticsearch.SessionElasticsearchRepository;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 @Repository
 public class SessionDao {
     @Autowired
     private SessionElasticsearchRepository sessionElasticsearchRepository;
 
-    @Autowired
-    private ElasticSearchClientProvider elasticSearchClientProvider;
+    public void save(SessionDto session) {
+        sessionElasticsearchRepository.save(session);
+    }
 
     public Optional<SessionDto> findSession(Long id) {
         return sessionElasticsearchRepository.find(id);
@@ -32,7 +32,6 @@ public class SessionDao {
     }
 
     public List<Optional<SessionDto>> findAllSessions() {
-        SearchRequest searchRequest = new SearchRequest();
         SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
         searchSourceBuilder.query(QueryBuilders.matchAllQuery());
 
@@ -41,18 +40,12 @@ public class SessionDao {
         List<Optional<SessionDto>> optSessionList = new ArrayList<>();
         for(SessionDto s : sessionList){
             optSessionList.add(Optional.ofNullable(s).filter(sf -> !sf.isEmpty()));
-        };
+        }
 
         return optSessionList;
     }
 
-    public Optional<SessionDto> findSessionLowTech(Long id) {
-        RestHighLevelClient client = elasticSearchClientProvider.getClient();
-        // Use the client to make your search and manually parse the results
-        return Optional.empty();
-    }
-
-    public void save(SessionDto session) {
-        sessionElasticsearchRepository.save(session);
+    public void delete(Long id) {
+        sessionElasticsearchRepository.delete(id);
     }
 }

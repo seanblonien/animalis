@@ -11,17 +11,12 @@ public class SessionService {
     @Autowired
     private SessionDao sessionDao;
 
-    public Optional<SessionDto> findSession(Long id) {
-        return sessionDao.findSession(id);
-    }
-
     public void save(SessionDto session) {
         sessionDao.save(session);
     }
 
-    public SessionDto update(SessionDto session) {
-        sessionDao.save(session);
-        return session;
+    public Optional<SessionDto> findSession(Long id) {
+        return sessionDao.findSession(id);
     }
 
     public Optional<SessionDto> findSessions(SessionQuery query) {
@@ -30,6 +25,10 @@ public class SessionService {
 
     public List<Optional<SessionDto>> findAllSessions() {
         return sessionDao.findAllSessions();
+    }
+
+    public void deleteSession(Long id) {
+        sessionDao.delete(id);
     }
 
     public static class SessionQuery {

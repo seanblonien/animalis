@@ -1,8 +1,5 @@
 package alloy.util;
 
-/**
- * Created by jlutteringer on 1/15/18.
- */
 public class AlloyAuthentication {
     private String principal;
     private String password;

@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import petfinder.site.common.notification.NotificationDto;
 import petfinder.site.common.pet.PetDto;
 import petfinder.site.common.session.SessionDto;
 import petfinder.site.common.user.UserDto.UserType;
@@ -11,9 +12,6 @@ import petfinder.site.common.user.UserDto.UserType;
 import java.io.IOException;
 import java.util.*;
 
-/**
- * Created by jlutteringer on 8/23/17.
- */
 @Service
 public class UserService {
     @Autowired
@@ -255,5 +253,9 @@ public class UserService {
 
     public List<Optional<SessionDto>> findSessions(UserDto user) {
         return userDao.findSessions(user);
+    }
+
+    public List<Optional<NotificationDto>> findNotifications(UserDto user) {
+        return userDao.findNotifications(user);
     }
 }

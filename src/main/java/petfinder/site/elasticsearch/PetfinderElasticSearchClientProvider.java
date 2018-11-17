@@ -14,9 +14,6 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
 
-/**
- * Created by jlutteringer on 1/15/18.
- */
 @Service
 public class PetfinderElasticSearchClientProvider implements ElasticSearchClientProvider {
     private RestHighLevelClient client;

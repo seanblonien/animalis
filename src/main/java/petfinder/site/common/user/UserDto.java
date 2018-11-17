@@ -7,9 +7,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-/**
- * Created by jlutteringer on 8/23/17.
- */
 public class UserDto implements Momento<String> {
     private String principal;
     private List<String> roles;

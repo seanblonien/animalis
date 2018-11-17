@@ -20,9 +20,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-/**
- * Created by jlutteringer on 1/15/18.
- */
 public class ElasticSearchIndex {
     private ElasticSearchClientProvider elasticSearchClientProvider;
     private String indexName;

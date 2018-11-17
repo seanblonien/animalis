@@ -8,9 +8,6 @@ import java.util.function.BiFunction;
 import java.util.stream.Collector;
 import java.util.stream.Stream;
 
-/**
- * Created by jlutteringer on 1/15/18.
- */
 public class _Streams {
     public static <T, N> Stream<N> mapIndexed(Stream<T> iterable, BiFunction<T, Integer, N> mapper) {
         AtomicInteger i = new AtomicInteger(0);

@@ -16,9 +16,6 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.function.Function;
 
-/**
- * Created by jlutteringer on 1/15/18.
- */
 public class TypeConverters {
     private static volatile ObjectMapper GLOBAL_OBJECT_MAPPER = null;
 

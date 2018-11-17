@@ -14,15 +14,14 @@ public class SessionEndpoint {
     @Autowired
     private SessionService sessionService;
 
+    @PostMapping(produces = "application/json")
+    public void saveSession(@RequestBody SessionDto session) {
+        sessionService.save(session);
+    }
+
     @GetMapping(value = "/{id}", produces = "application/json")
     public Optional<SessionDto> getSession(@PathVariable("id") String id) {
         return sessionService.findSession(Long.parseLong(id));
-    }
-
-    @GetMapping(value = "/all", produces = "application/json")
-    public List<Optional<SessionDto>> getSessions() {
-        System.out.println("Finding all sessions in backend");
-        return sessionService.findAllSessions();
     }
 
     @GetMapping(produces = "application/json")
@@ -31,17 +30,19 @@ public class SessionEndpoint {
         return sessionService.findSessions(query);
     }
 
-    @PostMapping(produces = "application/json")
-    public SessionDto saveSession(@RequestBody SessionDto session) {
-        System.out.println("Saving session...");
-        System.out.println(session.toString());
-        sessionService.save(session);
-        return session;
+    @GetMapping(value = "/all", produces = "application/json")
+    public List<Optional<SessionDto>> getSessions() {
+        System.out.println("Finding all sessions in backend");
+        return sessionService.findAllSessions();
     }
 
     @PostMapping(value = "/update")
-    public SessionDto updateSession(@RequestBody SessionDto session) {
-        System.out.println("Got to update session endpoint");
-        return sessionService.update(session);
+    public void updateSession(@RequestBody SessionDto session) {
+        sessionService.save(session);
+    }
+
+    @PostMapping(value = "/delete/{id}")
+    public void deleteSession(@PathVariable("id") String id) {
+        sessionService.deleteSession(Long.parseLong(id));
     }
 }

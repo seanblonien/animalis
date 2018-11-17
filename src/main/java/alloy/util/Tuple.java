@@ -5,9 +5,6 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.Map.Entry;
 
-/**
- * Created by jlutteringer on 1/15/18.
- */
 public interface Tuple {
     static <V1> Single<V1> single(V1 v1) {
         return of(v1);

@@ -7,9 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import petfinder.site.common.user.UserAuthenticationDto;
 
-/**
- * Created by jlutteringer on 1/16/18.
- */
 @Service
 public class UserElasticSearchRepository extends ElasticSearchJsonRepository<UserAuthenticationDto, String> {
     @Autowired

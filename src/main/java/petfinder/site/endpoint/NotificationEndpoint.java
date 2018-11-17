@@ -14,14 +14,22 @@ public class NotificationEndpoint {
     private NotificationService notificationService;
 
     @PostMapping(produces = "application/json")
-    public NotificationDto saveNotification(@RequestBody NotificationDto notification) {
-        System.out.println("Saving notification...");
+    public void saveNotification(@RequestBody NotificationDto notification) {
         notificationService.save(notification);
-        return notification;
     }
 
     @GetMapping(value = "/{id}", produces = "application/json")
     public Optional<NotificationDto> getNotification(@PathVariable("id") String id) {
         return notificationService.findNotification(Long.parseLong(id));
+    }
+
+    @PostMapping(value = "/update")
+    public void updateNotification(@RequestBody NotificationDto notification) {
+        notificationService.save(notification);
+    }
+
+    @PostMapping(value = "/delete/{id}")
+    public void deleteNotification(@PathVariable("id") String id) {
+        notificationService.deleteNotification(Long.parseLong(id));
     }
 }

@@ -1,9 +1,5 @@
 package alloy.util;
 
-/**
- * Created by jlutteringer on 1/15/18.
- */
-
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableList.Builder;
 import com.google.common.collect.Lists;
@@ -14,9 +10,6 @@ import java.util.Optional;
 import java.util.function.BiFunction;
 import java.util.stream.Collectors;
 
-/**
- * Created by jlutteringer on 2/13/17.
- */
 public class _Lists {
     public static <T> List<T> mutableList(Iterable<? extends T> targets) {
         return Lists.newArrayList(targets);

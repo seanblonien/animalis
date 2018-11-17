@@ -1,9 +1,5 @@
 package alloy.util;
 
-/**
- * Created by jlutteringer on 1/15/18.
- */
-
 import alloy.util.Tuple.Pair;
 import com.google.common.collect.*;
 import org.springframework.util.MultiValueMap;
@@ -14,10 +10,6 @@ import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
 
-
-/**
- * Created by jlutteringer on 4/28/16.
- */
 public interface _Maps {
     ImmutableMap<Object, Object> EMPTY_MAP = ImmutableMap.of();
 

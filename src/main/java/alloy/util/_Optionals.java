@@ -5,9 +5,6 @@ import java.util.Optional;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
 
-/**
- * Created by jlutteringer on 1/15/18.
- */
 public class _Optionals {
     public static <T> Optional<T> firstSome(Collection<Optional<T>> optionals) {
         return firstSome(optionals.stream());

@@ -3,9 +3,6 @@ package petfinder.site.common.user;
 import alloy.util.Momento;
 import org.codehaus.jackson.annotate.JsonIgnore;
 
-/**
- * Created by jlutteringer on 1/15/18.
- */
 public class UserAuthenticationDto implements Momento<String> {
     private UserDto user;
     private String password;

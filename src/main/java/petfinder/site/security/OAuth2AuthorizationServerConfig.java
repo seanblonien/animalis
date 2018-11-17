@@ -19,7 +19,7 @@ import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
 @Configuration
 @EnableAuthorizationServer
 public class OAuth2AuthorizationServerConfig extends AuthorizationServerConfigurerAdapter {
-    private int accessTokenValiditySeconds = 10000;
+    private int accessTokenValiditySeconds = 100000;
     private int refreshTokenValiditySeconds = 30000;
 
     @Value("${security.oauth2.resource.id}")

@@ -3,9 +3,6 @@ package alloy.util;
 import java.util.Comparator;
 import java.util.function.BiFunction;
 
-/**
- * Created by jlutteringer on 1/15/18.
- */
 public class Equality {
     public interface Equalitor<T, N> extends BiFunction<T, N, Boolean> {
 
