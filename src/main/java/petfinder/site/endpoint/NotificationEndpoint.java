@@ -8,7 +8,7 @@ import petfinder.site.common.notification.NotificationService;
 import java.util.Optional;
 
 @RestController
-@RequestMapping(value = "/api/notification")
+@RequestMapping(value = "/api/notifications")
 public class NotificationEndpoint {
     @Autowired
     private NotificationService notificationService;

@@ -1,7 +1,7 @@
 import {toast} from 'react-toastify';
 
 export const Toasts = {
-    // Next ID 13
+    // Next ID 14
     Successful: {
         Login: {
             id: 1,
@@ -67,6 +67,11 @@ export const Toasts = {
             type: 'Info',
             message: 'Pet added',
         },
+        AddNotification: {
+            id: 13,
+            type: 'Info',
+            message: 'Notification added',
+        }
     }
 };
 

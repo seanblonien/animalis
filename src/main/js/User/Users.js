@@ -6,10 +6,6 @@ export function register(user) {
     return axios.post('/api/user/register', user);
 }
 
-export function scheduleSession(session) {
-    return axios.post('/api/sessions', session);
-}
-
 export function sendEmailRegister() {
     // For emails when user registers their account
     return axios.post('/api/user/sendEmailRegister');
@@ -62,10 +58,6 @@ export function deletePet(id) {
 
 }
 
-export function getPet(id) {
-    return axios.post('/api/pets/' + id);
-}
-
 export function addPet(pet) {
     // Add this new pet to the pets index
     console.log(JSON.stringify(pet));
@@ -74,6 +66,17 @@ export function addPet(pet) {
         return axios.post('/api/user/pet/' + pet.id);
     }).catch((e) => {
         console.log('Error adding pet! \n' + e);
+        return [];
+    });
+}
+
+export function addNotification(notification) {
+    // Add this new notification to the notifications index
+    return axios.post('/api/notifications', notification).then(() => {
+        // Add the pet ID to the users pet list
+        return axios.post('/api/user/notification/' + notification.id);
+    }).catch((e) => {
+        console.log('Error adding notification! \n' + e);
         return [];
     });
 }
@@ -96,6 +99,13 @@ export function getUserDetails() {
 export function getSessions() {
     return axios.get('/api/user/sessions').catch((e) => {
         console.log('Error getting user sessions. \n' + e);
+        return [];
+    });
+}
+
+export function getNotifications() {
+    return axios.get('/api/user/notifications').catch((e) => {
+        console.log('Error getting user notifications. \n' + e);
         return [];
     });
 }
@@ -126,6 +136,14 @@ export function deleteSession(id) {
     });
 }
 
+export function deleteNotification(id) {
+    // Remove notification from notifications index
+    return axios.post('/api/notifications/delete/' + id).then(() => {
+        // Remove notification ID from users notification list
+        return axios.post('/api/user/notifications/delete/' + id);
+    });
+}
+
 export function getPublicUser(principal) {
     principal = principal.replace('@', '%40').replace('.', '*');
     return axios.get('/api/user/public/' + principal);
@@ -153,6 +171,10 @@ State.getAllSessions = state => {
     return state.allSessions;
 };
 
+State.getNotifications = state => {
+    return state.notifications;
+};
+
 export {State};
 
 let Actions = {};
@@ -163,6 +185,7 @@ Actions.Types = {
     SET_PETS: 'SET_PETS',
     SET_SESSIONS: 'SET_SESSIONS',
     SET_ALL_SESSIONS: 'SET_ALL_SESSIONS',
+    SET_NOTIFICATIONS: 'SET_NOTIFICATIONS',
 };
 
 Actions.getSessions = () => {
@@ -177,6 +200,14 @@ Actions.getAllSessions = () => {
     return (dispatch) => {
         return getAllSessions().then(allSessions => {
             return dispatch(Actions.setAllSessions(allSessions));
+        });
+    };
+};
+
+Actions.getNotifications = () => {
+    return (dispatch) => {
+        return getNotifications().then(notifications => {
+            return dispatch(Actions.setNotifications(notifications));
         });
     };
 };
@@ -212,6 +243,16 @@ Actions.deleteSession = (id) => {
     };
 };
 
+Actions.deleteNotification = (id) => {
+    return (dispatch) => {
+        return deleteNotification(id).then(() => {
+            return getNotifications().then(sessions => {
+                return dispatch(Actions.setNotifications(sessions));
+            });
+        });
+    };
+};
+
 Actions.retrieve = () => {
     return (dispatch) => {
         return getPets().then(pets => {
@@ -233,6 +274,17 @@ Actions.addPet = pet => {
         return addPet(pet).then(() => {
             makeToast(Toasts.Info.AddPet);
             return dispatch(Actions.retrieve());
+        });
+    };
+};
+
+Actions.addNotification = notification => {
+    return (dispatch) => {
+        return addNotification(notification).then(() => {
+            makeToast(Toasts.Info.AddNotification);
+            return dispatch(Actions.getNotifications()).then(notifications => {
+                return dispatch(Actions.setNotifications(notifications));
+            });
         });
     };
 };
@@ -322,6 +374,7 @@ Actions.logout = () => {
         dispatch(Actions.setPets(null));
         dispatch(Actions.setSessions(null));
         dispatch(Actions.setAllSessions(null));
+        dispatch(Actions.setNotifications(null));
         const cookies = new Cookies();
         cookies.remove('authentication');
         cookies.remove('user');
@@ -363,6 +416,9 @@ Actions.setAllSessions = allSessions => {
     return {type: Actions.Types.SET_ALL_SESSIONS, allSessions};
 };
 
+Actions.setNotifications = notifications => {
+    return {type: Actions.Types.SET_NOTIFICATIONS, notifications};
+};
 
 export {Actions};
 
@@ -419,6 +475,17 @@ Reducers.allSessions = (allSessions = [], action) => {
         }
         default: {
             return allSessions;
+        }
+    }
+};
+
+Reducers.notifications = (notifications = [], action) => {
+    switch (action.type) {
+        case Actions.Types.SET_NOTIFICATIONS: {
+            return action.notifications;
+        }
+        default: {
+            return notifications;
         }
     }
 };

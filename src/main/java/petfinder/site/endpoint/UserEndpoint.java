@@ -106,7 +106,7 @@ public class UserEndpoint {
         System.out.println(MGEmail.sendSimpleMessage(subject, text, user.getPrincipal()));
     }
 
-    @PostMapping(value = "/notification/add/{id}")
+    @PostMapping(value = "/notifications/{id}")
     public UserDto addNotification(@PathVariable("id") Long id) {
         String principal = SecurityContextHolder.getContext().getAuthentication().getName();
         UserDto user = userService.findUserByPrincipal(principal).get();
@@ -151,7 +151,7 @@ public class UserEndpoint {
         return userService.update(user);
     }
 
-    @PostMapping(value = "/notification/delete/{id}")
+    @PostMapping(value = "/notifications/delete/{id}")
     public UserDto deleteNotification(@PathVariable("id") Long id) {
         String principal = SecurityContextHolder.getContext().getAuthentication().getName();
         UserDto user = userService.findUserByPrincipal(principal).get();
