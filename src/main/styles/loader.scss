@@ -59,3 +59,21 @@
 .toast-border {
   border-radius: 7px;
 }
+
+/* Make the badge float in the top right corner of the button */
+.notificationBadge {
+  background-color: #fa3e3e;
+  border-radius: 2px;
+  color: white;
+
+  padding: 1px 2px;
+  font-size: 12px;
+
+  position: absolute; /* Position the badge within the relatively positioned button */
+  top: 0;
+  right: 20;
+}
+
+.navbarFont {
+  font-size: 16px;
+}

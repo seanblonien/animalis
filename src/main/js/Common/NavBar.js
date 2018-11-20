@@ -38,15 +38,16 @@ export class NavBar extends React.Component {
                                 </li>
                             }
                             <li className="nav-item ">
-                                <a className="nav-link" href="/#" style={{color: 'white'}}>Home</a>
+                                <a className="nav-link" href="/#" style={{color: 'white'}}>🏠 Home</a>
                             </li>
 
                             {_.isDefined(this.props.user) && !_.isEmpty(this.props.user) ?
                                 <div className="d-inline-flex">
                                     <li className="nav-item dropdown" style={{color: 'white'}}>
-                                        <a className="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                                        <a className="nav-link dropdown-toggle navbarFont" href="#" id="navbarDropdown" role="button"
                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style={{color: 'white'}}>
-                                            (put bell icon here)
+                                            <i className="notificationBadge">1</i>
+                                            🔔 Notifications
                                         </a>
                                         <div className="dropdown-menu" aria-labelledby="navbarDropdown">
                                             {_.isArray(this.props.user.roles) &&
@@ -64,7 +65,7 @@ export class NavBar extends React.Component {
 									<li className="nav-item dropdown" style={{color: 'white'}}>
                                         <a className="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style={{color: 'white'}}>
-                                            +
+                                            🔍 Session
                                         </a>
                                         <div className="dropdown-menu" aria-labelledby="navbarDropdown">
                                             {_.isArray(this.props.user.roles) &&
@@ -83,7 +84,7 @@ export class NavBar extends React.Component {
                                     <li className="nav-item dropdown" style={{color: 'white'}}>
                                         <a className="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style={{color: 'white'}}>
-                                            Account
+                                            ⚙ Account
                                         </a>
                                         <div className="dropdown-menu dropdown-menu-left" aria-labelledby="navbarDropdown" style={{overflow: 'visible', left: 0, right: 0}}>
                                             {_.isDefined(this.props.user) &&
@@ -102,10 +103,10 @@ export class NavBar extends React.Component {
                                 :
                                 <div className="d-inline-flex">
                                     <li className="nav-item">
-                                        <a className="nav-link" href="#/register" style={{color: 'white'}}>Register</a>
+                                        <a className="nav-link" href="#/register" style={{color: 'white'}}>📕 Register</a>
                                     </li>
                                     <li className="nav-item">
-                                        <a className="nav-link" href="#/login" style={{color: 'white'}}>Login</a>
+                                        <a className="nav-link" href="#/login" style={{color: 'white'}}>🔑 Login</a>
                                     </li>
                                 </div>
                             }
