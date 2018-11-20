@@ -16,6 +16,7 @@ public class NotificationEndpoint {
     @PostMapping(produces = "application/json")
     public void saveNotification(@RequestBody NotificationDto notification) {
         notificationService.save(notification);
+        notificationService.addNotification(notification.getId(), notification.getPrimaryPrincipal());
     }
 
     @GetMapping(value = "/{id}", produces = "application/json")

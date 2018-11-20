@@ -1,3 +1,4 @@
+import {addNotification} from 'js/User/Users';
 import React from 'react';
 import * as ReduxForm from 'redux-form';
 import connect from 'react-redux/es/connect/connect';
@@ -37,6 +38,16 @@ class MySessions extends React.Component {
     chooseSitter(session){
         session.sitterPrincipal = this.state.sitter_choice;
         session.bidderPrincipals.splice(session.bidderPrincipals.indexOf(this.state.sitter_choice), 1);
+
+        let newNotification = {
+            id: Math.round(Date.now() + Math.random()),
+            notificationType: 'chosenSitter',
+            primaryPrincipal: session.sitterPrincipal,
+            otherUserPrincipal: session.ownerPrincipal,
+            dataBody: '',
+            hasBeenRead: false,
+        };
+        addNotification(newNotification);
         this.props.updateSession(session);
     }
 

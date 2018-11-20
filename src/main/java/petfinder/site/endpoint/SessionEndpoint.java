@@ -32,7 +32,6 @@ public class SessionEndpoint {
 
     @GetMapping(value = "/all", produces = "application/json")
     public List<Optional<SessionDto>> getSessions() {
-        System.out.println("Finding all sessions in backend");
         return sessionService.findAllSessions();
     }
 

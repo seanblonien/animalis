@@ -1,7 +1,7 @@
 import {makeToast, Toasts} from 'js/Common/Toasts';
 import React from 'react';
 import * as Users from 'js/User/Users';
-import {getPublicUser, getUser} from 'js/User/Users';
+import {getPublicUser, getUser, addNotification} from 'js/User/Users';
 import * as ReduxForm from 'redux-form';
 import {connect} from 'react-redux';
 import _ from 'lodash';
@@ -60,8 +60,6 @@ class SessionPostings extends React.Component {
     };
 
     bid(session){
-        let alreadyBid = false;
-
         if(session.ownerPrincipal === this.props.user.principal){
             makeToast(Toasts.Unsuccessful.OwnSession);
             return;
@@ -69,16 +67,22 @@ class SessionPostings extends React.Component {
 
         for (let i = 0; i < session.bidderPrincipals.length; i++){
             if(session.bidderPrincipals[i] === this.props.user.principal){
-                alreadyBid = true;
+                makeToast(Toasts.Unsuccessful.AlreadyBidOnSession);
+                return;
             }
         }
 
-        if(!alreadyBid){
-            session.bidderPrincipals.push(this.props.user.principal);
-            this.props.updateSession(session);
-        } else {
-            makeToast(Toasts.Unsuccessful.AlreadyBidOnSession);
-        }
+        session.bidderPrincipals.push(this.props.user.principal);
+        let newNotification = {
+            id: Math.round(Date.now() + Math.random()),
+            notificationType: 'newBid',
+            primaryPrincipal: session.ownerPrincipal,
+            otherUserPrincipal: this.props.user.principal,
+            dataBody: '',
+            hasBeenRead: false,
+        };
+        addNotification(newNotification);
+        this.props.updateSession(session);
     }
 
     isInFilter(session) {

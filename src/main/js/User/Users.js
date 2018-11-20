@@ -72,11 +72,16 @@ export function addPet(pet) {
 
 export function addNotification(notification) {
     // Add this new notification to the notifications index
-    return axios.post('/api/notifications', notification).then(() => {
-        // Add the pet ID to the users pet list
-        return axios.post('/api/user/notification/' + notification.id);
-    }).catch((e) => {
+    return axios.post('/api/notifications', notification).catch((e) => {
         console.log('Error adding notification! \n' + e);
+        return [];
+    });
+}
+
+export function updateNotification(notification) {
+    // Add this new notification to the notifications index
+    return axios.post('/api/notifications/update', notification).catch((e) => {
+        console.log('Error updating notification! \n' + e);
         return [];
     });
 }
@@ -282,6 +287,16 @@ Actions.addNotification = notification => {
     return (dispatch) => {
         return addNotification(notification).then(() => {
             makeToast(Toasts.Info.AddNotification);
+            return dispatch(Actions.getNotifications()).then(notifications => {
+                return dispatch(Actions.setNotifications(notifications));
+            });
+        });
+    };
+};
+
+Actions.updateNotification = notification => {
+    return (dispatch) => {
+        return updateNotification(notification).then(() => {
             return dispatch(Actions.getNotifications()).then(notifications => {
                 return dispatch(Actions.setNotifications(notifications));
             });

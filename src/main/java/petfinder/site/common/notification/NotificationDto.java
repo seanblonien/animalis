@@ -5,6 +5,7 @@ import alloy.util.Identifiable;
 public class NotificationDto implements Identifiable {
     private Long id;
     private String notificationType;
+    private String primaryPrincipal;
     private String otherUserPrincipal;
     private String dataBody;
     private Boolean hasBeenRead;
@@ -49,11 +50,20 @@ public class NotificationDto implements Identifiable {
         this.hasBeenRead = hasBeenRead;
     }
 
+    public String getPrimaryPrincipal() {
+        return primaryPrincipal;
+    }
+
+    public void setPrimaryPrincipal(String primaryPrincipal) {
+        this.primaryPrincipal = primaryPrincipal;
+    }
+
     @Override
     public String toString() {
-        return "NotificationRequest{" +
+        return "NotificationDto{" +
                 "id=" + id +
                 ", notificationType='" + notificationType + '\'' +
+                ", primaryPrincipal='" + primaryPrincipal + '\'' +
                 ", otherUserPrincipal='" + otherUserPrincipal + '\'' +
                 ", dataBody='" + dataBody + '\'' +
                 ", hasBeenRead=" + hasBeenRead +
