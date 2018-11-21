@@ -76,9 +76,10 @@ class SessionPostings extends React.Component {
         let newNotification = {
             id: Math.round(Date.now() + Math.random()),
             notificationType: 'newBid',
+            notificationDate: getCurrentDate().toString(),
             primaryPrincipal: session.ownerPrincipal,
             otherUserPrincipal: this.props.user.principal,
-            dataBody: '',
+            dataBody: this.props.user.fname + ' ' + this.props.user.lname + ' has bid on your session!',
             hasBeenRead: false,
         };
         addNotification(newNotification);

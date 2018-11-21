@@ -6,6 +6,7 @@ import * as Users from 'js/User/Users';
 import _ from 'lodash';
 import * as Bessemer from 'js/alloy/bessemer/components';
 import * as Validation from 'js/alloy/utils/validation';
+import {getCurrentDate} from 'js/Sesssion/ScheduleSession';
 
 class MySessions extends React.Component {
     constructor(props) {
@@ -42,9 +43,10 @@ class MySessions extends React.Component {
         let newNotification = {
             id: Math.round(Date.now() + Math.random()),
             notificationType: 'chosenSitter',
+            notificationDate: getCurrentDate().toString(),
             primaryPrincipal: session.sitterPrincipal,
             otherUserPrincipal: session.ownerPrincipal,
-            dataBody: '',
+            dataBody: 'Congratulations, you have been chosen as the sitter for an upcoming session!',
             hasBeenRead: false,
         };
         addNotification(newNotification);
