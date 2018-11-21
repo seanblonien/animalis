@@ -5,6 +5,7 @@ import alloy.util.Identifiable;
 public class NotificationDto implements Identifiable {
     private Long id;
     private String notificationType;
+    private String notificationDate;
     private String primaryPrincipal;
     private String otherUserPrincipal;
     private String dataBody;
@@ -24,6 +25,14 @@ public class NotificationDto implements Identifiable {
 
     public void setNotificationType(String notificationType) {
         this.notificationType = notificationType;
+    }
+
+    public String getNotificationDate() {
+        return notificationDate;
+    }
+
+    public void setNotificationDate(String notificationDate) {
+        this.notificationDate = notificationDate;
     }
 
     public String getOtherUserPrincipal() {
@@ -63,6 +72,7 @@ public class NotificationDto implements Identifiable {
         return "NotificationDto{" +
                 "id=" + id +
                 ", notificationType='" + notificationType + '\'' +
+                ", notificationDate='" + notificationDate + '\'' +
                 ", primaryPrincipal='" + primaryPrincipal + '\'' +
                 ", otherUserPrincipal='" + otherUserPrincipal + '\'' +
                 ", dataBody='" + dataBody + '\'' +
