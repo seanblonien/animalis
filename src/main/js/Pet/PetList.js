@@ -1,4 +1,5 @@
 import {Loading} from 'js/Common/Loading';
+import {makeToast, Toasts} from 'js/Common/Toasts';
 import React from 'react';
 import * as Validation from 'js/alloy/utils/validation';
 import * as Bessemer from 'js/alloy/bessemer/components';
@@ -13,67 +14,96 @@ export const waitToUpdateTime = 1500; // ms
 class PetList extends React.Component {
     constructor(props) {
         super(props);
+        this.deletePet = this.deletePet.bind(this);
+        this.handleSexChange = this.handleSexChange.bind(this);
+        this.handleSizeChange = this.handleSizeChange.bind(this);
+
         this.state = {
             pet_sex: null,
             pet_size: null,
+            hasLoaded: false,
+            toggle: false,
         };
         this.props.retrievePets();
 
         setTimeout(() => {
             this.state.hasLoaded = true;
-            this.forceUpdate();
-        }, 1000);
-
-        this.deletePet = this.deletePet.bind(this);
-        this.handleSexChange = this.handleSexChange.bind(this);
-        this.handleSizeChange = this.handleSizeChange.bind(this);
+            this.setState(this.state);
+        }, waitToUpdateTime);
     }
 
     handleSexChange = e => {
         if (e != null) {
             this.state.pet_sex = e;
-            this.forceUpdate();
+            this.setState(this.state);
         }
     };
 
     handleSizeChange = e => {
         if (e != null) {
             this.state.pet_size = e;
-            this.forceUpdate();
+            this.setState(this.state);
         }
     };
 
     deletePet = (e, id) => {
         console.log('Deleting pet with id: ' + id);
-        this.props.deletePet(id);
-        setTimeout(this.props.retrievePets, waitToUpdateTime);
+        Users.deletePet(id);
+        setTimeout(() => {
+            this.props.retrievePets().then(() => {
+                this.state.toggle = !this.state.toggle;
+                this.setState(this.state);
+                makeToast(Toasts.Successful.DeletePet);
+            });
+        }, waitToUpdateTime);
     };
+
+    doneEditingPet() {
+        // Ensure no other pet is editing at the same time
+        for (let p = 0; p < this.props.pets.length; p++) {
+            if (this.props.pets[p].editing !== false) {
+                this.props.pets[p].editing = false;
+            }
+        }
+    }
 
     editPet = (e, pet) => {
         if (this.props.pets.includes(pet)) {
             console.log('Editing pet with id: ' + pet.id + ' with editing status of ' + pet.editing);
-            pet.editing = !pet.editing;
-            this.forceUpdate();
+            pet.editing = true;
+            this.state.toggle = !this.state.toggle;
+            this.setState(this.state);
         }
     };
+
     submitPet = (petForm, pet) => {
+        let petToUpdate = JSON.parse(JSON.stringify(petForm));
+
         if (this.props.pets.includes(pet)) {
             console.log('Done editing pet with id: ' + pet.id + ' with editing status of ' + pet.editing);
-            pet.editing = !pet.editing;
+            pet.editing = false;
         }
 
         // If something was changed
-        if(!_.isEmpty(petForm)){
-            petForm.id = pet.id;
-            if (petForm.pet_name == null) petForm.pet_name = pet.pet_name;
-            if (petForm.pet_species == null) petForm.pet_species = pet.pet_species;
-            if (petForm.pet_size == null) petForm.pet_size = pet.pet_size;
-            if (petForm.pet_sex == null) petForm.pet_sex = pet.pet_sex;
-            if (petForm.pet_age == null) petForm.pet_age = pet.pet_age;
-            if (petForm.pet_info == null) petForm.pet_info = pet.pet_info;
+        if(petToUpdate != null){
+            petToUpdate.id = pet.id;
+            if (petToUpdate.pet_name == null) petToUpdate.pet_name = pet.pet_name;
+            if (petToUpdate.pet_species == null) petToUpdate.pet_species = pet.pet_species;
+            if (petToUpdate.pet_size == null) petToUpdate.pet_size = pet.pet_size;
+            if (petToUpdate.pet_sex == null) petToUpdate.pet_sex = pet.pet_sex;
+            if (petToUpdate.pet_age == null) petToUpdate.pet_age = pet.pet_age;
+            if (petToUpdate.pet_info == null) petToUpdate.pet_info = pet.pet_info;
 
-            this.props.updatePet(petForm);
-            setTimeout(this.forceUpdate, waitToUpdateTime);
+            Users.updatePet(petToUpdate).then(() => {
+                petForm.pet_name = petForm.pet_species = petForm.pet_size = petForm.pet_sex = petForm.pet_age = petForm.pet_info = null;
+            });
+            setTimeout(() => {
+                this.props.retrievePets().then(() => {
+                    this.state.toggle = !this.state.toggle;
+                    this.setState(this.state);
+                    makeToast(Toasts.Successful.EditPet);
+                });
+            }, waitToUpdateTime);
         }
     };
 
@@ -93,7 +123,7 @@ class PetList extends React.Component {
                                 _.isDefined(pet) && _.isDefined(pet.pet_name) &&
                                 <div key={pet.pet_name + '_' + pet.id} className="card"
                                      style={{width: '20rem', marginBottom: 10}}>
-                                    <form name="editPet" onSubmit={handleSubmit(form => parent.submitPet(form, pet))}>
+                                    <form name={'editPet'} onSubmit={handleSubmit(form => parent.submitPet(form, pet))}>
                                         <div className="card-header">
                                             <div style={{display: 'inline'}}>
                                                 {pet.editing === true &&
@@ -244,7 +274,7 @@ class PetList extends React.Component {
     }
 }
 
-PetList = ReduxForm.reduxForm({form: 'PetList'})(PetList);
+PetList = ReduxForm.reduxForm({form: 'editPet'})(PetList);
 
 PetList = connect(
     state => ({
@@ -252,8 +282,7 @@ PetList = connect(
         user: Users.State.getUser(state)
     }),
     dispatch => ({
-        updatePet: pet => dispatch(Users.Actions.updatePet(pet)),
-        retrievePets: () => dispatch(Users.Actions.retrieve()),
+        retrievePets: () => dispatch(Users.Actions.retrievePets()),
         deletePet: pet => dispatch(Users.Actions.deletePet(pet)),
     })
 )(PetList);

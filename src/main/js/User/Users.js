@@ -193,6 +193,22 @@ Actions.Types = {
     SET_NOTIFICATIONS: 'SET_NOTIFICATIONS',
 };
 
+const handleHTTPError = error => (dispatch) => {
+    switch(error.response.status){
+        case 400:
+            makeToast(Toasts.Unsuccessful.AuthenticationError);
+            break;
+        case 401: {
+            dispatch(Actions.logout());
+            console.error(error.response.data.error + '\n');
+            let a = document.createElement('a');
+            window.location.href = a.origin + /#/;
+            makeToast(Toasts.Unsuccessful.Login);
+            break;
+        }
+    }
+};
+
 Actions.getSessions = () => {
     return (dispatch) => {
         return getSessions().then(sessions => {
@@ -258,19 +274,11 @@ Actions.deleteNotification = (id) => {
     };
 };
 
-Actions.retrieve = () => {
+ Actions.retrievePets = () => {
     return (dispatch) => {
         return getPets().then(pets => {
             return dispatch(Actions.setPets(pets));
-        });
-    };
-};
-
-Actions.deletePet = id => {
-    return (dispatch) => {
-        return deletePet(id).then(() => {
-            return dispatch(Actions.retrieve());
-        });
+        }).catch(handleHTTPError);
     };
 };
 
@@ -278,7 +286,7 @@ Actions.addPet = pet => {
     return (dispatch) => {
         return addPet(pet).then(() => {
             makeToast(Toasts.Info.AddPet);
-            return dispatch(Actions.retrieve());
+            return dispatch(Actions.retrievePets());
         });
     };
 };
@@ -300,14 +308,6 @@ Actions.updateNotification = notification => {
             return dispatch(Actions.getNotifications()).then(notifications => {
                 return dispatch(Actions.setNotifications(notifications));
             });
-        });
-    };
-};
-
-Actions.updatePet = pet => {
-    return (dispatch) => {
-        return updatePet(pet).then(() => {
-            return dispatch(Actions.retrieve());
         });
     };
 };
@@ -338,20 +338,13 @@ Actions.register = user => {
     };
 };
 
+
 Actions.refreshUser = () => {
     return (dispatch) => {
         return getUserDetails().then(user => {
             // Save the user details from the returned promise in a state
-            dispatch(Actions.setUser(user));
-        }).catch(error => {
-            if(error.response.status == 401) {
-                dispatch(Actions.logout());
-                console.error(error.response.data.error + '\n');
-                let a = document.createElement('a');
-                window.location.href = a.origin + /#/;
-                makeToast(Toasts.Unsuccessful.Login);
-            }
-        });
+            return dispatch(Actions.setUser(user));
+        }).catch(handleHTTPError);
     };
 };
 
@@ -365,7 +358,7 @@ Actions.authenticate = (username, password) => {
                 // Get the user details after authentication
                 return dispatch(Actions.refreshUser());
             }
-        );
+        ).catch(handleHTTPError);
     };
 };
 
@@ -402,8 +395,7 @@ Actions.setUser = user => {
 Actions.setPets = pets => {
     if (pets != null) {
         for (let pet = 0; pet < pets.length; pet++) {
-            if (pets[pet] == null) return;
-            pets[pet].editing = false;
+            if (pets[pet] != null) pets[pet].editing = false;
         }
     }
     return {type: Actions.Types.SET_PETS, pets};

@@ -243,7 +243,7 @@ public class UserService {
         SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Optional<UserAuthenticationDto> myUser = findUserAuthenticationByPrincipal(principal);
         System.out.println("Matching: \n" + myUser.get().getPassword() + "\n" + this.passwordEncoder.encode(pass));
-        System.out.println("\n" + (!this.passwordEncoder.matches(pass, myUser.get().getPassword()) ? "do not match" : "do match"));
+        System.out.println((!this.passwordEncoder.matches(pass, myUser.get().getPassword()) ? "do not match" : "do match"));
         return myUser.isPresent() && this.passwordEncoder.matches(pass, myUser.get().getPassword());
     }
 

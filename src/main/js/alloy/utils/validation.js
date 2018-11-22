@@ -20,10 +20,10 @@ export const requiredValidator = new Validator(required, (details) => details.fr
 export const isEmail = (val) => val.match(/^[a-zA-Z0-9](\.?\+?[a-zA-Z0-9_-]){0,}@[a-zA-Z0-9-]+\.([a-zA-Z]{1,6}\.)?[a-zA-Z]{2,6}$/);
 export const emailValidator = new Validator(isEmail, (details, value) => value + ' is not a valid email address.');
 
-export const isPhoneNumber = (val) => val.match(/^[0-9]{3}-[0-9]{3}-[0-9]{4}$/) || val.match(/^[0-9]{10}$/) || val.match(/^\([0-9]{3}\)-[0-9]{3}-[0-9]{4}$/);
+export const isPhoneNumber = (val) => (!val) || val.match(/^[0-9]{3}-[0-9]{3}-[0-9]{4}$/) || val.match(/^[0-9]{10}$/) || val.match(/^\([0-9]{3}\)-[0-9]{3}-[0-9]{4}$/);
 export const phoneNumberValidator = new Validator(isPhoneNumber, (details, value) => value + ' is not a valid phone.');
 
-export const isNumber = (val) => val == null || val.toString().match(/^[0-9]*$/);
+export const isNumber = (val) => (!val) || val.toString().match(/^[0-9]*$/);
 export const numberValidator = new Validator(isNumber, () => 'Please enter in only numbers!');
 
 export const isValidPassword = (val) => val.toString().length >= 6 && val.match(/^[a-zA-Z0-9!@#$%^&*]{6,64}$/);
@@ -37,6 +37,9 @@ export const sexValidator = new Validator(isSex, () => 'Please enter \'Male\' or
 
 export const isSafe = (val) => !(val === sanitize(val));
 export const safeValidator = new Validator(isSafe, () => 'Please enter in valid characters! No funny business allowed!');
+
+export const isZip = (val) =>  (!val) || val.match(/^\d{5}$/);
+export const zipValidator = new Validator(isZip, () => 'Please enter in a 5 digit ZIP code.');
 
 export function sanitize(strings, ...values) {
     strings = strings ? [].concat(strings) : [];

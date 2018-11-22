@@ -1,4 +1,6 @@
+import {makeToast, Toasts} from 'js/Common/Toasts';
 import PetList from 'js/Pet/PetList';
+import {Actions, addPet} from 'js/User/Users';
 import React from 'react';
 import * as Validation from 'js/alloy/utils/validation';
 import * as Bessemer from 'js/alloy/bessemer/components';
@@ -26,9 +28,18 @@ class AddPetForm extends React.Component {
             editing: new Set(),
             pet_sex: null,
             pet_size: null,
+            toggle: false,
         };
         this.handleSexChange = this.handleSexChange.bind(this);
         this.handleSizeChange = this.handleSizeChange.bind(this);
+        this.onSubmit = this.onSubmit.bind(this);
+
+        this.props.retrievePets().then(() => {
+            //console.error((performance.now()).toString() + ' retreived pets ' + JSON.stringify(this.props.pets));
+            this.state.toggle = !this.state.toggle;
+            this.setState(this.state);
+        });
+        //console.error((performance.now()).toString() + ' retreived pets ' + JSON.stringify(this.props.pets));
     }
 
     onSubmit = pet => {
@@ -37,22 +48,27 @@ class AddPetForm extends React.Component {
         pet.pet_size = this.state.pet_size;
         pet.pet_age = Number(pet.pet_age);
         console.log('Keys: ' + Object.keys(pet).join(', '));
+
         this.props.addPet(pet);
-        setTimeout(this.props.retrievePets, waitToUpdateTime);
-        setTimeout(this.forceUpdate(), waitToUpdateTime);
+        setTimeout(() => {
+            this.props.retrievePets().then(() => {
+                this.state.toggle = !this.state.toggle;
+                this.setState(this.state);
+            });
+        }, waitToUpdateTime);
     };
 
     handleSexChange = e => {
         if (e != null) {
             this.state.pet_sex = e;
-            this.forceUpdate();
+            this.setState(this.state);
         }
     };
 
     handleSizeChange = e => {
         if (e != null) {
             this.state.pet_size = e;
-            this.forceUpdate();
+            this.setState(this.state);
         }
     };
 
@@ -115,7 +131,7 @@ AddPetForm = connect(
     }),
     dispatch => ({
         addPet: (pet) => dispatch(Users.Actions.addPet(pet)),
-        retrievePets: () => dispatch(Users.Actions.retrieve()),
+        retrievePets: () => dispatch(Users.Actions.retrievePets()),
     })
 )(AddPetForm);
 

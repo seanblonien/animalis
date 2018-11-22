@@ -1,7 +1,7 @@
 import {toast} from 'react-toastify';
 
 export const Toasts = {
-    // Next ID 16
+    // Next ID 18
     Successful: {
         Login: {
             id: 1,
@@ -22,6 +22,16 @@ export const Toasts = {
             id: 8,
             type: 'Successful',
             message: 'Successfully scheduled a pet service session',
+        },
+        EditPet: {
+            id: 16,
+            type: 'Successful',
+            message: 'Successfully edited pet',
+        },
+        DeletePet: {
+            id: 17,
+            type: 'Successful',
+            message: 'Successfully deleted pet',
         },
     },
     Unsuccessful: {

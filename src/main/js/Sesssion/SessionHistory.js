@@ -59,7 +59,7 @@ SessionHistory = connect(
     }),
     dispatch => ({
         getSessions: () => dispatch(Users.Actions.getSessions()),
-        retrievePets: () => dispatch(Users.Actions.retrieve()),
+        retrievePets: () => dispatch(Users.Actions.retrievePets()),
         getAllSessions: () => dispatch(Users.Actions.getAllSessions()),
     })
 )(SessionHistory);

@@ -223,7 +223,7 @@ ScheduleSession = connect(
     }),
     dispatch => ({
         scheduleSession: session => dispatch(Users.Actions.scheduleSession(session)),
-        retrievePets: () => dispatch(Users.Actions.retrieve()),
+        retrievePets: () => dispatch(Users.Actions.retrievePets()),
     })
 )(ScheduleSession);
 
