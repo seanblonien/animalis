@@ -85,19 +85,19 @@ class RegistrationForm extends React.Component {
 
         if(this.props.user) {
             this.props.refreshUser().then(() => {
-                this.updateState();
+                this.updateState(true);
             });
         } else {
-            this.updateState();
+            this.updateState(true);
         }
     }
 
-    updateState() {
+    updateState(inConstructor) {
         this.state.hasLoaded = true;
         this.state.checkedItems.set('petOwner', this.props.user ? this.props.user.roles.includes('OWNER') : false);
         this.state.checkedItems.set('petSitter', this.props.user ? this.props.user.roles.includes('SITTER') : false);
         this.state.checkedItems.set('emailNotifications', this.props.user ? this.props.user.attributes.emailNotifications === 'true' : false);
-        this.setState(this.state);
+        if(!inConstructor) this.setState(this.state);
         this.displayChecks();
     }
 
@@ -142,7 +142,7 @@ class RegistrationForm extends React.Component {
                         setTimeout(() => {
                             this.props.refreshUser().then(() => {
                                 makeToast(Toasts.Successful.ProfileUpdate);
-                                this.updateState();
+                                this.updateState(false);
                             });
                         }, waitToUpdateTime);
                     } else {
@@ -222,9 +222,6 @@ class RegistrationForm extends React.Component {
                                             placeholder={this.props.editProfile == null ? 'Duluth' : this.props.user.address.city}
                                             validators={this.props.editProfile == null ? [Validation.requiredValidator, Validation.safeValidator] : []}/>
 
-                            {/*<Bessemer.Field name='state' friendlyName='State'*/}
-                                            {/*placeholder={this.props.editProfile == null ? 'GA' : this.props.user.address.state}*/}
-                                            {/*validators={this.props.editProfile == null ? [Validation.requiredValidator, Validation.safeValidator] : []}/>*/}
 
                             <span className={'row'} style={{verticalAlign: 'middle', width: '100%', marginBottom: 15}}>
                                 <label className={'col-4 d-inline-block'}>State*</label>
