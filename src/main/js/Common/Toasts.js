@@ -1,7 +1,7 @@
 import {toast} from 'react-toastify';
 
 export const Toasts = {
-    // Next ID 14
+    // Next ID 16
     Successful: {
         Login: {
             id: 1,
@@ -49,7 +49,17 @@ export const Toasts = {
             id: 12,
             type: 'Unsuccessful',
             message: 'Error authenticating with the server!',
-        }
+        },
+        ConfirmPassword: {
+            id: 14,
+            type: 'Unsuccessful',
+            message: 'Confirmation password does not match',
+        },
+        PasswordMatch: {
+            id: 15,
+            type: 'Unsuccessful',
+            message: 'Passwords do not match',
+        },
     },
     Info: {
         Logout: {

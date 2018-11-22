@@ -23,7 +23,7 @@ export function deleteAccount(user) {
     });
 }
 
-export function update(user) {
+export function updateUser(user) {
     return axios.post('/api/user/update', user);
 }
 
@@ -322,18 +322,6 @@ Actions.deleteAccount = user => {
     };
 };
 
-Actions.updateUser = user => {
-    return (dispatch) => {
-        // Update the user details on the server
-        return update(user).then(() => {
-            makeToast(Toasts.Successful.ProfileUpdate);
-            location.reload();
-            // Refresh the user details after update
-            return dispatch(Actions.refreshUser());
-        });
-    };
-};
-
 Actions.register = user => {
     return (dispatch) => {
         // Register the user with the server (make account on the server)
@@ -354,7 +342,7 @@ Actions.refreshUser = () => {
     return (dispatch) => {
         return getUserDetails().then(user => {
             // Save the user details from the returned promise in a state
-            return dispatch(Actions.setUser(user));
+            dispatch(Actions.setUser(user));
         }).catch(error => {
             if(error.response.status == 401) {
                 dispatch(Actions.logout());

@@ -1,3 +1,5 @@
+import {makeToast, Toasts} from 'js/Common/Toasts';
+import {waitToUpdateTime} from 'js/Pet/PetList';
 import {getUserDetails} from 'js/User/Users';
 import React from 'react';
 import Redirect from 'react-router-dom/es/Redirect';
@@ -10,7 +12,7 @@ import * as ReduxForm from 'redux-form';
 import connect from 'react-redux/es/connect/connect';
 import * as Users from 'js/User/Users';
 import Checkbox from 'js/Common/Checkbox';
-import {confirmPassword} from 'js/User/Users';
+import {confirmPassword, update} from 'js/User/Users';
 import {Loading} from 'js/Common/Loading';
 import {sexOptions} from 'js/Pet/AddPetForm';
 
@@ -70,13 +72,10 @@ export const stateOptions = [
 class RegistrationForm extends React.Component {
     constructor(props) {
         super(props);
-
-        if(this.props.user) this.props.refreshUser();
-
         this.handleCheckboxChange = this.handleCheckboxChange.bind(this);
         this.displayChecks = this.displayChecks.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
-        this.setCheckboxes = this.setCheckboxes.bind(this);
+        this.updateState = this.updateState.bind(this);
 
         this.state = {
             checkedItems: new Map(),
@@ -84,52 +83,70 @@ class RegistrationForm extends React.Component {
             stateChoice: '',
         };
 
-        setTimeout(() => {
-            this.state.hasLoaded = true;
-            this.setCheckboxes();
-            this.forceUpdate();
-        }, 1000);
+        if(this.props.user) {
+            this.props.refreshUser().then(() => {
+                this.updateState();
+            });
+        } else {
+            this.updateState();
+        }
     }
 
-    setCheckboxes() {
+    updateState() {
+        this.state.hasLoaded = true;
         this.state.checkedItems.set('petOwner', this.props.user ? this.props.user.roles.includes('OWNER') : false);
         this.state.checkedItems.set('petSitter', this.props.user ? this.props.user.roles.includes('SITTER') : false);
         this.state.checkedItems.set('emailNotifications', this.props.user ? this.props.user.attributes.emailNotifications === 'true' : false);
+        this.setState(this.state);
         this.displayChecks();
     }
 
     onSubmit = user => {
         if (user != null) {
-            user.petSitter = this.state.checkedItems.get('petSitter');
-            user.petOwner = this.state.checkedItems.get('petOwner');
-            user.emailNotifications = this.state.checkedItems.get('emailNotifications');
-            this.displayChecks();
+            let userToUpdate = JSON.parse(JSON.stringify(user));
+
+            userToUpdate.petSitter = this.state.checkedItems.get('petSitter');
+            userToUpdate.petOwner = this.state.checkedItems.get('petOwner');
+            userToUpdate.emailNotifications = this.state.checkedItems.get('emailNotifications');
 
             if(this.props.editProfile == null){
-                if(user.password !== user.password2){
-                    console.error('Passwords do not match...');
+                if(userToUpdate.password !== userToUpdate.password2){
+                    makeToast(Toasts.Unsuccessful.PasswordMatch);
                     return;
                 }
 
-                user.pets = [];
-                user.sessions = [];
+                userToUpdate.pets = [];
+                userToUpdate.sessions = [];
+                userToUpdate.notifications = [];
                 this.props.register(user);
             } else {
-                confirmPassword(user.passwordConfirm).then(res => {
+                Users.confirmPassword(userToUpdate.password).then(res => {
                     if(res) {
-                        this.state.hasLoaded = false;
-                        user.principal = this.props.user.principal;
-                        user.password = user.passwordConfirm;
+                        userToUpdate.principal = this.props.user.principal;
+                        userToUpdate.password = user.passwordConfirm;
+                        delete userToUpdate.passwordConfirm;
 
-                        if (user.fname == null) user.fname = this.props.user.attributes.fname;
-                        if (user.lname == null) user.lname = this.props.user.attributes.lname;
-                        if (user.phone == null) user.phone = this.props.user.attributes.phone;
-                        if (user.street == null) user.street = this.props.user.address.street;
-                        if (user.city == null) user.city = this.props.user.address.city;
-                        if (user.state == null) user.state = this.props.user.address.state;
-                        if (user.zip == null) user.zip = this.props.user.address.zip;
+                        if (userToUpdate.fname == null) userToUpdate.fname = this.props.user.attributes.fname;
+                        if (userToUpdate.lname == null) userToUpdate.lname = this.props.user.attributes.lname;
+                        if (userToUpdate.phone == null) userToUpdate.phone = this.props.user.attributes.phone;
+                        if (userToUpdate.street == null) userToUpdate.street = this.props.user.address.street;
+                        if (userToUpdate.city == null) userToUpdate.city = this.props.user.address.city;
+                        if (userToUpdate.state == null) userToUpdate.state = this.props.user.address.state;
+                        if (userToUpdate.zip == null) userToUpdate.zip = this.props.user.address.zip;
+                        userToUpdate.pets = this.props.user.pets;
+                        userToUpdate.sessions = this.props.user.sessions;
+                        userToUpdate.notifications = this.props.user.notifications;
 
-                        this.props.updateUser(user);
+                        Users.updateUser(userToUpdate);
+
+                        setTimeout(() => {
+                            this.props.refreshUser().then(() => {
+                                makeToast(Toasts.Successful.ProfileUpdate);
+                                this.updateState();
+                            });
+                        }, waitToUpdateTime);
+                    } else {
+                        makeToast(Toasts.Unsuccessful.ConfirmPassword);
                     }
                 });
             }
@@ -137,17 +154,15 @@ class RegistrationForm extends React.Component {
     };
 
     handleCheckboxChange(e) {
-        let value = this.state.checkedItems;
-        value.set(e, !this.state.checkedItems.get(e));
-        this.setState({value});
-
+        this.state.checkedItems.set(e, !this.state.checkedItems.get(e));
+        this.setState(this.state);
         console.log(e + ' set to ' + this.state.checkedItems.get(e));
     }
 
     handleStateChoiceChange = e => {
         if (e != null) {
             this.state.stateChoice = e;
-            this.forceUpdate();
+            this.setState(this.state);
         }
     };
 
