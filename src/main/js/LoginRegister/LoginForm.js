@@ -9,13 +9,13 @@ import * as Users from 'js/User/Users';
 import Redirect from 'react-router-dom/es/Redirect';
 
 class LoginForm extends React.Component {
-    onSubmit = ({principal, password}) => {
-        return this.props.authenticate(principal, password);
-    };
-
     constructor(props) {
         super(props);
     }
+
+    onSubmit = ({principal, password}) => {
+        return this.props.authenticate(principal, password);
+    };
 
     render() {
         let {handleSubmit, submitting} = this.props;

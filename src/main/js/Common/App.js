@@ -41,11 +41,11 @@ axios.interceptors.request.use(request => {
     if (_.isDefined(authentication)) {
         request.headers.common['Authorization'] = 'Bearer ' + authentication['access_token'];
     }
-
     return request;
 }, error => {
     if(error.response.status === 401){
         makeToast(Toasts.Unsuccessful.AuthenticationError);
+        console.error('In App.js');
     }
     return Promise.reject(error);
 });

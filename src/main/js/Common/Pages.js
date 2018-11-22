@@ -47,7 +47,7 @@ export class RegisterPage extends React.Component {
                         <div className="col-6 offset-md-3">
                             <h2>Register</h2>
                             <hr/>
-                            <RegistrationForm/>
+                            <RegistrationForm editProfile="false"/>
                             <hr/>
 
                             {_.isDefined(this.props.user) &&

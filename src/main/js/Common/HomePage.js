@@ -15,7 +15,7 @@ class HomePage extends React.Component {
                      src="https://i.imgur.com/z2x66Oa.png"
                      height="408" width="974"/>
 
-                {_.isDefined(this.props.user) && !_.isEmpty(this.props.user) ?
+                {_.isDefined(this.props.user) && !_.isNil(this.props.user) && !_.isEmpty(this.props.user) ?
                     <div>
                         <h1 style={{float: 'center', marginRight: '5%', marginLeft: '5%', marginTop: '5px'}}>Welcome back to <b>Animalis</b>, {this.props.user.attributes.fname}!</h1>
 

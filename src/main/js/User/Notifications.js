@@ -3,8 +3,6 @@ import * as ReduxForm from 'redux-form';
 import connect from 'react-redux/es/connect/connect';
 import * as Users from 'js/User/Users';
 import _ from 'lodash';
-import * as Bessemer from 'js/alloy/bessemer/components';
-import * as Validation from 'js/alloy/utils/validation';
 
 class Notifications extends React.Component {
     constructor(props) {
@@ -32,32 +30,26 @@ class Notifications extends React.Component {
                                 </tr>
                             </thead>
                             <tbody>
-                            {
-                                _.isDefined(this.props.notifications) && this.props.notifications.map(notification => (
-
+                            {_.isDefined(this.props.notifications) && !_.isEmpty(this.props.notifications) && !_.isNil(this.props.notifications) && this.props.notifications.map(notification => (
                                     <tr key={notification.id}>
                                         <td>{notification.notificationType}</td>
                                         <td>{notification.notificationDate}</td>
-                                        {
-                                            notification.notificationType === 'newBid' &&
+                                        {notification.notificationType === 'newBid' &&
                                             <td>
                                                 {/* Replace href /# with the link to the sitter's profile page */}
                                                 <a href='/#'>{notification.dataBody.substring(0, this.get2ndIndex(notification.dataBody, ' '))}</a>
                                                 <nobr>{notification.dataBody.substring(this.get2ndIndex(notification.dataBody, ' '))}</nobr>
                                             </td>
                                         }
-                                        {
-                                            notification.notificationType === 'chosenSitter' &&
+                                        {notification.notificationType === 'chosenSitter' &&
                                             <td>
 
                                             </td>
                                         }
-                                        {
-                                            notification.notificationType !== 'newBid' &&
+                                        {notification.notificationType !== 'newBid' &&
                                             notification.notificationType !== 'chosenSitter' &&
                                             <td>{notification.dataBody}</td>
                                         }
-
 
                                         <td>{notification.hasBeenRead.toString()}</td>
                                     </tr>

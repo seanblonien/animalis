@@ -73,7 +73,7 @@ export class NavBar extends React.Component {
 
                     <div className="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
                         <ul style={{color: 'white', float: 'right', marginRight: 75}} className="navbar-nav ml-auto">
-                            {!_.isNil(this.props.user) && !_.isEmpty(this.props.user) &&
+                            {_.isDefined(this.props.user) && !_.isNil(this.props.user) && !_.isEmpty(this.props.user) &&
                                 <li style={{borderRight: '1.5px solid white'}}>
                                     <a className="nav-link"
                                        style={{color: 'white'}}> Hi, {this.props.user.attributes.fname} </a>
@@ -83,7 +83,7 @@ export class NavBar extends React.Component {
                                 <a className="nav-link" href="/#" style={{color: 'white'}}>🏠 Home</a>
                             </li>
 
-                            {_.isDefined(this.props.user) && !_.isEmpty(this.props.user) ?
+                            {_.isDefined(this.props.user) && !_.isNil(this.props.user) && !_.isEmpty(this.props.user) ?
                                 <div className="d-inline-flex">
                                     <li className="nav-item dropdown" style={{color: 'white'}}>
                                         <a className="nav-link dropdown-toggle navbarFont" href="#" id="navbarDropdown" role="button"

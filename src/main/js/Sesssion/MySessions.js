@@ -58,15 +58,14 @@ class MySessions extends React.Component {
             <div className="row">
                 <div className="col-4">
                     <div>
-                        {_.isDefined(this.props.user) && !_.isEmpty(this.props.user) &&
+                        {_.isDefined(this.props.user) && !_.isNil(this.props.user) && !_.isEmpty(this.props.user) &&
                             <h6>{this.props.user.attributes.fname} {this.props.user.attributes.lname}</h6>
                         }
-                        {_.isDefined(this.props.user) && !_.isEmpty(this.props.user) && this.props.user.roles.includes('OWNER') &&
+                        {_.isDefined(this.props.user) && !_.isNil(this.props.user) && !_.isEmpty(this.props.user) && this.props.user.roles.includes('OWNER') &&
                         <p>Sessions as Owner:</p>
                         }
 
-                        {
-                            _.isDefined(this.props.sessions) && this.props.sessions.map(session => (
+                        {_.isDefined(this.props.sessions) && !_.isEmpty(this.props.sessions) && !_.isNil(this.props.user) && this.props.sessions.map(session => (
                                 <div key={session.id} className="card" style={{width: '20rem', marginBottom: 10}}>
                                     <p>Session ID: {session.id}</p>
                                     <p>From: {session.startDate + ' ' + session.startTime}</p>
@@ -107,7 +106,7 @@ class MySessions extends React.Component {
                             ))
                         }
 
-                        {_.isDefined(this.props.user) && this.props.user.roles.includes('SITTER') &&
+                        {_.isDefined(this.props.user) && !_.isNil(this.props.user) && !_.isEmpty(this.props.user) && this.props.user.roles.includes('SITTER') &&
                         <p>Sessions as Sitter:</p>
 
                         }
