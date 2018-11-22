@@ -29,8 +29,6 @@ export class Home extends React.Component {
     render() {
         return (
             <div>
-                <NavBar/>
-
                 <HomePage/>
             </div>
         );
@@ -41,7 +39,6 @@ export class RegisterPage extends React.Component {
     render() {
         return (
             <div>
-                <NavBar/>
                 <div className="container padded">
                     <div className="row">
                         <div className="col-6 offset-md-3">
@@ -67,7 +64,6 @@ export class LoginPage extends React.Component {
     render() {
         return (
             <div>
-                <NavBar/>
                 <div className="container padded">
                     <div className="row">
                         <div className="col-6 offset-md-3">
@@ -90,7 +86,6 @@ class ProfilePage extends React.Component {
 
         return (
             <div>
-                <NavBar/>
                 <div className="container padded">
                     <div className="row">
                         <div className="col-6 offset-md-3">
@@ -142,7 +137,6 @@ export class SessionPage extends React.Component {
     render() {
         return (
             <div>
-                <NavBar/>
                 <div className="container padded">
                     <h2>Schedule A Session</h2>
                     <hr/>
@@ -165,7 +159,6 @@ export class PostingPage extends React.Component {
     render() {
         return (
             <div>
-                <NavBar/>
                 <div className="container padded">
                     <div className="row">
                         <div className="col-6 offset-md-3">
@@ -186,8 +179,6 @@ export class MySessionsPage extends React.Component {
     render() {
         return (
             <div>
-                <NavBar/>
-
                 <div className="container padded align-content-center">
                     <h2>My Sessions</h2>
                     <MySessions/>
@@ -201,8 +192,6 @@ export class HistoryPage extends React.Component {
     render() {
         return (
             <div>
-                <NavBar/>
-
                 <div className="container padded align-content-center">
                     <h2>Session History</h2>
                     <SessionHistory/>
@@ -216,8 +205,6 @@ export class NotificationsPage extends React.Component {
     render() {
         return (
             <div>
-                <NavBar/>
-
                 <div className="container padded align-content-center">
                     <h2>Notifications</h2>
                     <Notifications/>

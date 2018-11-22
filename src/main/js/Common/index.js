@@ -1,3 +1,4 @@
+import {NavBar} from 'js/Common/NavBar';
 import React from 'react';
 import {HashRouter, Route} from 'react-router-dom';
 
@@ -10,6 +11,7 @@ export default class Index extends React.Component {
             <div>
                 <ToastContainer autoClose={3000}
                                 position='bottom-center'/>
+                <NavBar/>
                 <HashRouter>
                     <div>
                         <Route exact path='/' component={Pages.Home}/>

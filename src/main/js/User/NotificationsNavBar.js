@@ -7,35 +7,28 @@ import * as Users from 'js/User/Users';
 class NotificationsNavBar extends React.Component {
     constructor(props) {
         super(props);
-        this.markNotificationAsRead = this.markNotificationAsRead.bind(this);
-        NotificationsNavBar.numberOfUnreadNotifications = NotificationsNavBar.numberOfUnreadNotifications.bind(this);
 
         this.state = {
             hasLoadedNotifications: false,
             numberUnreadNotifications: 0,
         };
+
+        this.markNotificationAsRead = this.markNotificationAsRead.bind(this);
+        NotificationsNavBar.numberOfUnreadNotifications = NotificationsNavBar.numberOfUnreadNotifications.bind(this);
+
+        this.notificationRefresh(true);
     }
 
-    componentDidMount() {
-        this.mounted = true;
-        this.timeout = this.notificationRefreshTimer();
-    }
-
-    componentWillUnmount()  {
-        this.mounted = false;
-        clearTimeout(this.timeout);
-        this.timeout = 0;
-    }
-
-    notificationRefreshTimer = () =>
+    notificationRefresh(firstRefresh) {
+        this.props.getNotifications();
         setTimeout(() => {
             this.setState({
                 hasLoadedNotifications: true,
                 numberUnreadNotifications: NotificationsNavBar.numberOfUnreadNotifications(this.props.notifications),
             });
-            this.timeout = this.notificationRefreshTimer();
-        }, 7500);
-
+            this.notificationRefresh(false);
+        }, firstRefresh ? 1000 : 7500);
+    }
 
     markNotificationAsRead(event, notification) {
         console.log('Marked as read!');
@@ -73,9 +66,9 @@ class NotificationsNavBar extends React.Component {
                         {this.state.hasLoadedNotifications ?
                             <div>
                                 {this.state.numberUnreadNotifications < 1 &&
-                                <div className="dropdown-item">No notifications</div>
+                                    <div className="dropdown-item">No notifications</div>
                                 }
-                                {this.state.numberUnreadNotifications > 0 && this.props.notifications.map(n => (
+                                {this.state.numberUnreadNotifications >= 1 && this.props.notifications.map(n => (
                                     <div key={n.id}>
                                         {!n.hasBeenRead &&
                                         <div key={n.id} className="d-inline-flex p-1">

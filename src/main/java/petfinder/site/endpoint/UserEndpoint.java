@@ -8,6 +8,7 @@ import petfinder.site.common.MailGun.MGEmail;
 import petfinder.site.common.notification.NotificationDto;
 import petfinder.site.common.pet.PetDto;
 import petfinder.site.common.session.SessionDto;
+import petfinder.site.common.user.UserAuthenticationDto;
 import petfinder.site.common.user.UserDto;
 import petfinder.site.common.user.UserService;
 import petfinder.site.common.user.UserService.RegistrationRequest;
@@ -41,22 +42,22 @@ public class UserEndpoint {
     @GetMapping(value = "/pet")
     public List<Optional<PetDto>> getPets() {
         String principal = SecurityContextHolder.getContext().getAuthentication().getName();
-        UserDto user = userService.findUserByPrincipal(principal).get();
-        return userService.findPets(user);
+        Optional<UserDto> userAuth =  userService.findUserByPrincipal(principal);
+        return userAuth.map(userDto -> userService.findPets(userDto)).orElse(null);
     }
 
     @GetMapping(value = "/sessions")
     public List<Optional<SessionDto>> getSessions() {
         String principal = SecurityContextHolder.getContext().getAuthentication().getName();
-        UserDto user = userService.findUserByPrincipal(principal).get();
-        return userService.findSessions(user);
+        Optional<UserDto> userAuth =  userService.findUserByPrincipal(principal);
+        return userAuth.map(userDto -> userService.findSessions(userDto)).orElse(null);
     }
 
     @GetMapping(value = "/notifications")
     public List<Optional<NotificationDto>> getNotifications() {
         String principal = SecurityContextHolder.getContext().getAuthentication().getName();
-        UserDto user = userService.findUserByPrincipal(principal).get();
-        return userService.findNotifications(user);
+        Optional<UserDto> userAuth =  userService.findUserByPrincipal(principal);
+        return userAuth.map(userDto -> userService.findNotifications(userDto)).orElse(null);
     }
 
     @GetMapping(value = "/confirmPassword/{pass}", produces = "application/json")
