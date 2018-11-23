@@ -3,28 +3,28 @@ import Cookies from 'universal-cookie';
 import {makeToast, Toasts as Toast, Toasts} from 'js/Common/Toasts';
 
 export function register(user) {
-    return axios.post('/api/user/register', user);
+    return axios.post('/api/user/register', user).catch(error => handleHTTPError(error));
 }
 
 export function sendEmailRegister() {
     // For emails when user registers their account
-    return axios.post('/api/user/sendEmailRegister');
+    return axios.post('/api/user/sendEmailRegister').catch(error => handleHTTPError(error));
 }
 
 export function sendEmailPost() {
     // For emails when a sitter bids on a owner's post
-    return axios.post('/api/user/sendEmailPost');
+    return axios.post('/api/user/sendEmailPost').catch(error => handleHTTPError(error));
 }
 
 export function deleteAccount(user) {
     console.log('Posting delete...');
     return axios.post('/api/user/delete', {
         principal: user.principal
-    });
+    }).catch(error => handleHTTPError(error));
 }
 
 export function updateUser(user) {
-    return axios.post('/api/user/update', user);
+    return axios.post('/api/user/update', user).catch(error => handleHTTPError(error));
 }
 
 export function authenticate(username, password) {
@@ -42,11 +42,11 @@ export function authenticate(username, password) {
                 password: 'petfinder-app-secret'
             }
         }
-    );
+    ).catch(error => handleHTTPError(error));
 }
 
 export function confirmPassword(password) {
-    return axios.get('/api/user/confirmPassword/' + password);
+    return axios.get('/api/user/confirmPassword/' + password).catch(error => handleHTTPError(error));
 }
 
 export function deletePet(id) {
@@ -54,7 +54,7 @@ export function deletePet(id) {
     return axios.post('/api/pets/delete/' + id).then(() => {
         // Delete the pet from the users pet list
         return axios.post('/api/user/pet/delete/' + id);
-    });
+    }).catch(error => handleHTTPError(error));
 
 }
 
@@ -64,63 +64,45 @@ export function addPet(pet) {
     return axios.post('/api/pets', pet).then(() => {
         // Add the pet ID to the users pet list
         return axios.post('/api/user/pet/' + pet.id);
-    }).catch((e) => {
-        console.log('Error adding pet! \n' + e);
-        return [];
-    });
+    }).catch(error => handleHTTPError(error));
 }
 
 export function addNotification(notification) {
     // Add this new notification to the notifications index
-    return axios.post('/api/notifications', notification).catch((e) => {
-        console.log('Error adding notification! \n' + e);
-        return [];
-    });
+    return axios.post('/api/notifications', notification).catch(error => handleHTTPError(error));
 }
 
 export function updateNotification(notification) {
     // Add this new notification to the notifications index
-    return axios.post('/api/notifications/update', notification).catch((e) => {
-        console.log('Error updating notification! \n' + e);
-        return [];
-    });
+    return axios.post('/api/notifications/update', notification).catch(error => handleHTTPError(error));
 }
 
 export function updatePet(pet) {
-    return axios.post('/api/pets/update/', pet);
+    return axios.post('/api/pets/update/', pet).catch(error => handleHTTPError(error));
 }
 
 export function getPets() {
-    return axios.get('/api/user/pet').catch((e) => {
-        console.log('Error getting user pets. \n' + e);
-        return [];
-    });
+    return axios.get('/api/user/pet').catch(error => handleHTTPError(error));
 }
 
 export function getUserDetails() {
-    return axios.get('/api/user');
+    return axios.get('/api/user').catch(error => handleHTTPError(error));
 }
 
 export function getSessions() {
-    return axios.get('/api/user/sessions').catch((e) => {
-        console.log('Error getting user sessions. \n' + e);
-        return [];
-    });
+    return axios.get('/api/user/sessions').catch(error => handleHTTPError(error));
 }
 
 export function getNotifications() {
-    return axios.get('/api/user/notifications').catch((e) => {
-        console.log('Error getting user notifications. \n' + e);
-        return [];
-    });
+    return axios.get('/api/user/notifications').catch(error => handleHTTPError(error));
 }
 
 export function getAllSessions(sessionQueryObj) {
-    return axios.get('/api/sessions/all', sessionQueryObj);
+    return axios.get('/api/sessions/all', sessionQueryObj).catch(error => handleHTTPError(error));
 }
 
 export function updateSession(session) {
-    return axios.post('/api/sessions/update', session);
+    return axios.post('/api/sessions/update', session).catch(error => handleHTTPError(error));
 }
 
 export function addSession(session) {
@@ -130,7 +112,7 @@ export function addSession(session) {
         console.log('Adding session ID to user');
         // Add session ID to user
         return axios.post('/api/user/sessions/' + session.id);
-    });
+    }).catch(error => handleHTTPError(error));
 }
 
 export function deleteSession(id) {
@@ -138,7 +120,7 @@ export function deleteSession(id) {
     return axios.post('/api/sessions/delete/' + id).then(() => {
         // Remove session ID from users session list
         return axios.post('/api/user/sessions/delete/' + id);
-    });
+    }).catch(error => handleHTTPError(error));
 }
 
 export function deleteNotification(id) {
@@ -146,12 +128,12 @@ export function deleteNotification(id) {
     return axios.post('/api/notifications/delete/' + id).then(() => {
         // Remove notification ID from users notification list
         return axios.post('/api/user/notifications/delete/' + id);
-    });
+    }).catch(error => handleHTTPError(error));
 }
 
 export function getPublicUser(principal) {
     principal = principal.replace('@', '%40').replace('.', '*');
-    return axios.get('/api/user/public/' + principal);
+    return axios.get('/api/user/public/' + principal).catch(error => handleHTTPError(error));
 }
 
 let State = {};
@@ -193,20 +175,35 @@ Actions.Types = {
     SET_NOTIFICATIONS: 'SET_NOTIFICATIONS',
 };
 
-const handleHTTPError = error => (dispatch) => {
-    switch(error.response.status){
-        case 400:
-            makeToast(Toasts.Unsuccessful.AuthenticationError);
-            break;
-        case 401: {
-            dispatch(Actions.logout());
-            console.error(error.response.data.error + '\n');
-            let a = document.createElement('a');
-            window.location.href = a.origin + /#/;
-            makeToast(Toasts.Unsuccessful.Login);
-            break;
+const handleHTTPError = error  => {
+    if(error.response){
+        const cookies = new Cookies();
+        switch(error.response.status){
+            case 400: {
+                cookies.remove('authentication');
+                cookies.remove('user');
+                //console.error(error.response.data.error + '\n');
+                let a = document.createElement('a');
+                window.location.href = a.origin + /#/;
+                makeToast(Toasts.Unsuccessful.AuthenticationError, error.response.data.error);
+                break;
+            }
+            case 401: {
+                cookies.remove('authentication');
+                cookies.remove('user');
+                //console.error(error.response.data.error + '\n');
+                let a = document.createElement('a');
+                window.location.href = a.origin + /#/;
+                makeToast(Toasts.Unsuccessful.Login, error.response.data.error);
+                break;
+            }
+            default: {
+                makeToast(Toasts.Unsuccessful.Error, error.response.data.error);
+                break;
+            }
         }
     }
+    return null;
 };
 
 Actions.getSessions = () => {
@@ -278,7 +275,7 @@ Actions.deleteNotification = (id) => {
     return (dispatch) => {
         return getPets().then(pets => {
             return dispatch(Actions.setPets(pets));
-        }).catch(handleHTTPError);
+        });
     };
 };
 
@@ -342,9 +339,10 @@ Actions.register = user => {
 Actions.refreshUser = () => {
     return (dispatch) => {
         return getUserDetails().then(user => {
+            if(user != null)
             // Save the user details from the returned promise in a state
             return dispatch(Actions.setUser(user));
-        }).catch(handleHTTPError);
+        });
     };
 };
 
@@ -358,7 +356,7 @@ Actions.authenticate = (username, password) => {
                 // Get the user details after authentication
                 return dispatch(Actions.refreshUser());
             }
-        ).catch(handleHTTPError);
+        );
     };
 };
 

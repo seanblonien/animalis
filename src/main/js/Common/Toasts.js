@@ -1,7 +1,9 @@
 import {toast} from 'react-toastify';
+import _ from 'lodash';
+import React from 'react';
 
 export const Toasts = {
-    // Next ID 18
+    // Next ID 19
     Successful: {
         Login: {
             id: 1,
@@ -35,6 +37,11 @@ export const Toasts = {
         },
     },
     Unsuccessful: {
+        Error: {
+            id: 18,
+            type: 'Unsuccessful',
+            message: 'Unexpected error occurred',
+        },
         Login: {
             id: 4,
             type: 'Unsuccessful',
@@ -95,18 +102,18 @@ export const Toasts = {
     }
 };
 
-export const makeToast = (thisToast) => {
+export const makeToast = (thisToast, data) => {
     if(thisToast.hasOwnProperty('id') && thisToast.hasOwnProperty('message') && thisToast.hasOwnProperty('type')){
         if(!toast.isActive(thisToast.id)) {
             switch(thisToast.type) {
                 case 'Successful':
-                    toast.success(thisToast.message, {toastId: thisToast.id, className: 'toast-border'});
+                    toast.success(<span>{thisToast.message} {(!_.isNil(data) && !_.isEmpty(data) && _.isString(data)) && <span><br/>{data}</span>}</span>, {toastId: thisToast.id, className: 'toast-border'});
                     break;
                 case 'Unsuccessful':
-                    toast.error(thisToast.message, {toastId: thisToast.id, className: 'toast-border'});
+                    toast.error(<span>{thisToast.message} {(!_.isNil(data) && !_.isEmpty(data) && _.isString(data)) && <span><br/>{data}</span>}</span>, {toastId: thisToast.id, className: 'toast-border'});
                     break;
                 default:
-                    toast.info(thisToast.message, {toastId: thisToast.id, className: 'toast-border', autoClose: 4000});
+                    toast.info(<span>{thisToast.message} {(!_.isNil(data) && !_.isEmpty(data) && _.isString(data)) && <span><br/>{data}</span>}</span>, {toastId: thisToast.id, className: 'toast-border', autoClose: 4000});
             }
         } else {
             console.log('Already active ' + thisToast.type + ' ' + thisToast.message + ' toast.');
