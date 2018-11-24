@@ -14,6 +14,7 @@ class NotificationsNavBar extends React.Component {
         };
 
         this.markNotificationAsRead = this.markNotificationAsRead.bind(this);
+        this.notificationRefreshSimple = this.notificationRefreshSimple.bind(this);
         NotificationsNavBar.numberOfUnreadNotifications = NotificationsNavBar.numberOfUnreadNotifications.bind(this);
 
         this.notificationRefresh(true);
@@ -30,6 +31,16 @@ class NotificationsNavBar extends React.Component {
         }, firstRefresh ? 1000 : 7500);
     }
 
+    notificationRefreshSimple() {
+        this.props.getNotifications();
+        setTimeout(() => {
+            this.setState({
+                hasLoadedNotifications: true,
+                numberUnreadNotifications: NotificationsNavBar.numberOfUnreadNotifications(this.props.notifications),
+            });
+        }, 1000);
+    }
+
     markNotificationAsRead(event, notification) {
         console.log('Marked as read!');
         notification.hasBeenRead = true;
@@ -42,8 +53,6 @@ class NotificationsNavBar extends React.Component {
         }
         let unreadNotifications = 0;
         for(let n = 0; n < notifications.length; n++){
-            console.log(JSON.stringify(notifications[n]));
-            console.log('N: ' + notifications[n].hasBeenRead);
             if(notifications[n].hasBeenRead === false) unreadNotifications++;
         }
 
@@ -87,7 +96,8 @@ class NotificationsNavBar extends React.Component {
                             </div>
                         }
                         <div className="dropdown-divider"></div>
-                        <a className="dropdown-item" href="#/notifications">View All</a>
+                        <a className="dropdown-item" href="#/notifications"><span className="fa fa-envelope-o"/> View All</a>
+                        <a className="dropdown-item" onClick={this.notificationRefreshSimple}><span className="fa fa-refresh"/> Refresh</a>
                     </div>
                     }
                 </div>

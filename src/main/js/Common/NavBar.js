@@ -55,10 +55,10 @@ export class NavBar extends React.Component {
                                             {_.isArray(this.props.user.roles) &&
                                             <div>
                                                 {this.props.user.roles.includes('OWNER') &&
-                                                <a className="dropdown-item" href="#/schedulesession">New Session</a>
+                                                <a className="dropdown-item" href="#/schedulesession"><span className="fa fa-plus-circle"/> New Session</a>
                                                 }
                                                 {this.props.user.roles.includes('SITTER') &&
-                                                <a className="dropdown-item" href="#/postings">Find Session</a>
+                                                <a className="dropdown-item" href="#/postings"><span className="fa fa-search-plus"/> Find Session</a>
                                                 }
                                             </div>
                                             }

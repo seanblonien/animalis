@@ -27,14 +27,16 @@ export const getCurrentDate = () => {
 class ScheduleSession extends React.Component {
     constructor(props) {
         super(props);
+        this.updateRange = this.updateRange.bind(this);
+
         this.state = {
-            checkedItems: new Map(),
             sessionType: null,
             unselectedPets: [],
             selectedPets: [],
             bidders: [],
             submitSuccessful: false,
             hasLoaded: false,
+            maxDistance: 50,
         };
         this.props.retrievePets();
 
@@ -48,7 +50,6 @@ class ScheduleSession extends React.Component {
             }
         }, 1000);
 
-        this.handleCheckboxChange = this.handleCheckboxChange.bind(this);
     }
 
     onSubmit = session => {
@@ -59,7 +60,7 @@ class ScheduleSession extends React.Component {
         session.sessionType = this.state.sessionType;
         session.pets = [];
         session.bidderPrincipals = [];
-        if (session.maxDistance == null) session.maxDistance = null;
+        if (session.maxDistance == null) session.maxDistance = '';
         if (session.notes == null) session.notes = '';
         console.log('Session keys: ' + Object.keys(session).join(', '));
         console.log('Session values: ' + Object.values(session).join(', '));
@@ -74,12 +75,6 @@ class ScheduleSession extends React.Component {
             this.state.sessionType = e;
             this.forceUpdate();
         }
-    }
-
-    handleCheckboxChange(e) {
-        const item = e.target.name;
-        const isChecked = e.target.checked;
-        this.setState(prevState => ({checkedItems: prevState.checkedItems.set(item, isChecked)}));
     }
 
     selectPet(e, pet) {
@@ -100,6 +95,11 @@ class ScheduleSession extends React.Component {
             this.state.selectedPets.splice(index, 1);
         }
         this.forceUpdate();
+    }
+
+    updateRange(e) {
+        this.state.maxDistance = e.currentTarget.value;
+        this.setState(this.state);
     }
 
     render() {
@@ -151,9 +151,14 @@ class ScheduleSession extends React.Component {
                                          options={sessionTypes} value={this.state.sessionType}
                                          onChange={opt => this.handleSessionTypeChange(opt)}/>
 
-                        {this.state.checkedItems.get('sitterLocation') ?
-                            <Bessemer.Field name="maxDistance" friendlyName="Maximum distance away (miles)"
-                                            placeholder="10" validators={[Validation.requiredValidator]}/> : null}
+                        {(this.state.sessionType === 'daycare' || this.state.sessionType === 'boarding') &&
+                            <div>
+                                <label>Maximum distance from your address&nbsp;</label>
+                                <output htmlFor="quantity"><b>{this.state.maxDistance} miles</b></output>
+                                <input type="range" name="quantity" min="0" max="100" onChange={this.updateRange}
+                                       value={this.state.maxDistance}/>
+                            </div>
+                        }
 
                         <h5>Select Pets for this Session</h5>
                         <h6>Available Pets</h6>
