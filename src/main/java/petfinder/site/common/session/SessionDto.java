@@ -19,10 +19,11 @@ public class SessionDto implements Identifiable {
     private Boolean isComplete;
     private Double price;
     private List<String> bidderPrincipals;
+    private Long sessionRating;
 
     private SessionDto() {}
 
-    public SessionDto(Long id, String ownerPrincipal, String sitterPrincipal, String startDate, String endDate, String startTime, String endTime, String sessionType, List<Long> pets, String notes, Long maxDistance, Boolean isComplete, Double price, List<String> bidderPrincipals) {
+    public SessionDto(Long id, String ownerPrincipal, String sitterPrincipal, String startDate, String endDate, String startTime, String endTime, String sessionType, List<Long> pets, String notes, Long maxDistance, Boolean isComplete, Double price, List<String> bidderPrincipals, Long sessionRating) {
         this.id = id;
         this.ownerPrincipal = ownerPrincipal;
         this.sitterPrincipal = sitterPrincipal;
@@ -37,6 +38,7 @@ public class SessionDto implements Identifiable {
         this.isComplete = isComplete;
         this.price = price;
         this.bidderPrincipals = bidderPrincipals;
+        this.sessionRating = sessionRating;
     }
 
     @Override
@@ -116,6 +118,14 @@ public class SessionDto implements Identifiable {
         this.price = price;
     }
 
+    public Long getSessionRating() {
+        return sessionRating;
+    }
+
+    public void setSessionRating(Long sessionRating) {
+        this.sessionRating = sessionRating;
+    }
+
     @Override
     public String toString() {
         return "SessionDto{" +
@@ -133,6 +143,7 @@ public class SessionDto implements Identifiable {
                 ", isComplete=" + isComplete +
                 ", price=" + price +
                 ", bidderPrincipals=" + bidderPrincipals +
+                ", sessionRating=" + sessionRating +
                 '}';
     }
 

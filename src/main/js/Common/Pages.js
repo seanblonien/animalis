@@ -1,3 +1,4 @@
+import {PublicProfile} from 'js/User/PublicProfile';
 import _ from 'lodash';
 
 import React from 'react';
@@ -72,6 +73,22 @@ export class LoginPage extends React.Component {
                             <Login.LoginForm/>
                         </div>
                     </div>
+                </div>
+            </div>
+        );
+    }
+}
+
+export class PublicProfilePage extends  React.Component {
+    constructor(props) {
+        super(props);
+    }
+
+    render() {
+        return (
+            <div className="container padded">
+                <div className="row">
+                    <PublicProfile match={this.props.match}/>
                 </div>
             </div>
         );

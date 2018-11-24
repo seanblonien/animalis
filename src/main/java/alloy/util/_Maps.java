@@ -136,7 +136,6 @@ public interface _Maps {
         return map(result);
     }
 
-    // TODO all the methods here need to be refactored for better mutability/immutability consistency
     static <T, N> Map<T, N> mapValues(List<T> list, Function<T, N> f) {
         Map<T, N> map = Maps.newHashMap();
         for(T item : list) {

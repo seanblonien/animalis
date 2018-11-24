@@ -8,7 +8,7 @@ import petfinder.site.common.MailGun.MGEmail;
 import petfinder.site.common.notification.NotificationDto;
 import petfinder.site.common.pet.PetDto;
 import petfinder.site.common.session.SessionDto;
-import petfinder.site.common.user.UserAuthenticationDto;
+import petfinder.site.common.user.PublicUserDto;
 import petfinder.site.common.user.UserDto;
 import petfinder.site.common.user.UserService;
 import petfinder.site.common.user.UserService.RegistrationRequest;
@@ -34,9 +34,16 @@ public class UserEndpoint {
     }
 
     @GetMapping(value = "/public/{principal}", produces = "application/json")
-    public Optional<UserDto> getUser(@PathVariable("principal") String principal) {
+    public PublicUserDto getUser(@PathVariable("principal") String principal) {
         String decodedPrincipal = principal.replace("*", ".");
-        return userService.findUserByPrincipal(decodedPrincipal);
+        Optional<UserDto> optUser = userService.findUserByPrincipal(decodedPrincipal);
+        if(optUser.isPresent()){
+            UserDto user = optUser.get();
+            System.out.println("Got public user: \n" + new PublicUserDto(user).toString());
+            return new PublicUserDto(user);
+        } else {
+            return null;
+        }
     }
 
     @GetMapping(value = "/pet")
