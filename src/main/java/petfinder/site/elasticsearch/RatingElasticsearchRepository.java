@@ -4,7 +4,6 @@ import alloy.elasticsearch.ElasticSearchClientProvider;
 import alloy.elasticsearch.ElasticSearchIndex;
 import alloy.elasticsearch.ElasticSearchRepository;
 import org.springframework.stereotype.Service;
-import petfinder.site.common.notification.NotificationDto;
 import petfinder.site.common.rating.RatingDto;
 
 @Service

@@ -1,27 +1,24 @@
 package petfinder.site.common.rating;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
-import petfinder.site.common.pet.PetDto;
-import petfinder.site.elasticsearch.PetElasticsearchRepository;
+import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
-@Repository
+@Service
 public class RatingService {
     @Autowired
-    private PetElasticsearchRepository petElasticsearchRepository;
+    private RatingDao ratingDao;
 
-    public Optional<PetDto> findPet(Long id) {
-        return petElasticsearchRepository.find(id);
+    public void save(RatingDto rating) {
+        ratingDao.save(rating);
     }
 
-    public void save(PetDto pet) {
-        petElasticsearchRepository.save(pet);
+    public Optional<RatingDto> findRating(Long id) {
+        return ratingDao.findRating(id);
     }
 
-    public void delete(Long id) {
-        petElasticsearchRepository.delete(id);
+    public void deleteRating(Long id) {
+        ratingDao.delete(id);
     }
-}
 }
