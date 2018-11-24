@@ -1,5 +1,3 @@
-import {makeToast, Toasts} from 'js/Common/Toasts';
-import PetList from 'js/Pet/PetList';
 import {Actions, addPet} from 'js/User/Users';
 import React from 'react';
 import * as Validation from 'js/alloy/utils/validation';
@@ -7,7 +5,6 @@ import * as Bessemer from 'js/alloy/bessemer/components';
 import * as Users from 'js/User/Users';
 import * as ReduxForm from 'redux-form';
 import {connect} from 'react-redux';
-import {waitToUpdateTime} from 'js/Pet/PetList';
 
 export const sexOptions = [
     {label: 'Male', value: 'Male'},
@@ -34,12 +31,12 @@ class AddPetForm extends React.Component {
         this.handleSizeChange = this.handleSizeChange.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
 
-        this.props.retrievePets().then(() => {
-            //console.error((performance.now()).toString() + ' retreived pets ' + JSON.stringify(this.props.pets));
-            this.state.toggle = !this.state.toggle;
-            this.setState(this.state);
-        });
-        //console.error((performance.now()).toString() + ' retreived pets ' + JSON.stringify(this.props.pets));
+        // this.props.retrievePets().then(() => {
+        //     //console.error((performance.now()).toString() + ' retreived pets ' + JSON.stringify(this.props.pets));
+        //     this.state.toggle = !this.state.toggle;
+        //     this.setState(this.state);
+        // });
+        // //console.error((performance.now()).toString() + ' retreived pets ' + JSON.stringify(this.props.pets));
     }
 
     onSubmit = pet => {
@@ -50,12 +47,6 @@ class AddPetForm extends React.Component {
         console.log('Keys: ' + Object.keys(pet).join(', '));
 
         this.props.addPet(pet);
-        setTimeout(() => {
-            this.props.retrievePets().then(() => {
-                this.state.toggle = !this.state.toggle;
-                this.setState(this.state);
-            });
-        }, waitToUpdateTime);
     };
 
     handleSexChange = e => {
@@ -76,48 +67,41 @@ class AddPetForm extends React.Component {
         let {handleSubmit, submitting} = this.props;
 
         return (
-            <div>
-                <form name="name" onSubmit={handleSubmit(form => this.onSubmit(form))} className={'form-group'}>
-                    <Bessemer.Field name="pet_name" friendlyName="Pet Name" placeholder="Fido"
-                                    validators={[Validation.requiredValidator, Validation.safeValidator]}/>
+            <form name="name" onSubmit={handleSubmit(form => this.onSubmit(form))} className={'form-group'}>
+                <Bessemer.Field name="pet_name" friendlyName="Pet Name" placeholder="Fido"
+                                validators={[Validation.requiredValidator, Validation.safeValidator]}/>
 
-                    <Bessemer.Field name="pet_species" friendlyName="Pet Species" placeholder="Dog"
-                                    validators={[Validation.requiredValidator, Validation.safeValidator]}/>
+                <Bessemer.Field name="pet_species" friendlyName="Pet Species" placeholder="Dog"
+                                validators={[Validation.requiredValidator, Validation.safeValidator]}/>
 
-                    <span className={'row'} style={{verticalAlign: 'middle', width: '100%', marginBottom: 15}}>
-                        <label className={'col-4 d-inline-block'}>Pet Size*</label>
-                        <Bessemer.Select name="pet_size"
-                                         className={'col-8 d-inline-block'}
-                                         friendlyName="Pet Size" placeholder="Small"
-                                         validators={[Validation.requiredValidator, Validation.safeValidator]}
-                                         options={sizeOptions} value={this.state.pet_size}
-                                         onChange={opt => this.handleSizeChange(opt)}/>
-                    </span>
+                <span className="row align-content-center mb-3">
+                    <label className={'col-4 d-inline-block'}>Pet Size*</label>
+                    <Bessemer.Select name="pet_size"
+                                     className={'col-8 d-inline-block'}
+                                     friendlyName="Pet Size" placeholder="Small"
+                                     validators={[Validation.requiredValidator, Validation.safeValidator]}
+                                     options={sizeOptions} value={this.state.pet_size}
+                                     onChange={opt => this.handleSizeChange(opt)}/>
+                </span>
 
-                    <span className={'row'} style={{verticalAlign: 'middle', width: '100%', marginBottom: 15}}>
-                        <label className={'col-4 d-inline-block'}>Pet Sex*</label>
-                        <Bessemer.Select name="pet_sex"
-                                         className={'col-8 d-inline-block'}
-                                         friendlyName="Pet Sex" placeholder="Male"
-                                         validators={[Validation.requiredValidator, Validation.safeValidator]}
-                                         options={sexOptions} value={this.state.pet_sex}
-                                         onChange={opt => this.handleSexChange(opt)}/>
-                    </span>
+                <span className="row align-content-center mb-3">
+                    <label className={'col-4 d-inline-block'}>Pet Sex*</label>
+                    <Bessemer.Select name="pet_sex"
+                                     className={'col-8 d-inline-block'}
+                                     friendlyName="Pet Sex" placeholder="Male"
+                                     validators={[Validation.requiredValidator, Validation.safeValidator]}
+                                     options={sexOptions} value={this.state.pet_sex}
+                                     onChange={opt => this.handleSexChange(opt)}/>
+                </span>
 
-                    <Bessemer.Field name="pet_age" friendlyName="Pet Age" placeholder="6"
-                                    validators={[Validation.requiredValidator, Validation.safeValidator, Validation.numberValidator]}/>
+                <Bessemer.Field name="pet_age" friendlyName="Pet Age" placeholder="6"
+                                validators={[Validation.requiredValidator, Validation.safeValidator, Validation.numberValidator]}/>
 
-                    <Bessemer.Field name="pet_info" friendlyName="Additional Pet Info"
-                                    validators={[Validation.safeValidator]}/>
+                <Bessemer.Field name="pet_info" friendlyName="Additional Pet Info"
+                                validators={[Validation.safeValidator]}/>
 
-                    <Bessemer.Button loading={submitting}>Add Pet</Bessemer.Button>
-
-                </form>
-                {
-
-                }
-                <PetList/>
-            </div>
+                <Bessemer.Button loading={submitting}>Add Pet</Bessemer.Button>
+            </form>
         );
     }
 }
@@ -131,7 +115,6 @@ AddPetForm = connect(
     }),
     dispatch => ({
         addPet: (pet) => dispatch(Users.Actions.addPet(pet)),
-        retrievePets: () => dispatch(Users.Actions.retrievePets()),
     })
 )(AddPetForm);
 

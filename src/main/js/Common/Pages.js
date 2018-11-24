@@ -1,4 +1,4 @@
-import MyPets from 'js/Pet/MyPets';
+import PetList from 'js/Pet/PetList';
 import MyRatings from 'js/User/MyRatings';
 import {PublicProfile} from 'js/User/PublicProfile';
 import _ from 'lodash';
@@ -41,10 +41,11 @@ export class RegisterPage extends React.Component {
         return (
             <div>
                 <div className="container padded">
+                    <div className="row horizontal-center">
+                        <h2 className="col">Register<hr/></h2>
+                    </div>
                     <div className="row">
                         <div className="col-6 offset-md-3">
-                            <h2>Register</h2>
-                            <hr/>
                             <RegistrationForm/>
                             <hr/>
 
@@ -66,10 +67,11 @@ export class LoginPage extends React.Component {
         return (
             <div>
                 <div className="container padded">
+                    <div className="row horizontal-center">
+                        <h2 className="col">Login<hr/></h2>
+                    </div>
                     <div className="row">
                         <div className="col-6 offset-md-3">
-                            <h2>Login</h2>
-                            <hr/>
                             <Login.LoginForm/>
                         </div>
                     </div>
@@ -104,9 +106,10 @@ class ProfilePage extends React.Component {
         return (
             <div>
                 <div className="container padded">
-                    <div className="row">
-                        <h2 className="offset-md-3">My Profile</h2>
+                    <div className="row horizontal-center">
+                        <h2 className="col">My Profile<hr/></h2>
                     </div>
+
                     <div className="row">
                         <div className="col-4">
                             <h3>View Profile</h3>
@@ -122,13 +125,6 @@ class ProfilePage extends React.Component {
                             <h3>Update Profile Information</h3>
                             <RegistrationForm editProfile="true"/>
 
-                            {/*{_.isDefined(this.props.user) && (this.props.user.roles.includes('SITTER')) &&
-                                <div>
-                                    <h3>Sitter Preferences</h3>
-                                    <p>Any sitter specific settings here.</p>
-                                    <hr/>
-                                </div>
-                            }*/}
                             <hr/>
                         </div>
                     </div>
@@ -152,8 +148,9 @@ export class SessionPage extends React.Component {
         return (
             <div>
                 <div className="container padded">
-                    <h2>Schedule A Session</h2>
-                    <hr/>
+                    <div className="row horizontal-center">
+                        <h2 className="col">Schedule A Session<hr/></h2>
+                    </div>
                     <div className="row">
                         <div className="col-4">
                             <SessionTypes/>
@@ -174,15 +171,10 @@ export class PostingPage extends React.Component {
         return (
             <div>
                 <div className="container padded">
-                    <div className="row">
-                        <div className="col-6 offset-md-3">
-
-                            <h2>Job Postings</h2>
-
-                            <SessionPostings/>
-
-                        </div>
+                    <div className="row horizontal-center">
+                        <h2 className="col">Session Postings<hr/></h2>
                     </div>
+                    <SessionPostings/>
                 </div>
             </div>
         );
@@ -193,9 +185,15 @@ export class MySessionsPage extends React.Component {
     render() {
         return (
             <div>
-                <div className="container padded align-content-center">
-                    <h2>My Sessions</h2>
-                    <MySessions/>
+                <div className="container padded">
+                    <div className="row horizontal-center">
+                        <h2 className="col">My Sessions<hr/></h2>
+                    </div>
+                    <div className="row">
+                        <div className="col-6 offset-md-3">
+                            <MySessions/>
+                        </div>
+                    </div>
                 </div>
             </div>
         );
@@ -206,9 +204,24 @@ export class MyPetsPage extends React.Component {
     render() {
         return (
             <div>
-                <div className="container padded align-content-center">
-                    <h2>My Pets</h2>
-                    <MyPets/>
+                <div className="container padded">
+                    <div className="row horizontal-center">
+                        <h2 className="col">My Pets<hr/></h2>
+                    </div>
+
+                    <div className="row">
+                        <div className="col-md-4">
+                            <h4>Add Pet</h4>
+                            <AddPetForm/>
+                            <hr/>
+                        </div>
+                        <div className="col-md-8">
+                            <h4>Pet List</h4>
+                            <PetList/>
+                            <hr/>
+                        </div>
+                    </div>
+
                 </div>
             </div>
         );
@@ -219,8 +232,10 @@ export class MyRatingsPage extends React.Component {
     render() {
         return (
             <div>
-                <div className="container padded align-content-center">
-                    <h2>My Ratings</h2>
+                <div className="container padded">
+                    <div className="row horizontal-center">
+                        <h2 className="col">My Ratings<hr/></h2>
+                    </div>
                     <MyRatings/>
                 </div>
             </div>
@@ -232,8 +247,10 @@ export class MyHistoryPage extends React.Component {
     render() {
         return (
             <div>
-                <div className="container padded align-content-center">
-                    <h2>My Session History</h2>
+                <div className="container padded">
+                    <div className="row horizontal-center">
+                        <h2 className="col">My Session History<hr/></h2>
+                    </div>
                     <MySessionHistory/>
                 </div>
             </div>
@@ -245,8 +262,10 @@ export class NotificationsPage extends React.Component {
     render() {
         return (
             <div>
-                <div className="container padded align-content-center">
-                    <h2>Notifications</h2>
+                <div className="container padded">
+                    <div className="row horizontal-center">
+                        <h2 className="col">Notifications</h2>
+                    </div>
                     <Notifications/>
                 </div>
             </div>

@@ -2,12 +2,14 @@ import {Loading} from 'js/Common/Loading';
 import {makeToast, Toasts} from 'js/Common/Toasts';
 import React from 'react';
 import * as Validation from 'js/alloy/utils/validation';
-import * as Bessemer from 'js/alloy/bessemer/components';
+import {Field, Button, Select} from 'js/alloy/bessemer/components';
 import * as Users from 'js/User/Users';
+import {toast} from 'react-toastify';
 import * as ReduxForm from 'redux-form';
 import {connect} from 'react-redux';
 import _ from 'lodash';
 import {sexOptions, sizeOptions} from 'js/Pet/AddPetForm';
+import formValueSelector from 'redux-form/es/formValueSelector';
 
 export const waitToUpdateTime = 1500; // ms
 
@@ -17,6 +19,11 @@ class PetList extends React.Component {
         this.deletePet = this.deletePet.bind(this);
         this.handleSexChange = this.handleSexChange.bind(this);
         this.handleSizeChange = this.handleSizeChange.bind(this);
+        this.toggleAllEditingToFalse = this.toggleAllEditingToFalse.bind(this);
+        this.editPet = this.editPet.bind(this);
+        this.submitPet = this.submitPet.bind(this);
+        this.resetForm = this.resetForm.bind(this);
+        this.fetchPets = this.fetchPets.bind(this);
 
         this.state = {
             pet_sex: null,
@@ -24,12 +31,23 @@ class PetList extends React.Component {
             hasLoaded: false,
             toggle: false,
         };
-        this.props.retrievePets();
 
-        setTimeout(() => {
+        this.props.retrievePets().then(() => {
             this.state.hasLoaded = true;
+            this.state.toggle = !this.state.toggle;
             this.setState(this.state);
-        }, waitToUpdateTime);
+        });
+        this.fetchPets();
+    }
+
+    fetchPets() {
+        if(toast.isActive(Toasts.Info.AddPet.id)){
+            this.props.retrievePets().then(() => {
+                this.state.toggle = !this.state.toggle;
+                this.setState(this.state);
+            });
+        }
+        setTimeout(() => this.fetchPets(), 2500);
     }
 
     handleSexChange = e => {
@@ -58,18 +76,30 @@ class PetList extends React.Component {
         }, waitToUpdateTime);
     };
 
-    doneEditingPet() {
+    toggleAllEditingToFalse() {
         // Ensure no other pet is editing at the same time
-        for (let p = 0; p < this.props.pets.length; p++) {
-            if (this.props.pets[p].editing !== false) {
-                this.props.pets[p].editing = false;
-            }
+        if(_.isDefined(this.props.pets) && _.isArray(this.props.pets) && this.props.pets.length !== 0){
+            this.props.pets.forEach(pet => {
+                if (pet != null && pet.editing == true) {
+                    pet.editing = false;
+                }
+            });
         }
+
+        this.state.toggle = !this.state.toggle;
+        this.setState(this.state);
+    }
+
+    resetForm() {
+        this.props.dispatch(ReduxForm.reset('editPet'));
+        this.state.pet_size = this.state.pet_sex = null;
+        this.setState(this.state);
     }
 
     editPet = (e, pet) => {
+        this.toggleAllEditingToFalse();
+        this.resetForm();
         if (this.props.pets.includes(pet)) {
-            console.log('Editing pet with id: ' + pet.id + ' with editing status of ' + pet.editing);
             pet.editing = true;
             this.state.toggle = !this.state.toggle;
             this.setState(this.state);
@@ -79,13 +109,9 @@ class PetList extends React.Component {
     submitPet = (petForm, pet) => {
         let petToUpdate = JSON.parse(JSON.stringify(petForm));
 
-        if (this.props.pets.includes(pet)) {
-            console.log('Done editing pet with id: ' + pet.id + ' with editing status of ' + pet.editing);
-            pet.editing = false;
-        }
+        this.toggleAllEditingToFalse();
 
-        // If something was changed
-        if(petToUpdate != null){
+        if(!_.isEmpty(petForm)){
             petToUpdate.id = pet.id;
             if (petToUpdate.pet_name == null) petToUpdate.pet_name = pet.pet_name;
             if (petToUpdate.pet_species == null) petToUpdate.pet_species = pet.pet_species;
@@ -95,7 +121,7 @@ class PetList extends React.Component {
             if (petToUpdate.pet_info == null) petToUpdate.pet_info = pet.pet_info;
 
             Users.updatePet(petToUpdate).then(() => {
-                petForm.pet_name = petForm.pet_species = petForm.pet_size = petForm.pet_sex = petForm.pet_age = petForm.pet_info = null;
+                this.resetForm(petForm);
             });
             setTimeout(() => {
                 this.props.retrievePets().then(() => {
@@ -117,169 +143,148 @@ class PetList extends React.Component {
                 {this.state.hasLoaded ?
                     <div>
                         {_.isDefined(this.props.pets) && this.props.pets.length !== 0 &&
-                        <div>
-                            <h3>Pet List</h3>
+                        <div className="d-md-flex flex-md-wrap justify-content-md-start">
                             {this.props.pets.map(pet => (
                                 _.isDefined(pet) && _.isDefined(pet.pet_name) &&
-                                <div key={pet.pet_name + '_' + pet.id} className="card"
-                                     style={{width: '20rem', marginBottom: 10}}>
+                                <div key={pet.pet_name + '_' + pet.id} className="card m-md-3">
                                     <form name={'editPet'} onSubmit={handleSubmit(form => parent.submitPet(form, pet))}>
                                         <div className="card-header">
-                                            <div style={{display: 'inline'}}>
-                                                {pet.editing === true &&
-                                                <div>
-                                                    <Bessemer.Field name="pet_name" friendlyName="Pet Name"
+                                            {pet.editing === true &&
+                                                <div className="negative-bottom">
+                                                    <Field name="pet_name" friendlyName="Pet Name"
                                                                     placeholder={pet.pet_name == null ? 'Fido' : pet.pet_name}
                                                                     validators={[Validation.safeValidator]}/>
                                                 </div>
-                                                }
-                                                {pet.editing === false &&
+                                            }
+                                            {pet.editing === false &&
                                                 <div>
                                                     <span className="text-muted">Pet Name: </span>{pet.pet_name}
                                                 </div>
-                                                }
-                                            </div>
+                                            }
                                         </div>
                                         <ul className="list-group list-group-flush">
                                             <li className="list-group-item">
-                                                <div style={{display: 'inline'}}>
-                                                    {pet.editing === true &&
-                                                    <Bessemer.Field name="pet_species" friendlyName="Pet Species"
-                                                                    placeholder={pet.pet_species == null ? 'Dog' : pet.pet_species}
-                                                                    validators={[Validation.safeValidator]}/>
-                                                    }
-                                                    {pet.editing === false &&
+                                                {pet.editing === true &&
+                                                    <div className="negative-bottom">
+                                                        <Field name="pet_species" friendlyName="Pet Species"
+                                                               placeholder={pet.pet_species == null ? 'Dog' : pet.pet_species}
+                                                               validators={[Validation.safeValidator]}/>
+                                                    </div>
+                                                }
+                                                {pet.editing === false &&
                                                     <div>
                                                         <span className="text-muted">Species: </span>{pet.pet_species}
                                                     </div>
-                                                    }
-                                                </div>
+                                                }
                                             </li>
-                                        </ul>
-
-                                        <ul className="list-group list-group-flush">
-                                            <li className="list-group-item">
-                                                <div style={{display: 'inline'}}>
-                                                    {pet.editing === true &&
-                                                    <span className={'row'} style={{verticalAlign: 'middle', width: '100%', marginBottom: 15}}>
-                                                        <label className={'col-4 d-inline-block'}>Pet Size*</label>
-                                                        <Bessemer.Select name="pet_size"
+                                            <li className="list-group-item container-fluid">
+                                                {pet.editing === true &&
+                                                    <span className="row align-content-center">
+                                                        <label className={'col-4 d-inline-block'}>Pet Size</label>
+                                                        <Select name="pet_size" decorated={false} stacked={false}
                                                                          className={'col-8 d-inline-block'}
                                                                          friendlyName="Pet Size" placeholder="Small"
-                                                                         validators={[Validation.requiredValidator, Validation.safeValidator]}
+                                                                         validators={[Validation.safeValidator]}
                                                                          options={sizeOptions} value={this.state.pet_size}
                                                                          onChange={opt => this.handleSizeChange(opt)}/>
                                                     </span>
-                                                    }
-                                                    {pet.editing === false &&
+                                                }
+                                                {pet.editing === false &&
                                                     <div>
                                                         <span className="text-muted">Size: </span>{pet.pet_size}
                                                     </div>
-                                                    }
-                                                </div>
+                                                }
                                             </li>
-                                        </ul>
-
-                                        <ul className="list-group list-group-flush">
-                                            <li className="list-group-item">
-                                                <div style={{display: 'inline'}}>
-                                                    {pet.editing === true &&
-                                                    <span className={'row'} style={{verticalAlign: 'middle', width: '100%', marginBottom: 15}}>
-                                                <label className={'col-4 d-inline-block'}>Pet Sex</label>
-                                                <Bessemer.Select name="pet_sex"
-                                                                 className={'col-8 d-inline-block'}
-                                                                 friendlyName="Pet Sex" placeholder="Male"
-                                                                 validators={[Validation.requiredValidator, Validation.safeValidator]}
-                                                                 options={sexOptions} value={this.state.pet_sex}
-                                                                 onChange={opt => this.handleSexChange(opt)}/>
-                                                </span>
-                                                    }
-                                                    {pet.editing === false &&
+                                            <li className="list-group-item container-fluid">
+                                                {pet.editing === true &&
+                                                <span className="row align-content-center">
+                                                    <label className="col-4 d-inline-block">Pet Sex</label>
+                                                    <Select name="pet_sex"
+                                                                     className="col-8 d-inline-block"
+                                                                     friendlyName="Pet Sex" placeholder="Male"
+                                                                     validators={[Validation.requiredValidator, Validation.safeValidator]}
+                                                                     options={sexOptions} value={this.state.pet_sex}
+                                                                     onChange={opt => this.handleSexChange(opt)}/>
+                                                    </span>
+                                                }
+                                                {pet.editing === false &&
                                                     <div>
                                                         <span className="text-muted">Sex: </span>{pet.pet_sex}
                                                     </div>
-                                                    }
-                                                </div>
+                                                }
                                             </li>
-                                        </ul>
-
-                                        <ul className="list-group list-group-flush">
                                             <li className="list-group-item">
-                                                <div style={{display: 'inline'}}>
-                                                    {pet.editing === true &&
-                                                    <Bessemer.Field name="pet_age" friendlyName="Pet Age"
-                                                                    placeholder={pet.pet_age == null ? '4' : pet.pet_age}
-                                                                    validators={[Validation.safeValidator, Validation.numberValidator]}/>
-                                                    }
-                                                    {pet.editing === false &&
+                                                {pet.editing === true &&
+                                                    <div className="negative-bottom">
+                                                        <Field name="pet_age" friendlyName="Pet Age" decorated={false} stacked={false}
+                                                                placeholder={pet.pet_age == null ? '4' : pet.pet_age}
+                                                                validators={[Validation.safeValidator, Validation.numberValidator]}/>
+                                                    </div>
+                                                }
+                                                {pet.editing === false &&
                                                     <div>
                                                         <span className="text-muted">Age: </span>{pet.pet_age}
                                                     </div>
-                                                    }
-                                                </div>
+                                                }
                                             </li>
-                                        </ul>
-
-                                        <ul className="list-group list-group-flush">
                                             <li className="list-group-item">
-                                                <div style={{display: 'inline'}}>
-                                                    {pet.editing === true &&
-                                                    <Bessemer.Field name="pet_info" friendlyName="Pet Info"
-                                                                    placeholder={pet.pet_info == null ? 'Additional pet information here.' : pet.pet_info}
-                                                                    validators={[Validation.safeValidator]}/>
-                                                    }
-                                                    {pet.editing === false &&
+                                                {pet.editing === true &&
+                                                    <div className="negative-bottom">
+                                                        <Field name="pet_info" friendlyName="Pet Info" decorated={false} stacked={false}
+                                                                        placeholder={pet.pet_info == null ? 'Additional pet information here.' : pet.pet_info}
+                                                                        validators={[Validation.safeValidator]}/>
+                                                    </div>
+                                                }
+                                                {pet.editing === false &&
                                                     <div>
                                                         <span className="text-muted">Info: </span>{pet.pet_info}
                                                     </div>
-                                                    }
-                                                </div>
+                                                }
                                             </li>
                                         </ul>
 
                                         <div style={{textAlign: 'center', marginTop: 10}}>
-
                                             {pet.editing === false &&
-                                            <div>
-                                                <button type={'button'} className="btn btn-danger btn-sm"
-                                                        style={{width: 'auto', margin: 10}}
-                                                        onClick={(e) => {
-                                                            parent.deletePet(e, pet.id);
-                                                        }}>Delete Pet
-                                                </button>
-                                                <button type={'button'} className="btn btn-primary btn-sm"
-                                                        style={{width: 'auto', margin: 10}}
-                                                        onClick={(e) => {
-                                                            parent.editPet(e, pet);
-                                                        }}>Edit Pet
-                                                </button>
-                                            </div>
+                                                <div>
+                                                    <button type={'button'} className="btn btn-danger btn-sm"
+                                                            style={{width: 'auto', margin: 10}}
+                                                            onClick={(e) => {parent.deletePet(e, pet.id);}}>
+                                                        Delete Pet
+                                                    </button>
+                                                    <button type={'button'} className="btn btn-primary btn-sm"
+                                                            style={{width: 'auto', margin: 10}}
+                                                            onClick={(e) => {parent.editPet(e, pet);}}>
+                                                        Edit Pet
+                                                    </button>
+                                                </div>
                                             }
                                             {pet.editing === true &&
-                                            <Bessemer.Button className="btn btn-success btn-sm" style={{width: 'auto'}}
-                                                             loading={submitting}>Done Editing Pet</Bessemer.Button>
+                                                <Button className="btn btn-success btn-sm" style={{width: 'auto'}}
+                                                         loading={submitting}>Done Editing Pet</Button>
                                             }
                                         </div>
                                     </form>
                                 </div>
-                            ))}</div>
+                            ))
+                            }
+                        </div>
                         }
                     </div>
                 :
                     <Loading/>
                 }
-
             </div>
         );
     }
 }
 
-PetList = ReduxForm.reduxForm({form: 'editPet'})(PetList);
+PetList = ReduxForm.reduxForm({form: 'editPet', touchOnChange: false, touchOnBlur: false})(PetList);
 
+const selector = formValueSelector('editPet');
 PetList = connect(
     state => ({
         pets: Users.State.getPets(state),
-        user: Users.State.getUser(state)
+        user: Users.State.getUser(state),
     }),
     dispatch => ({
         retrievePets: () => dispatch(Users.Actions.retrievePets()),
