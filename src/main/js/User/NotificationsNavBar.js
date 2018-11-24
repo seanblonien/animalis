@@ -17,22 +17,23 @@ class NotificationsNavBar extends React.Component {
         this.notificationRefreshSimple = this.notificationRefreshSimple.bind(this);
         NotificationsNavBar.numberOfUnreadNotifications = NotificationsNavBar.numberOfUnreadNotifications.bind(this);
 
-        this.notificationRefresh(true);
+        this.notificationRefreshSimple();
+        setTimeout(this.notificationRefresh(), 1000);
     }
 
-    notificationRefresh(firstRefresh) {
-        this.props.getNotifications();
-        setTimeout(() => {
-            this.setState({
-                hasLoadedNotifications: true,
-                numberUnreadNotifications: NotificationsNavBar.numberOfUnreadNotifications(this.props.notifications),
-            });
-            this.notificationRefresh(false);
-        }, firstRefresh ? 1000 : 7500);
+    notificationRefresh() {
+            this.props.fetchNotifications();
+            setTimeout(() => {
+                this.setState({
+                    hasLoadedNotifications: true,
+                    numberUnreadNotifications: NotificationsNavBar.numberOfUnreadNotifications(this.props.notifications),
+                });
+                this.notificationRefresh();
+            },  7500);
     }
 
     notificationRefreshSimple() {
-        this.props.getNotifications();
+        this.props.fetchNotifications();
         setTimeout(() => {
             this.setState({
                 hasLoadedNotifications: true,
@@ -112,7 +113,7 @@ NotificationsNavBar = connect(
         notifications: Users.State.getNotifications(state),
     }),
     dispatch => ({
-        getNotifications: () => dispatch(Users.Actions.getNotifications()),
+        fetchNotifications: () => dispatch(Users.Actions.fetchNotifications()),
         updateNotification: n => dispatch(Users.Actions.updateNotification(n)),
     })
 )(NotificationsNavBar);

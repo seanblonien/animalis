@@ -222,7 +222,7 @@ Actions.getAllSessions = () => {
     };
 };
 
-Actions.getNotifications = () => {
+Actions.fetchNotifications = () => {
     return (dispatch) => {
         return getNotifications().then(notifications => {
             return dispatch(Actions.setNotifications(notifications));
@@ -334,7 +334,6 @@ Actions.register = user => {
         });
     };
 };
-
 
 Actions.refreshUser = () => {
     return (dispatch) => {
