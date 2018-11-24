@@ -25,7 +25,7 @@ export default class Index extends React.Component {
                         <Route exact path='/schedule-session' component={Pages.SessionPage}/>
                         <Route exact path='/postings' component={Pages.PostingPage}/>
                         <Route exact path='/notifications' component={Pages.NotificationsPage}/>
-                        <Route exact path='/public-profile/:id' component={Pages.PublicProfilePage}/>
+                        <Route exact path='/profile/:id' component={Pages.PublicProfilePage}/>
                     </div>
                 </HashRouter>
             </div>

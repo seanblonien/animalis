@@ -73,17 +73,17 @@ export class NavBar extends React.Component {
                                         <div className="dropdown-menu dropdown-menu-left" aria-labelledby="navbarDropdown" style={{overflow: 'visible', left: 0, right: 0}}>
                                             {_.isDefined(this.props.user) &&
                                             <div>
-                                                <a className="dropdown-item" href="#/my-profile">My Profile</a>
+                                                <a className="dropdown-item" href="#/my-profile"><span className="fa fa-user"/> My Profile</a>
                                                 {this.props.user.roles.includes('OWNER') &&
-                                                    <a className="dropdown-item" href="#/my-pets">My Pets</a>
+                                                    <a className="dropdown-item" href="#/my-pets"><span className="fa fa-paw"/> My Pets</a>
                                                 }
-                                                <a className="dropdown-item" href="#/my-sessions">My Sessions</a>
-                                                <a className="dropdown-item" href="#/my-history">My History</a>
+                                                <a className="dropdown-item" href="#/my-sessions"><span className="fa fa-list"/> My Sessions</a>
+                                                <a className="dropdown-item" href="#/my-history"><span className="fa fa-history"/> My History</a>
                                                 {this.props.user.roles.includes('SITTER') &&
-                                                    <a className="dropdown-item" href="#/my-ratings">My Ratings</a>
+                                                    <a className="dropdown-item" href="#/my-ratings"><span className="fa fa-star"/> My Ratings</a>
                                                 }
                                                 <div className="dropdown-divider"></div>
-                                                <a className="dropdown-item" href="#/" onClick={this.logoutClick}>Log out</a>
+                                                <a className="dropdown-item" href="#/" onClick={this.logoutClick}><span className="fa fa-sign-out"/> Log out</a>
                                             </div>
 
                                             }

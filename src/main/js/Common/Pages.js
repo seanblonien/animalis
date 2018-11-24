@@ -105,33 +105,30 @@ class ProfilePage extends React.Component {
             <div>
                 <div className="container padded">
                     <div className="row">
-                        <div className="col-6 offset-md-3">
-
-                            <h2>My Profile</h2>
-
-                            <h3>Update My Account Information</h3>
-                            <RegistrationForm editProfile="true"/>
+                        <h2 className="offset-md-3">My Profile</h2>
+                    </div>
+                    <div className="row">
+                        <div className="col-4">
+                            <h3>View Profile</h3>
+                            <a className="btn btn-primary" href={'#/profile/' + this.props.user.principal}>View your public profile</a>
+                            <br/>
                             <hr/>
-
-                            {_.isDefined(this.props.user) && (this.props.user.roles.includes('OWNER')) &&
-                            <div>
-                                <h3>Add a Pet</h3>
-                                <AddPetForm/>
-                                <hr/>
-                            </div>
-                            }
-
-                            {_.isDefined(this.props.user) && (this.props.user.roles.includes('SITTER')) &&
-                            <div>
-                                <h3>Sitter Preferences</h3>
-                                <p>Any sitter specific settings here.</p>
-                                <hr/>
-                            </div>
-                            }
-
-
                             <h3>Delete My Account</h3>
                             <DeleteAccount/>
+                            <hr/>
+                        </div>
+                        <div className="col-6">
+
+                            <h3>Update Profile Information</h3>
+                            <RegistrationForm editProfile="true"/>
+
+                            {/*{_.isDefined(this.props.user) && (this.props.user.roles.includes('SITTER')) &&
+                                <div>
+                                    <h3>Sitter Preferences</h3>
+                                    <p>Any sitter specific settings here.</p>
+                                    <hr/>
+                                </div>
+                            }*/}
                             <hr/>
                         </div>
                     </div>
