@@ -55,7 +55,7 @@ export class NavBar extends React.Component {
                                             {_.isArray(this.props.user.roles) &&
                                             <div>
                                                 {this.props.user.roles.includes('OWNER') &&
-                                                <a className="dropdown-item" href="#/schedulesession"><span className="fa fa-plus-circle"/> New Session</a>
+                                                <a className="dropdown-item" href="#/schedule-session"><span className="fa fa-plus-circle"/> New Session</a>
                                                 }
                                                 {this.props.user.roles.includes('SITTER') &&
                                                 <a className="dropdown-item" href="#/postings"><span className="fa fa-search-plus"/> Find Session</a>
@@ -73,9 +73,15 @@ export class NavBar extends React.Component {
                                         <div className="dropdown-menu dropdown-menu-left" aria-labelledby="navbarDropdown" style={{overflow: 'visible', left: 0, right: 0}}>
                                             {_.isDefined(this.props.user) &&
                                             <div>
-                                                <a className="dropdown-item" href="#/mysessions">My Sessions</a>
-                                                <a className="dropdown-item" href="#/editprofile">My Profile</a>
-                                                <a className="dropdown-item" href="#/history">My History</a>
+                                                <a className="dropdown-item" href="#/my-profile">My Profile</a>
+                                                {this.props.user.roles.includes('OWNER') &&
+                                                    <a className="dropdown-item" href="#/my-pets">My Pets</a>
+                                                }
+                                                <a className="dropdown-item" href="#/my-sessions">My Sessions</a>
+                                                <a className="dropdown-item" href="#/my-history">My History</a>
+                                                {this.props.user.roles.includes('SITTER') &&
+                                                    <a className="dropdown-item" href="#/my-ratings">My Ratings</a>
+                                                }
                                                 <div className="dropdown-divider"></div>
                                                 <a className="dropdown-item" href="#/" onClick={this.logoutClick}>Log out</a>
                                             </div>

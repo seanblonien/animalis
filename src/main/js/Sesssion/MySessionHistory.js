@@ -6,7 +6,7 @@ import _ from 'lodash';
 import * as Bessemer from 'js/alloy/bessemer/components';
 import * as Validation from 'js/alloy/utils/validation';
 
-class SessionHistory extends React.Component {
+class MySessionHistory extends React.Component {
     constructor(props) {
         super(props);
         this.props.getSessions();
@@ -49,9 +49,9 @@ class SessionHistory extends React.Component {
     }
 }
 
-SessionHistory = ReduxForm.reduxForm({form: 'sessionHistory'})(SessionHistory);
+MySessionHistory = ReduxForm.reduxForm({form: 'myMySessionHistory'})(MySessionHistory);
 
-SessionHistory = connect(
+MySessionHistory = connect(
     state => ({
         sessions: Users.State.getSessions(state),
         user: Users.State.getUser(state),
@@ -62,6 +62,6 @@ SessionHistory = connect(
         retrievePets: () => dispatch(Users.Actions.retrievePets()),
         getAllSessions: () => dispatch(Users.Actions.getAllSessions()),
     })
-)(SessionHistory);
+)(MySessionHistory);
 
-export default SessionHistory;
+export default MySessionHistory;

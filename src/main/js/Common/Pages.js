@@ -1,3 +1,5 @@
+import MyPets from 'js/Pet/MyPets';
+import MyRatings from 'js/User/MyRatings';
 import {PublicProfile} from 'js/User/PublicProfile';
 import _ from 'lodash';
 
@@ -11,11 +13,9 @@ import HomePage from 'js/Common/HomePage';
 import {DeleteAccount} from 'js/User/DeleteAccount';
 import {RegistrationForm} from 'js/LoginRegister/RegisterForm';
 import Redirect from 'react-router-dom/es/Redirect';
-import PetList from 'js/Pet/PetList';
-import {NavBar} from 'js/Common/NavBar';
 import SessionPostings from 'js/Sesssion/SessionPostings';
 import MySessions from 'js/Sesssion/MySessions';
-import SessionHistory from 'js/Sesssion/SessionHistory';
+import MySessionHistory from 'js/Sesssion/MySessionHistory';
 import SessionTypes from 'js/Sesssion/SessionTypes';
 import Notifications from 'js/User/Notifications';
 
@@ -205,13 +205,39 @@ export class MySessionsPage extends React.Component {
     }
 }
 
-export class HistoryPage extends React.Component {
+export class MyPetsPage extends React.Component {
     render() {
         return (
             <div>
                 <div className="container padded align-content-center">
-                    <h2>Session History</h2>
-                    <SessionHistory/>
+                    <h2>My Pets</h2>
+                    <MyPets/>
+                </div>
+            </div>
+        );
+    }
+}
+
+export class MyRatingsPage extends React.Component {
+    render() {
+        return (
+            <div>
+                <div className="container padded align-content-center">
+                    <h2>My Ratings</h2>
+                    <MyRatings/>
+                </div>
+            </div>
+        );
+    }
+}
+
+export class MyHistoryPage extends React.Component {
+    render() {
+        return (
+            <div>
+                <div className="container padded align-content-center">
+                    <h2>My Session History</h2>
+                    <MySessionHistory/>
                 </div>
             </div>
         );

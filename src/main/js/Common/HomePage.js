@@ -22,7 +22,7 @@ class HomePage extends React.Component {
                         <div>
                             {this.props.user.roles.includes('OWNER') &&
                                 <div className="m-3">
-                                    <a className="btn btn-primary btn-lg" href="#/schedulesession">Schedule a pet service</a>
+                                    <a className="btn btn-primary btn-lg" href="#/schedule-session">Schedule a pet service</a>
                                 </div>
                             }
                             {this.props.user.roles.includes('SITTER') &&

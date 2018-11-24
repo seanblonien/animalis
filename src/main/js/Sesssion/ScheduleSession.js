@@ -116,7 +116,7 @@ class ScheduleSession extends React.Component {
                     <div>
                         <p>Please add a pet before scheduling a session!</p>
 
-                        <p>You can add pets within the <a className="link" href="#/editprofile">Profile</a> page.</p>
+                        <p>You can add pets within the <a className="link" href="#/my-profile">Profile</a> page.</p>
                     </div>
                 }
                 {!_.isEmpty(this.props.pets) && this.props.pets.length > 0 &&
