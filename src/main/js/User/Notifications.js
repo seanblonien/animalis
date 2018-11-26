@@ -26,7 +26,7 @@ class Notifications extends React.Component {
                                     <th scope="col">Type</th>
                                     <th scope="col">Date</th>
                                     <th scope="col">Notification</th>
-                                    <th scope="col">Read</th>
+                                    <th scope="col">{}</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -36,8 +36,7 @@ class Notifications extends React.Component {
                                         <td>{notification.notificationDate}</td>
                                         {notification.notificationType === 'newBid' &&
                                             <td>
-                                                {/* Replace href /# with the link to the sitter's profile page */}
-                                                <a href='/#'>{notification.dataBody.substring(0, this.get2ndIndex(notification.dataBody, ' '))}</a>
+                                                <a href={'/#/profile/' + notification.otherUserPrincipal}>{notification.dataBody.substring(0, this.get2ndIndex(notification.dataBody, ' '))}</a>
                                                 <nobr>{notification.dataBody.substring(this.get2ndIndex(notification.dataBody, ' '))}</nobr>
                                             </td>
                                         }
@@ -51,7 +50,12 @@ class Notifications extends React.Component {
                                             <td>{notification.dataBody}</td>
                                         }
 
-                                        <td>{notification.hasBeenRead.toString()}</td>
+                                        {notification.hasBeenRead === false &&
+                                        <td><button>🔵</button></td>
+                                        }
+                                        {notification.hasBeenRead === true &&
+                                            <td></td>
+                                        }
                                     </tr>
                                 ))
                             }
