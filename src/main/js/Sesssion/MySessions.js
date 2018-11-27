@@ -122,6 +122,7 @@ class MySessions extends React.Component {
 													</span>
 													</div>
 												}
+
 												{
 													!_.isBlank(this.state.sitter_choice) &&
 													<div className={'container-fluid'}>
