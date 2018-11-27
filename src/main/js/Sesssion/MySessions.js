@@ -60,7 +60,7 @@ class MySessions extends React.Component {
 	render() {
 		return (
 			<div className="row">
-				<div className="col-4">
+				<div className="col-8">
 					<div>
 						{_.isDefined(this.props.user) && !_.isNil(this.props.user) && !_.isEmpty(this.props.user) &&
 						<h6>{this.props.user.attributes.fname} {this.props.user.attributes.lname}</h6>
@@ -70,7 +70,7 @@ class MySessions extends React.Component {
 						}
 
 						{_.isDefined(this.props.sessions) && !_.isEmpty(this.props.sessions) && !_.isNil(this.props.user) && this.props.sessions.map(session => (
-							<div key={session.id} className="card m-md">
+							<div key={session.id} className="card m-md-3">
 								<div className="card-header">
 								</div>
 
@@ -109,17 +109,17 @@ class MySessions extends React.Component {
 												{
 													session.sitterPrincipal === '' &&
 													<div>
-													<span className={'row'}
-														  style={{verticalAlign: 'middle', width: '100%', marginBottom: 15}}>
-														<label className={'col-4 d-inline-block'}>Sitter Choice</label>
-														<Bessemer.Select name="sitter_choice"
-																		 className={'col-8 d-inline-block'}
-																		 friendlyName="Choose Sitter" placeholder="Choose a Sitter"
-																		 validators={[Validation.requiredValidator, Validation.safeValidator]}
-																		 options={this.getBidders(session.bidderPrincipals)}
-																		 value={this.state.sitter_choice}
-																		 onChange={opt => this.handleSitterChoice(opt)}/>
-													</span>
+														<span className={'row'}
+															  style={{verticalAlign: 'middle', width: '100%', marginBottom: 15}}>
+															<label className={'col-4 d-inline-block'}>Sitter Choice</label>
+															<Bessemer.Select name="sitter_choice"
+																			 className={'col-8 d-inline-block'}
+																			 friendlyName="Choose Sitter" placeholder="Choose a Sitter"
+																			 validators={[Validation.requiredValidator, Validation.safeValidator]}
+																			 options={this.getBidders(session.bidderPrincipals)}
+																			 value={this.state.sitter_choice}
+																			 onChange={opt => this.handleSitterChoice(opt)}/>
+														</span>
 													</div>
 												}
 
@@ -135,9 +135,16 @@ class MySessions extends React.Component {
 												}
 										</div>
 									</li>
-
-									<p>Pets:</p>
-									<p>Notes: {session.notes}</p>
+									<li className="list-group-item">
+										<div>
+											<span className="text-muted">Pets: </span>{session.pets.toString()}
+										</div>
+									</li>
+									<li className="list-group-item">
+										<div>
+											<span className="text-muted">Notes: </span>{session.notes}
+										</div>
+									</li>
 								</ul>
 							</div>
 						))
