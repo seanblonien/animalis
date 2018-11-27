@@ -78,7 +78,7 @@ class NotificationsNavBar extends React.Component {
                                 {this.state.numberUnreadNotifications < 1 &&
                                     <div className="dropdown-item">No notifications</div>
                                 }
-                                {this.state.numberUnreadNotifications >= 1 && this.props.notifications.map(n => (
+                                {this.state.numberUnreadNotifications >= 1 && this.props.notifications != null && this.props.notifications.map(n => (
                                     <div key={n.id}>
                                         {!n.hasBeenRead &&
                                         <div key={n.id} className="d-inline-flex p-1">

@@ -292,7 +292,7 @@ Actions.addNotification = notification => {
     return (dispatch) => {
         return addNotification(notification).then(() => {
             makeToast(Toasts.Info.AddNotification);
-            return dispatch(Actions.getNotifications()).then(notifications => {
+            return dispatch(Actions.fetchNotifications()).then(notifications => {
                 return dispatch(Actions.setNotifications(notifications));
             });
         });
@@ -302,7 +302,7 @@ Actions.addNotification = notification => {
 Actions.updateNotification = notification => {
     return (dispatch) => {
         return updateNotification(notification).then(() => {
-            return dispatch(Actions.getNotifications()).then(notifications => {
+            return getNotifications().then(notifications => {
                 return dispatch(Actions.setNotifications(notifications));
             });
         });

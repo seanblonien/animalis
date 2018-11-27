@@ -15,6 +15,14 @@ class Notifications extends React.Component {
         return data.indexOf(searchStr, ndx + 1);
     }
 
+    markNotificationAsRead(event, notification) {
+        notification.hasBeenRead = !notification.hasBeenRead;
+        this.setState(this.state);
+        this.props.updateNotification(notification).then(() => {
+
+        });
+    }
+
     render() {
         return (
             <div className="row">
@@ -26,7 +34,7 @@ class Notifications extends React.Component {
                                     <th scope="col">Type</th>
                                     <th scope="col">Date</th>
                                     <th scope="col">Notification</th>
-                                    <th scope="col">{}</th>
+                                    <th scope="col">{/*Read Column (Intentionally Empty)*/}</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -51,10 +59,10 @@ class Notifications extends React.Component {
                                         }
 
                                         {notification.hasBeenRead === false &&
-                                        <td><button>🔵</button></td>
+                                        <td onClick={e => this.markNotificationAsRead(e, notification)}>🔵</td>
                                         }
                                         {notification.hasBeenRead === true &&
-                                            <td></td>
+                                            <td onClick={e => this.markNotificationAsRead(e, notification)}>⚪</td>
                                         }
                                     </tr>
                                 ))
@@ -76,7 +84,8 @@ Notifications = connect(
         notifications: Users.State.getNotifications(state),
     }),
     dispatch => ({
-        getNotifications: () => dispatch(Users.Actions.getNotifications()),
+        fetchNotifications: () => dispatch(Users.Actions.fetchNotifications()),
+        updateNotification: n => dispatch(Users.Actions.updateNotification(n)),
     })
 )(Notifications);
 
