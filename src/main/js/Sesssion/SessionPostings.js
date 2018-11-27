@@ -141,7 +141,6 @@ class SessionPostings extends React.Component {
                             <Bessemer.Button loading={submitting}>Apply Filter</Bessemer.Button>
                         </div>
                     </form>
-                    <hr/>
                 </div>
                 {/* Postings Listing */}
                 <div className="col-md-5">
@@ -227,7 +226,6 @@ class SessionPostings extends React.Component {
                         :
                         <Loading/>
                     }
-                    <hr/>
                 </div>
             </div>
         );

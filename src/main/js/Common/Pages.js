@@ -118,14 +118,11 @@ class ProfilePage extends React.Component {
                             <hr/>
                             <h3>Delete My Account</h3>
                             <DeleteAccount/>
-                            <hr/>
                         </div>
                         <div className="col-6">
 
                             <h3>Update Profile Information</h3>
                             <RegistrationForm editProfile="true"/>
-
-                            <hr/>
                         </div>
                     </div>
                 </div>
@@ -159,7 +156,6 @@ export class SessionPage extends React.Component {
                             <ScheduleSession/>
                         </div>
                     </div>
-                    <hr/>
                 </div>
             </div>
         );
@@ -213,15 +209,12 @@ export class MyPetsPage extends React.Component {
                         <div className="col-md-4">
                             <h4>Add Pet</h4>
                             <AddPetForm/>
-                            <hr/>
                         </div>
                         <div className="col-md-8">
                             <h4>Pet List</h4>
                             <PetList/>
-                            <hr/>
                         </div>
                     </div>
-
                 </div>
             </div>
         );

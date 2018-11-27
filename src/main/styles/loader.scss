@@ -184,3 +184,14 @@ body { padding-top: 75px; }
 @media screen and (max-width: 992px) {
   body { padding-top: 75px; }
 }
+.footer-links {
+  display: inline-flex;
+  text-align: center;
+}
+
+.grow {
+  transition: all .3s ease-in-out;
+}
+.grow:hover {
+  transform: scale(1.1);
+}

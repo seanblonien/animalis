@@ -19,7 +19,7 @@ export class NavBar extends React.Component {
         return (
             <div>
                 <Favicon url="https://i.imgur.com/J9wBmWu.png" />
-                <nav style={{backgroundColor: '#000000'}} className="navbar navbar-expand-md navbar-fixed fixed-top">
+                <nav style={{backgroundColor: '#24292E'}} className="navbar navbar-expand-md navbar-fixed fixed-top">
                     <div className="container-fluid">
                         <a className="navbar-brand" href="/#" style={{color: 'white'}}>
                             <img style={{margin: -9}} src="https://i.imgur.com/5YjGzlp.png"
