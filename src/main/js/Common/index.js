@@ -1,3 +1,4 @@
+import Footer from 'js/Common/Footer';
 import {NavBar} from 'js/Common/NavBar';
 import React from 'react';
 import {HashRouter, Route} from 'react-router-dom';
@@ -28,6 +29,7 @@ export default class Index extends React.Component {
                         <Route exact path='/profile/:id' component={Pages.PublicProfilePage}/>
                     </div>
                 </HashRouter>
+                <Footer/>
             </div>
         );
     }

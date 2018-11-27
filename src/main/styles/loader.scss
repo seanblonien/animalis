@@ -179,3 +179,8 @@ input[type=range]:focus::-ms-fill-upper {
 .negative-bottom {
   margin-bottom: -15px;
 }
+
+body { padding-top: 75px; }
+@media screen and (max-width: 992px) {
+  body { padding-top: 75px; }
+}
