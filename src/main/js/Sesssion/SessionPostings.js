@@ -79,7 +79,7 @@ class SessionPostings extends React.Component {
             notificationDate: getCurrentDate().toString(),
             primaryPrincipal: session.ownerPrincipal,
             otherUserPrincipal: this.props.user.principal,
-            dataBody: this.props.user.fname + ' ' + this.props.user.lname + ' has bid on your session!',
+            dataBody: this.props.user.attributes['fname'] + ' ' + this.props.user.attributes['lname'] + ' has bid on your session!',
             hasBeenRead: false,
         };
         addNotification(newNotification);
