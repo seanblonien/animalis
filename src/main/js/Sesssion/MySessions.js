@@ -63,10 +63,11 @@ class MySessions extends React.Component {
 				<div className="col-8">
 					<div>
 						{_.isDefined(this.props.user) && !_.isNil(this.props.user) && !_.isEmpty(this.props.user) &&
-						<h6>{this.props.user.attributes.fname} {this.props.user.attributes.lname}</h6>
+						<h5>{this.props.user.attributes.fname} {this.props.user.attributes.lname}</h5>
 						}
+
 						{_.isDefined(this.props.user) && !_.isNil(this.props.user) && !_.isEmpty(this.props.user) && this.props.user.roles.includes('OWNER') &&
-						<p>Sessions as Owner:</p>
+						<h6>Sessions as Owner:</h6>
 						}
 
 						{_.isDefined(this.props.sessions) && !_.isEmpty(this.props.sessions) && !_.isNil(this.props.user) && this.props.sessions.map(session => (
@@ -81,65 +82,75 @@ class MySessions extends React.Component {
 											<span className="text-muted">Session ID: </span>{session.id}
 										</div>
 									</li>
+
 									<li className="list-group-item">
 										<div>
 											<span className="text-muted">From: </span>{session.startDate + ' ' + session.startTime}
 										</div>
 									</li>
+
 									<li className="list-group-item">
 										<div>
 											<span className="text-muted">To: </span>{session.endDate + ' ' + session.endTime}
 										</div>
 									</li>
+
+									{!_.isEmpty(session.sitterPrincipal) &&
 									<li className="list-group-item">
 										<div>
 											<span className="text-muted">Sitter: </span>{session.sitterPrincipal}
 										</div>
 									</li>
+									}
+
+									{!_.isEmpty(session.bidderPrincipals) &&
 									<li className="list-group-item">
 										<div>
-											<span className="text-muted">Bidders: </span>{session.bidderPrincipals !== null && session.bidderPrincipals.map((bidder) => (
+											<span
+												className="text-muted">Bidders: </span>{session.bidderPrincipals !== null && session.bidderPrincipals.map((bidder) => (
 											<span key={bidder}>{bidder}, </span>
 										))}
 										</div>
 									</li>
+									}
+
+									{_.isEmpty(session.sitterPrincipal) &&
 									<li className="list-group-item">
 										<div>
 											<span className="text-muted">Sitter Choice:</span>
-												{
-													session.sitterPrincipal === '' &&
-													<div>
-														<span className={'row'}
-															  style={{verticalAlign: 'middle', width: '100%', marginBottom: 15}}>
-															<label className={'col-4 d-inline-block'}>Sitter Choice</label>
-															<Bessemer.Select name="sitter_choice"
-																			 className={'col-8 d-inline-block'}
-																			 friendlyName="Choose Sitter" placeholder="Choose a Sitter"
-																			 validators={[Validation.requiredValidator, Validation.safeValidator]}
-																			 options={this.getBidders(session.bidderPrincipals)}
-																			 value={this.state.sitter_choice}
-																			 onChange={opt => this.handleSitterChoice(opt)}/>
-														</span>
-													</div>
-												}
+												<div>
+													<span className={'row'}
+														  style={{verticalAlign: 'middle', width: '100%', marginBottom: 15}}>
+														<label className={'col-4 d-inline-block'}>Sitter Choice</label>
+														<Bessemer.Select name="sitter_choice"
+																		 className={'col-8 d-inline-block'}
+																		 friendlyName="Choose Sitter" placeholder="Choose a Sitter"
+																		 validators={[Validation.requiredValidator, Validation.safeValidator]}
+																		 options={this.getBidders(session.bidderPrincipals)}
+																		 value={this.state.sitter_choice}
+																		 onChange={opt => this.handleSitterChoice(opt)}/>
+													</span>
+												</div>
 
-												{
-													!_.isBlank(this.state.sitter_choice) &&
-													<div className={'container-fluid'}>
-														<div style={{textAlign: 'center'}} className={'row justify-content-center'}>
-															<button className={'btn btn-danger '}
-																	onClick={() => this.chooseSitter(session)}>Confirm Sitter Choice
-															</button>
-														</div>
+												{!_.isBlank(this.state.sitter_choice) &&
+												<div className={'container-fluid'}>
+													<div style={{textAlign: 'center'}} className={'row justify-content-center'}>
+														<button className={'btn btn-danger '}
+																onClick={() => this.chooseSitter(session)}>Confirm Sitter Choice
+														</button>
 													</div>
+												</div>
 												}
 										</div>
 									</li>
+									}
+
 									<li className="list-group-item">
 										<div>
 											<span className="text-muted">Pets: </span>{session.pets.toString()}
 										</div>
 									</li>
+
 									<li className="list-group-item">
 										<div>
 											<span className="text-muted">Notes: </span>{session.notes}
@@ -152,7 +163,7 @@ class MySessions extends React.Component {
 
 
 						{_.isDefined(this.props.user) && !_.isNil(this.props.user) && !_.isEmpty(this.props.user) && this.props.user.roles.includes('SITTER') &&
-						<p>Sessions as Sitter:</p>
+						<h6>Sessions as Sitter:</h6>
 
 						}
 					</div>
