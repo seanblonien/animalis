@@ -265,3 +265,49 @@ export class NotificationsPage extends React.Component {
         );
     }
 }
+
+export class AboutPage extends React.Component {
+    // TODO: Fill in information about this project
+    // TODO: Describe our client Tempeturs and the role the mentors play
+    //
+    // TODO: Introduce the team (who we are, a picture of each of us, give links to our websites/LinkedIn
+
+    render() {
+        return (
+            <div>
+                <div className="container padded">
+                    <div className="row horizontal-center">
+                        <h2 className="col">About</h2>
+                    </div>
+                    <div>
+
+
+
+                    </div>
+                </div>
+            </div>
+        );
+    }
+}
+
+export class SupportFAQPage extends React.Component {
+    // TODO: Think of frequently asked questions regarding use of our website
+    // TODO: Answer the frequently asked questions in paragraph form, step by step guide, or screenshots
+
+    render() {
+        return (
+            <div>
+                <div className="container padded">
+                    <div className="row horizontal-center">
+                        <h2 className="col">Frequently Asked Questions</h2>
+                    </div>
+                    <div>
+
+
+
+                    </div>
+                </div>
+            </div>
+        );
+    }
+}
