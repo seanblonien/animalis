@@ -11,6 +11,7 @@ import {Field} from 'js/alloy/bessemer/components';
 import {Select} from 'js/alloy/bessemer/components';
 import {sexOptions, sizeOptions} from 'js/Pet/AddPetForm';
 import {Button} from 'js/alloy/bessemer/components';
+import {sessionTypes} from 'js/Sesssion/SessionTypes';
 
 class MySessions extends React.Component {
 	constructor(props) {
@@ -73,6 +74,30 @@ class MySessions extends React.Component {
 						{_.isDefined(this.props.sessions) && !_.isEmpty(this.props.sessions) && !_.isNil(this.props.user) && this.props.sessions.map(session => (
 							<div key={session.id} className="card m-md-3">
 								<div className="card-header">
+									<div className={'row'}>
+										{sessionTypes.map((type) => (
+											<div key={type.label}>
+												{type.value === session.sessionType &&
+												<div className={'col-4'}>
+													<img src={type.image} style={{height: 50, width: 50}}/>
+												</div>
+												}
+											</div>
+										))
+										}
+									</div>
+									<div className={'mt-1'}>
+										{sessionTypes.map((type) => (
+											<div key={type.label}>
+												{type.value === session.sessionType &&
+												<div>
+													<p>{type.label}</p>
+												</div>
+												}
+											</div>
+										))
+										}
+									</div>
 								</div>
 
 								<ul className="list-group list-group-flush">
@@ -114,7 +139,7 @@ class MySessions extends React.Component {
 									</li>
 									}
 
-									{_.isEmpty(session.sitterPrincipal) &&
+									{_.isEmpty(session.sitterPrincipal) && !_.isEmpty(session.bidderPrincipals) &&
 									<li className="list-group-item">
 										<div>
 											<span className="text-muted">Sitter Choice:</span>
@@ -145,6 +170,14 @@ class MySessions extends React.Component {
 									</li>
 									}
 
+									{_.isEmpty(session.sitterPrincipal) && _.isEmpty(session.bidderPrincipals) &&
+									<li className="list-group-item">
+										<div>
+											<span className="text-muted">Sitter Choice: </span>No bids on this session.
+										</div>
+									</li>
+									}
+
 									<li className="list-group-item">
 										<div>
 											<span className="text-muted">Pets: </span>{session.pets.toString()}
@@ -160,7 +193,6 @@ class MySessions extends React.Component {
 							</div>
 						))
 						}
-
 
 						{_.isDefined(this.props.user) && !_.isNil(this.props.user) && !_.isEmpty(this.props.user) && this.props.user.roles.includes('SITTER') &&
 						<h6>Sessions as Sitter:</h6>
