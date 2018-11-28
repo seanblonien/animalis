@@ -184,25 +184,47 @@ class SessionPostings extends React.Component {
                                                     }
                                                 </div>
                                             </div>
-                                            <div className={'m-3'} style={{width: '20rem'}}>
-                                                {/*Session details*/}
-                                                <img src={'https://static.thenounproject.com/png/194149-200.png'}
-                                                     style={{height: 60, width: 60}}/>
-                                                <p>Session ID: {session.id}</p>
-                                                <p>Pet Breeds: {}</p>
-                                                <p>Price: $30/hr</p>
-                                                <p>Bidders: {_.isDefined(session.bidderPrincipals) && _.isEmpty(session.bidderPrincipals) && session.bidderPrincipals.map((bidder) => (
-                                                    <span key={bidder}>{bidder}, </span>
-                                                ))
-                                                }</p>
-                                                <p>From: {session.startDate + ' ' + session.startTime}</p>
-                                                <p>To: {session.endDate + ' ' + session.endTime}</p>
+
+                                            {/*Session details*/}
+                                            <ul className="list-group list-group-flush">
+                                                <li className="list-group-item">
+                                                    <div>
+                                                        <span className="text-muted">From: </span>{session.startDate + ' ' + session.startTime}
+                                                    </div>
+                                                </li>
+
+                                                <li className="list-group-item">
+                                                    <div>
+                                                        <span className="text-muted">To: </span>{session.endDate + ' ' + session.endTime}
+                                                    </div>
+                                                </li>
+
+                                                <li className="list-group-item">
+                                                    <div>
+                                                        <span className="text-muted">Price: </span>$30/hr
+                                                    </div>
+                                                </li>
+
+                                                <li className="list-group-item">
+                                                    <div>
+                                                        <span className="text-muted">Pet Breeds: </span>
+                                                    </div>
+                                                </li>
+
+                                                <li className="list-group-item">
+                                                    <div>
+                                                        <span className="text-muted">Bidders: </span>{session.bidderPrincipals.toString()}
+                                                    </div>
+                                                </li>
+
                                                 {/*Pet owner details*/}
                                                 {this.state.usersWithSessions.has(session.ownerPrincipal) && this.state.usersWithSessions.get(session.ownerPrincipal).details &&
-                                                <div>
-                                                    {'Owner: ' + this.state.usersWithSessions.get(session.ownerPrincipal).attributes.fname + ' ' +
-                                                    this.state.usersWithSessions.get(session.ownerPrincipal).attributes.lname}
-                                                </div>
+                                                <li className="list-group-item">
+                                                    <div>
+                                                        <span className="text-muted">Owner: </span>{this.state.usersWithSessions.get(session.ownerPrincipal).attributes.fname + ' ' +
+													this.state.usersWithSessions.get(session.ownerPrincipal).attributes.lname}
+                                                    </div>
+                                                </li>
                                                 }
                                                 <div className={'container-fluid'}>
                                                     <div style={{textAlign: 'center'}}
@@ -212,8 +234,7 @@ class SessionPostings extends React.Component {
                                                         </button>
                                                     </div>
                                                 </div>
-
-                                            </div>
+                                            </ul>
                                         </div>
                                     ))
                                     }
