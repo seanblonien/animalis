@@ -7,23 +7,20 @@ import _ from 'lodash';
 import * as Bessemer from 'js/alloy/bessemer/components';
 import * as Validation from 'js/alloy/utils/validation';
 import {getCurrentDate} from 'js/Session/ScheduleSession';
-import {Field} from 'js/alloy/bessemer/components';
-import {Select} from 'js/alloy/bessemer/components';
-import {sexOptions, sizeOptions} from 'js/Pet/AddPetForm';
-import {Button} from 'js/alloy/bessemer/components';
 import {sessionTypes} from 'js/Session/SessionTypes';
 import {Loading} from 'js/Common/Loading';
 
 class MySessions extends React.Component {
 	constructor(props) {
 		super(props);
-		this.props.getSessions();
 		this.state = {
 			sitter_choice: '',
 		};
-		this.handleSitterChoice = this.handleSitterChoice.bind(this);
-		this.getBidders = this.getBidders.bind(this);
 	}
+
+    componentDidMount() {
+        this.props.getSessions();
+    }
 
 	handleSitterChoice = e => {
 		if (e != null) {
@@ -32,7 +29,7 @@ class MySessions extends React.Component {
 		}
 	};
 
-	getBidders(bidders) {
+	getBidders = (bidders) => {
 		let list = [];
 		let i;
 		for (i = 0; i < bidders.length; i++) {
@@ -40,9 +37,9 @@ class MySessions extends React.Component {
 		}
 
 		return list;
-	}
+	};
 
-	chooseSitter(session) {
+	chooseSitter = (session) => {
 		session.sitterPrincipal = this.state.sitter_choice;
 		session.bidderPrincipals.splice(session.bidderPrincipals.indexOf(this.state.sitter_choice), 1);
 
@@ -57,7 +54,7 @@ class MySessions extends React.Component {
 		};
 		addNotification(newNotification);
 		this.props.updateSession(session);
-	}
+	};
 
 	render() {
 		return (

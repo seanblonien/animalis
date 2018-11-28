@@ -49,7 +49,6 @@ export class RegisterPage extends React.Component {
                     <div className="row">
                         <div className="col-6 offset-md-3">
                             <RegistrationForm/>
-                            <hr/>
 
                             {_.isDefined(this.props.user) &&
                             <div> You are registered, {this.props.user.principal}!</div>

@@ -67,6 +67,30 @@ export const stateOptions = [
 ];
 
 class RegistrationForm extends React.Component {
+    constructor(props) {
+        super(props);
+        this.handleCheckboxChange = this.handleCheckboxChange.bind(this);
+        this.displayChecks = this.displayChecks.bind(this);
+        this.onSubmit = this.onSubmit.bind(this);
+        this.updateState = this.updateState.bind(this);
+
+        this.state = {
+            checkedItems: new Map(),
+            hasLoaded: false,
+            stateChoice: '',
+        };
+    }
+
+    componentDidMount() {
+        if (_.isDefined(this.props.editProfile)) {
+            this.props.refreshUser().then(() => {
+                this.updateState();
+            });
+        } else {
+            this.updateState();
+        }
+    }
+
     onSubmit = user => {
         if (user != null) {
             let userToUpdate = JSON.parse(JSON.stringify(user));
@@ -119,36 +143,13 @@ class RegistrationForm extends React.Component {
             }
         }
     };
+
     handleStateChoiceChange = e => {
         if (e != null) {
             this.state.stateChoice = e;
             this.setState(this.state);
         }
     };
-
-    constructor(props) {
-        super(props);
-        this.handleCheckboxChange = this.handleCheckboxChange.bind(this);
-        this.displayChecks = this.displayChecks.bind(this);
-        this.onSubmit = this.onSubmit.bind(this);
-        this.updateState = this.updateState.bind(this);
-
-        this.state = {
-            checkedItems: new Map(),
-            hasLoaded: false,
-            stateChoice: '',
-        };
-    }
-
-    componentDidMount() {
-        if (_.isDefined(this.props.editProfile)) {
-            this.props.refreshUser().then(() => {
-                this.updateState();
-            });
-        } else {
-            this.updateState();
-        }
-    }
 
     updateState() {
         this.state.hasLoaded = true;
@@ -268,13 +269,13 @@ class RegistrationForm extends React.Component {
                                                 defaultCheck={this.state.checkedItems.get('emailNotifications')}/>}/>
 
 
-                            {_.isUndefined(this.props.editProfile) &&
-                            <div>
-                                {this.state.checkedItems.get('petOwner')? <OwnerRegister/> : null}
+                            {/*{_.isUndefined(this.props.editProfile) &&*/}
+                            {/*<div>*/}
+                                {/*{this.state.checkedItems.get('petOwner')? <OwnerRegister/> : null}*/}
 
-                                {this.state.checkedItems.get('petSitter')? <SitterRegister/> : null}
-                            </div>
-                            }
+                                {/*{this.state.checkedItems.get('petSitter')? <SitterRegister/> : null}*/}
+                            {/*</div>*/}
+                            {/*}*/}
 
                             {_.isDefined(this.props.editProfile) &&
                             <div>

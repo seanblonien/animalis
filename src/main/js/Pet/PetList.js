@@ -13,18 +13,39 @@ import { sexOptions, sizeOptions } from 'js/Pet/AddPetForm';
 export const waitToUpdateTime = 1500; // ms
 
 class PetList extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            pet_sex: null,
+            pet_size: null,
+            hasLoaded: false,
+            toggle: false,
+        };
+    }
+
+    componentDidMount() {
+        this.props.retrievePets().then(() => {
+            this.state.hasLoaded = true;
+            this.state.toggle = !this.state.toggle;
+            this.setState(this.state);
+        });
+        this.fetchPets();
+    }
+
     handleSexChange = e => {
         if (e != null) {
             this.state.pet_sex = e;
             this.setState(this.state);
         }
     };
+
     handleSizeChange = e => {
         if (e != null) {
             this.state.pet_size = e;
             this.setState(this.state);
         }
     };
+
     deletePet = (e, id) => {
         console.log('Deleting pet with id: ' + id);
         Users.deletePet(id);
@@ -36,6 +57,7 @@ class PetList extends React.Component {
             });
         }, waitToUpdateTime);
     };
+
     editPet = (e, pet) => {
         this.toggleAllEditingToFalse();
         this.resetForm();
@@ -45,6 +67,7 @@ class PetList extends React.Component {
             this.setState(this.state);
         }
     };
+
     submitPet = (petForm, pet) => {
         let petToUpdate = JSON.parse(JSON.stringify(petForm));
 
@@ -72,33 +95,7 @@ class PetList extends React.Component {
         }
     };
 
-    constructor(props) {
-        super(props);
-        this.deletePet = this.deletePet.bind(this);
-        this.handleSexChange = this.handleSexChange.bind(this);
-        this.handleSizeChange = this.handleSizeChange.bind(this);
-        this.toggleAllEditingToFalse = this.toggleAllEditingToFalse.bind(this);
-        this.editPet = this.editPet.bind(this);
-        this.submitPet = this.submitPet.bind(this);
-        this.resetForm = this.resetForm.bind(this);
-        this.fetchPets = this.fetchPets.bind(this);
-
-        this.state = {
-            pet_sex: null,
-            pet_size: null,
-            hasLoaded: false,
-            toggle: false,
-        };
-
-        this.props.retrievePets().then(() => {
-            this.state.hasLoaded = true;
-            this.state.toggle = !this.state.toggle;
-            this.setState(this.state);
-        });
-        this.fetchPets();
-    }
-
-    fetchPets() {
+    fetchPets = () => {
         if (toast.isActive(Toasts.Info.AddPet.id)) {
             this.props.retrievePets().then(() => {
                 this.state.toggle = !this.state.toggle;
@@ -106,9 +103,9 @@ class PetList extends React.Component {
             });
         }
         setTimeout(() => this.fetchPets(), 2500);
-    }
+    };
 
-    toggleAllEditingToFalse() {
+    toggleAllEditingToFalse = () => {
         // Ensure no other pet is editing at the same time
         if (_.isDefined(this.props.pets) && _.isArray(this.props.pets) && this.props.pets.length !== 0) {
             this.props.pets.forEach(pet => {
@@ -120,13 +117,13 @@ class PetList extends React.Component {
 
         this.state.toggle = !this.state.toggle;
         this.setState(this.state);
-    }
+    };
 
-    resetForm() {
+    resetForm = () => {
         this.props.dispatch(ReduxForm.reset('editPet'));
         this.state.pet_size = this.state.pet_sex = null;
         this.setState(this.state);
-    }
+    };
 
     render() {
         let {handleSubmit, submitting} = this.props;

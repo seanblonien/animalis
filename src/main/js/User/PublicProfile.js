@@ -13,7 +13,9 @@ export class PublicProfile extends React.Component {
             hasLoaded: false,
             user: null,
         };
+    }
 
+    componentDidMount() {
         getPublicUser(this.props.match.params.id).then(user => {
             this.state.hasLoaded = true;
             this.state.user = user;

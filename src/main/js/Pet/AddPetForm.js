@@ -19,6 +19,16 @@ export const sizeOptions = [
 ];
 
 class AddPetForm extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            editing: new Set(),
+            pet_sex: null,
+            pet_size: null,
+            toggle: false,
+        };
+    }
+
     onSubmit = pet => {
         pet.id = Math.round(Date.now() + Math.random());
         pet.pet_sex = this.state.pet_sex;
@@ -28,38 +38,20 @@ class AddPetForm extends React.Component {
 
         this.props.addPet(pet);
     };
+
     handleSexChange = e => {
         if (e != null) {
             this.state.pet_sex = e;
             this.setState(this.state);
         }
     };
+
     handleSizeChange = e => {
         if (e != null) {
             this.state.pet_size = e;
             this.setState(this.state);
         }
     };
-
-    constructor(props) {
-        super(props);
-        this.state = {
-            editing: new Set(),
-            pet_sex: null,
-            pet_size: null,
-            toggle: false,
-        };
-        this.handleSexChange = this.handleSexChange.bind(this);
-        this.handleSizeChange = this.handleSizeChange.bind(this);
-        this.onSubmit = this.onSubmit.bind(this);
-
-        // this.props.retrievePets().then(() => {
-        //     //console.error((performance.now()).toString() + ' retreived pets ' + JSON.stringify(this.props.pets));
-        //     this.state.toggle = !this.state.toggle;
-        //     this.setState(this.state);
-        // });
-        // //console.error((performance.now()).toString() + ' retreived pets ' + JSON.stringify(this.props.pets));
-    }
 
     render() {
         let {handleSubmit, submitting} = this.props;

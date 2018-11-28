@@ -11,6 +11,24 @@ import { getCurrentDate } from 'js/Session/ScheduleSession';
 import { Loading } from 'js/Common/Loading';
 
 class SessionPostings extends React.Component {
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            usersWithSessions: new Map(),
+            filter: new Map(),
+            checkedItems: new Map(),
+            hasLoaded: false,
+        };
+    }
+
+    componentDidMount() {
+        this.props.getAllSessions().then(() => {
+            this.state.hasLoaded = true;
+            this.setState(this.state);
+        });
+    }
+
     getSessionDetails = (principal) => {
         if (this.state.usersWithSessions.has(principal)) {
             let x = this.state.usersWithSessions.get(principal);
@@ -28,6 +46,7 @@ class SessionPostings extends React.Component {
             });
         }
     };
+
     onFormSubmit = (filterForm) => {
         console.log('Filter keys: ' + Object.keys(filterForm).join(', '));
         console.log('Filter values: ' + Object.values(filterForm).join(', '));
@@ -35,29 +54,8 @@ class SessionPostings extends React.Component {
         this.state.filter = filterForm;
     };
 
-    constructor(props) {
-        super(props);
-        this.onFormSubmit = this.onFormSubmit.bind(this);
-        this.bid = this.bid.bind(this);
 
-        this.state = {
-            usersWithSessions: new Map(),
-            filter: new Map(),
-            checkedItems: new Map(),
-            hasLoaded: false,
-        };
-    }
-
-    componentDidMount() {
-        this.props.getAllSessions();
-
-        setTimeout(() => {
-            this.state.hasLoaded = true;
-            this.setState(this.state);
-        }, 1000);
-    }
-
-    bid(session) {
+    bid = (session) => {
         if (session.ownerPrincipal === this.props.user.principal) {
             makeToast(Toasts.Unsuccessful.OwnSession);
             return;
@@ -82,9 +80,9 @@ class SessionPostings extends React.Component {
         };
         addNotification(newNotification);
         this.props.updateSession(session);
-    }
+    };
 
-    isInFilter(session) {
+    isInFilter = (session) => {
         let self = this;
         if (!_.isEmpty(this.state.filter)) {
             let result = true;
@@ -106,7 +104,7 @@ class SessionPostings extends React.Component {
             return result;
         }
         return true;
-    }
+    };
 
     render() {
         let {handleSubmit, submitting} = this.props;

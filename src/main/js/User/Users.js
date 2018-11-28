@@ -399,12 +399,10 @@ Actions.setPets = pets => {
 };
 
 Actions.setSessions = sessions => {
-    // Set the user's sessions within the redux state
     return {type: Actions.Types.SET_SESSIONS, sessions};
 };
 
 Actions.setAllSessions = allSessions => {
-    // Set all possible sessions within the redux state
     return {type: Actions.Types.SET_ALL_SESSIONS, allSessions};
 };
 

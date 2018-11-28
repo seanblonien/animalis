@@ -9,17 +9,21 @@ class NotificationsNavBar extends React.Component {
 
     constructor(props) {
         super(props);
-        this.markNotificationAsRead = this.markNotificationAsRead.bind(this);
-        this.notificationRefresh = this.notificationRefresh.bind(this);
-        NotificationsNavBar.numberOfUnreadNotifications = NotificationsNavBar.numberOfUnreadNotifications.bind(this);
 
         this.state = {
             hasLoadedNotifications: false,
             numberUnreadNotifications: 0,
         };
     }
+    componentDidMount() {
+        this.intervalID = setInterval(() => this.notificationRefresh(), 1000);
+    }
 
-    static numberOfUnreadNotifications(notifications) {
+    componentWillUnmount() {
+        clearInterval(this.intervalID);
+    }
+
+    static numberOfUnreadNotifications = notifications => {
         if (_.isNil(notifications) || _.isEmpty(notifications) || notifications.length < 1) {
             return -1;
         }
@@ -29,30 +33,22 @@ class NotificationsNavBar extends React.Component {
         }
 
         return unreadNotifications;
-    }
+    };
 
-    componentDidMount() {
-        this.intervalID = setInterval(() => this.notificationRefresh(), 1000);
-    }
-
-    componentWillUnmount() {
-        clearInterval(this.intervalID);
-    }
-
-    notificationRefresh() {
+    notificationRefresh = () => {
         this.props.fetchNotifications().then(() => {
             this.setState({
                 hasLoadedNotifications: true,
                 numberUnreadNotifications: NotificationsNavBar.numberOfUnreadNotifications(this.props.notifications),
             });
         });
-    }
+    };
 
-    markNotificationAsRead(event, notification) {
+    markNotificationAsRead = (e, notification) => {
         console.log('Marked as read!');
         notification.hasBeenRead = true;
         this.props.updateNotification(notification);
-    }
+    };
 
     render() {
         return (

@@ -3,17 +3,18 @@ import * as ReduxForm from 'redux-form';
 import connect from 'react-redux/es/connect/connect';
 import * as Users from 'js/User/Users';
 import _ from 'lodash';
-import * as Bessemer from 'js/alloy/bessemer/components';
-import * as Validation from 'js/alloy/utils/validation';
 import {getCurrentDate} from 'js/Session/ScheduleSession';
 import {sessionTypes} from 'js/Session/SessionTypes';
 
 class MyHistory extends React.Component {
 	constructor(props) {
 		super(props);
-		this.props.getSessions();
-		this.props.retrievePets();
 	}
+
+	componentDidMount() {
+        this.props.getSessions();
+        this.props.retrievePets();
+    }
 
 	render() {
 		return (

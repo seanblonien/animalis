@@ -7,13 +7,13 @@ import connect from 'react-redux/es/connect/connect';
 import * as Users from 'js/User/Users';
 
 class DeleteAccount extends React.Component {
-    onSubmit = () => {
-        return this.props.deleteAccount(this.props.user);
-    };
-
     constructor(props) {
         super(props);
     }
+
+    onSubmit = () => {
+        return this.props.deleteAccount(this.props.user);
+    };
 
     render() {
         let {handleSubmit, submitting} = this.props;

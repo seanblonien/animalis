@@ -25,6 +25,37 @@ export const getCurrentDate = () => {
 };
 
 class ScheduleSession extends React.Component {
+    constructor(props) {
+        super(props);
+        this.updateRange = this.updateRange.bind(this);
+
+        this.state = {
+            sessionType: null,
+            unselectedPets: [],
+            selectedPets: [],
+            bidders: [],
+            submitSuccessful: false,
+            hasLoaded: false,
+            maxDistance: 50,
+        };
+    }
+
+    componentDidMount() {
+        this.props.retrievePets().then(() => {
+            if (_.isDefined(this.props.pets) && !_.isEmpty(this.props.pets)) {
+                this.props.pets.map(pet => {
+                    this.state.unselectedPets.push(pet);
+                });
+                this.state.hasLoaded = true;
+                this.setState(this.state);
+            }
+        });
+
+        setTimeout(() => {
+
+        }, 1000);
+    }
+
     onSubmit = session => {
         session.id = Math.round(Date.now() + Math.random());
         session.ownerPrincipal = this.props.user.principal;
@@ -43,43 +74,14 @@ class ScheduleSession extends React.Component {
         this.state.submitSuccessful = true;
     };
 
-    constructor(props) {
-        super(props);
-        this.updateRange = this.updateRange.bind(this);
-
-        this.state = {
-            sessionType: null,
-            unselectedPets: [],
-            selectedPets: [],
-            bidders: [],
-            submitSuccessful: false,
-            hasLoaded: false,
-            maxDistance: 50,
-        };
-    }
-
-    componentDidMount() {
-        this.props.retrievePets();
-
-        setTimeout(() => {
-            if (_.isDefined(this.props.pets) && !_.isEmpty(this.props.pets)) {
-                this.props.pets.map(pet => {
-                    this.state.unselectedPets.push(pet);
-                });
-                this.state.hasLoaded = true;
-                this.setState(this.state);
-            }
-        }, 1000);
-    }
-
-    handleSessionTypeChange(e) {
+    handleSessionTypeChange = e => {
         if (e != null) {
             this.state.sessionType = e;
             this.setState(this.state);
         }
-    }
+    };
 
-    selectPet(e, pet) {
+    selectPet = (e, pet) => {
         e.preventDefault();
         this.state.selectedPets.push(pet);
         let index = this.state.unselectedPets.indexOf(pet);
@@ -87,9 +89,9 @@ class ScheduleSession extends React.Component {
             this.state.unselectedPets.splice(index, 1);
         }
         this.setState(this.state);
-    }
+    };
 
-    unselectPet(e, pet) {
+    unselectPet = (e, pet) => {
         e.preventDefault();
         this.state.unselectedPets.push(pet);
         let index = this.state.selectedPets.indexOf(pet);
@@ -97,12 +99,12 @@ class ScheduleSession extends React.Component {
             this.state.selectedPets.splice(index, 1);
         }
         this.setState(this.state);
-    }
+    };
 
-    updateRange(e) {
+    updateRange = (e) => {
         this.state.maxDistance = e.currentTarget.value;
         this.setState(this.state);
-    }
+    };
 
     render() {
         let {handleSubmit, submitting} = this.props;
@@ -122,7 +124,7 @@ class ScheduleSession extends React.Component {
                 </div>
                 }
                 {!_.isEmpty(this.props.pets) && this.props.pets.length > 0 &&
-                <form name="name" onSubmit={handleSubmit(form => this.onSubmit(form))}>
+                    <form name="name" onSubmit={handleSubmit(form => this.onSubmit(form))}>
                     <Bessemer.Field name="startDate" friendlyName="Start Date"
                                     validators={[Validation.requiredValidator]}
                                     field={<input type="date"
