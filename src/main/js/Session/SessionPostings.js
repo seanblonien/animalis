@@ -23,7 +23,7 @@ class SessionPostings extends React.Component {
     }
 
     componentDidMount() {
-        this.props.getAllSessions().then(() => {
+        this.props.fetchAllSessions().then(() => {
             this.state.hasLoaded = true;
             this.setState(this.state);
         });
@@ -266,7 +266,7 @@ SessionPostings = connect(
         allSessions: Users.State.getAllSessions(state),
     }),
     dispatch => ({
-        getAllSessions: () => dispatch(Users.Actions.getAllSessions()),
+        fetchAllSessions: () => dispatch(Users.Actions.fetchAllSessions()),
         updateSession: (session) => dispatch(Users.Actions.updateSession(session)),
     })
 )(SessionPostings);

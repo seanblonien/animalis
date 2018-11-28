@@ -9,11 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import petfinder.site.common.notification.NotificationDto;
 import petfinder.site.common.pet.PetDto;
+import petfinder.site.common.rating.RatingDto;
 import petfinder.site.common.session.SessionDto;
-import petfinder.site.elasticsearch.NotificationElasticsearchRepository;
-import petfinder.site.elasticsearch.PetElasticsearchRepository;
-import petfinder.site.elasticsearch.SessionElasticsearchRepository;
-import petfinder.site.elasticsearch.UserElasticSearchRepository;
+import petfinder.site.elasticsearch.*;
 
 import java.io.IOException;
 import java.util.List;
@@ -38,6 +36,9 @@ public class UserDao {
 
     @Autowired
     private NotificationElasticsearchRepository notificationRepository;
+
+    @Autowired
+    private RatingElasticsearchRepository ratingElasticsearchRepository;
 
     public void save(UserAuthenticationDto userAuthentication) {
         userRepository.save(userAuthentication);
@@ -104,6 +105,18 @@ public class UserDao {
                 .collect(Collectors.toList()) : null;
     }
 
+    public List<Optional<RatingDto>> findRatings(UserDto user) {
+        SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
+
+        String queryString = String.format("userPrincipal=\"%s\"", user.getPrincipal().replace("\"", ""));
+        searchSourceBuilder.query(QueryBuilders.queryStringQuery(queryString));
+
+        List<Long> userRatings = user.getRatings();
+        return userRatings != null ? userRatings.stream()
+                .map(id -> ratingElasticsearchRepository.find(id))
+                .collect(Collectors.toList()) : null;
+    }
+
     public List<Optional<NotificationDto>> findNotifications(UserDto user) {
         SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
 
@@ -116,7 +129,7 @@ public class UserDao {
                 .collect(Collectors.toList()) : null;
     }
 
-    public void delete(UserService.PrincipalRequest request) {
-        userRepository.delete(request.getPrincipal());
+    public void delete(String principal) {
+        userRepository.delete(principal);
     }
 }

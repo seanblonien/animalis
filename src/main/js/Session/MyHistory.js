@@ -12,8 +12,8 @@ class MyHistory extends React.Component {
 	}
 
 	componentDidMount() {
-        this.props.getSessions();
-        this.props.retrievePets();
+        this.props.fetchSessions();
+        this.props.fetchPets();
     }
 
 	render() {
@@ -125,9 +125,9 @@ MyHistory = connect(
 		allSessions: Users.State.getAllSessions(state),
 	}),
 	dispatch => ({
-		getSessions: () => dispatch(Users.Actions.getSessions()),
-		retrievePets: () => dispatch(Users.Actions.retrievePets()),
-		getAllSessions: () => dispatch(Users.Actions.getAllSessions()),
+        fetchSessions: () => dispatch(Users.Actions.fetchSessions()),
+        fetchPets: () => dispatch(Users.Actions.fetchPets()),
+        fetchAllSessions: () => dispatch(Users.Actions.fetchAllSessions()),
 	})
 )(MyHistory);
 

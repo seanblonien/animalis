@@ -41,7 +41,7 @@ class ScheduleSession extends React.Component {
     }
 
     componentDidMount() {
-        this.props.retrievePets().then(() => {
+        this.props.fetchPets().then(() => {
             if (_.isDefined(this.props.pets) && !_.isEmpty(this.props.pets)) {
                 this.props.pets.map(pet => {
                     this.state.unselectedPets.push(pet);
@@ -69,7 +69,7 @@ class ScheduleSession extends React.Component {
         console.log('Session keys: ' + Object.keys(session).join(', '));
         console.log('Session values: ' + Object.values(session).join(', '));
 
-        this.props.scheduleSession(session);
+        this.props.addSession(session);
 
         this.state.submitSuccessful = true;
     };
@@ -241,8 +241,8 @@ ScheduleSession = connect(
         user: Users.State.getUser(state)
     }),
     dispatch => ({
-        scheduleSession: session => dispatch(Users.Actions.scheduleSession(session)),
-        retrievePets: () => dispatch(Users.Actions.retrievePets()),
+        addSession: session => dispatch(Users.Actions.addSession(session)),
+        fetchPets: () => dispatch(Users.Actions.fetchPets()),
     })
 )(ScheduleSession);
 

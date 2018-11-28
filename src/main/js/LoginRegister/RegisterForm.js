@@ -83,7 +83,7 @@ class RegistrationForm extends React.Component {
 
     componentDidMount() {
         if (_.isDefined(this.props.editProfile)) {
-            this.props.refreshUser().then(() => {
+            this.props.fetchUser().then(() => {
                 this.updateState();
             });
         } else {
@@ -130,7 +130,7 @@ class RegistrationForm extends React.Component {
 
                         Users.updateUser(userToUpdate).then(() => {
                             user.fname = user.lname = user.phone = user.street = user.city = user.state = user.zip = user.passwordConfirm = this.state.stateChoice = null;
-                            this.props.refreshUser().then(() => {
+                            this.props.fetchUser().then(() => {
                                 console.error('Set user ^ ^');
                                 makeToast(Toasts.Successful.ProfileUpdate);
                                 this.updateState();
@@ -310,7 +310,7 @@ RegistrationForm = connect(
     }),
     dispatch => ({
         register: user => dispatch(Users.Actions.register(user)),
-        refreshUser: () => dispatch(Users.Actions.refreshUser()),
+        fetchUser: () => dispatch(Users.Actions.fetchUser()),
         updateUser: user => dispatch(Users.Actions.updateUser(user)),
     })
 )(RegistrationForm);

@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import petfinder.site.common.MailGun.MGEmail;
 import petfinder.site.common.notification.NotificationDto;
 import petfinder.site.common.pet.PetDto;
+import petfinder.site.common.rating.RatingDto;
 import petfinder.site.common.session.SessionDto;
 import petfinder.site.common.user.PublicUserDto;
 import petfinder.site.common.user.UserDto;
@@ -65,6 +66,11 @@ public class UserEndpoint {
     @GetMapping(value = "/notifications")
     public List<Optional<NotificationDto>> getNotifications() {
         return getAuthUser().map(userDto -> userService.findNotifications(userDto)).orElse(null);
+    }
+
+    @GetMapping(value = "/ratings")
+    public List<Optional<RatingDto>> getRatings() {
+        return getAuthUser().map(userDto -> userService.findRatings(userDto)).orElse(null);
     }
 
     @GetMapping(value = "/confirmPassword/{pass}", produces = "application/json")
@@ -147,8 +153,8 @@ public class UserEndpoint {
     }
 
     @PostMapping(value = "/delete")
-    public void delete(@RequestBody UserService.PrincipalRequest request) {
-        userService.delete(request);
+    public void delete() {
+        userService.delete(getAuthUser());
     }
 
     @PostMapping(value = "/pet/delete/{id}")

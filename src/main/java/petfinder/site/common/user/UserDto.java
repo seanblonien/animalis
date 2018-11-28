@@ -67,6 +67,10 @@ public class UserDto implements Momento<String> {
         return notifications;
     }
 
+    public List<Long> getRatings() {
+        return ratings;
+    }
+
     public void addPet(Long id) {
         if (this.pets == null) {
             this.pets = new ArrayList<>();

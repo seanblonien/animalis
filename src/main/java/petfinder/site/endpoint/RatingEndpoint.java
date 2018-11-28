@@ -14,8 +14,8 @@ public class RatingEndpoint {
     private RatingService ratingService;
 
     @PostMapping(produces = "application/json")
-    public void saveRating(@RequestBody RatingDto pet) {
-        ratingService.save(pet);
+    public void saveRating(@RequestBody RatingDto rating) {
+        ratingService.save(rating);
     }
 
     @GetMapping(value = "/{id}", produces = "application/json")
@@ -24,8 +24,8 @@ public class RatingEndpoint {
     }
 
     @PostMapping(value = "/update")
-    public void updateRating(@RequestBody RatingDto pet) {
-        ratingService.save(pet);
+    public void updateRating(@RequestBody RatingDto rating) {
+        ratingService.save(rating);
     }
 
     @PostMapping(value = "/delete/{id}")

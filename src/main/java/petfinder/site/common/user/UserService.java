@@ -6,6 +6,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import petfinder.site.common.notification.NotificationDto;
 import petfinder.site.common.pet.PetDto;
+import petfinder.site.common.rating.RatingDto;
 import petfinder.site.common.session.SessionDto;
 import petfinder.site.common.user.UserDto.UserType;
 
@@ -32,8 +33,8 @@ public class UserService {
         return new UserDto(request.getPrincipal(), request.getRoles(), request.getAttributes(), request.getAddress(), request.getPets(), request.getSessions(), null, null);
     }
 
-    public void delete(PrincipalRequest request) {
-        userDao.delete(request);
+    public void delete(Optional<UserDto> user) {
+        user.ifPresent(userDto -> userDao.delete(userDto.getPrincipal()));
     }
 
     public UserDto update(UserDto user) {
@@ -70,6 +71,10 @@ public class UserService {
 
     public List<Optional<NotificationDto>> findNotifications(UserDto user) {
         return userDao.findNotifications(user);
+    }
+
+    public List<Optional<RatingDto>> findRatings(UserDto user) {
+        return userDao.findRatings(user);
     }
 
     public static class PrincipalRequest {

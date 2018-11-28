@@ -221,7 +221,7 @@ MySessions = connect(
 		user: Users.State.getUser(state),
 	}),
 	dispatch => ({
-		getSessions: () => dispatch(Users.Actions.getSessions()),
+		getSessions: () => dispatch(Users.Actions.fetchSessions()),
 		updateSession: (session) => dispatch(Users.Actions.updateSession(session)),
 	})
 )(MySessions);

@@ -24,12 +24,11 @@ class PetList extends React.Component {
     }
 
     componentDidMount() {
-        this.props.retrievePets().then(() => {
+        this.props.fetchPets().then(() => {
             this.state.hasLoaded = true;
             this.state.toggle = !this.state.toggle;
             this.setState(this.state);
         });
-        this.fetchPets();
     }
 
     handleSexChange = e => {
@@ -50,7 +49,7 @@ class PetList extends React.Component {
         console.log('Deleting pet with id: ' + id);
         Users.deletePet(id);
         setTimeout(() => {
-            this.props.retrievePets().then(() => {
+            this.props.fetchPets().then(() => {
                 this.state.toggle = !this.state.toggle;
                 this.setState(this.state);
                 makeToast(Toasts.Successful.DeletePet);
@@ -86,7 +85,7 @@ class PetList extends React.Component {
                 this.resetForm(petForm);
             });
             setTimeout(() => {
-                this.props.retrievePets().then(() => {
+                this.props.fetchPets().then(() => {
                     this.state.toggle = !this.state.toggle;
                     this.setState(this.state);
                     makeToast(Toasts.Successful.EditPet);
@@ -97,7 +96,7 @@ class PetList extends React.Component {
 
     fetchPets = () => {
         if (toast.isActive(Toasts.Info.AddPet.id)) {
-            this.props.retrievePets().then(() => {
+            this.props.fetchPets().then(() => {
                 this.state.toggle = !this.state.toggle;
                 this.setState(this.state);
             });
@@ -287,7 +286,7 @@ PetList = connect(
         user: Users.State.getUser(state),
     }),
     dispatch => ({
-        retrievePets: () => dispatch(Users.Actions.retrievePets()),
+        fetchPets: () => dispatch(Users.Actions.fetchPets()),
         deletePet: pet => dispatch(Users.Actions.deletePet(pet)),
     })
 )(PetList);
