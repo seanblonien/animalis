@@ -82,22 +82,25 @@ class RegistrationForm extends React.Component {
             hasLoaded: false,
             stateChoice: '',
         };
+    }
 
+    componentDidMount() {
         if(_.isDefined(this.props.editProfile)) {
             this.props.refreshUser().then(() => {
                 this.updateState();
             });
         } else {
-            this.updateState(true);
+            this.updateState();
         }
     }
 
-    updateState(inConstructor) {
+    updateState() {
         this.state.hasLoaded = true;
+        this.state.stateChoice = this.props.user ? this.props.user.address.state : 'Georgia';
         this.state.checkedItems.set('petOwner', this.props.user ? this.props.user.roles.includes('OWNER') : false);
         this.state.checkedItems.set('petSitter', this.props.user ? this.props.user.roles.includes('SITTER') : false);
         this.state.checkedItems.set('emailNotifications', this.props.user ? this.props.user.attributes.emailNotifications === 'true' : false);
-        if(!inConstructor || _.isUndefined(inConstructor)) this.setState(this.state);
+        this.setState(this.state);
         this.displayChecks();
     }
 
@@ -139,15 +142,13 @@ class RegistrationForm extends React.Component {
                         userToUpdate.notifications = this.props.user.notifications;
 
                         Users.updateUser(userToUpdate).then(() => {
-                            user.fname = user.lname = user.phone = user.street = user.city = user.state = user.zip = user.passwordConfirm = null;
-                        });
-
-                        setTimeout(() => {
+                            user.fname = user.lname = user.phone = user.street = user.city = user.state = user.zip = user.passwordConfirm = this.state.stateChoice = null;
                             this.props.refreshUser().then(() => {
+                                console.error('Set user ^ ^');
                                 makeToast(Toasts.Successful.ProfileUpdate);
                                 this.updateState();
                             });
-                        }, waitToUpdateTime);
+                        });
                     } else {
                         makeToast(Toasts.Unsuccessful.ConfirmPassword);
                     }
@@ -225,15 +226,16 @@ class RegistrationForm extends React.Component {
                                             validators={this.props.editProfile == null ? [Validation.requiredValidator, Validation.safeValidator] : [Validation.safeValidator]}/>
 
 
-                            <span className={'row'} style={{verticalAlign: 'middle', width: '100%', marginBottom: 15}}>
-                                <label className={'col-4 d-inline-block'}>State*</label>
+                            <span className="row align-content-center mb-3">
+                                <label className={'col-4 d-inline-block'}>State{this.props.editProfile == null && <span>*</span>}</label>
                                 <Bessemer.Select name="state"
                                                  className={'col-8 d-inline-block'}
                                                  friendlyName="State"
-                                                 placeholder="Texas"
+                                                 placeholder={this.state.stateChoice}
                                                  validators={this.props.editProfile == null ? [Validation.requiredValidator, Validation.safeValidator] : [Validation.safeValidator]}
                                                  options={stateOptions} value={this.state.stateChoice}
-                                                 onChange={opt => this.handleStateChoiceChange(opt)}/>
+                                                 onChange={opt => this.handleStateChoiceChange(opt)}
+                                                 onBlur={opt => this.handleStateChoiceChange(opt)}/>
                             </span>
 
                             <Bessemer.Field name='zip' friendlyName='ZIP'
