@@ -6,7 +6,7 @@ import * as ReduxForm from 'redux-form';
 import { connect } from 'react-redux';
 import _ from 'lodash';
 import Redirect from 'react-router-dom/es/Redirect';
-import { sessionTypes } from 'js/Sesssion/SessionTypes';
+import { sessionTypes } from 'js/Session/SessionTypes';
 import { Loading } from 'js/Common/Loading';
 
 export const getCurrentDate = () => {

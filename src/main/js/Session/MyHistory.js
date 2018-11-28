@@ -5,8 +5,8 @@ import * as Users from 'js/User/Users';
 import _ from 'lodash';
 import * as Bessemer from 'js/alloy/bessemer/components';
 import * as Validation from 'js/alloy/utils/validation';
-import {getCurrentDate} from 'js/Sesssion/ScheduleSession';
-import {sessionTypes} from 'js/Sesssion/SessionTypes';
+import {getCurrentDate} from 'js/Session/ScheduleSession';
+import {sessionTypes} from 'js/Session/SessionTypes';
 
 class MyHistory extends React.Component {
 	constructor(props) {
@@ -104,9 +104,9 @@ class MyHistory extends React.Component {
 						))
 						}
 
-						{_.isDefined(this.props.user) && !_.isNil(this.props.user) && !_.isEmpty(this.props.user) && this.props.user.roles.includes('SITTER') &&
-						<h6>Sessions as Sitter:</h6>
-						}
+						{/*{_.isDefined(this.props.user) && !_.isNil(this.props.user) && !_.isEmpty(this.props.user) && this.props.user.roles.includes('SITTER') &&*/}
+						{/*<h6>Sessions as Sitter:</h6>*/}
+						{/*}*/}
 
 					</div>
 				</div>

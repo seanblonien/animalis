@@ -6,12 +6,13 @@ import * as Users from 'js/User/Users';
 import _ from 'lodash';
 import * as Bessemer from 'js/alloy/bessemer/components';
 import * as Validation from 'js/alloy/utils/validation';
-import {getCurrentDate} from 'js/Sesssion/ScheduleSession';
+import {getCurrentDate} from 'js/Session/ScheduleSession';
 import {Field} from 'js/alloy/bessemer/components';
 import {Select} from 'js/alloy/bessemer/components';
 import {sexOptions, sizeOptions} from 'js/Pet/AddPetForm';
 import {Button} from 'js/alloy/bessemer/components';
-import {sessionTypes} from 'js/Sesssion/SessionTypes';
+import {sessionTypes} from 'js/Session/SessionTypes';
+import {Loading} from 'js/Common/Loading';
 
 class MySessions extends React.Component {
 	constructor(props) {
@@ -67,7 +68,7 @@ class MySessions extends React.Component {
 						<h5>{this.props.user.attributes.fname} {this.props.user.attributes.lname}</h5>
 						}
 
-						{_.isDefined(this.props.user) && !_.isNil(this.props.user) && !_.isEmpty(this.props.user) && this.props.user.roles.includes('OWNER') &&
+						{_.isDefined(this.props.user) && !_.isNil(this.props.user) && !_.isEmpty(this.props.user) && this.props.user.roles.includes('OWNER') && !_.isEmpty(this.props.sessions) &&
 						<h6>Sessions as Owner:</h6>
 						}
 
@@ -204,9 +205,9 @@ class MySessions extends React.Component {
 						))
 						}
 
-						{_.isDefined(this.props.user) && !_.isNil(this.props.user) && !_.isEmpty(this.props.user) && this.props.user.roles.includes('SITTER') &&
-						<h6>Sessions as Sitter:</h6>
-						}
+						{/*{_.isDefined(this.props.user) && !_.isNil(this.props.user) && !_.isEmpty(this.props.user) && this.props.user.roles.includes('SITTER') &&*/}
+						{/*<h6>Sessions as Sitter:</h6>*/}
+						{/*}*/}
 
 					</div>
 				</div>

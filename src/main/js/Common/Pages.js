@@ -8,15 +8,15 @@ import { connect } from 'react-redux';
 import * as Users from 'js/User/Users';
 import * as Login from 'js/LoginRegister/LoginForm';
 import AddPetForm from 'js/Pet/AddPetForm';
-import ScheduleSession from 'js/Sesssion/ScheduleSession';
+import ScheduleSession from 'js/Session/ScheduleSession';
 import HomePage from 'js/Common/HomePage';
 import { DeleteAccount } from 'js/User/DeleteAccount';
 import { RegistrationForm } from 'js/LoginRegister/RegisterForm';
 import Redirect from 'react-router-dom/es/Redirect';
-import SessionPostings from 'js/Sesssion/SessionPostings';
-import MySessions from 'js/Sesssion/MySessions';
-import MyHistory from 'js/Sesssion/MyHistory';
-import SessionTypes from 'js/Sesssion/SessionTypes';
+import SessionPostings from 'js/Session/SessionPostings';
+import MySessions from 'js/Session/MySessions';
+import MyHistory from 'js/Session/MyHistory';
+import SessionTypes from 'js/Session/SessionTypes';
 import Notifications from 'js/User/Notifications';
 
 /* Color Codes

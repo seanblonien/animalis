@@ -5,9 +5,9 @@ import { addNotification, getPublicUser, getUser } from 'js/User/Users';
 import * as ReduxForm from 'redux-form';
 import { connect } from 'react-redux';
 import _ from 'lodash';
-import { sessionTypes } from 'js/Sesssion/SessionTypes';
+import { sessionTypes } from 'js/Session/SessionTypes';
 import * as Bessemer from 'js/alloy/bessemer/components';
-import { getCurrentDate } from 'js/Sesssion/ScheduleSession';
+import { getCurrentDate } from 'js/Session/ScheduleSession';
 import { Loading } from 'js/Common/Loading';
 
 class SessionPostings extends React.Component {
