@@ -195,3 +195,13 @@ body { padding-top: 75px; }
 .grow:hover {
   transform: scale(1.1);
 }
+
+.likeLink span {
+  cursor: pointer;
+  color: #007BFF;
+  text-decoration:none;
+}
+
+.likeLink span:hover {
+  text-decoration:underline;
+}

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import * as ReduxForm from 'redux-form';
 import connect from 'react-redux/es/connect/connect';
 import * as Users from 'js/User/Users';
@@ -20,21 +20,24 @@ class Notifications extends React.Component {
     toggleNotification(event, notification) {
         notification.hasBeenRead = !notification.hasBeenRead;
         this.props.updateNotification(notification).then(() => {
-            console.error('Setting state');
             this.state.toggle = !this.state.toggle;
             this.setState(this.state);
         });
     }
 
     async markAllAsRead(e){
-        // if(_.isNil(this.props.notifications) && _.isEmpty(this.props.notifications)){
-        //     const promises = this.props.notifications.map(n => {
-        //         if(n.hasBeenRead === false) {
-        //             n.hasBeenRead = true;
-        //             await this.props
-        //         }
-        //     });
-        // }
+        const promises = this.props.notifications.map(async n => {
+            if(n.hasBeenRead){
+                return n;
+            } else {
+                n.hasBeenRead = true;
+                await Users.updateNotification(n);
+            }
+        });
+
+        await Promise.all(promises);
+        this.state.toggle = !this.state.toggle;
+        this.setState(this.state);
     }
 
     render() {
@@ -42,7 +45,7 @@ class Notifications extends React.Component {
             <div>
                 <div className="row">
                     <div className="col-12 text-right">
-                        <div onClick={e => this.markAllAsRead(e)}><a>Mark all as read</a></div>
+                        <div onClick={e => this.markAllAsRead(e)} className="likeLink"><span>Mark all as read</span></div>
                     </div>
                 </div>
                 <div className="row">
@@ -62,26 +65,19 @@ class Notifications extends React.Component {
                                     <td>{notification.notificationType}</td>
                                     <td>{notification.notificationDate}</td>
                                     {notification.notificationType === 'newBid' &&
-                                    <td>
-                                        <a href={'/#/profile/' + notification.otherUserPrincipal}>{notification.dataBody.substring(0, this.get2ndIndex(notification.dataBody, ' '))}</a>
-                                        <nobr>{notification.dataBody.substring(this.get2ndIndex(notification.dataBody, ' '))}</nobr>
-                                    </td>
-                                    }
-                                    {notification.notificationType === 'chosenSitter' &&
-                                    <td>
-
-                                    </td>
-                                    }
-                                    {notification.notificationType !== 'newBid' && notification.notificationType !== 'chosenSitter' &&
-                                    <td>{notification.dataBody}</td>
+                                        <td>
+                                            <a href={'/#/profile/' + notification.otherUserPrincipal}>{notification.dataBody.substring(0, this.get2ndIndex(notification.dataBody, ' '))}</a>
+                                            <nobr>{notification.dataBody.substring(this.get2ndIndex(notification.dataBody, ' '))}</nobr>
+                                        </td>
                                     }
 
-                                    {notification.hasBeenRead === false &&
-                                    <td onClick={e => this.toggleNotification(e, notification)}>🔵</td>
+                                    {(notification.notificationType === 'chosenSitter' || notification.notificationType !== 'newBid') &&
+                                        <td>{notification.dataBody}</td>
                                     }
-                                    {notification.hasBeenRead === true &&
-                                    <td onClick={e => this.toggleNotification(e, notification)}>⚪</td>
-                                    }
+
+                                    <td onClick={e => this.toggleNotification(e, notification)}>
+                                        {notification.hasBeenRead ? <Fragment>⚪</Fragment> : <Fragment>🔵</Fragment>}
+                                    </td>
                                 </tr>
                             ))
                             }

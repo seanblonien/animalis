@@ -97,7 +97,7 @@ export class PublicProfilePage extends  React.Component {
     }
 }
 
-class ProfilePage extends React.Component {
+export class ProfilePage extends React.Component {
     render() {
         if (this.props.user == null) {
             return <Redirect to='/'/>;
@@ -138,10 +138,12 @@ ProfilePage = connect(
     })
 )(ProfilePage);
 
-export {ProfilePage};
-
 export class SessionPage extends React.Component {
     render() {
+        if (this.props.user == null) {
+            return <Redirect to='/'/>;
+        }
+
         return (
             <div>
                 <div className="container padded">
@@ -162,8 +164,18 @@ export class SessionPage extends React.Component {
     }
 }
 
+SessionPage = connect(
+    state => ({
+        user: Users.State.getUser(state)
+    })
+)(SessionPage);
+
 export class PostingPage extends React.Component {
     render() {
+        if (this.props.user == null) {
+            return <Redirect to='/'/>;
+        }
+
         return (
             <div>
                 <div className="container padded">
@@ -177,8 +189,18 @@ export class PostingPage extends React.Component {
     }
 }
 
+PostingPage = connect(
+    state => ({
+        user: Users.State.getUser(state)
+    })
+)(PostingPage);
+
 export class MySessionsPage extends React.Component {
     render() {
+        if (this.props.user == null) {
+            return <Redirect to='/'/>;
+        }
+
         return (
             <div>
                 <div className="container padded">
@@ -196,8 +218,18 @@ export class MySessionsPage extends React.Component {
     }
 }
 
+MySessionsPage = connect(
+    state => ({
+        user: Users.State.getUser(state)
+    })
+)(MySessionsPage);
+
 export class MyPetsPage extends React.Component {
     render() {
+        if (this.props.user == null) {
+            return <Redirect to='/'/>;
+        }
+
         return (
             <div>
                 <div className="container padded">
@@ -221,8 +253,18 @@ export class MyPetsPage extends React.Component {
     }
 }
 
+MyPetsPage = connect(
+    state => ({
+        user: Users.State.getUser(state)
+    })
+)(MyPetsPage);
+
 export class MyRatingsPage extends React.Component {
     render() {
+        if (this.props.user == null) {
+            return <Redirect to='/'/>;
+        }
+
         return (
             <div>
                 <div className="container padded">
@@ -236,8 +278,18 @@ export class MyRatingsPage extends React.Component {
     }
 }
 
+MyRatingsPage = connect(
+    state => ({
+        user: Users.State.getUser(state)
+    })
+)(MyRatingsPage);
+
 export class MyHistoryPage extends React.Component {
     render() {
+        if (this.props.user == null) {
+            return <Redirect to='/'/>;
+        }
+
         return (
             <div>
                 <div className="container padded">
@@ -251,8 +303,18 @@ export class MyHistoryPage extends React.Component {
     }
 }
 
+MyHistoryPage = connect(
+    state => ({
+        user: Users.State.getUser(state)
+    })
+)(MyHistoryPage);
+
 export class NotificationsPage extends React.Component {
     render() {
+        if (this.props.user == null) {
+            return <Redirect to='/'/>;
+        }
+
         return (
             <div>
                 <div className="container padded">
@@ -265,6 +327,12 @@ export class NotificationsPage extends React.Component {
         );
     }
 }
+
+NotificationsPage = connect(
+    state => ({
+        user: Users.State.getUser(state)
+    })
+)(NotificationsPage);
 
 export class AboutPage extends React.Component {
     // TODO: Fill in information about this project
