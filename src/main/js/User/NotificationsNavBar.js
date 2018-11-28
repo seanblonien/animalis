@@ -5,41 +5,35 @@ import connect from 'react-redux/es/connect/connect';
 import * as Users from 'js/User/Users';
 
 class NotificationsNavBar extends React.Component {
+    intervalID = 0;
+
     constructor(props) {
         super(props);
+        this.markNotificationAsRead = this.markNotificationAsRead.bind(this);
+        this.notificationRefresh = this.notificationRefresh.bind(this);
+        NotificationsNavBar.numberOfUnreadNotifications = NotificationsNavBar.numberOfUnreadNotifications.bind(this);
 
         this.state = {
             hasLoadedNotifications: false,
             numberUnreadNotifications: 0,
         };
+    }
 
-        this.markNotificationAsRead = this.markNotificationAsRead.bind(this);
-        this.notificationRefreshSimple = this.notificationRefreshSimple.bind(this);
-        NotificationsNavBar.numberOfUnreadNotifications = NotificationsNavBar.numberOfUnreadNotifications.bind(this);
+    componentDidMount() {
+        this.intervalID = setInterval(() => this.notificationRefresh(), 1000);
+    }
 
-        this.notificationRefreshSimple();
-        setTimeout(this.notificationRefresh(), 1000);
+    componentWillUnmount() {
+        clearInterval(this.intervalID);
     }
 
     notificationRefresh() {
-            this.props.fetchNotifications();
-            setTimeout(() => {
+            this.props.fetchNotifications().then(() => {
                 this.setState({
                     hasLoadedNotifications: true,
                     numberUnreadNotifications: NotificationsNavBar.numberOfUnreadNotifications(this.props.notifications),
                 });
-                this.notificationRefresh();
-            },  7500);
-    }
-
-    notificationRefreshSimple() {
-        this.props.fetchNotifications();
-        setTimeout(() => {
-            this.setState({
-                hasLoadedNotifications: true,
-                numberUnreadNotifications: NotificationsNavBar.numberOfUnreadNotifications(this.props.notifications),
             });
-        }, 1000);
     }
 
     markNotificationAsRead(event, notification) {
@@ -98,7 +92,7 @@ class NotificationsNavBar extends React.Component {
                         }
                         <div className="dropdown-divider"></div>
                         <a className="dropdown-item" href="#/notifications"><span className="fa fa-envelope-o"/> View All</a>
-                        <a className="dropdown-item" onClick={this.notificationRefreshSimple}><span className="fa fa-refresh"/> Refresh</a>
+                        <a className="dropdown-item" onClick={this.notificationRefresh}><span className="fa fa-refresh"/> Refresh</a>
                     </div>
                     }
                 </div>

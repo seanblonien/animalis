@@ -417,69 +417,27 @@ export {Actions};
 let Reducers = {};
 
 Reducers.authentication = (authentication = null, action) => {
-    switch (action.type) {
-        case Actions.Types.SET_AUTHENTICATION: {
-            return action.authentication;
-        }
-        default: {
-            return authentication;
-        }
-    }
+    return action.type === Actions.Types.SET_AUTHENTICATION ? (action.authentication) : authentication;
 };
 
 Reducers.user = (user = null, action) => {
-    switch (action.type) {
-        case Actions.Types.SET_USER: {
-            return action.user;
-        }
-        default: {
-            return user;
-        }
-    }
+    return action.type === Actions.Types.SET_USER ? (action.user) : user;
 };
 
 Reducers.pets = (pets = [], action) => {
-    switch (action.type) {
-        case Actions.Types.SET_PETS: {
-            return action.pets;
-        }
-        default: {
-            return pets;
-        }
-    }
+    return action.type === Actions.Types.SET_PETS ? (action.pets) : pets;
 };
 
 Reducers.sessions = (sessions = [], action) => {
-    switch (action.type) {
-        case Actions.Types.SET_SESSIONS: {
-            return action.sessions;
-        }
-        default: {
-            return sessions;
-        }
-    }
+    return action.type === Actions.Types.SET_SESSIONS ? (action.sessions) : sessions;
 };
 
 Reducers.allSessions = (allSessions = [], action) => {
-    switch (action.type) {
-        case Actions.Types.SET_ALL_SESSIONS: {
-            return action.allSessions;
-        }
-        default: {
-            return allSessions;
-        }
-    }
+    return action.type === Actions.Types.SET_ALL_SESSIONS ? (action.allSessions) : allSessions;
 };
 
 Reducers.notifications = (notifications = [], action) => {
-    switch (action.type) {
-        case Actions.Types.SET_NOTIFICATIONS: {
-            return action.notifications;
-        }
-        default: {
-            return notifications;
-        }
-    }
+    return action.type === Actions.Types.SET_NOTIFICATIONS ? (action.notifications) : notifications;
 };
 
 export {Reducers};
