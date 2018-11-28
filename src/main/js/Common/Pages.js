@@ -15,7 +15,7 @@ import { RegistrationForm } from 'js/LoginRegister/RegisterForm';
 import Redirect from 'react-router-dom/es/Redirect';
 import SessionPostings from 'js/Sesssion/SessionPostings';
 import MySessions from 'js/Sesssion/MySessions';
-import MySessionHistory from 'js/Sesssion/MySessionHistory';
+import MyHistory from 'js/Sesssion/MyHistory';
 import SessionTypes from 'js/Sesssion/SessionTypes';
 import Notifications from 'js/User/Notifications';
 
@@ -311,11 +311,11 @@ export class MyHistoryPage extends React.Component {
             <div>
                 <div className="container padded">
                     <div className="row horizontal-center">
-                        <h2 className="col">My Session History
+                        <h2 className="col">My History
                             <hr/>
                         </h2>
                     </div>
-                    <MySessionHistory/>
+                    <MyHistory/>
                 </div>
             </div>
         );

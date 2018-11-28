@@ -8,7 +8,7 @@ import * as Validation from 'js/alloy/utils/validation';
 import {getCurrentDate} from 'js/Sesssion/ScheduleSession';
 import {sessionTypes} from 'js/Sesssion/SessionTypes';
 
-class MySessionHistory extends React.Component {
+class MyHistory extends React.Component {
 	constructor(props) {
 		super(props);
 		this.props.getSessions();
@@ -115,9 +115,9 @@ class MySessionHistory extends React.Component {
 	}
 }
 
-MySessionHistory = ReduxForm.reduxForm({form: 'myMySessionHistory'})(MySessionHistory);
+MyHistory = ReduxForm.reduxForm({form: 'myMySessionHistory'})(MyHistory);
 
-MySessionHistory = connect(
+MyHistory = connect(
 	state => ({
 		sessions: Users.State.getSessions(state),
 		user: Users.State.getUser(state),
@@ -128,6 +128,6 @@ MySessionHistory = connect(
 		retrievePets: () => dispatch(Users.Actions.retrievePets()),
 		getAllSessions: () => dispatch(Users.Actions.getAllSessions()),
 	})
-)(MySessionHistory);
+)(MyHistory);
 
-export default MySessionHistory;
+export default MyHistory;
