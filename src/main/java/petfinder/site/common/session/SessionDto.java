@@ -21,7 +21,8 @@ public class SessionDto implements Identifiable {
     private List<String> bidderPrincipals;
     private Long sessionRating;
 
-    private SessionDto() {}
+    private SessionDto() {
+    }
 
     public SessionDto(Long id, String ownerPrincipal, String sitterPrincipal, String startDate, String endDate, String startTime, String endTime, String sessionType, List<Long> pets, String notes, Long maxDistance, Boolean isComplete, Double price, List<String> bidderPrincipals, Long sessionRating) {
         this.id = id;
@@ -50,41 +51,77 @@ public class SessionDto implements Identifiable {
         this.id = id;
     }
 
-    public String getOwnerPrincipal() { return ownerPrincipal; }
+    public String getOwnerPrincipal() {
+        return ownerPrincipal;
+    }
 
-    public void setOwnerPrincipal(String ownerPrincipal) { this.ownerPrincipal = ownerPrincipal; }
+    public void setOwnerPrincipal(String ownerPrincipal) {
+        this.ownerPrincipal = ownerPrincipal;
+    }
 
-    public String getSitterPrincipal() { return sitterPrincipal; }
+    public String getSitterPrincipal() {
+        return sitterPrincipal;
+    }
 
-    public void setSitterPrincipal(String sitterPrincipal) { this.sitterPrincipal = sitterPrincipal; }
+    public void setSitterPrincipal(String sitterPrincipal) {
+        this.sitterPrincipal = sitterPrincipal;
+    }
 
-    public String getStartDate() { return startDate; }
+    public String getStartDate() {
+        return startDate;
+    }
 
-    public void setStartDate(String startDate) { this.startDate = startDate; }
+    public void setStartDate(String startDate) {
+        this.startDate = startDate;
+    }
 
-    public String getEndDate() { return endDate; }
+    public String getEndDate() {
+        return endDate;
+    }
 
-    public void setEndDate(String endDate) { this.endDate = endDate; }
+    public void setEndDate(String endDate) {
+        this.endDate = endDate;
+    }
 
-    public List<Long> getPets() { return pets; }
+    public List<Long> getPets() {
+        return pets;
+    }
 
-    public void setPets(List<Long> pets) { this.pets = pets; }
+    public void setPets(List<Long> pets) {
+        this.pets = pets;
+    }
 
-    public List<String> getBidderPrincipals() { return bidderPrincipals; }
+    public List<String> getBidderPrincipals() {
+        return bidderPrincipals;
+    }
 
-    public void setBidderPrincipals(List<String> bidderPrincipals) { this.bidderPrincipals = bidderPrincipals; }
+    public void setBidderPrincipals(List<String> bidderPrincipals) {
+        this.bidderPrincipals = bidderPrincipals;
+    }
 
-    public String getNotes() { return notes; }
+    public String getNotes() {
+        return notes;
+    }
 
-    public void setNotes(String notes) { this.notes = notes; }
+    public void setNotes(String notes) {
+        this.notes = notes;
+    }
 
-    public Long getMaxDistance() { return maxDistance; }
+    public Long getMaxDistance() {
+        return maxDistance;
+    }
 
-    public void setMaxDistance(Long maxDistance) { this.maxDistance = maxDistance; }
+    public void setMaxDistance(Long maxDistance) {
+        this.maxDistance = maxDistance;
+    }
 
-    public Boolean getComplete() { return isComplete; }
+    public Boolean getComplete() {
+        return isComplete;
+    }
 
-    public void setComplete(Boolean complete) { isComplete = complete; }
+    public void setComplete(Boolean complete) {
+        isComplete = complete;
+    }
 
     public String getStartTime() {
         return startTime;

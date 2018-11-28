@@ -15,7 +15,7 @@ public class MGEmail {
                 .queryString("subject", subject)
                 .queryString("text", text)
                 .asString();
-                // Or as .asJSon(), using string for readability purposes
+        // Or as .asJSon(), using string for readability purposes
         return request.getBody();
     }
 

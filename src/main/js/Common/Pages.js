@@ -1,17 +1,17 @@
 import PetList from 'js/Pet/PetList';
 import MyRatings from 'js/User/MyRatings';
-import {PublicProfile} from 'js/User/PublicProfile';
+import { PublicProfile } from 'js/User/PublicProfile';
 import _ from 'lodash';
 
 import React from 'react';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 import * as Users from 'js/User/Users';
 import * as Login from 'js/LoginRegister/LoginForm';
 import AddPetForm from 'js/Pet/AddPetForm';
 import ScheduleSession from 'js/Sesssion/ScheduleSession';
 import HomePage from 'js/Common/HomePage';
-import {DeleteAccount} from 'js/User/DeleteAccount';
-import {RegistrationForm} from 'js/LoginRegister/RegisterForm';
+import { DeleteAccount } from 'js/User/DeleteAccount';
+import { RegistrationForm } from 'js/LoginRegister/RegisterForm';
 import Redirect from 'react-router-dom/es/Redirect';
 import SessionPostings from 'js/Sesssion/SessionPostings';
 import MySessions from 'js/Sesssion/MySessions';
@@ -42,7 +42,9 @@ export class RegisterPage extends React.Component {
             <div>
                 <div className="container padded">
                     <div className="row horizontal-center">
-                        <h2 className="col">Register<hr/></h2>
+                        <h2 className="col">Register
+                            <hr/>
+                        </h2>
                     </div>
                     <div className="row">
                         <div className="col-6 offset-md-3">
@@ -68,7 +70,9 @@ export class LoginPage extends React.Component {
             <div>
                 <div className="container padded">
                     <div className="row horizontal-center">
-                        <h2 className="col">Login<hr/></h2>
+                        <h2 className="col">Login
+                            <hr/>
+                        </h2>
                     </div>
                     <div className="row">
                         <div className="col-6 offset-md-3">
@@ -81,7 +85,7 @@ export class LoginPage extends React.Component {
     }
 }
 
-export class PublicProfilePage extends  React.Component {
+export class PublicProfilePage extends React.Component {
     constructor(props) {
         super(props);
     }
@@ -107,13 +111,16 @@ export class ProfilePage extends React.Component {
             <div>
                 <div className="container padded">
                     <div className="row horizontal-center">
-                        <h2 className="col">My Profile<hr/></h2>
+                        <h2 className="col">My Profile
+                            <hr/>
+                        </h2>
                     </div>
 
                     <div className="row">
                         <div className="col-4">
                             <h3>View Profile</h3>
-                            <a className="btn btn-primary" href={'#/profile/' + this.props.user.principal}>View your public profile</a>
+                            <a className="btn btn-primary" href={'#/profile/' + this.props.user.principal}>View your
+                                public profile</a>
                             <br/>
                             <hr/>
                             <h3>Delete My Account</h3>
@@ -148,7 +155,9 @@ export class SessionPage extends React.Component {
             <div>
                 <div className="container padded">
                     <div className="row horizontal-center">
-                        <h2 className="col">Schedule A Session<hr/></h2>
+                        <h2 className="col">Schedule A Session
+                            <hr/>
+                        </h2>
                     </div>
                     <div className="row">
                         <div className="col-4">
@@ -180,7 +189,9 @@ export class PostingPage extends React.Component {
             <div>
                 <div className="container padded">
                     <div className="row horizontal-center">
-                        <h2 className="col">Session Postings<hr/></h2>
+                        <h2 className="col">Session Postings
+                            <hr/>
+                        </h2>
                     </div>
                     <SessionPostings/>
                 </div>
@@ -205,7 +216,9 @@ export class MySessionsPage extends React.Component {
             <div>
                 <div className="container padded">
                     <div className="row horizontal-center">
-                        <h2 className="col">My Sessions<hr/></h2>
+                        <h2 className="col">My Sessions
+                            <hr/>
+                        </h2>
                     </div>
                     <div className="row">
                         <div className="col-6 offset-md-3">
@@ -234,7 +247,9 @@ export class MyPetsPage extends React.Component {
             <div>
                 <div className="container padded">
                     <div className="row horizontal-center">
-                        <h2 className="col">My Pets<hr/></h2>
+                        <h2 className="col">My Pets
+                            <hr/>
+                        </h2>
                     </div>
 
                     <div className="row">
@@ -269,7 +284,9 @@ export class MyRatingsPage extends React.Component {
             <div>
                 <div className="container padded">
                     <div className="row horizontal-center">
-                        <h2 className="col">My Ratings<hr/></h2>
+                        <h2 className="col">My Ratings
+                            <hr/>
+                        </h2>
                     </div>
                     <MyRatings/>
                 </div>
@@ -294,7 +311,9 @@ export class MyHistoryPage extends React.Component {
             <div>
                 <div className="container padded">
                     <div className="row horizontal-center">
-                        <h2 className="col">My Session History<hr/></h2>
+                        <h2 className="col">My Session History
+                            <hr/>
+                        </h2>
                     </div>
                     <MySessionHistory/>
                 </div>
@@ -350,7 +369,6 @@ export class AboutPage extends React.Component {
                     <div>
 
 
-
                     </div>
                 </div>
             </div>
@@ -370,7 +388,6 @@ export class SupportFAQPage extends React.Component {
                         <h2 className="col">Frequently Asked Questions</h2>
                     </div>
                     <div>
-
 
 
                     </div>

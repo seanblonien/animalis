@@ -23,7 +23,10 @@ public class _Streams {
                 stream.collect(Collector.of(
                         ArrayDeque::new,
                         ArrayDeque::addFirst,
-                        (d1, d2) -> { d2.addAll(d1); return d2; }));
+                        (d1, d2) -> {
+                            d2.addAll(d1);
+                            return d2;
+                        }));
 
         return output.stream();
     }

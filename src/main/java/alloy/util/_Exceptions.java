@@ -23,16 +23,17 @@ public class _Exceptions {
             SocketTimeoutException.class,
             IOException.class
     );
+    private static HashSet<Class<? extends Exception>>
+            INTERMITTENT_EXCEPTIONS = Sets.newHashSet();
 
     public static <T, N> Either<T, N> either(Supplier<T> supplier, Class<N> exceptionType) {
         return either(supplier).mapRight(e -> castOrPropogate(e, exceptionType));
     }
 
     private static <T> T castOrPropogate(Exception e, Class<T> exceptionType) {
-        if(exceptionType.isAssignableFrom(e.getClass())) {
+        if (exceptionType.isAssignableFrom(e.getClass())) {
             return (T) e;
-        }
-        else {
+        } else {
             throw new RuntimeException(e);
         }
     }
@@ -40,8 +41,7 @@ public class _Exceptions {
     public static <T> Either<T, Exception> either(Supplier<T> supplier) {
         try {
             return Either.left(supplier.get());
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             return Either.right(e);
         }
     }
@@ -89,7 +89,7 @@ public class _Exceptions {
         try {
             return Optional.of(operation.next());
         } catch (Exception e) {
-            if(predicate.test(e)) {
+            if (predicate.test(e)) {
                 return Optional.empty();
             } else {
                 throw propagate(e);
@@ -109,9 +109,6 @@ public class _Exceptions {
         }
     }
 
-    private static HashSet<Class<? extends Exception>>
-            INTERMITTENT_EXCEPTIONS = Sets.newHashSet();
-
     public static boolean isIntermittent(Exception exception) {
         return INTERMITTENT_EXCEPTIONS.contains(exception.getClass());
     }
@@ -124,24 +121,6 @@ public class _Exceptions {
                 .filter(throwable -> exceptionType.isAssignableFrom(throwable.getClass()))
                 .map(throwable -> (T) throwable)
                 .findFirst();
-    }
-
-    @FunctionalInterface
-    public interface ExceptionalOperation<T extends Throwable> {
-        void apply() throws T;
-    }
-
-    @FunctionalInterface
-    public interface ExceptionalSupplier<T, N extends Throwable> {
-        T next() throws N;
-
-        static <N> ExceptionalSupplier<N, Exception> wrap(Supplier<N> f) {
-            return f::get;
-        }
-    }
-
-    public static class NotYetImplementedException extends RuntimeException {
-
     }
 
     public static RuntimeException propagate(Throwable throwable) {
@@ -159,5 +138,23 @@ public class _Exceptions {
         if (throwable instanceof Error) {
             throw (Error) throwable;
         }
+    }
+
+    @FunctionalInterface
+    public interface ExceptionalOperation<T extends Throwable> {
+        void apply() throws T;
+    }
+
+    @FunctionalInterface
+    public interface ExceptionalSupplier<T, N extends Throwable> {
+        static <N> ExceptionalSupplier<N, Exception> wrap(Supplier<N> f) {
+            return f::get;
+        }
+
+        T next() throws N;
+    }
+
+    public static class NotYetImplementedException extends RuntimeException {
+
     }
 }

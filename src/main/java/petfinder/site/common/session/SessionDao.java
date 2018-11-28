@@ -38,7 +38,7 @@ public class SessionDao {
         List<SessionDto> sessionList = new ArrayList<>(sessionElasticsearchRepository.search(searchSourceBuilder));
 
         List<Optional<SessionDto>> optSessionList = new ArrayList<>();
-        for(SessionDto s : sessionList){
+        for (SessionDto s : sessionList) {
             optSessionList.add(Optional.ofNullable(s).filter(sf -> !sf.isEmpty()));
         }
 

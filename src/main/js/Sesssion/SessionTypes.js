@@ -1,12 +1,14 @@
 import React from 'react';
 
 export const sessionTypes = [
-    {    label: 'Pet Sitting',
+    {
+        label: 'Pet Sitting',
         value: 'sitting',
         description: 'Sitters watch your pet overnight in your home.',
         image: 'http://www.thedoggieinn.com/images/homeicon.png',
     },
-    {    label: 'Pet Boarding',
+    {
+        label: 'Pet Boarding',
         value: 'boarding',
         description: 'Your pet stays overnight in the sitter’s home.',
         image: 'https://i.imgur.com/jk5LVpv.png',
@@ -31,7 +33,7 @@ class SessionTypes extends React.Component {
     }
 
     render() {
-        return(
+        return (
             <div>
                 <h5>Types of Services</h5>
                 <div>

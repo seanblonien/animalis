@@ -7,7 +7,7 @@ import * as Utils from 'js/alloy/utils/core-utils';
 import * as Validation from 'js/alloy/utils/validation';
 
 function buildReduxValidator(validator, props) {
-    return value => validator.spec(value) ? undefined : validator.error(props, value);
+    return value => validator.spec(value)? undefined : validator.error(props, value);
 }
 
 export class Select extends React.Component {
@@ -75,7 +75,7 @@ export class Field extends React.Component {
 
     buildLabel = ({label, validators}) => {
         return (
-            <label className={this.props.stacked ? '' : 'col-4 col-form-label'}>
+            <label className={this.props.stacked? '' : 'col-4 col-form-label'}>
                 {label.text}
                 {validators.map(validator => validator.spec).includes(Validation.required) &&
                 <span className="required">*</span>}
@@ -143,9 +143,9 @@ export class Field extends React.Component {
             return (
                 <div>
                     <div
-                        className={'form-group' + (this.hasError(meta) ? ' has-error' : '') + (props.stacked ? '' : ' row')}>
+                        className={'form-group' + (this.hasError(meta)? ' has-error' : '') + (props.stacked? '' : ' row')}>
                         {props.showLabel && this.buildLabel(props)}
-                        <div className={props.stacked ? '' : ('col-' + (props.showLabel ? '8' : '12'))}>
+                        <div className={props.stacked? '' : ('col-' + (props.showLabel? '8' : '12'))}>
                             {field}
                         </div>
                     </div>
@@ -191,7 +191,7 @@ export class Button extends React.Component {
             loadingText = children;
         }
 
-        let buttonText = loading ? (<span>{loadingText} <span className="fa fa-spinner spinner"/></span>) : children;
+        let buttonText = loading? (<span>{loadingText} <span className="fa fa-spinner spinner"/></span>) : children;
         return <button disabled={disabled} className={className} {...props}>{buttonText}</button>;
     }
 }

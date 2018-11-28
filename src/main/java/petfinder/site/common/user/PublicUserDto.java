@@ -2,7 +2,7 @@ package petfinder.site.common.user;
 
 import alloy.util.Momento;
 import org.codehaus.jackson.annotate.JsonIgnore;
-import java.util.ArrayList;
+
 import java.util.List;
 import java.util.Map;
 
@@ -12,7 +12,8 @@ public class PublicUserDto implements Momento<String> {
     private Map<String, Object> attributes;
     private List<Long> pets;
 
-    private PublicUserDto() {}
+    private PublicUserDto() {
+    }
 
     public PublicUserDto(String principal, List<String> roles, Map<String, Object> attributes, List<Long> pets) {
         this.principal = principal;
@@ -21,7 +22,7 @@ public class PublicUserDto implements Momento<String> {
         this.pets = pets;
     }
 
-    public PublicUserDto(UserDto user){
+    public PublicUserDto(UserDto user) {
         this.principal = user.getPrincipal();
         this.roles = user.getRoles();
         this.attributes = user.getAttributes();
@@ -66,10 +67,6 @@ public class PublicUserDto implements Momento<String> {
         return principal;
     }
 
-    public enum UserType {
-        OWNER, SITTER
-    }
-
     @Override
     public String toString() {
         return "PublicUserDto{" +
@@ -78,5 +75,9 @@ public class PublicUserDto implements Momento<String> {
                 ", attributes=" + attributes +
                 ", pets=" + pets +
                 '}';
+    }
+
+    public enum UserType {
+        OWNER, SITTER
     }
 }

@@ -48,4 +48,4 @@ DeleteAccount = connect(
     })
 )(DeleteAccount);
 
-export {DeleteAccount};
+export { DeleteAccount };

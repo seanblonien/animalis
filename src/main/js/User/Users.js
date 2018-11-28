@@ -1,6 +1,6 @@
 import axios from 'axios';
 import Cookies from 'universal-cookie';
-import {makeToast, Toasts as Toast, Toasts} from 'js/Common/Toasts';
+import { makeToast, Toasts as Toast, Toasts } from 'js/Common/Toasts';
 
 export function register(user) {
     return axios.post('/api/user/register', user).catch(error => handleHTTPError(error));
@@ -162,7 +162,7 @@ State.getNotifications = state => {
     return state.notifications;
 };
 
-export {State};
+export { State };
 
 let Actions = {};
 
@@ -175,10 +175,10 @@ Actions.Types = {
     SET_NOTIFICATIONS: 'SET_NOTIFICATIONS',
 };
 
-const handleHTTPError = error  => {
-    if(error.response){
+const handleHTTPError = error => {
+    if (error.response) {
         const cookies = new Cookies();
-        switch(error.response.status){
+        switch (error.response.status) {
             case 400: {
                 cookies.remove('authentication');
                 cookies.remove('user');
@@ -271,7 +271,7 @@ Actions.deleteNotification = (id) => {
     };
 };
 
- Actions.retrievePets = () => {
+Actions.retrievePets = () => {
     return (dispatch) => {
         return getPets().then(pets => {
             return dispatch(Actions.setPets(pets));
@@ -338,9 +338,9 @@ Actions.register = user => {
 Actions.refreshUser = () => {
     return (dispatch) => {
         return getUserDetails().then(user => {
-            if(user != null)
+            if (user != null)
             // Save the user details from the returned promise in a state
-            return dispatch(Actions.setUser(user));
+                return dispatch(Actions.setUser(user));
         });
     };
 };
@@ -412,32 +412,32 @@ Actions.setNotifications = notifications => {
     return {type: Actions.Types.SET_NOTIFICATIONS, notifications};
 };
 
-export {Actions};
+export { Actions };
 
 let Reducers = {};
 
 Reducers.authentication = (authentication = null, action) => {
-    return action.type === Actions.Types.SET_AUTHENTICATION ? (action.authentication) : authentication;
+    return action.type === Actions.Types.SET_AUTHENTICATION? (action.authentication) : authentication;
 };
 
 Reducers.user = (user = null, action) => {
-    return action.type === Actions.Types.SET_USER ? (action.user) : user;
+    return action.type === Actions.Types.SET_USER? (action.user) : user;
 };
 
 Reducers.pets = (pets = [], action) => {
-    return action.type === Actions.Types.SET_PETS ? (action.pets) : pets;
+    return action.type === Actions.Types.SET_PETS? (action.pets) : pets;
 };
 
 Reducers.sessions = (sessions = [], action) => {
-    return action.type === Actions.Types.SET_SESSIONS ? (action.sessions) : sessions;
+    return action.type === Actions.Types.SET_SESSIONS? (action.sessions) : sessions;
 };
 
 Reducers.allSessions = (allSessions = [], action) => {
-    return action.type === Actions.Types.SET_ALL_SESSIONS ? (action.allSessions) : allSessions;
+    return action.type === Actions.Types.SET_ALL_SESSIONS? (action.allSessions) : allSessions;
 };
 
 Reducers.notifications = (notifications = [], action) => {
-    return action.type === Actions.Types.SET_NOTIFICATIONS ? (action.notifications) : notifications;
+    return action.type === Actions.Types.SET_NOTIFICATIONS? (action.notifications) : notifications;
 };
 
-export {Reducers};
+export { Reducers };

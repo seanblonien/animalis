@@ -16,7 +16,8 @@ public class UserDto implements Momento<String> {
     private List<Long> sessions;
     private List<Long> notifications;
 
-    private UserDto() {}
+    private UserDto() {
+    }
 
     public UserDto(String principal, List<String> roles, Map<String, Object> attributes, Map<String, Object> address, List<Long> pets, List<Long> sessions, List<Long> notifications) {
         this.principal = principal;
@@ -32,8 +33,16 @@ public class UserDto implements Momento<String> {
         return pets;
     }
 
+    public void setPets(List<Long> pets) {
+        this.pets = pets;
+    }
+
     public List<Long> getSessions() {
         return sessions;
+    }
+
+    public void setSessions(List<Long> sessions) {
+        this.sessions = sessions;
     }
 
     public String getPrincipal() {
@@ -56,16 +65,8 @@ public class UserDto implements Momento<String> {
         return notifications;
     }
 
-    public void setPets(List<Long> pets) {
-        this.pets = pets;
-    }
-
-    public void setSessions(List<Long> sessions) {
-        this.sessions = sessions;
-    }
-
     public void addPet(Long id) {
-        if(this.pets == null) {
+        if (this.pets == null) {
             this.pets = new ArrayList<Long>();
         }
         this.pets.add(id);
@@ -78,7 +79,7 @@ public class UserDto implements Momento<String> {
     }
 
     public void addSession(Long id) {
-        if(this.sessions == null) {
+        if (this.sessions == null) {
             this.sessions = new ArrayList<Long>();
         }
         this.sessions.add(id);
@@ -91,7 +92,7 @@ public class UserDto implements Momento<String> {
     }
 
     public void addNotification(Long id) {
-        if(this.notifications == null) {
+        if (this.notifications == null) {
             this.notifications = new ArrayList<Long>();
         }
         this.notifications.add(id);
@@ -109,10 +110,6 @@ public class UserDto implements Momento<String> {
         return principal;
     }
 
-    public enum UserType {
-        OWNER, SITTER
-    }
-
     @Override
     public String toString() {
         return "UserDto{" +
@@ -124,5 +121,9 @@ public class UserDto implements Momento<String> {
                 ", sessions=" + sessions +
                 ", notifications=" + notifications +
                 '}';
+    }
+
+    public enum UserType {
+        OWNER, SITTER
     }
 }

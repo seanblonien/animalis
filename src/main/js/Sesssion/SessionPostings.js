@@ -1,57 +1,33 @@
-import {makeToast, Toasts} from 'js/Common/Toasts';
+import { makeToast, Toasts } from 'js/Common/Toasts';
 import React from 'react';
 import * as Users from 'js/User/Users';
-import {getPublicUser, getUser, addNotification} from 'js/User/Users';
+import { addNotification, getPublicUser, getUser } from 'js/User/Users';
 import * as ReduxForm from 'redux-form';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 import _ from 'lodash';
-import {sessionTypes} from 'js/Sesssion/SessionTypes';
-import * as Validation from 'js/alloy/utils/validation';
-import Bootstrap from 'bootstrap';
+import { sessionTypes } from 'js/Sesssion/SessionTypes';
 import * as Bessemer from 'js/alloy/bessemer/components';
-import {getCurrentDate} from 'js/Sesssion/ScheduleSession';
+import { getCurrentDate } from 'js/Sesssion/ScheduleSession';
 import { Loading } from 'js/Common/Loading';
 
 class SessionPostings extends React.Component {
-    constructor(props) {
-        super(props);
-
-        this.props.getAllSessions();
-        this.state = {
-            usersWithSessions: new Map(),
-            filter: new Map(),
-            checkedItems: new Map(),
-            hasLoaded: false,
-        };
-
-        setTimeout(() => {
-            this.state.hasLoaded = true;
-            this.forceUpdate();
-        }, 1000);
-
-        this.onFormSubmit = this.onFormSubmit.bind(this);
-        this.bid = this.bid.bind(this);
-    }
-
-    getSessionDetails(principal){
-        if(this.state.usersWithSessions.has(principal)){
+    getSessionDetails = (principal) => {
+        if (this.state.usersWithSessions.has(principal)) {
             let x = this.state.usersWithSessions.get(principal);
             x.details = !x.details;
             console.log(JSON.stringify(x));
             this.state.usersWithSessions.set(principal, x);
-            this.forceUpdate();
+            this.setState(this.state);
         } else {
             console.log('Getting public user with principal ' + (principal));
             getPublicUser(principal).then((res) => {
                 res.details = true;
                 this.state.usersWithSessions.set(principal, res);
                 console.log('## ' + this.state.usersWithSessions.get(principal));
-                this.forceUpdate();
+                this.setState(this.state);
             });
         }
-
-    }
-
+    };
     onFormSubmit = (filterForm) => {
         console.log('Filter keys: ' + Object.keys(filterForm).join(', '));
         console.log('Filter values: ' + Object.values(filterForm).join(', '));
@@ -59,14 +35,36 @@ class SessionPostings extends React.Component {
         this.state.filter = filterForm;
     };
 
-    bid(session){
-        if(session.ownerPrincipal === this.props.user.principal){
+    constructor(props) {
+        super(props);
+        this.onFormSubmit = this.onFormSubmit.bind(this);
+        this.bid = this.bid.bind(this);
+
+        this.state = {
+            usersWithSessions: new Map(),
+            filter: new Map(),
+            checkedItems: new Map(),
+            hasLoaded: false,
+        };
+    }
+
+    componentDidMount() {
+        this.props.getAllSessions();
+
+        setTimeout(() => {
+            this.state.hasLoaded = true;
+            this.setState(this.state);
+        }, 1000);
+    }
+
+    bid(session) {
+        if (session.ownerPrincipal === this.props.user.principal) {
             makeToast(Toasts.Unsuccessful.OwnSession);
             return;
         }
 
-        for (let i = 0; i < session.bidderPrincipals.length; i++){
-            if(session.bidderPrincipals[i] === this.props.user.principal){
+        for (let i = 0; i < session.bidderPrincipals.length; i++) {
+            if (session.bidderPrincipals[i] === this.props.user.principal) {
                 makeToast(Toasts.Unsuccessful.AlreadyBidOnSession);
                 return;
             }
@@ -88,10 +86,10 @@ class SessionPostings extends React.Component {
 
     isInFilter(session) {
         let self = this;
-        if(!_.isEmpty(this.state.filter)){
+        if (!_.isEmpty(this.state.filter)) {
             let result = true;
             Object.keys(session).forEach(function (field) {
-                if(result) {
+                if (result) {
                     switch (field) {
                         case 'startDate': {
                             console.log('Session start: ' + session.startDate);
@@ -99,7 +97,7 @@ class SessionPostings extends React.Component {
                             const a = new Date(session.startDate);
                             const b = new Date(self.state.filter.startDate);
                             console.log((a >= b).toString());
-                            if(!(a >= b)) result =  false;
+                            if (!(a >= b)) result = false;
                         }
                     }
                 }
@@ -145,9 +143,9 @@ class SessionPostings extends React.Component {
                 {/* Postings Listing */}
                 <div className="col-md-5">
                     <h4>All Session Postings</h4>
-                    {this.state.hasLoaded ?
+                    {this.state.hasLoaded?
                         <div>
-                            {!_.isNil(this.props.allSessions) && this.props.allSessions.length > 0 ?
+                            {!_.isNil(this.props.allSessions) && this.props.allSessions.length > 0?
                                 <div>
                                     {this.props.allSessions.map(session => (
                                         this.isInFilter(session) &&
@@ -165,8 +163,12 @@ class SessionPostings extends React.Component {
                                                         </div>
                                                     ))
                                                     }
-                                                    <div  className={'container-fluid col-8 mt-2'} style={{textAlign: 'right'}}>
-                                                        <button className={'btn btn-secondary'} onClick={() => this.getSessionDetails(session.ownerPrincipal)}> Get Details</button>
+                                                    <div className={'container-fluid col-8 mt-2'}
+                                                         style={{textAlign: 'right'}}>
+                                                        <button className={'btn btn-secondary'}
+                                                                onClick={() => this.getSessionDetails(session.ownerPrincipal)}> Get
+                                                            Details
+                                                        </button>
                                                     </div>
                                                 </div>
                                                 <div className={'mt-1'}>
@@ -184,7 +186,8 @@ class SessionPostings extends React.Component {
                                             </div>
                                             <div className={'m-3'} style={{width: '20rem'}}>
                                                 {/*Session details*/}
-                                                <img src={'https://static.thenounproject.com/png/194149-200.png'} style={{height: 60, width: 60}}/>
+                                                <img src={'https://static.thenounproject.com/png/194149-200.png'}
+                                                     style={{height: 60, width: 60}}/>
                                                 <p>Session ID: {session.id}</p>
                                                 <p>Pet Breeds: {}</p>
                                                 <p>Price: $30/hr</p>
@@ -202,8 +205,11 @@ class SessionPostings extends React.Component {
                                                 </div>
                                                 }
                                                 <div className={'container-fluid'}>
-                                                    <div style={{textAlign: 'center'}} className={'row justify-content-center'}>
-                                                        <button className={'btn btn-danger col-6'} onClick={() => this.bid(session)}> Bid</button>
+                                                    <div style={{textAlign: 'center'}}
+                                                         className={'row justify-content-center'}>
+                                                        <button className={'btn btn-danger col-6'}
+                                                                onClick={() => this.bid(session)}> Bid
+                                                        </button>
                                                     </div>
                                                 </div>
 

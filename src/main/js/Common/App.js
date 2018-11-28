@@ -1,12 +1,11 @@
-import {makeToast, Toasts} from 'js/Common/Toasts';
 import _ from 'lodash';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {Provider} from 'react-redux';
-import {applyMiddleware, createStore} from 'redux';
+import { Provider } from 'react-redux';
+import { applyMiddleware, createStore } from 'redux';
 import createLogger from 'redux-logger';
 import thunkMiddleware from 'redux-thunk';
-import {reducer as formReducer} from 'redux-form';
+import { reducer as formReducer } from 'redux-form';
 import axios from 'axios';
 import Index from 'js/Common/index';
 import * as Users from 'js/User/Users';

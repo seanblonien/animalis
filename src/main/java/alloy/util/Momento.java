@@ -6,8 +6,6 @@ import java.util.Map;
 import java.util.stream.Stream;
 
 public interface Momento<T> extends Serializable {
-    T getMomento();
-
     static <T, R extends Momento<T>> Map<T, R> mapify(Collection<R> list) {
         return mapify(list.stream());
     }
@@ -19,6 +17,8 @@ public interface Momento<T> extends Serializable {
     static <T, I> Momentizer<T, String> stringMomentizer(Momentizer<T, I> momentizer) {
         return object -> momentizer.getMomento(object).toString();
     }
+
+    T getMomento();
 
     interface Momentizer<O, T> {
         T getMomento(O object);

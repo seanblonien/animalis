@@ -12,22 +12,22 @@ class Notifications extends React.Component {
         };
     }
 
-    get2ndIndex(data, searchStr){
+    get2ndIndex = (data, searchStr) => {
         let ndx = data.indexOf(searchStr);
         return data.indexOf(searchStr, ndx + 1);
-    }
+    };
 
-    toggleNotification(event, notification) {
+    toggleNotification = (event, notification) => {
         notification.hasBeenRead = !notification.hasBeenRead;
         this.props.updateNotification(notification).then(() => {
             this.state.toggle = !this.state.toggle;
             this.setState(this.state);
         });
-    }
+    };
 
-    async markAllAsRead(e){
+    async markAllAsRead() {
         const promises = this.props.notifications.map(async n => {
-            if(n.hasBeenRead){
+            if (n.hasBeenRead) {
                 return n;
             } else {
                 n.hasBeenRead = true;
@@ -45,7 +45,8 @@ class Notifications extends React.Component {
             <div>
                 <div className="row">
                     <div className="col-12 text-right">
-                        <div onClick={e => this.markAllAsRead(e)} className="likeLink"><span>Mark all as read</span></div>
+                        <div onClick={() => this.markAllAsRead()} className="likeLink"><span>Mark all as read</span>
+                        </div>
                     </div>
                 </div>
                 <div className="row">
@@ -65,18 +66,18 @@ class Notifications extends React.Component {
                                     <td>{notification.notificationType}</td>
                                     <td>{notification.notificationDate}</td>
                                     {notification.notificationType === 'newBid' &&
-                                        <td>
-                                            <a href={'/#/profile/' + notification.otherUserPrincipal}>{notification.dataBody.substring(0, this.get2ndIndex(notification.dataBody, ' '))}</a>
-                                            <nobr>{notification.dataBody.substring(this.get2ndIndex(notification.dataBody, ' '))}</nobr>
-                                        </td>
+                                    <td>
+                                        <a href={'/#/profile/' + notification.otherUserPrincipal}>{notification.dataBody.substring(0, this.get2ndIndex(notification.dataBody, ' '))}</a>
+                                        <nobr>{notification.dataBody.substring(this.get2ndIndex(notification.dataBody, ' '))}</nobr>
+                                    </td>
                                     }
 
                                     {(notification.notificationType === 'chosenSitter' || notification.notificationType !== 'newBid') &&
-                                        <td>{notification.dataBody}</td>
+                                    <td>{notification.dataBody}</td>
                                     }
 
                                     <td onClick={e => this.toggleNotification(e, notification)}>
-                                        {notification.hasBeenRead ? <Fragment>⚪</Fragment> : <Fragment>🔵</Fragment>}
+                                        {notification.hasBeenRead? <Fragment>⚪</Fragment> : <Fragment>🔵</Fragment>}
                                     </td>
                                 </tr>
                             ))

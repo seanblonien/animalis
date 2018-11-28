@@ -1,4 +1,4 @@
-import {Loading} from 'js/Common/Loading';
+import { Loading } from 'js/Common/Loading';
 import _ from 'lodash';
 import React from 'react';
 import connect from 'react-redux/es/connect/connect';
@@ -19,6 +19,18 @@ class NotificationsNavBar extends React.Component {
         };
     }
 
+    static numberOfUnreadNotifications(notifications) {
+        if (_.isNil(notifications) || _.isEmpty(notifications) || notifications.length < 1) {
+            return -1;
+        }
+        let unreadNotifications = 0;
+        for (let n = 0; n < notifications.length; n++) {
+            if (notifications[n].hasBeenRead === false) unreadNotifications++;
+        }
+
+        return unreadNotifications;
+    }
+
     componentDidMount() {
         this.intervalID = setInterval(() => this.notificationRefresh(), 1000);
     }
@@ -28,30 +40,18 @@ class NotificationsNavBar extends React.Component {
     }
 
     notificationRefresh() {
-            this.props.fetchNotifications().then(() => {
-                this.setState({
-                    hasLoadedNotifications: true,
-                    numberUnreadNotifications: NotificationsNavBar.numberOfUnreadNotifications(this.props.notifications),
-                });
+        this.props.fetchNotifications().then(() => {
+            this.setState({
+                hasLoadedNotifications: true,
+                numberUnreadNotifications: NotificationsNavBar.numberOfUnreadNotifications(this.props.notifications),
             });
+        });
     }
 
     markNotificationAsRead(event, notification) {
         console.log('Marked as read!');
         notification.hasBeenRead = true;
         this.props.updateNotification(notification);
-    }
-
-    static numberOfUnreadNotifications(notifications) {
-        if(_.isNil(notifications) || _.isEmpty(notifications) || notifications.length < 1){
-            return -1;
-        }
-        let unreadNotifications = 0;
-        for(let n = 0; n < notifications.length; n++){
-            if(notifications[n].hasBeenRead === false) unreadNotifications++;
-        }
-
-        return unreadNotifications;
     }
 
     render() {
@@ -67,10 +67,10 @@ class NotificationsNavBar extends React.Component {
                 <div className="dropdown-menu" aria-labelledby="navbarDropdown">
                     {_.isArray(this.props.user.roles) &&
                     <div>
-                        {this.state.hasLoadedNotifications ?
+                        {this.state.hasLoadedNotifications?
                             <div>
                                 {this.state.numberUnreadNotifications < 1 &&
-                                    <div className="dropdown-item">No notifications</div>
+                                <div className="dropdown-item">No notifications</div>
                                 }
                                 {this.state.numberUnreadNotifications >= 1 && this.props.notifications != null && this.props.notifications.map(n => (
                                     <div key={n.id}>
@@ -91,8 +91,10 @@ class NotificationsNavBar extends React.Component {
                             </div>
                         }
                         <div className="dropdown-divider"></div>
-                        <a className="dropdown-item" href="#/notifications"><span className="fa fa-envelope-o"/> View All</a>
-                        <a className="dropdown-item" onClick={this.notificationRefresh}><span className="fa fa-refresh"/> Refresh</a>
+                        <a className="dropdown-item" href="#/notifications"><span className="fa fa-envelope-o"/> View
+                            All</a>
+                        <a className="dropdown-item" onClick={this.notificationRefresh}><span
+                            className="fa fa-refresh"/> Refresh</a>
                     </div>
                     }
                 </div>
@@ -112,4 +114,4 @@ NotificationsNavBar = connect(
     })
 )(NotificationsNavBar);
 
-export {NotificationsNavBar};
+export { NotificationsNavBar };

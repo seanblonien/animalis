@@ -1,10 +1,10 @@
 import Footer from 'js/Common/Footer';
-import {NavBar} from 'js/Common/NavBar';
+import { NavBar } from 'js/Common/NavBar';
 import React from 'react';
-import {HashRouter, Route} from 'react-router-dom';
+import { HashRouter, Route } from 'react-router-dom';
 
 import * as Pages from 'js/Common/Pages';
-import {ToastContainer} from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
 
 export default class Index extends React.Component {
     render() {

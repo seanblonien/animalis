@@ -9,7 +9,8 @@ public class RatingDto implements Identifiable {
     private String review;
     private String date;
 
-    private RatingDto() {}
+    private RatingDto() {
+    }
 
     @Override
     public Long getId() {

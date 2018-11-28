@@ -58,7 +58,7 @@ public class UserDao {
         return userRepository.search(searchSourceBuilder).stream().findFirst();
     }
 
-    private UpdateRequest buildUserFields(UserDto user) throws IOException{
+    private UpdateRequest buildUserFields(UserDto user) throws IOException {
         UpdateRequest updateRequest = new UpdateRequest();
 
         updateRequest.index("petfinder-users");
@@ -66,15 +66,15 @@ public class UserDao {
         updateRequest.id(user.getPrincipal());
         updateRequest.doc(jsonBuilder()
                 .startObject()
-                    .startObject("user")
-                        .field("principal", user.getPrincipal())
-                        .field("attributes", user.getAttributes())
-                        .field("roles", user.getRoles())
-                        .field("address", user.getAddress())
-                        .field("pets", user.getPets())
-                        .field("sessions", user.getSessions())
-                        .field("notifications", user.getNotifications())
-                    .endObject()
+                .startObject("user")
+                .field("principal", user.getPrincipal())
+                .field("attributes", user.getAttributes())
+                .field("roles", user.getRoles())
+                .field("address", user.getAddress())
+                .field("pets", user.getPets())
+                .field("sessions", user.getSessions())
+                .field("notifications", user.getNotifications())
+                .endObject()
                 .endObject());
 
         return updateRequest;

@@ -20,9 +20,9 @@ public class TypeConverters {
     private static volatile ObjectMapper GLOBAL_OBJECT_MAPPER = null;
 
     public static ObjectMapper getObjectMapper() {
-        if(GLOBAL_OBJECT_MAPPER == null) {
+        if (GLOBAL_OBJECT_MAPPER == null) {
             synchronized (Json.class) {
-                if(GLOBAL_OBJECT_MAPPER == null) {
+                if (GLOBAL_OBJECT_MAPPER == null) {
                     ObjectMapper mapper = new ObjectMapper();
                     configureObjectMapper(mapper);
                     GLOBAL_OBJECT_MAPPER = mapper;
@@ -70,24 +70,21 @@ public class TypeConverters {
     @SuppressWarnings({"unchecked", "Duplicates"})
     public static <T> Either<T, IllegalArgumentException> convert(Object object, TypeReference<T> clazz, ObjectMapper mapper) {
         return _Exceptions.either(() -> {
-            if(clazz.getType().equals(String.class) && object instanceof String) {
+            if (clazz.getType().equals(String.class) && object instanceof String) {
                 return (T) object;
-            }
-            else if(clazz.getType().equals(String.class)) {
+            } else if (clazz.getType().equals(String.class)) {
                 try {
                     return (T) mapper.writer().writeValueAsString(object);
                 } catch (JsonProcessingException e) {
                     throw new IllegalArgumentException(e);
                 }
-            }
-            else if(object instanceof String) {
+            } else if (object instanceof String) {
                 try {
                     return mapper.readValue((String) object, clazz);
                 } catch (IOException e) {
                     throw new IllegalArgumentException(e);
                 }
-            }
-            else {
+            } else {
                 return mapper.convertValue(object, clazz);
             }
         }, IllegalArgumentException.class);
@@ -96,24 +93,21 @@ public class TypeConverters {
     @SuppressWarnings({"unchecked", "Duplicates"})
     public static <T> Either<T, IllegalArgumentException> convert(Object object, Class<T> clazz, ObjectMapper mapper) {
         return _Exceptions.either(() -> {
-            if(clazz.equals(String.class) && object instanceof String) {
+            if (clazz.equals(String.class) && object instanceof String) {
                 return (T) object;
-            }
-            else if(clazz.equals(String.class)) {
+            } else if (clazz.equals(String.class)) {
                 try {
                     return (T) mapper.writer().writeValueAsString(object);
                 } catch (JsonProcessingException e) {
                     throw new IllegalArgumentException(e);
                 }
-            }
-            else if(object instanceof String) {
+            } else if (object instanceof String) {
                 try {
                     return mapper.readValue((String) object, clazz);
                 } catch (IOException e) {
                     throw new IllegalArgumentException(e);
                 }
-            }
-            else {
+            } else {
                 return mapper.convertValue(object, clazz);
             }
         }, IllegalArgumentException.class);
@@ -151,12 +145,14 @@ public class TypeConverters {
         return convert(object, clazz, mapper).map(Function.identity(), _Exceptions::propagate).getLeft().orElseThrow(IllegalStateException::new);
     }
 
-    public static Map<String,Object> mapify(Object object) {
-        return convertOrThrow(object, new TypeReference<Map<String, Object>>() {});
+    public static Map<String, Object> mapify(Object object) {
+        return convertOrThrow(object, new TypeReference<Map<String, Object>>() {
+        });
     }
 
     public static <T> Map<String, T> mapify(Object object, Class<T> clazz) {
-        return convertOrThrow(object, new TypeReference<Map<String, T>>() {});
+        return convertOrThrow(object, new TypeReference<Map<String, T>>() {
+        });
     }
 
     public static <T> Serializer<T> serializer(Class<T> clazz) {

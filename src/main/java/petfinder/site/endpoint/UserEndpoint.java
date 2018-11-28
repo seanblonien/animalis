@@ -37,7 +37,7 @@ public class UserEndpoint {
     public PublicUserDto getUser(@PathVariable("principal") String principal) {
         String decodedPrincipal = principal.replace("*", ".");
         Optional<UserDto> optUser = userService.findUserByPrincipal(decodedPrincipal);
-        if(optUser.isPresent()){
+        if (optUser.isPresent()) {
             UserDto user = optUser.get();
             System.out.println("Got public user: \n" + new PublicUserDto(user).toString());
             return new PublicUserDto(user);
@@ -49,21 +49,21 @@ public class UserEndpoint {
     @GetMapping(value = "/pet")
     public List<Optional<PetDto>> getPets() {
         String principal = SecurityContextHolder.getContext().getAuthentication().getName();
-        Optional<UserDto> userAuth =  userService.findUserByPrincipal(principal);
+        Optional<UserDto> userAuth = userService.findUserByPrincipal(principal);
         return userAuth.map(userDto -> userService.findPets(userDto)).orElse(null);
     }
 
     @GetMapping(value = "/sessions")
     public List<Optional<SessionDto>> getSessions() {
         String principal = SecurityContextHolder.getContext().getAuthentication().getName();
-        Optional<UserDto> userAuth =  userService.findUserByPrincipal(principal);
+        Optional<UserDto> userAuth = userService.findUserByPrincipal(principal);
         return userAuth.map(userDto -> userService.findSessions(userDto)).orElse(null);
     }
 
     @GetMapping(value = "/notifications")
     public List<Optional<NotificationDto>> getNotifications() {
         String principal = SecurityContextHolder.getContext().getAuthentication().getName();
-        Optional<UserDto> userAuth =  userService.findUserByPrincipal(principal);
+        Optional<UserDto> userAuth = userService.findUserByPrincipal(principal);
         return userAuth.map(userDto -> userService.findNotifications(userDto)).orElse(null);
     }
 
@@ -87,14 +87,14 @@ public class UserEndpoint {
         String text = "Hey " + user.getAttributes().get("fname") + "!\nThank you for registering for Animalis. We hope you will love our pet care service as it offers all of the services you need for all of your pets and busy life. From everyone on the team who has made this app possible, we are excited to have you join us!\n\n";
 
         // If a user is a certain role :
-        if(user.getRoles().contains("SITTER") && user.getRoles().contains("OWNER"))
+        if (user.getRoles().contains("SITTER") && user.getRoles().contains("OWNER"))
             text += "As a sitter and owner, be sure to schedule your pets' sessions as soon as you need to. You can find sessions to sit for as well. We greatly appreciate your dedication as a pet enthusiast and are glad you are joining us in this pet loving journey!";
-        else if(user.getRoles().contains("OWNER"))
+        else if (user.getRoles().contains("OWNER"))
             text += "As a sitter, be sure to check out the currently available sessions to sit for near you.";
-        else if(user.getRoles().contains("SITTER"))
+        else if (user.getRoles().contains("SITTER"))
             text += "As a pet owner, be sure to schedule your pet service with us soon so sitters can bid and and take care of your pet as fast as possible.";
 
-        text  += "\n\nWe greatly appreciate your dedication as a pet enthusiast and are glad you are joining us in this pet loving journey!\n\nSee you on Animalis! Sincerely,\n\nMakers of Animalis";
+        text += "\n\nWe greatly appreciate your dedication as a pet enthusiast and are glad you are joining us in this pet loving journey!\n\nSee you on Animalis! Sincerely,\n\nMakers of Animalis";
 
         // Send email and display confirmation to system
         System.out.println(MGEmail.sendSimpleMessage(subject, text, user.getPrincipal()));
@@ -107,8 +107,8 @@ public class UserEndpoint {
         UserDto user = userService.findUserByPrincipal(currUser).get();
         String subject = "New Bid!!";
         String text = "Hey there " + user.getAttributes().get("fname") + "," +
-                      "\n A new sitter has applied for your post : " + " CURR POSTING HERE" +
-                      " Check it out! \n " + "LINK HERE" + "\n";
+                "\n A new sitter has applied for your post : " + " CURR POSTING HERE" +
+                " Check it out! \n " + "LINK HERE" + "\n";
 
         // Send email and display confirmation to system
         System.out.println(MGEmail.sendSimpleMessage(subject, text, user.getPrincipal()));

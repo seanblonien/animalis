@@ -10,7 +10,7 @@ import org.elasticsearch.search.builder.SearchSourceBuilder;
 import java.util.List;
 import java.util.Optional;
 
-public class ElasticSearchRepository<T, I> implements Repository<T, I>  {
+public class ElasticSearchRepository<T, I> implements Repository<T, I> {
     private ElasticSearchIndex index;
     private Serializer<T> serializer;
     private Momentizer<T, I> momentizer;

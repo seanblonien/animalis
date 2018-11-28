@@ -1,11 +1,11 @@
-import {Loading} from 'js/Common/Loading';
-import {getPublicUser} from 'js/User/Users';
+import { Loading } from 'js/Common/Loading';
 import * as Users from 'js/User/Users';
+import { getPublicUser } from 'js/User/Users';
 import React from 'react';
 import connect from 'react-redux/es/connect/connect';
 import _ from 'lodash';
 
-export class PublicProfile extends  React.Component {
+export class PublicProfile extends React.Component {
     constructor(props) {
         super(props);
 
@@ -20,14 +20,15 @@ export class PublicProfile extends  React.Component {
             this.setState(this.state);
         });
     }
+
     //TODO better format and display user information
     render() {
         return (
             <div>
                 <h1>ID: {this.props.match.params.id}</h1>
-                {this.state.hasLoaded ?
+                {this.state.hasLoaded?
                     <div>
-                        {_.isNil(this.state.user) ?
+                        {_.isNil(this.state.user)?
                             <div>
                                 Sorry, that user does not exist!
                             </div>

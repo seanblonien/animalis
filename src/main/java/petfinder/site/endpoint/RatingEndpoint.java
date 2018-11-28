@@ -2,7 +2,6 @@ package petfinder.site.endpoint;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import petfinder.site.common.pet.PetDto;
 import petfinder.site.common.rating.RatingDto;
 import petfinder.site.common.rating.RatingService;
 

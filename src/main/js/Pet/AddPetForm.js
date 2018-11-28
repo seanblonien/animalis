@@ -1,10 +1,10 @@
-import {Actions, addPet} from 'js/User/Users';
+import * as Users from 'js/User/Users';
+import { addPet } from 'js/User/Users';
 import React from 'react';
 import * as Validation from 'js/alloy/utils/validation';
 import * as Bessemer from 'js/alloy/bessemer/components';
-import * as Users from 'js/User/Users';
 import * as ReduxForm from 'redux-form';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 
 export const sexOptions = [
     {label: 'Male', value: 'Male'},
@@ -19,6 +19,28 @@ export const sizeOptions = [
 ];
 
 class AddPetForm extends React.Component {
+    onSubmit = pet => {
+        pet.id = Math.round(Date.now() + Math.random());
+        pet.pet_sex = this.state.pet_sex;
+        pet.pet_size = this.state.pet_size;
+        pet.pet_age = Number(pet.pet_age);
+        console.log('Keys: ' + Object.keys(pet).join(', '));
+
+        this.props.addPet(pet);
+    };
+    handleSexChange = e => {
+        if (e != null) {
+            this.state.pet_sex = e;
+            this.setState(this.state);
+        }
+    };
+    handleSizeChange = e => {
+        if (e != null) {
+            this.state.pet_size = e;
+            this.setState(this.state);
+        }
+    };
+
     constructor(props) {
         super(props);
         this.state = {
@@ -38,30 +60,6 @@ class AddPetForm extends React.Component {
         // });
         // //console.error((performance.now()).toString() + ' retreived pets ' + JSON.stringify(this.props.pets));
     }
-
-    onSubmit = pet => {
-        pet.id = Math.round(Date.now() + Math.random());
-        pet.pet_sex = this.state.pet_sex;
-        pet.pet_size = this.state.pet_size;
-        pet.pet_age = Number(pet.pet_age);
-        console.log('Keys: ' + Object.keys(pet).join(', '));
-
-        this.props.addPet(pet);
-    };
-
-    handleSexChange = e => {
-        if (e != null) {
-            this.state.pet_sex = e;
-            this.setState(this.state);
-        }
-    };
-
-    handleSizeChange = e => {
-        if (e != null) {
-            this.state.pet_size = e;
-            this.setState(this.state);
-        }
-    };
 
     render() {
         let {handleSubmit, submitting} = this.props;
