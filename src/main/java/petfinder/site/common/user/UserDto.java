@@ -15,11 +15,12 @@ public class UserDto implements Momento<String> {
     private List<Long> pets;
     private List<Long> sessions;
     private List<Long> notifications;
+    private List<Long> ratings;
 
     private UserDto() {
     }
 
-    public UserDto(String principal, List<String> roles, Map<String, Object> attributes, Map<String, Object> address, List<Long> pets, List<Long> sessions, List<Long> notifications) {
+    public UserDto(String principal, List<String> roles, Map<String, Object> attributes, Map<String, Object> address, List<Long> pets, List<Long> sessions, List<Long> notifications, List<Long> ratings) {
         this.principal = principal;
         this.roles = roles;
         this.attributes = attributes;
@@ -27,6 +28,7 @@ public class UserDto implements Momento<String> {
         this.pets = pets;
         this.sessions = sessions;
         this.notifications = notifications;
+        this.ratings = ratings;
     }
 
     public List<Long> getPets() {
@@ -67,7 +69,7 @@ public class UserDto implements Momento<String> {
 
     public void addPet(Long id) {
         if (this.pets == null) {
-            this.pets = new ArrayList<Long>();
+            this.pets = new ArrayList<>();
         }
         this.pets.add(id);
     }
@@ -80,7 +82,7 @@ public class UserDto implements Momento<String> {
 
     public void addSession(Long id) {
         if (this.sessions == null) {
-            this.sessions = new ArrayList<Long>();
+            this.sessions = new ArrayList<>();
         }
         this.sessions.add(id);
     }
@@ -93,7 +95,7 @@ public class UserDto implements Momento<String> {
 
     public void addNotification(Long id) {
         if (this.notifications == null) {
-            this.notifications = new ArrayList<Long>();
+            this.notifications = new ArrayList<>();
         }
         this.notifications.add(id);
     }
@@ -101,6 +103,19 @@ public class UserDto implements Momento<String> {
     public void deleteNotification(Long id) {
         if (this.notifications != null) {
             this.notifications.remove(id);
+        }
+    }
+
+    public void addRating(Long id) {
+        if (this.ratings == null) {
+            this.ratings = new ArrayList<>();
+        }
+        this.ratings.add(id);
+    }
+
+    public void deleteRating(Long id) {
+        if (this.ratings != null) {
+            this.ratings.remove(id);
         }
     }
 

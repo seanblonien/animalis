@@ -15,12 +15,18 @@ import petfinder.site.common.user.UserService.RegistrationRequest;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Function;
 
 @RestController
 @RequestMapping(value = "/api/user")
 public class UserEndpoint {
     @Autowired
     private UserService userService;
+
+    private Optional<UserDto> getAuthUser() {
+        String principal = SecurityContextHolder.getContext().getAuthentication().getName();
+         return userService.findUserByPrincipal(principal);
+    }
 
     @PostMapping(value = "/register")
     public UserDto register(@RequestBody RegistrationRequest request) {
@@ -48,23 +54,17 @@ public class UserEndpoint {
 
     @GetMapping(value = "/pet")
     public List<Optional<PetDto>> getPets() {
-        String principal = SecurityContextHolder.getContext().getAuthentication().getName();
-        Optional<UserDto> userAuth = userService.findUserByPrincipal(principal);
-        return userAuth.map(userDto -> userService.findPets(userDto)).orElse(null);
+        return getAuthUser().map(userDto -> userService.findPets(userDto)).orElse(null);
     }
 
     @GetMapping(value = "/sessions")
     public List<Optional<SessionDto>> getSessions() {
-        String principal = SecurityContextHolder.getContext().getAuthentication().getName();
-        Optional<UserDto> userAuth = userService.findUserByPrincipal(principal);
-        return userAuth.map(userDto -> userService.findSessions(userDto)).orElse(null);
+        return getAuthUser().map(userDto -> userService.findSessions(userDto)).orElse(null);
     }
 
     @GetMapping(value = "/notifications")
     public List<Optional<NotificationDto>> getNotifications() {
-        String principal = SecurityContextHolder.getContext().getAuthentication().getName();
-        Optional<UserDto> userAuth = userService.findUserByPrincipal(principal);
-        return userAuth.map(userDto -> userService.findNotifications(userDto)).orElse(null);
+        return getAuthUser().map(userDto -> userService.findNotifications(userDto)).orElse(null);
     }
 
     @GetMapping(value = "/confirmPassword/{pass}", produces = "application/json")
@@ -114,28 +114,36 @@ public class UserEndpoint {
         System.out.println(MGEmail.sendSimpleMessage(subject, text, user.getPrincipal()));
     }
 
-    @PostMapping(value = "/notifications/{id}")
-    public UserDto addNotification(@PathVariable("id") Long id) {
-        String principal = SecurityContextHolder.getContext().getAuthentication().getName();
-        UserDto user = userService.findUserByPrincipal(principal).get();
-        user.addNotification(id);
-        return userService.update(user);
+    @PostMapping(value = "/pet/{id}")
+    public UserDto addPet(@PathVariable("id") Long id) {
+        return getAuthUser().map(userDto -> {
+            userDto.addPet(id);
+            return userService.update(userDto);
+        }).orElse(null);
     }
 
     @PostMapping(value = "/sessions/{id}")
     public UserDto addSession(@PathVariable("id") Long id) {
-        String principal = SecurityContextHolder.getContext().getAuthentication().getName();
-        UserDto user = userService.findUserByPrincipal(principal).get();
-        user.addSession(id);
-        return userService.update(user);
+        return getAuthUser().map(userDto -> {
+            userDto.addSession(id);
+            return userService.update(userDto);
+        }).orElse(null);
     }
 
-    @PostMapping(value = "/pet/{id}")
-    public UserDto addPet(@PathVariable("id") Long id) {
-        String principal = SecurityContextHolder.getContext().getAuthentication().getName();
-        UserDto user = userService.findUserByPrincipal(principal).get();
-        user.addPet(id);
-        return userService.update(user);
+    @PostMapping(value = "/notifications/{id}")
+    public UserDto addNotification(@PathVariable("id") Long id) {
+        return getAuthUser().map(userDto -> {
+            userDto.addNotification(id);
+            return userService.update(userDto);
+        }).orElse(null);
+    }
+
+    @PostMapping(value = "/ratings/{id}")
+    public UserDto addRating(@PathVariable("id") Long id) {
+        return getAuthUser().map(userDto -> {
+            userDto.addRating(id);
+            return userService.update(userDto);
+        }).orElse(null);
     }
 
     @PostMapping(value = "/delete")
@@ -145,25 +153,33 @@ public class UserEndpoint {
 
     @PostMapping(value = "/pet/delete/{id}")
     public UserDto deletePet(@PathVariable("id") Long id) {
-        String principal = SecurityContextHolder.getContext().getAuthentication().getName();
-        UserDto user = userService.findUserByPrincipal(principal).get();
-        user.getPets().remove(id);
-        return userService.update(user);
+        return getAuthUser().map(userDto -> {
+            userDto.deletePet(id);
+            return userService.update(userDto);
+        }).orElse(null);
     }
 
     @PostMapping(value = "/sessions/delete/{id}")
     public UserDto deleteSession(@PathVariable("id") Long id) {
-        String principal = SecurityContextHolder.getContext().getAuthentication().getName();
-        UserDto user = userService.findUserByPrincipal(principal).get();
-        user.getSessions().remove(id);
-        return userService.update(user);
+        return getAuthUser().map(userDto -> {
+            userDto.deleteSession(id);
+            return userService.update(userDto);
+        }).orElse(null);
     }
 
     @PostMapping(value = "/notifications/delete/{id}")
     public UserDto deleteNotification(@PathVariable("id") Long id) {
-        String principal = SecurityContextHolder.getContext().getAuthentication().getName();
-        UserDto user = userService.findUserByPrincipal(principal).get();
-        user.deleteNotification(id);
-        return userService.update(user);
+        return getAuthUser().map(userDto -> {
+            userDto.deleteNotification(id);
+            return userService.update(userDto);
+        }).orElse(null);
+    }
+
+    @PostMapping(value = "/ratings/delete/{id}")
+    public UserDto deleteRating(@PathVariable("id") Long id) {
+        return getAuthUser().map(userDto -> {
+            userDto.deleteRating(id);
+            return userService.update(userDto);
+        }).orElse(null);
     }
 }

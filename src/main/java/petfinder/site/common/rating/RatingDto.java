@@ -8,6 +8,7 @@ public class RatingDto implements Identifiable {
     private String rater;
     private String review;
     private String date;
+    private String time;
 
     private RatingDto() {
     }
@@ -53,6 +54,14 @@ public class RatingDto implements Identifiable {
         this.date = date;
     }
 
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
+
     @Override
     public String toString() {
         return "RatingDto{" +
@@ -61,6 +70,7 @@ public class RatingDto implements Identifiable {
                 ", rater='" + rater + '\'' +
                 ", review='" + review + '\'' +
                 ", date='" + date + '\'' +
+                ", time='" + time + '\'' +
                 '}';
     }
 }

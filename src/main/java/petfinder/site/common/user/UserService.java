@@ -29,7 +29,7 @@ public class UserService {
     }
 
     public UserDto constructUser(RegistrationRequest request) {
-        return new UserDto(request.getPrincipal(), request.getRoles(), request.getAttributes(), request.getAddress(), request.getPets(), request.getSessions(), null);
+        return new UserDto(request.getPrincipal(), request.getRoles(), request.getAttributes(), request.getAddress(), request.getPets(), request.getSessions(), null, null);
     }
 
     public void delete(PrincipalRequest request) {

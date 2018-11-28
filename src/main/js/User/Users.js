@@ -136,6 +136,10 @@ export function getPublicUser(principal) {
     return axios.get('/api/user/public/' + principal).catch(error => handleHTTPError(error));
 }
 
+export function getRatings() {
+    return axios.get('/api/user/ratings');
+}
+
 let State = {};
 
 State.getAuthentication = state => {
@@ -162,6 +166,10 @@ State.getNotifications = state => {
     return state.notifications;
 };
 
+State.getRatings = state => {
+    return state.ratings;
+};
+
 export { State };
 
 let Actions = {};
@@ -173,6 +181,7 @@ Actions.Types = {
     SET_SESSIONS: 'SET_SESSIONS',
     SET_ALL_SESSIONS: 'SET_ALL_SESSIONS',
     SET_NOTIFICATIONS: 'SET_NOTIFICATIONS',
+    SET_RATINGS: 'SET_RATINGS',
 };
 
 const handleHTTPError = error => {
@@ -204,6 +213,14 @@ const handleHTTPError = error => {
         }
     }
     return null;
+};
+
+Actions.getRatings = () => {
+    return (dispatch) => {
+        return getRatings().then(sessions => {
+            return dispatch(Actions.setSessions(sessions));
+        });
+    };
 };
 
 Actions.getSessions = () => {
