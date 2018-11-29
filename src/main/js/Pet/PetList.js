@@ -13,6 +13,8 @@ import { sexOptions, sizeOptions } from 'js/Pet/AddPetForm';
 export const waitToUpdateTime = 1500; // ms
 
 class PetList extends React.Component {
+    intervalID = 0;
+
     constructor(props) {
         super(props);
         this.state = {
@@ -29,6 +31,11 @@ class PetList extends React.Component {
             this.state.toggle = !this.state.toggle;
             this.setState(this.state);
         });
+        this.intervalID = setInterval(() => this.fetchPets(), 1000);
+    }
+
+    componentWillUnmount() {
+        clearInterval(this.intervalID);
     }
 
     handleSexChange = e => {
@@ -47,14 +54,14 @@ class PetList extends React.Component {
 
     deletePet = (e, id) => {
         console.log('Deleting pet with id: ' + id);
-        Users.deletePet(id);
-        setTimeout(() => {
+        Users.deletePet(id).then(() => {
             this.props.fetchPets().then(() => {
                 this.state.toggle = !this.state.toggle;
                 this.setState(this.state);
+
                 makeToast(Toasts.Successful.DeletePet);
             });
-        }, waitToUpdateTime);
+        });
     };
 
     editPet = (e, pet) => {
@@ -83,14 +90,13 @@ class PetList extends React.Component {
 
             Users.updatePet(petToUpdate).then(() => {
                 this.resetForm(petForm);
-            });
-            setTimeout(() => {
                 this.props.fetchPets().then(() => {
                     this.state.toggle = !this.state.toggle;
                     this.setState(this.state);
-                    makeToast(Toasts.Successful.EditPet);
+
+                    makeToast(Toasts.Successful.DeletePet);
                 });
-            }, waitToUpdateTime);
+            });
         }
     };
 
@@ -101,7 +107,6 @@ class PetList extends React.Component {
                 this.setState(this.state);
             });
         }
-        setTimeout(() => this.fetchPets(), 2500);
     };
 
     toggleAllEditingToFalse = () => {

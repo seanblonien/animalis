@@ -263,7 +263,7 @@ class RegistrationForm extends React.Component {
                                             onChange={(e) => this.handleCheckboxChange(e)}
                                             showLabel={false}
                                             field={<Checkbox
-                                                label={'Send me an email when I get a new message or request.'}
+                                                label={'Send me emails.'}
                                                 handleCheckboxChange={this.handleCheckboxChange}
                                                 name={'emailNotifications'}
                                                 defaultCheck={this.state.checkedItems.get('emailNotifications')}/>}/>

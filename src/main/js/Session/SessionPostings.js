@@ -10,6 +10,35 @@ import * as Bessemer from 'js/alloy/bessemer/components';
 import { getCurrentDate } from 'js/Session/ScheduleSession';
 import { Loading } from 'js/Common/Loading';
 
+const monthNames = ['January', 'February', 'March', 'April', 'May', 'June',
+    'July', 'August', 'September', 'October', 'November', 'December'
+];
+
+function formatDate(d){
+    if(d){
+        let date = new Date(d);
+        let day = date.getDate();
+        let month = monthNames[date.getMonth()];
+        let year = date.getFullYear();
+
+        return month + ' ' + day + ', ' + year;
+    }
+}
+
+function formatTime(t){
+    if(t){
+        console.error(t);
+        let time = t.split(':');
+        let hour = parseInt(time[0]);
+        let minutes = (time[1]);
+        let AMPM = hour < 12 ? 'AM' : 'PM';
+        if(hour < 1) hour = 12;
+        else if(hour > 13 && hour < 24) hour = hour - 12;
+
+        return hour + ':' + minutes + ' ' + AMPM;
+    }
+}
+
 class SessionPostings extends React.Component {
     constructor(props) {
         super(props);
@@ -146,7 +175,8 @@ class SessionPostings extends React.Component {
                             {!_.isNil(this.props.allSessions) && this.props.allSessions.length > 0?
                                 <div>
                                     {this.props.allSessions.map(session => (
-                                        this.isInFilter(session) &&
+										session.endDate >= getCurrentDate() &&
+										this.isInFilter(session) &&
                                         <div key={session.id} className="card"
                                              style={{width: '20rem', marginBottom: 10}}>
                                             <div className="card-header">
@@ -187,13 +217,13 @@ class SessionPostings extends React.Component {
                                             <ul className="list-group list-group-flush">
                                                 <li className="list-group-item">
                                                     <div>
-                                                        <span className="text-muted">From: </span>{session.startDate + ' ' + session.startTime}
+                                                        <span className="text-muted">From: </span>{formatDate(session.startDate) + ' at ' + formatTime(session.startTime)}
                                                     </div>
                                                 </li>
 
                                                 <li className="list-group-item">
                                                     <div>
-                                                        <span className="text-muted">To: </span>{session.endDate + ' ' + session.endTime}
+                                                        <span className="text-muted">To: </span>{formatDate(session.endDate) + ' at ' + formatTime(session.endTime)}
                                                     </div>
                                                 </li>
 

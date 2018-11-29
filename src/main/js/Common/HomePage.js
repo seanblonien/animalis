@@ -1,5 +1,6 @@
 import React from 'react';
 import * as Users from 'js/User/Users';
+import renderHTML from 'react-render-html';
 import { connect } from 'react-redux';
 import _ from 'lodash';
 
@@ -34,6 +35,7 @@ class HomePage extends React.Component {
                             </div>
                             }
                         </div>
+
                     </div>
                     :
                     <div>
@@ -52,6 +54,18 @@ class HomePage extends React.Component {
                            href="#/register">Get Started Today</a>
                     </div>
                 }
+
+                <div className="container padded">
+                    <div className="row">
+                        <div className={'col-4 offset-md-4'}
+                             style={{textAlign: 'justify', textJustify: 'inter-word'}}>
+                            <div>
+                                <p className={'my-3'}>Check us out on Facebook!</p>
+                                {renderHTML('<iframe src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2Fanimalissite&tabs=timeline&width=500&height=700&small_header=false&adapt_container_width=true&hide_cover=false&show_facepile=true&appId=346925716039918" width="500" height="700" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allow="encrypted-media"></iframe>')}
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         );
     }

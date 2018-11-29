@@ -11,32 +11,62 @@ export class PublicProfile extends React.Component {
 
         this.state = {
             hasLoaded: false,
-            user: null,
+            publicUser: null,
         };
     }
 
     componentDidMount() {
         getPublicUser(this.props.match.params.id).then(user => {
             this.state.hasLoaded = true;
-            this.state.user = user;
+            this.state.publicUser = user;
             this.setState(this.state);
         });
     }
+
+    displayRoles = () => {
+        let rolesStr = '';
+
+        let len = this.state.publicUser.roles.length;
+
+        if(len === 0){
+            rolesStr = 'No role';
+        } else if(len === 1){
+            if(this.state.publicUser.roles[0] === 'OWNER'){
+                rolesStr = 'Pet Owner';
+            } else if(this.state.publicUser.roles[0] === 'SITTER'){
+                rolesStr = 'Pet Sitter';
+            }
+        } else if(len === 2){
+            rolesStr = 'Pet Owner/Sitter';
+        }
+
+        return rolesStr;
+    };
 
     //TODO better format and display user information
     render() {
         return (
             <div>
-                <h1>ID: {this.props.match.params.id}</h1>
                 {this.state.hasLoaded?
                     <div>
-                        {_.isNil(this.state.user)?
+                        {_.isEmpty(this.state.publicUser)?
                             <div>
-                                Sorry, that user does not exist!
+                                <h1>Sorry, the user {this.props.match.params.id} does not exist!</h1>
                             </div>
                             :
                             <div>
-                                {JSON.stringify(this.state.user)}
+                                <h1>{this.state.publicUser.attributes['fname']} {this.state.publicUser.attributes['lname']} - {this.displayRoles()}</h1>
+                                <h3>Contact Information</h3>
+                                <h4>Email</h4>
+                                <p>{this.state.publicUser.principal}</p>
+                                <h4>Phone</h4>
+                                <p>{this.state.publicUser.attributes['phone']}</p>
+                                {this.state.publicUser.roles.includes('OWNER') &&
+                                <h4>Pets</h4>
+                                }
+                                {this.state.publicUser.roles.includes('SITTER') &&
+                                <h4>Ratings</h4>
+                                }
                             </div>
                         }
                     </div>

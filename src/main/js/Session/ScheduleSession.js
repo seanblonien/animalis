@@ -27,8 +27,6 @@ export const getCurrentDate = () => {
 class ScheduleSession extends React.Component {
     constructor(props) {
         super(props);
-        this.updateRange = this.updateRange.bind(this);
-
         this.state = {
             sessionType: null,
             unselectedPets: [],
@@ -36,7 +34,7 @@ class ScheduleSession extends React.Component {
             bidders: [],
             submitSuccessful: false,
             hasLoaded: false,
-            maxDistance: 50,
+            maxDistance: 0,
         };
     }
 
@@ -62,16 +60,17 @@ class ScheduleSession extends React.Component {
         session.sitterPrincipal = '';
         session.isComplete = false;
         session.sessionType = this.state.sessionType;
-        session.pets = [];
+        session.pets = this.state.selectedPets.map(pet => pet.id);
         session.bidderPrincipals = [];
-        if (session.maxDistance == null) session.maxDistance = '';
+        session.maxDistance = (this.state.sessionType === 'daycare' || this.state.sessionType === 'boarding') ? this.state.maxDistance: -1;
         if (session.notes == null) session.notes = '';
-        console.log('Session keys: ' + Object.keys(session).join(', '));
-        console.log('Session values: ' + Object.values(session).join(', '));
 
-        this.props.addSession(session);
+        console.error('Session OBJ: ' + JSON.stringify(session));
 
-        this.state.submitSuccessful = true;
+        this.props.addSession(session).then(() => {
+            this.state.submitSuccessful = true;
+            this.setState(this.state);
+        });
     };
 
     handleSessionTypeChange = e => {
@@ -120,40 +119,44 @@ class ScheduleSession extends React.Component {
                 <div>
                     <p>Please add a pet before scheduling a session!</p>
 
-                    <p>You can add pets within the <a className="link" href="#/my-profile">Profile</a> page.</p>
+                    <p>You can add a pet <a className="link" href="#/my-pets">here</a></p>
                 </div>
                 }
                 {!_.isEmpty(this.props.pets) && this.props.pets.length > 0 &&
                     <form name="name" onSubmit={handleSubmit(form => this.onSubmit(form))}>
-                    <Bessemer.Field name="startDate" friendlyName="Start Date"
-                                    validators={[Validation.requiredValidator]}
-                                    field={<input type="date"
-                                                  min={getCurrentDate()}
-                                                  className={'form-control'}/>}/>
 
-                    <Bessemer.Field name="startTime" friendlyName="Start Time"
-                                    validators={[Validation.requiredValidator]}
-                                    field={<input type="time"
-                                                  className={'form-control'}/>}/>
+                        <label>Session Service</label>
+                        <Bessemer.Select style={{marginBottom: '2.5%'}} name="session_type"
+                                         label={'Session Type'}
+                                         friendlyName="Session Type" placeholder={sessionTypes[0].label}
+                                         validators={[Validation.requiredValidator, Validation.safeValidator]}
+                                         options={sessionTypes} value={this.state.sessionType}
+                                         onChange={opt => this.handleSessionTypeChange(opt)}/>
 
-                    <Bessemer.Field name="endDate" friendlyName="End Date"
-                                    validators={[Validation.requiredValidator]}
-                                    field={<input type="date"
-                                                  min={getCurrentDate()}
-                                                  className={'form-control'}/>}/>
+                        <Bessemer.Field name="startDate" friendlyName="Start Date"
+                                        validators={[Validation.requiredValidator]}
+                                        field={<input type="date"
+                                                      min={getCurrentDate()}
+                                                      className={'form-control'}/>}/>
 
-                    <Bessemer.Field name="endTime" friendlyName="End Time"
-                                    validators={[Validation.requiredValidator]}
-                                    field={<input type="time"
-                                                  className={'form-control'}/>}/>
+                        <Bessemer.Field name="startTime" friendlyName="Start Time"
+                                        validators={[Validation.requiredValidator]}
+                                        field={<input type="time"
+                                                      className={'form-control'}/>}/>
 
-                    <label>Session Service</label>
-                    <Bessemer.Select style={{marginBottom: '2.5%'}} name="session_type"
-                                     label={'Session Type'}
-                                     friendlyName="Session Type" placeholder={sessionTypes[0].label}
-                                     validators={[Validation.requiredValidator, Validation.safeValidator]}
-                                     options={sessionTypes} value={this.state.sessionType}
-                                     onChange={opt => this.handleSessionTypeChange(opt)}/>
+                        <Bessemer.Field name="endDate" friendlyName="End Date"
+                                        validators={[Validation.requiredValidator]}
+                                        field={<input type="date"
+                                                      min={getCurrentDate()}
+                                                      className={'form-control'}/>}/>
+
+                        <Bessemer.Field name="endTime" friendlyName="End Time"
+                                        validators={[Validation.requiredValidator]}
+                                        field={<input type="time"
+                                                      className={'form-control'}/>}/>
+
+                        <Bessemer.Field name='price' friendlyName='Price/hr'
+                                        placeholder={'$' + 30 + '/hr'}/>
 
                     {(this.state.sessionType === 'daycare' || this.state.sessionType === 'boarding') &&
                     <div>

@@ -73,7 +73,7 @@ class NotificationsNavBar extends React.Component {
                                         {!n.hasBeenRead &&
                                         <div key={n.id} className="d-inline-flex p-1">
                                             <a className="nav-link" href="/#/notifications" className="dropdown-item">
-                                                Notification {n.id}
+                                                {n.dataBody}
                                             </a>
                                             <a className="btn" onClick={e => this.markNotificationAsRead(e, n)}>✔</a>
                                         </div>
