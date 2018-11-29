@@ -18,6 +18,7 @@ import MySessions from 'js/Session/MySessions';
 import MyHistory from 'js/Session/MyHistory';
 import SessionTypes from 'js/Session/SessionTypes';
 import Notifications from 'js/User/Notifications';
+import FaqPage from 'js/Common/FaqPage';
 
 /* Color Codes
     Dark Blue:   #01395E
@@ -367,7 +368,6 @@ export class AboutPage extends React.Component {
                     </div>
                     <div>
 
-
                     </div>
                 </div>
             </div>
@@ -387,8 +387,7 @@ export class SupportFAQPage extends React.Component {
                         <h2 className="col">Frequently Asked Questions</h2>
                     </div>
                     <div>
-
-
+                        <FaqPage/>
                     </div>
                 </div>
             </div>
