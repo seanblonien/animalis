@@ -25,13 +25,17 @@ function formatDate(d){
     }
 }
 
-function formatTime(d){
-    if(d){
-        let date = new Date(d);
-        let hour = date.getHours();
+function formatTime(t){
+    if(t){
+        console.error(t);
+        let time = t.split(':');
+        let hour = parseInt(time[0]);
+        let minutes = (time[1]);
         let AMPM = hour < 12 ? 'AM' : 'PM';
+        if(hour < 1) hour = 12;
+        else if(hour > 13 && hour < 24) hour = hour - 12;
 
-        return;
+        return hour + ':' + minutes + ' ' + AMPM;
     }
 }
 
@@ -213,13 +217,13 @@ class SessionPostings extends React.Component {
                                             <ul className="list-group list-group-flush">
                                                 <li className="list-group-item">
                                                     <div>
-                                                        <span className="text-muted">From: </span>{formatDate(session.startDate) + ' ' + session.startTime}
+                                                        <span className="text-muted">From: </span>{formatDate(session.startDate) + ' at ' + formatTime(session.startTime)}
                                                     </div>
                                                 </li>
 
                                                 <li className="list-group-item">
                                                     <div>
-                                                        <span className="text-muted">To: </span>{formatDate(session.endDate) + ' ' + session.endTime}
+                                                        <span className="text-muted">To: </span>{formatDate(session.endDate) + ' at ' + formatTime(session.endTime)}
                                                     </div>
                                                 </li>
 
