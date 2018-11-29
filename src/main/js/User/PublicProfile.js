@@ -56,11 +56,13 @@ export class PublicProfile extends React.Component {
                             :
                             <div>
                                 <h1>{this.state.publicUser.attributes['fname']} {this.state.publicUser.attributes['lname']} - {this.displayRoles()}</h1>
+                                <h3>Contact Information</h3>
                                 <h4>Email</h4>
                                 <p>{this.state.publicUser.principal}</p>
+                                <h4>Phone</h4>
+                                <p>{this.state.publicUser.attributes['phone']}</p>
                                 <h4>Pets</h4>
                                 <h4>Ratings</h4>
-
                             </div>
                         }
                     </div>

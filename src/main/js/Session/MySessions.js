@@ -174,13 +174,23 @@ class MySessions extends React.Component {
 											<div className={'container-fluid'}>
 												<div style={{textAlign: 'center'}}
 													 className={'row justify-content-center'}>
-													<button className={'btn btn-danger '}
-															onClick={() => this.chooseSitter(session)}>Confirm Sitter
-														Choice
-													</button>
+													<a href={'/#/profile/' + this.state.sitter_choice}><button className={'btn btn-secondary '}
+													>View Sitter Profile
+													</button></a>
 												</div>
 											</div>
 											}
+                                            {!_.isBlank(this.state.sitter_choice) &&
+                                            <div className={'container-fluid'}>
+                                                <div style={{textAlign: 'center'}}
+                                                     className={'row justify-content-center'}>
+                                                    <button className={'btn btn-danger '}
+                                                            onClick={() => this.chooseSitter(session)}>Confirm Sitter
+                                                        Choice
+                                                    </button>
+                                                </div>
+                                            </div>
+                                            }
 										</div>
 									</li>
 									}
