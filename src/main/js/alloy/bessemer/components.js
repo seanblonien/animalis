@@ -176,7 +176,8 @@ Field.defaultProps = {
     validators: [],
     showLabel: true,
     decorate: true,
-    stacked: false
+    stacked: false,
+    displayDollar: false,
 };
 
 export class Button extends React.Component {

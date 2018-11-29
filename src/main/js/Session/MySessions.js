@@ -56,7 +56,7 @@ class MySessions extends React.Component {
 			notificationDate: getCurrentDate().toString(),
 			primaryPrincipal: session.sitterPrincipal,
 			otherUserPrincipal: session.ownerPrincipal,
-			dataBody: 'Congratulations, you have been chosen as the sitter for an upcoming session!',
+			dataBody: 'Congratulations, you have been chosen as the sitter!',
 			hasBeenRead: false,
 		};
 		addNotification(newNotification);
