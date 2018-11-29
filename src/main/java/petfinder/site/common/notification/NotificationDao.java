@@ -5,7 +5,6 @@ import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import petfinder.site.common.user.UserAuthenticationDto;
-import petfinder.site.common.user.UserDto;
 import petfinder.site.elasticsearch.NotificationElasticsearchRepository;
 import petfinder.site.elasticsearch.UserElasticSearchRepository;
 

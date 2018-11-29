@@ -63,7 +63,7 @@ public class ElasticSearchIndex {
         searchRequest.source(searchSource);
 
         List<T> results = _Lists.mutableList();
-        for(SearchHit hit: _Exceptions.propagate(() -> elasticSearchClientProvider.getClient().search(searchRequest)).getHits()) {
+        for (SearchHit hit : _Exceptions.propagate(() -> elasticSearchClientProvider.getClient().search(searchRequest)).getHits()) {
             results.add(serializer.deserialize(hit.getSourceAsMap()));
         }
 

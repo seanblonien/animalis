@@ -9,11 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import petfinder.site.common.notification.NotificationDto;
 import petfinder.site.common.pet.PetDto;
+import petfinder.site.common.rating.RatingDto;
 import petfinder.site.common.session.SessionDto;
-import petfinder.site.elasticsearch.NotificationElasticsearchRepository;
-import petfinder.site.elasticsearch.PetElasticsearchRepository;
-import petfinder.site.elasticsearch.SessionElasticsearchRepository;
-import petfinder.site.elasticsearch.UserElasticSearchRepository;
+import petfinder.site.elasticsearch.*;
 
 import java.io.IOException;
 import java.util.List;
@@ -39,6 +37,9 @@ public class UserDao {
     @Autowired
     private NotificationElasticsearchRepository notificationRepository;
 
+    @Autowired
+    private RatingElasticsearchRepository ratingElasticsearchRepository;
+
     public void save(UserAuthenticationDto userAuthentication) {
         userRepository.save(userAuthentication);
     }
@@ -58,7 +59,7 @@ public class UserDao {
         return userRepository.search(searchSourceBuilder).stream().findFirst();
     }
 
-    private UpdateRequest buildUserFields(UserDto user) throws IOException{
+    private UpdateRequest buildUserFields(UserDto user) throws IOException {
         UpdateRequest updateRequest = new UpdateRequest();
 
         updateRequest.index("petfinder-users");
@@ -66,15 +67,15 @@ public class UserDao {
         updateRequest.id(user.getPrincipal());
         updateRequest.doc(jsonBuilder()
                 .startObject()
-                    .startObject("user")
-                        .field("principal", user.getPrincipal())
-                        .field("attributes", user.getAttributes())
-                        .field("roles", user.getRoles())
-                        .field("address", user.getAddress())
-                        .field("pets", user.getPets())
-                        .field("sessions", user.getSessions())
-                        .field("notifications", user.getNotifications())
-                    .endObject()
+                .startObject("user")
+                .field("principal", user.getPrincipal())
+                .field("attributes", user.getAttributes())
+                .field("roles", user.getRoles())
+                .field("address", user.getAddress())
+                .field("pets", user.getPets())
+                .field("sessions", user.getSessions())
+                .field("notifications", user.getNotifications())
+                .endObject()
                 .endObject());
 
         return updateRequest;
@@ -104,6 +105,18 @@ public class UserDao {
                 .collect(Collectors.toList()) : null;
     }
 
+    public List<Optional<RatingDto>> findRatings(UserDto user) {
+        SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
+
+        String queryString = String.format("userPrincipal=\"%s\"", user.getPrincipal().replace("\"", ""));
+        searchSourceBuilder.query(QueryBuilders.queryStringQuery(queryString));
+
+        List<Long> userRatings = user.getRatings();
+        return userRatings != null ? userRatings.stream()
+                .map(id -> ratingElasticsearchRepository.find(id))
+                .collect(Collectors.toList()) : null;
+    }
+
     public List<Optional<NotificationDto>> findNotifications(UserDto user) {
         SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
 
@@ -116,7 +129,7 @@ public class UserDao {
                 .collect(Collectors.toList()) : null;
     }
 
-    public void delete(UserService.PrincipalRequest request) {
-        userRepository.delete(request.getPrincipal());
+    public void delete(String principal) {
+        userRepository.delete(principal);
     }
 }

@@ -1,18 +1,17 @@
-import {makeToast, Toasts} from 'js/Common/Toasts';
 import _ from 'lodash';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {Provider} from 'react-redux';
-import {applyMiddleware, createStore} from 'redux';
+import { Provider } from 'react-redux';
+import { applyMiddleware, createStore } from 'redux';
 import createLogger from 'redux-logger';
 import thunkMiddleware from 'redux-thunk';
-import {reducer as formReducer} from 'redux-form';
+import { reducer as formReducer } from 'redux-form';
 import axios from 'axios';
 import Index from 'js/Common/index';
 import * as Users from 'js/User/Users';
 import * as Utils from 'js/alloy/utils/core-utils';
 import Cookies from 'universal-cookie';
-import Bootstrap from 'bootstrap';
+import Bootstrap from 'bootstrap'; // DO NOT REMOVE THIS - IT IS NECESSARY TO LOAD
 import 'styles/main.scss';
 
 // Set our initial reducers for User actions

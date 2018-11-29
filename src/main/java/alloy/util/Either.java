@@ -8,6 +8,17 @@ import java.util.function.*;
 
 
 public final class Either<L, R> {
+    private final Optional<L> left;
+    private final Optional<R> right;
+
+    private Either(Optional<L> l, Optional<R> r) {
+        Preconditions.checkNotNull(l);
+        Preconditions.checkNotNull(r);
+
+        left = l;
+        right = r;
+    }
+
     public static <L, R> Either<L, R> left(L value) {
         return new Either<>(Optional.of(value), Optional.empty());
     }
@@ -17,17 +28,16 @@ public final class Either<L, R> {
     }
 
     public static <L, R> Either<L, R> of(Optional<? extends L> left, Optional<? extends R> right) {
-        if(left.isPresent() && right.isPresent()) {
+        if (left.isPresent() && right.isPresent()) {
             throw new IllegalArgumentException();
         }
-        if(!left.isPresent() && !right.isPresent()) {
+        if (!left.isPresent() && !right.isPresent()) {
             throw new IllegalArgumentException();
         }
 
-        if(left.isPresent()) {
+        if (left.isPresent()) {
             return left(left.get());
-        }
-        else {
+        } else {
             return right(right.get());
         }
     }
@@ -66,30 +76,18 @@ public final class Either<L, R> {
     }
 
     public static <L, R, T> Either<L, R> build(T val, Predicate<T> predicate, Function<T, L> lFunc, Function<T, R> rFunc) {
-        if(predicate.test(val)) {
+        if (predicate.test(val)) {
             return Either.left(lFunc.apply(val));
-        }
-        else {
+        } else {
             return Either.right(rFunc.apply(val));
         }
-    }
-
-    private final Optional<L> left;
-    private final Optional<R> right;
-
-    private Either(Optional<L> l, Optional<R> r) {
-        Preconditions.checkNotNull(l);
-        Preconditions.checkNotNull(r);
-
-        left = l;
-        right = r;
     }
 
     public <T> T either(
             Function<? super L, ? extends T> lFunc,
             Function<? super R, ? extends T> rFunc) {
         Optional<T> opt = left.map(lFunc);
-        if(opt.isPresent()) {
+        if (opt.isPresent()) {
             return opt.get();
         } else {
             Optional<T> rightMap = right.map(rFunc);
@@ -103,10 +101,9 @@ public final class Either<L, R> {
     public <NL, NR> Either<NL, NR> map(
             Function<? super L, ? extends NL> lFunc,
             Function<? super R, ? extends NR> rFunc) {
-        if(left.isPresent()) {
+        if (left.isPresent()) {
             return Either.left(lFunc.apply(left.get()));
-        }
-        else if (right.isPresent()){
+        } else if (right.isPresent()) {
             return Either.right(rFunc.apply(right.get()));
         } else {
             throw new IllegalStateException();

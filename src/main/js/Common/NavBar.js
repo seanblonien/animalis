@@ -1,4 +1,4 @@
-import {NotificationsNavBar} from 'js/User/NotificationsNavBar';
+import { NotificationsNavBar } from 'js/User/NotificationsNavBar';
 import React from 'react';
 import _ from 'lodash';
 import Favicon from 'react-favicon';
@@ -9,6 +9,18 @@ export class NavBar extends React.Component {
     constructor(props) {
         super(props);
         document.title = 'Animalis';
+        this.state = {
+            greeting: 'Hi, ',
+        };
+    }
+
+    componentWillMount() {
+        let hrs = (new Date()).getHours();
+        if (hrs >  0) this.state.greeting = 'You\'re an early riser, '; // REALLY early
+        if (hrs >  6) this.state.greeting = 'Good morning, ';      // After 6am
+        if (hrs > 12) this.state.greeting = 'Good afternoon, ';    // After 12pm
+        if (hrs > 17) this.state.greeting = 'Good evening, ';      // After 5pm
+        this.setState(this.state);
     }
 
     logoutClick = () => {
@@ -18,7 +30,7 @@ export class NavBar extends React.Component {
     render() {
         return (
             <div>
-                <Favicon url="https://i.imgur.com/J9wBmWu.png" />
+                <Favicon url="https://i.imgur.com/J9wBmWu.png"/>
                 <nav style={{backgroundColor: '#24292E'}} className="navbar navbar-expand-md navbar-fixed fixed-top">
                     <div className="container-fluid">
                         <a className="navbar-brand" href="/#" style={{color: 'white'}}>
@@ -32,33 +44,32 @@ export class NavBar extends React.Component {
                         </button>
 
                         <div className="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
-                            <ul style={{color: 'white', float: 'right', marginRight: 75}} className="navbar-nav ml-auto">
-                                {_.isDefined(this.props.user) && !_.isNil(this.props.user) && !_.isEmpty(this.props.user) &&
-                                <li style={{borderRight: '1.5px solid white'}}>
-                                    <a className="nav-link"
-                                       style={{color: 'white'}}> Hi, {this.props.user.attributes.fname} </a>
-                                </li>
-                                }
+                            <ul style={{color: 'white', float: 'right'}}
+                                className="navbar-nav ml-auto">
                                 <li className="nav-item ">
                                     <a className="nav-link" href="/#" style={{color: 'white'}}>🏠 Home</a>
                                 </li>
 
-                                {_.isDefined(this.props.user) && !_.isNil(this.props.user) && !_.isEmpty(this.props.user) ?
+                                {_.isDefined(this.props.user) && !_.isNil(this.props.user) && !_.isEmpty(this.props.user)?
                                     <span className="d-inline-flex">
                                         <NotificationsNavBar/>
                                         <li className="nav-item dropdown" style={{color: 'white'}}>
-                                            <a className="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                                               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style={{color: 'white'}}>
+                                            <a className="nav-link dropdown-toggle" href="#" id="navbarDropdown"
+                                               role="button"
+                                               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+                                               style={{color: 'white'}}>
                                                 🔍 Session
                                             </a>
                                             <div className="dropdown-menu" aria-labelledby="navbarDropdown">
                                                 {_.isArray(this.props.user.roles) &&
                                                 <div>
                                                     {this.props.user.roles.includes('OWNER') &&
-                                                    <a className="dropdown-item" href="#/schedule-session"><span className="fa fa-plus-circle"/> New Session</a>
+                                                    <a className="dropdown-item" href="#/schedule-session"><span
+                                                        className="fa fa-plus-circle"/> New Session</a>
                                                     }
                                                     {this.props.user.roles.includes('SITTER') &&
-                                                    <a className="dropdown-item" href="#/postings"><span className="fa fa-search-plus"/> Find Session</a>
+                                                    <a className="dropdown-item" href="#/postings"><span
+                                                        className="fa fa-search-plus"/> Find Session</a>
                                                     }
                                                 </div>
                                                 }
@@ -66,34 +77,52 @@ export class NavBar extends React.Component {
                                         </li>
 
                                         <li className="nav-item dropdown" style={{color: 'white'}}>
-                                            <a className="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                                               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style={{color: 'white'}}>
+                                            <a className="nav-link dropdown-toggle" href="#" id="navbarDropdown"
+                                               role="button"
+                                               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+                                               style={{color: 'white'}}>
                                                 ⚙ Account
                                             </a>
-                                            <div className="dropdown-menu dropdown-menu-left" aria-labelledby="navbarDropdown" style={{overflow: 'visible', left: 0, right: 0}}>
+                                            <div className="dropdown-menu dropdown-menu-left"
+                                                 aria-labelledby="navbarDropdown"
+                                                 style={{overflow: 'visible', left: 0, right: 0}}>
                                                 {_.isDefined(this.props.user) &&
                                                 <div>
-                                                    <a className="dropdown-item" href="#/my-profile"><span className="fa fa-user"/> My Profile</a>
+                                                    <a className="dropdown-item" href="#/my-profile"><span
+                                                        className="fa fa-user"/> My Profile</a>
                                                     {this.props.user.roles.includes('OWNER') &&
-                                                    <a className="dropdown-item" href="#/my-pets"><span className="fa fa-paw"/> My Pets</a>
+                                                    <a className="dropdown-item" href="#/my-pets"><span
+                                                        className="fa fa-paw"/> My Pets</a>
                                                     }
-                                                    <a className="dropdown-item" href="#/my-sessions"><span className="fa fa-list"/> My Sessions</a>
-                                                    <a className="dropdown-item" href="#/my-history"><span className="fa fa-history"/> My History</a>
+                                                    <a className="dropdown-item" href="#/my-sessions"><span
+                                                        className="fa fa-list"/> My Sessions</a>
+                                                    <a className="dropdown-item" href="#/my-history"><span
+                                                        className="fa fa-history"/> My History</a>
                                                     {this.props.user.roles.includes('SITTER') &&
-                                                    <a className="dropdown-item" href="#/my-ratings"><span className="fa fa-star"/> My Ratings</a>
+                                                    <a className="dropdown-item" href="#/my-ratings"><span
+                                                        className="fa fa-star"/> My Ratings</a>
                                                     }
                                                     <div className="dropdown-divider"></div>
-                                                    <a className="dropdown-item" href="#/" onClick={this.logoutClick}><span className="fa fa-sign-out"/> Log out</a>
+                                                    <a className="dropdown-item" href="#/"
+                                                       onClick={this.logoutClick}><span className="fa fa-sign-out"/> Log
+                                                        out</a>
                                                 </div>
 
                                                 }
                                             </div>
                                         </li>
+                                        {_.isDefined(this.props.user) && !_.isNil(this.props.user) && !_.isEmpty(this.props.user) &&
+                                        <li style={{borderLeft: '1.5px solid white'}}>
+                                            <a className="nav-link"
+                                               style={{color: 'white'}}>{this.state.greeting + this.props.user.attributes.fname} </a>
+                                        </li>
+                                        }
                                     </span>
                                     :
                                     <div className="d-inline-flex">
                                         <li className="nav-item">
-                                            <a className="nav-link" href="#/register" style={{color: 'white'}}>📕 Register</a>
+                                            <a className="nav-link" href="#/register" style={{color: 'white'}}>📕
+                                                Register</a>
                                         </li>
                                         <li className="nav-item">
                                             <a className="nav-link" href="#/login" style={{color: 'white'}}>🔑 Login</a>

@@ -1,6 +1,6 @@
 import React from 'react';
 import * as Users from 'js/User/Users';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 import _ from 'lodash';
 
 class HomePage extends React.Component {
@@ -15,31 +15,36 @@ class HomePage extends React.Component {
                      src="https://i.imgur.com/z2x66Oa.png"
                      height="408" width="974"/>
 
-                {_.isDefined(this.props.user) && !_.isNil(this.props.user) && !_.isEmpty(this.props.user) ?
+                {_.isDefined(this.props.user) && !_.isNil(this.props.user) && !_.isEmpty(this.props.user)?
                     <div>
-                        <h1 style={{float: 'center', marginRight: '5%', marginLeft: '5%', marginTop: '5px'}}>Welcome back to <b>Animalis</b>, {this.props.user.attributes.fname}!</h1>
+                        <h1 style={{float: 'center', marginRight: '5%', marginLeft: '5%', marginTop: '5px'}}>Welcome
+                            back to <b>Animalis</b>, {this.props.user.attributes.fname}!</h1>
 
                         <div>
                             {this.props.user.roles.includes('OWNER') &&
-                                <div className="m-3">
-                                    <a className="btn btn-primary btn-lg" href="#/schedule-session">Schedule a pet service</a>
-                                </div>
+                            <div className="m-3">
+                                <a className="btn btn-primary btn-lg" href="#/schedule-session">Schedule a pet
+                                    service</a>
+                            </div>
                             }
                             {this.props.user.roles.includes('SITTER') &&
-                                <div>
-                                    <a className="btn btn-primary btn-lg"
-                                       href="#/postings">Look for open pet service jobs</a>
-                                </div>
+                            <div>
+                                <a className="btn btn-primary btn-lg"
+                                   href="#/postings">Look for open pet service jobs</a>
+                            </div>
                             }
                         </div>
                     </div>
                     :
                     <div>
-                        <h1 style={{float: 'center', marginRight: '5%', marginLeft: '5%', marginTop: '5px'}}>Welcome to <b>Animalis</b>!</h1>
+                        <h1 style={{float: 'center', marginRight: '5%', marginLeft: '5%', marginTop: '5px'}}>Welcome
+                            to <b>Animalis</b>!</h1>
                         <div className="container padded">
                             <div className="row">
-                                <div className={'col-4 offset-md-4'} style={{textAlign: 'justify', textJustify: 'inter-word'}}>
-                                    <p>For animal lovers who need a helping hand, Animalis is the best pet sitting service  because it offers all the services you need for all of your pets. </p>
+                                <div className={'col-4 offset-md-4'}
+                                     style={{textAlign: 'justify', textJustify: 'inter-word'}}>
+                                    <p>For animal lovers who need a helping hand, Animalis is the best pet sitting
+                                        service because it offers all the services you need for all of your pets. </p>
                                 </div>
                             </div>
                         </div>

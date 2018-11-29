@@ -14,7 +14,9 @@ public class NotificationService {
         return NotificationDao.findNotification(id);
     }
 
-    public void addNotification(Long id, String principal) { NotificationDao.addNotification(id, principal);}
+    public void addNotification(Long id, String principal) {
+        NotificationDao.addNotification(id, principal);
+    }
 
     public void save(NotificationDto notification) {
         NotificationDao.save(notification);

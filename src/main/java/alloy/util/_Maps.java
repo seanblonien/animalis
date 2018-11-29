@@ -33,14 +33,14 @@ public interface _Maps {
     @SafeVarargs
     static <T, N> ImmutableMap<T, N> mapPairs(Pair<T, N>... elements) {
         ImmutableMap.Builder<T, N> builder = ImmutableMap.builder();
-        for(Pair<T, N> element : elements) {
+        for (Pair<T, N> element : elements) {
             builder.put(element.getFirst(), element.getSecond());
         }
         return builder.build();
     }
 
     static <T, N> Map<T, N> map(Map<T, N> map) {
-        if(map instanceof ImmutableMap) {
+        if (map instanceof ImmutableMap) {
             return map;
         }
 
@@ -79,10 +79,9 @@ public interface _Maps {
         com.google.common.base.Supplier<? extends Collection<N>> factory = new com.google.common.base.Supplier<Collection<N>>() {
             @Override
             public Collection<N> get() {
-                if(uniqueValues) {
+                if (uniqueValues) {
                     return _Sets.mutableSet();
-                }
-                else {
+                } else {
                     return _Lists.mutableList();
 
                 }
@@ -95,14 +94,14 @@ public interface _Maps {
     @SafeVarargs
     static <T, N> Multimap<T, N> mutableCombine(Multimap<T, N>... maps) {
         Multimap<T, N> map = mutableMultimap();
-        for(Multimap<T, N> component : maps) {
+        for (Multimap<T, N> component : maps) {
             map.putAll(component);
         }
         return map;
     }
 
     static <T, N> Multimap<T, N> multimap(Multimap<T, N> map) {
-        if(map instanceof ImmutableMultimap) {
+        if (map instanceof ImmutableMultimap) {
             return map;
         }
 
@@ -138,7 +137,7 @@ public interface _Maps {
 
     static <T, N> Map<T, N> mapValues(List<T> list, Function<T, N> f) {
         Map<T, N> map = Maps.newHashMap();
-        for(T item : list) {
+        for (T item : list) {
             map.put(item, f.apply(item));
         }
         return map;
@@ -146,7 +145,7 @@ public interface _Maps {
 
     static <T, N> Map<N, T> mapKeys(Iterable<T> list, Function<T, N> f) {
         Map<N, T> map = Maps.newHashMap();
-        for(T item : list) {
+        for (T item : list) {
             map.put(f.apply(item), item);
         }
         return map;
@@ -174,7 +173,7 @@ public interface _Maps {
         return elementStream.collect(_Collectors.toMultimap());
     }
 
-    static <T, N> Multimap<N,T> reverse(Map<T, N> map) {
+    static <T, N> Multimap<N, T> reverse(Map<T, N> map) {
         return multimap(map.entrySet().stream()
                 .map(entry -> Tuple.pair(entry.getValue(), entry.getKey())));
     }
@@ -185,7 +184,7 @@ public interface _Maps {
 
     static <T, N, S> Map<T, S> transformValues(Map<T, N> target, Function<N, S> transformer) {
         Map<T, S> map = Maps.newHashMap();
-        for(Entry<T, N> entry : target.entrySet()) {
+        for (Entry<T, N> entry : target.entrySet()) {
             map.put(entry.getKey(), transformer.apply(entry.getValue()));
         }
         return map;

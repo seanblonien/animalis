@@ -1,6 +1,6 @@
-import {makeToast, Toasts} from 'js/Common/Toasts';
-import {waitToUpdateTime} from 'js/Pet/PetList';
-import {getUserDetails} from 'js/User/Users';
+import { makeToast, Toasts } from 'js/Common/Toasts';
+import * as Users from 'js/User/Users';
+import { update } from 'js/User/Users';
 import React from 'react';
 import Redirect from 'react-router-dom/es/Redirect';
 import _ from 'lodash';
@@ -10,11 +10,8 @@ import OwnerRegister from 'js/LoginRegister/OwnerRegister';
 import SitterRegister from 'js/LoginRegister/SitterRegister';
 import * as ReduxForm from 'redux-form';
 import connect from 'react-redux/es/connect/connect';
-import * as Users from 'js/User/Users';
 import Checkbox from 'js/Common/Checkbox';
-import {confirmPassword, update} from 'js/User/Users';
-import {Loading} from 'js/Common/Loading';
-import {sexOptions} from 'js/Pet/AddPetForm';
+import { Loading } from 'js/Common/Loading';
 
 export const stateOptions = [
     {label: 'Alabama', value: 'AL'},
@@ -82,23 +79,16 @@ class RegistrationForm extends React.Component {
             hasLoaded: false,
             stateChoice: '',
         };
+    }
 
-        if(_.isDefined(this.props.editProfile)) {
-            this.props.refreshUser().then(() => {
+    componentDidMount() {
+        if (_.isDefined(this.props.editProfile)) {
+            this.props.fetchUser().then(() => {
                 this.updateState();
             });
         } else {
-            this.updateState(true);
+            this.updateState();
         }
-    }
-
-    updateState(inConstructor) {
-        this.state.hasLoaded = true;
-        this.state.checkedItems.set('petOwner', this.props.user ? this.props.user.roles.includes('OWNER') : false);
-        this.state.checkedItems.set('petSitter', this.props.user ? this.props.user.roles.includes('SITTER') : false);
-        this.state.checkedItems.set('emailNotifications', this.props.user ? this.props.user.attributes.emailNotifications === 'true' : false);
-        if(!inConstructor || _.isUndefined(inConstructor)) this.setState(this.state);
-        this.displayChecks();
     }
 
     onSubmit = user => {
@@ -109,8 +99,8 @@ class RegistrationForm extends React.Component {
             userToUpdate.petOwner = this.state.checkedItems.get('petOwner');
             userToUpdate.emailNotifications = this.state.checkedItems.get('emailNotifications');
 
-            if(this.props.editProfile == null){
-                if(userToUpdate.password !== userToUpdate.password2){
+            if (this.props.editProfile == null) {
+                if (userToUpdate.password !== userToUpdate.password2) {
                     makeToast(Toasts.Unsuccessful.PasswordMatch);
                     return;
                 }
@@ -122,7 +112,7 @@ class RegistrationForm extends React.Component {
                 this.props.register(userToUpdate);
             } else {
                 Users.confirmPassword(userToUpdate.passwordConfirm).then(res => {
-                    if(res) {
+                    if (res) {
                         userToUpdate.principal = this.props.user.principal;
                         userToUpdate.password = user.passwordConfirm;
                         delete userToUpdate.passwordConfirm;
@@ -139,15 +129,13 @@ class RegistrationForm extends React.Component {
                         userToUpdate.notifications = this.props.user.notifications;
 
                         Users.updateUser(userToUpdate).then(() => {
-                            user.fname = user.lname = user.phone = user.street = user.city = user.state = user.zip = user.passwordConfirm = null;
-                        });
-
-                        setTimeout(() => {
-                            this.props.refreshUser().then(() => {
+                            user.fname = user.lname = user.phone = user.street = user.city = user.state = user.zip = user.passwordConfirm = this.state.stateChoice = null;
+                            this.props.fetchUser().then(() => {
+                                console.error('Set user ^ ^');
                                 makeToast(Toasts.Successful.ProfileUpdate);
                                 this.updateState();
                             });
-                        }, waitToUpdateTime);
+                        });
                     } else {
                         makeToast(Toasts.Unsuccessful.ConfirmPassword);
                     }
@@ -156,18 +144,28 @@ class RegistrationForm extends React.Component {
         }
     };
 
-    handleCheckboxChange(e) {
-        this.state.checkedItems.set(e, !this.state.checkedItems.get(e));
-        this.setState(this.state);
-        console.log(e + ' set to ' + this.state.checkedItems.get(e));
-    }
-
     handleStateChoiceChange = e => {
         if (e != null) {
             this.state.stateChoice = e;
             this.setState(this.state);
         }
     };
+
+    updateState() {
+        this.state.hasLoaded = true;
+        this.state.stateChoice = this.props.user? this.props.user.address.state : 'Georgia';
+        this.state.checkedItems.set('petOwner', this.props.user? this.props.user.roles.includes('OWNER') : false);
+        this.state.checkedItems.set('petSitter', this.props.user? this.props.user.roles.includes('SITTER') : false);
+        this.state.checkedItems.set('emailNotifications', this.props.user? this.props.user.attributes.emailNotifications === 'true' : false);
+        this.setState(this.state);
+        this.displayChecks();
+    }
+
+    handleCheckboxChange(e) {
+        this.state.checkedItems.set(e, !this.state.checkedItems.get(e));
+        this.setState(this.state);
+        console.log(e + ' set to ' + this.state.checkedItems.get(e));
+    }
 
     displayChecks() {
         console.log('User attribute checkbox values: \npetOwner-' +
@@ -185,60 +183,65 @@ class RegistrationForm extends React.Component {
 
         return (
             <div>
-                {this.state.hasLoaded ?
+                {this.state.hasLoaded?
                     <div>
                         <form name='form' onSubmit={handleSubmit(form => this.onSubmit(form))}>
                             {_.isUndefined(this.props.editProfile) &&
                             <div>
                                 <Bessemer.Field name='principal' friendlyName='Email Address'
                                                 validators={[Validation.requiredValidator, Validation.emailValidator]}
-                                                field={<input className='form-control' type='email' placeholder='JohnDoe@gmail.com'/>}/>
+                                                field={<input className='form-control' type='email'
+                                                              placeholder='JohnDoe@gmail.com'/>}/>
 
                                 <Bessemer.Field name='password' friendlyName='Password'
                                                 validators={[Validation.requiredValidator, Validation.passwordValidator, Validation.safeValidator]}
-                                                field={<input className='form-control' type='password' placeholder='At least 6 characters'/>}/>
+                                                field={<input className='form-control' type='password'
+                                                              placeholder='At least 6 characters'/>}/>
 
                                 <Bessemer.Field name='password2' friendlyName='Confirm Password'
                                                 validators={[Validation.requiredValidator, Validation.passwordValidator, Validation.safeValidator]}
-                                                field={<input className='form-control' type='password' placeholder='Confirm password'/>}/>
+                                                field={<input className='form-control' type='password'
+                                                              placeholder='Confirm password'/>}/>
                             </div>
                             }
 
                             <Bessemer.Field name='fname' friendlyName='First Name'
-                                            placeholder={this.props.editProfile == null ? 'John' : this.props.user.attributes.fname}
-                                            validators={this.props.editProfile == null ? [Validation.requiredValidator, Validation.safeValidator] : [Validation.safeValidator]}/>
+                                            placeholder={this.props.editProfile == null? 'John' : this.props.user.attributes.fname}
+                                            validators={this.props.editProfile == null? [Validation.requiredValidator, Validation.safeValidator] : [Validation.safeValidator]}/>
 
                             <Bessemer.Field name='lname' friendlyName='Last Name'
-                                            placeholder={this.props.editProfile == null ? 'Doe' : this.props.user.attributes.lname}
+                                            placeholder={this.props.editProfile == null? 'Doe' : this.props.user.attributes.lname}
                                             validators={this.props.editProfile == null? [Validation.requiredValidator, Validation.safeValidator] : [Validation.safeValidator]}/>
 
                             <Bessemer.Field name='phone' friendlyName='Phone Number'
-                                            placeholder={this.props.editProfile == null ? '987-654-3210' : this.props.user.attributes.phone}
-                                            validators={this.props.editProfile == null ? [Validation.requiredValidator, Validation.phoneNumberValidator, Validation.safeValidator] : [Validation.phoneNumberValidator,Validation.safeValidator]}/>
+                                            placeholder={this.props.editProfile == null? '987-654-3210' : this.props.user.attributes.phone}
+                                            validators={this.props.editProfile == null? [Validation.requiredValidator, Validation.phoneNumberValidator, Validation.safeValidator] : [Validation.phoneNumberValidator, Validation.safeValidator]}/>
 
                             <Bessemer.Field name='street' friendlyName='Street Address'
-                                            placeholder={this.props.editProfile == null ? '7342 Pumpkin Hill St.' : this.props.user.address.street}
-                                            validators={this.props.editProfile == null ? [Validation.requiredValidator, Validation.safeValidator] : [Validation.safeValidator]}/>
+                                            placeholder={this.props.editProfile == null? '7342 Pumpkin Hill St.' : this.props.user.address.street}
+                                            validators={this.props.editProfile == null? [Validation.requiredValidator, Validation.safeValidator] : [Validation.safeValidator]}/>
 
                             <Bessemer.Field name='city' friendlyName='City'
-                                            placeholder={this.props.editProfile == null ? 'Duluth' : this.props.user.address.city}
-                                            validators={this.props.editProfile == null ? [Validation.requiredValidator, Validation.safeValidator] : [Validation.safeValidator]}/>
+                                            placeholder={this.props.editProfile == null? 'Duluth' : this.props.user.address.city}
+                                            validators={this.props.editProfile == null? [Validation.requiredValidator, Validation.safeValidator] : [Validation.safeValidator]}/>
 
 
-                            <span className={'row'} style={{verticalAlign: 'middle', width: '100%', marginBottom: 15}}>
-                                <label className={'col-4 d-inline-block'}>State*</label>
+                            <span className="row align-content-center mb-3">
+                                <label className={'col-4 d-inline-block'}>State{this.props.editProfile == null &&
+                                <span>*</span>}</label>
                                 <Bessemer.Select name="state"
                                                  className={'col-8 d-inline-block'}
                                                  friendlyName="State"
-                                                 placeholder="Texas"
-                                                 validators={this.props.editProfile == null ? [Validation.requiredValidator, Validation.safeValidator] : [Validation.safeValidator]}
+                                                 placeholder={this.state.stateChoice}
+                                                 validators={this.props.editProfile == null? [Validation.requiredValidator, Validation.safeValidator] : [Validation.safeValidator]}
                                                  options={stateOptions} value={this.state.stateChoice}
-                                                 onChange={opt => this.handleStateChoiceChange(opt)}/>
+                                                 onChange={opt => this.handleStateChoiceChange(opt)}
+                                                 onBlur={opt => this.handleStateChoiceChange(opt)}/>
                             </span>
 
                             <Bessemer.Field name='zip' friendlyName='ZIP'
-                                            placeholder={this.props.editProfile == null ? '30096' : this.props.user.address.zip}
-                                            validators={this.props.editProfile == null ? [Validation.requiredValidator, Validation.safeValidator, Validation.zipValidator] : [Validation.safeValidator, Validation.zipValidator]}/>
+                                            placeholder={this.props.editProfile == null? '30096' : this.props.user.address.zip}
+                                            validators={this.props.editProfile == null? [Validation.requiredValidator, Validation.safeValidator, Validation.zipValidator] : [Validation.safeValidator, Validation.zipValidator]}/>
 
                             <Bessemer.Field name={'petOwner'}
                                             onChange={(e) => this.handleCheckboxChange(e)}
@@ -259,19 +262,20 @@ class RegistrationForm extends React.Component {
                             <Bessemer.Field name={'emailNotifications'}
                                             onChange={(e) => this.handleCheckboxChange(e)}
                                             showLabel={false}
-                                            field={<Checkbox label={'Send me an email when I get a new message or request.'}
-                                                             handleCheckboxChange={this.handleCheckboxChange}
-                                                             name={'emailNotifications'}
-                                                             defaultCheck={this.state.checkedItems.get('emailNotifications')}/>}/>
+                                            field={<Checkbox
+                                                label={'Send me an email when I get a new message or request.'}
+                                                handleCheckboxChange={this.handleCheckboxChange}
+                                                name={'emailNotifications'}
+                                                defaultCheck={this.state.checkedItems.get('emailNotifications')}/>}/>
 
 
-                            {_.isUndefined(this.props.editProfile) &&
-                            <div>
-                                {this.state.checkedItems.get('petOwner') ? <OwnerRegister/> : null}
+                            {/*{_.isUndefined(this.props.editProfile) &&*/}
+                            {/*<div>*/}
+                                {/*{this.state.checkedItems.get('petOwner')? <OwnerRegister/> : null}*/}
 
-                                {this.state.checkedItems.get('petSitter') ? <SitterRegister/> : null}
-                            </div>
-                            }
+                                {/*{this.state.checkedItems.get('petSitter')? <SitterRegister/> : null}*/}
+                            {/*</div>*/}
+                            {/*}*/}
 
                             {_.isDefined(this.props.editProfile) &&
                             <div>
@@ -306,9 +310,9 @@ RegistrationForm = connect(
     }),
     dispatch => ({
         register: user => dispatch(Users.Actions.register(user)),
-        refreshUser: () => dispatch(Users.Actions.refreshUser()),
+        fetchUser: () => dispatch(Users.Actions.fetchUser()),
         updateUser: user => dispatch(Users.Actions.updateUser(user)),
     })
 )(RegistrationForm);
 
-export {RegistrationForm};
+export { RegistrationForm };

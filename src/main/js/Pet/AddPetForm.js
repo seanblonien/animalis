@@ -1,10 +1,10 @@
-import {Actions, addPet} from 'js/User/Users';
+import * as Users from 'js/User/Users';
+import { addPet } from 'js/User/Users';
 import React from 'react';
 import * as Validation from 'js/alloy/utils/validation';
 import * as Bessemer from 'js/alloy/bessemer/components';
-import * as Users from 'js/User/Users';
 import * as ReduxForm from 'redux-form';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 
 export const sexOptions = [
     {label: 'Male', value: 'Male'},
@@ -27,16 +27,6 @@ class AddPetForm extends React.Component {
             pet_size: null,
             toggle: false,
         };
-        this.handleSexChange = this.handleSexChange.bind(this);
-        this.handleSizeChange = this.handleSizeChange.bind(this);
-        this.onSubmit = this.onSubmit.bind(this);
-
-        // this.props.retrievePets().then(() => {
-        //     //console.error((performance.now()).toString() + ' retreived pets ' + JSON.stringify(this.props.pets));
-        //     this.state.toggle = !this.state.toggle;
-        //     this.setState(this.state);
-        // });
-        // //console.error((performance.now()).toString() + ' retreived pets ' + JSON.stringify(this.props.pets));
     }
 
     onSubmit = pet => {

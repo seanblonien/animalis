@@ -11,6 +11,19 @@ public class PetDto implements Identifiable {
     private String pet_sex;
     private String pet_info;
 
+    private PetDto() {
+    }
+
+    public PetDto(Long id, String pet_name, String pet_species, Long pet_age, String pet_size, String pet_sex, String pet_info) {
+        this.id = id;
+        this.pet_name = pet_name;
+        this.pet_species = pet_species;
+        this.pet_age = pet_age;
+        this.pet_size = pet_size;
+        this.pet_sex = pet_sex;
+        this.pet_info = pet_info;
+    }
+
     @Override
     public Long getId() {
         return id;
@@ -65,19 +78,6 @@ public class PetDto implements Identifiable {
     }
 
     public void setPet_info(String pet_info) {
-        this.pet_info = pet_info;
-    }
-
-    private PetDto() {}
-
-
-    public PetDto(Long id, String pet_name, String pet_species, Long pet_age, String pet_size, String pet_sex, String pet_info) {
-        this.id = id;
-        this.pet_name = pet_name;
-        this.pet_species = pet_species;
-        this.pet_age = pet_age;
-        this.pet_size = pet_size;
-        this.pet_sex = pet_sex;
         this.pet_info = pet_info;
     }
 

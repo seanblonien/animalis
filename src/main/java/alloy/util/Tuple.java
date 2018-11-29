@@ -39,6 +39,16 @@ public interface Tuple {
         V1 getFirst();
     }
 
+    // Alias for Tuple2
+    interface Pair<V1, V2> extends Single<V1>, Serializable {
+        V2 getSecond();
+    }
+
+    // Alias for Tuple3
+    interface Triple<V1, V2, V3> extends Pair<V1, V2>, Serializable {
+        V3 getThird();
+    }
+
     class Tuple1<V1> implements Single<V1>, Serializable {
         private static final long serialVersionUID = 4006475675164664408L;
         public final V1 _1;
@@ -58,7 +68,7 @@ public interface Tuple {
 
         @Override
         public Iterator<Object> iterator() {
-            return Arrays.<Object> asList(_1).iterator();
+            return Arrays.<Object>asList(_1).iterator();
         }
 
         @Override
@@ -82,11 +92,6 @@ public interface Tuple {
             result = prime * result + ((getFirst() == null) ? 0 : getFirst().hashCode());
             return result;
         }
-    }
-
-    // Alias for Tuple2
-    interface Pair<V1, V2> extends Single<V1>, Serializable {
-        V2 getSecond();
     }
 
     class Tuple2<V1, V2> extends Tuple1<V1> implements Pair<V1, V2> {
@@ -137,11 +142,6 @@ public interface Tuple {
             result = prime * result + ((getSecond() == null) ? 0 : getSecond().hashCode());
             return result;
         }
-    }
-
-    // Alias for Tuple3
-    interface Triple<V1, V2, V3> extends Pair<V1, V2>, Serializable {
-        V3 getThird();
     }
 
     class Tuple3<V1, V2, V3> extends Tuple2<V1, V2> implements Triple<V1, V2, V3> {

@@ -53,11 +53,11 @@ public class OAuth2ResourceServerConfig extends ResourceServerConfigurerAdapter 
             // Determine if the resource called is "/api/**"
             String path = request.getServletPath();
 
-            if(path.contains("/api/user/register")) {
+            if (path.contains("/api/user/register")) {
                 return false;
             }
 
-            if ( path.length() >= 5 ) {
+            if (path.length() >= 5) {
                 path = path.substring(0, 5);
                 return path.equals("/api/");
             } else {

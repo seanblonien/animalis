@@ -10,9 +10,9 @@ export class Validator {
 
 let Spec = {};
 
-Spec.makeOptional = spec => val => _.isEmpty(val) ? true : spec(val);
+Spec.makeOptional = spec => val => _.isEmpty(val)? true : spec(val);
 
-export {Spec};
+export { Spec };
 
 export const required = value => !!value;
 export const requiredValidator = new Validator(required, (details) => details.friendlyName + ' is required.');
@@ -38,12 +38,12 @@ export const sexValidator = new Validator(isSex, () => 'Please enter \'Male\' or
 export const isSafe = (val) => !(val === sanitize(val));
 export const safeValidator = new Validator(isSafe, () => 'Please enter in valid characters! No funny business allowed!');
 
-export const isZip = (val) =>  (!val) || val.match(/^\d{5}$/);
+export const isZip = (val) => (!val) || val.match(/^\d{5}$/);
 export const zipValidator = new Validator(isZip, () => 'Please enter in a 5 digit ZIP code.');
 
 export function sanitize(strings, ...values) {
-    strings = strings ? [].concat(strings) : [];
-    const dirty = isEmpty(strings) ? [] : strings.reduce((prev, next, i) => `${prev}${next}${values[i]} || ''}`, '');
+    strings = strings? [].concat(strings) : [];
+    const dirty = isEmpty(strings)? [] : strings.reduce((prev, next, i) => `${prev}${next}${values[i]} || ''}`, '');
     return DomPurify.sanitize(dirty);
 }
 

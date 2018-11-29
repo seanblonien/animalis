@@ -36,7 +36,7 @@ public class PetfinderElasticSearchClientProvider implements ElasticSearchClient
     @PostConstruct
     private void initialize() {
         RestClientBuilder builder = RestClient.builder(new HttpHost(elasticSearchHost, elasticSearchPort, elasticSearchScheme));
-        if(elasticSearchUserName != null) {
+        if (elasticSearchUserName != null) {
             CredentialsProvider credentialsProvider = new BasicCredentialsProvider();
             credentialsProvider.setCredentials(AuthScope.ANY, new UsernamePasswordCredentials(elasticSearchUserName, elasticSearchPassword));
 

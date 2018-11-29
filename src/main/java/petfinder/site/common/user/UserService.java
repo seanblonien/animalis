@@ -6,6 +6,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import petfinder.site.common.notification.NotificationDto;
 import petfinder.site.common.pet.PetDto;
+import petfinder.site.common.rating.RatingDto;
 import petfinder.site.common.session.SessionDto;
 import petfinder.site.common.user.UserDto.UserType;
 
@@ -26,6 +27,54 @@ public class UserService {
 
     public Optional<UserAuthenticationDto> findUserAuthenticationByPrincipal(String principal) {
         return userDao.findUserByPrincipal(principal);
+    }
+
+    public UserDto constructUser(RegistrationRequest request) {
+        return new UserDto(request.getPrincipal(), request.getRoles(), request.getAttributes(), request.getAddress(), request.getPets(), request.getSessions(), null, null);
+    }
+
+    public void delete(Optional<UserDto> user) {
+        user.ifPresent(userDto -> userDao.delete(userDto.getPrincipal()));
+    }
+
+    public UserDto update(UserDto user) {
+        try {
+            userDao.update(user);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return user;
+    }
+
+    public UserDto register(RegistrationRequest request) {
+        UserAuthenticationDto userAuthentication = new UserAuthenticationDto(constructUser(request), this.passwordEncoder.encode(request.getPassword()));
+        userDao.save(userAuthentication);
+        return userAuthentication.getUser();
+    }
+
+    public boolean confirmPassword(String pass) {
+        String principal = SecurityContextHolder.getContext().getAuthentication().getName();
+        SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Optional<UserAuthenticationDto> myUser = findUserAuthenticationByPrincipal(principal);
+        System.out.println("Matching: \n" + myUser.get().getPassword() + "\n" + this.passwordEncoder.encode(pass));
+        System.out.println((!this.passwordEncoder.matches(pass, myUser.get().getPassword()) ? "do not match" : "do match"));
+        return myUser.isPresent() && this.passwordEncoder.matches(pass, myUser.get().getPassword());
+    }
+
+    public List<Optional<PetDto>> findPets(UserDto user) {
+        return userDao.findPets(user);
+    }
+
+    public List<Optional<SessionDto>> findSessions(UserDto user) {
+        return userDao.findSessions(user);
+    }
+
+    public List<Optional<NotificationDto>> findNotifications(UserDto user) {
+        return userDao.findNotifications(user);
+    }
+
+    public List<Optional<RatingDto>> findRatings(UserDto user) {
+        return userDao.findRatings(user);
     }
 
     public static class PrincipalRequest {
@@ -58,6 +107,10 @@ public class UserService {
 
         public String getPrincipal() {
             return principal;
+        }
+
+        public void setPrincipal(String principal) {
+            this.principal = principal;
         }
 
         public String getPassword() {
@@ -99,19 +152,15 @@ public class UserService {
         public List<String> getRoles() {
             List<String> myRoles = new ArrayList<>();
 
-            if(this.petOwner.equals("true")) {
+            if (this.petOwner.equals("true")) {
                 myRoles.add(UserType.OWNER.toString());
             }
-            if(this.petSitter.equals("true")) {
+            if (this.petSitter.equals("true")) {
                 myRoles.add(UserType.SITTER.toString());
             }
 
-            if(myRoles.isEmpty()) myRoles.add("None");
+            if (myRoles.isEmpty()) myRoles.add("None");
             return myRoles;
-        }
-
-        public void setPrincipal(String principal) {
-            this.principal = principal;
         }
 
         public String getFname() {
@@ -213,49 +262,5 @@ public class UserService {
                     ", sessions=" + sessions +
                     '}';
         }
-    }
-
-    public UserDto constructUser(RegistrationRequest request){
-        return new UserDto(request.getPrincipal(), request.getRoles(), request.getAttributes(), request.getAddress(), request.getPets(), request.getSessions(), null);
-    }
-
-    public void delete(PrincipalRequest request) {
-        userDao.delete(request);
-    }
-
-    public UserDto update(UserDto user) {
-        try {
-            userDao.update(user);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return user;
-    }
-
-    public UserDto register(RegistrationRequest request) {
-        UserAuthenticationDto userAuthentication = new UserAuthenticationDto(constructUser(request), this.passwordEncoder.encode(request.getPassword()));
-        userDao.save(userAuthentication);
-        return userAuthentication.getUser();
-    }
-
-    public boolean confirmPassword(String pass) {
-        String principal = SecurityContextHolder.getContext().getAuthentication().getName();
-        SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        Optional<UserAuthenticationDto> myUser = findUserAuthenticationByPrincipal(principal);
-        System.out.println("Matching: \n" + myUser.get().getPassword() + "\n" + this.passwordEncoder.encode(pass));
-        System.out.println((!this.passwordEncoder.matches(pass, myUser.get().getPassword()) ? "do not match" : "do match"));
-        return myUser.isPresent() && this.passwordEncoder.matches(pass, myUser.get().getPassword());
-    }
-
-    public List<Optional<PetDto>> findPets(UserDto user) {
-        return userDao.findPets(user);
-    }
-
-    public List<Optional<SessionDto>> findSessions(UserDto user) {
-        return userDao.findSessions(user);
-    }
-
-    public List<Optional<NotificationDto>> findNotifications(UserDto user) {
-        return userDao.findNotifications(user);
     }
 }

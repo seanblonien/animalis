@@ -34,13 +34,13 @@ public class Json {
         return TypeConverters.convertOrThrow(json, typeReference, mapper);
     }
 
+    public static JsonModel model() {
+        return new JsonModel();
+    }
+
     public static class JsonModel extends HashMap<String, Object> {
         public String toJson() {
             return marshall(this);
         }
-    }
-
-    public static JsonModel model() {
-        return new JsonModel();
     }
 }

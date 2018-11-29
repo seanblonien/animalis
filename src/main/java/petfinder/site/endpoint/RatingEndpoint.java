@@ -2,7 +2,6 @@ package petfinder.site.endpoint;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import petfinder.site.common.pet.PetDto;
 import petfinder.site.common.rating.RatingDto;
 import petfinder.site.common.rating.RatingService;
 
@@ -15,8 +14,8 @@ public class RatingEndpoint {
     private RatingService ratingService;
 
     @PostMapping(produces = "application/json")
-    public void saveRating(@RequestBody RatingDto pet) {
-        ratingService.save(pet);
+    public void saveRating(@RequestBody RatingDto rating) {
+        ratingService.save(rating);
     }
 
     @GetMapping(value = "/{id}", produces = "application/json")
@@ -25,8 +24,8 @@ public class RatingEndpoint {
     }
 
     @PostMapping(value = "/update")
-    public void updateRating(@RequestBody RatingDto pet) {
-        ratingService.save(pet);
+    public void updateRating(@RequestBody RatingDto rating) {
+        ratingService.save(rating);
     }
 
     @PostMapping(value = "/delete/{id}")

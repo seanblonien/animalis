@@ -1,6 +1,6 @@
 import React from 'react';
 import * as ReduxForm from 'redux-form';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 
 import * as Validation from 'js/alloy/utils/validation';
 import * as Bessemer from 'js/alloy/bessemer/components';
@@ -9,13 +9,13 @@ import * as Users from 'js/User/Users';
 import Redirect from 'react-router-dom/es/Redirect';
 
 class LoginForm extends React.Component {
-    constructor(props) {
-        super(props);
-    }
-
     onSubmit = ({principal, password}) => {
         return this.props.authenticate(principal, password);
     };
+
+    constructor(props) {
+        super(props);
+    }
 
     render() {
         let {handleSubmit, submitting} = this.props;
@@ -32,7 +32,8 @@ class LoginForm extends React.Component {
 
                 <Bessemer.Field name="password" friendlyName="Password"
                                 validators={[Validation.requiredValidator, Validation.passwordValidator]}
-                                field={<input className="form-control" type="password" autoComplete={'current-password'}/>}/>
+                                field={<input className="form-control" type="password"
+                                              autoComplete={'current-password'}/>}/>
 
                 <div className="container">
                     <div className="row">
@@ -66,4 +67,4 @@ LoginForm = connect(
     })
 )(LoginForm);
 
-export {LoginForm};
+export { LoginForm };
