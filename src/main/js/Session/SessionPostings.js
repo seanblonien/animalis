@@ -10,6 +10,31 @@ import * as Bessemer from 'js/alloy/bessemer/components';
 import { getCurrentDate } from 'js/Session/ScheduleSession';
 import { Loading } from 'js/Common/Loading';
 
+const monthNames = ['January', 'February', 'March', 'April', 'May', 'June',
+    'July', 'August', 'September', 'October', 'November', 'December'
+];
+
+function formatDate(d){
+    if(d){
+        let date = new Date(d);
+        let day = date.getDate();
+        let month = monthNames[date.getMonth()];
+        let year = date.getFullYear();
+
+        return month + ' ' + day + ', ' + year;
+    }
+}
+
+function formatTime(d){
+    if(d){
+        let date = new Date(d);
+        let hour = date.getHours();
+        let AMPM = hour < 12 ? 'AM' : 'PM';
+
+        return;
+    }
+}
+
 class SessionPostings extends React.Component {
     constructor(props) {
         super(props);
@@ -187,13 +212,13 @@ class SessionPostings extends React.Component {
                                             <ul className="list-group list-group-flush">
                                                 <li className="list-group-item">
                                                     <div>
-                                                        <span className="text-muted">From: </span>{session.startDate + ' ' + session.startTime}
+                                                        <span className="text-muted">From: </span>{formatDate(session.startDate) + ' ' + session.startTime}
                                                     </div>
                                                 </li>
 
                                                 <li className="list-group-item">
                                                     <div>
-                                                        <span className="text-muted">To: </span>{session.endDate + ' ' + session.endTime}
+                                                        <span className="text-muted">To: </span>{formatDate(session.endDate) + ' ' + session.endTime}
                                                     </div>
                                                 </li>
 
