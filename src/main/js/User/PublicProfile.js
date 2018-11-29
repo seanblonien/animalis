@@ -61,8 +61,12 @@ export class PublicProfile extends React.Component {
                                 <p>{this.state.publicUser.principal}</p>
                                 <h4>Phone</h4>
                                 <p>{this.state.publicUser.attributes['phone']}</p>
+                                {this.state.publicUser.roles.includes('OWNER') &&
                                 <h4>Pets</h4>
+                                }
+                                {this.state.publicUser.roles.includes('SITTER') &&
                                 <h4>Ratings</h4>
+                                }
                             </div>
                         }
                     </div>
