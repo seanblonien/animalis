@@ -27,8 +27,6 @@ export const getCurrentDate = () => {
 class ScheduleSession extends React.Component {
     constructor(props) {
         super(props);
-        this.updateRange = this.updateRange.bind(this);
-
         this.state = {
             sessionType: null,
             unselectedPets: [],
@@ -62,7 +60,7 @@ class ScheduleSession extends React.Component {
         session.sitterPrincipal = '';
         session.isComplete = false;
         session.sessionType = this.state.sessionType;
-        session.pets = [];
+        session.pets = this.state.selectedPets;
         session.bidderPrincipals = [];
         if (session.maxDistance == null) session.maxDistance = '';
         if (session.notes == null) session.notes = '';
