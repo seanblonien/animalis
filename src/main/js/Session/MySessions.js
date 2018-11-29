@@ -8,7 +8,6 @@ import * as Bessemer from 'js/alloy/bessemer/components';
 import * as Validation from 'js/alloy/utils/validation';
 import {getCurrentDate} from 'js/Session/ScheduleSession';
 import {sessionTypes} from 'js/Session/SessionTypes';
-import {Loading} from 'js/Common/Loading';
 
 class MySessions extends React.Component {
 	constructor(props) {
@@ -19,7 +18,15 @@ class MySessions extends React.Component {
 	}
 
     componentDidMount() {
-        this.props.getSessions();
+        this.props.getSessions().then(() => {
+        	if(this.props.sessions != null && !_.isEmpty(this.props.sessions)){
+                let newSessions = this.props.sessions.map(s => {
+                	if(s.endDate < getCurrentDate()){
+                		s.isComplete = true;
+					}
+				})
+			}
+		});
     }
 
 	handleSitterChoice = e => {
