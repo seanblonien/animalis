@@ -52,6 +52,8 @@ class HomePage extends React.Component {
                            href="#/register">Get Started Today</a>
                     </div>
                 }
+
+
             </div>
         );
     }
