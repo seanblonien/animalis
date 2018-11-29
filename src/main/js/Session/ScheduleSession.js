@@ -65,8 +65,6 @@ class ScheduleSession extends React.Component {
         session.maxDistance = (this.state.sessionType === 'daycare' || this.state.sessionType === 'boarding') ? this.state.maxDistance: -1;
         if (session.notes == null) session.notes = '';
 
-        console.error('Session OBJ: ' + JSON.stringify(session));
-
         this.props.addSession(session).then(() => {
             this.state.submitSuccessful = true;
             this.setState(this.state);

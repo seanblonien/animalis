@@ -27,7 +27,6 @@ function formatDate(d){
 
 function formatTime(t){
     if(t){
-        console.error(t);
         let time = t.split(':');
         let hour = parseInt(time[0]);
         let minutes = (time[1]);
@@ -58,19 +57,19 @@ class SessionPostings extends React.Component {
         });
     }
 
-    getSessionDetails = (principal) => {
+    getSessionDetails = (session) => {
+        let principal = session.ownerPrincipal;
         if (this.state.usersWithSessions.has(principal)) {
             let x = this.state.usersWithSessions.get(principal);
-            x.details = !x.details;
+            session.details = !session.details;
             console.log(JSON.stringify(x));
             this.state.usersWithSessions.set(principal, x);
             this.setState(this.state);
         } else {
             console.log('Getting public user with principal ' + (principal));
             getPublicUser(principal).then((res) => {
-                res.details = true;
+                session.details = true;
                 this.state.usersWithSessions.set(principal, res);
-                console.log('## ' + this.state.usersWithSessions.get(principal));
                 this.setState(this.state);
             });
         }
@@ -194,7 +193,7 @@ class SessionPostings extends React.Component {
                                                     <div className={'container-fluid col-8 mt-2'}
                                                          style={{textAlign: 'right'}}>
                                                         <button className={'btn btn-secondary'}
-                                                                onClick={() => this.getSessionDetails(session.ownerPrincipal)}> Get
+                                                                onClick={() => this.getSessionDetails(session)}> Get
                                                             Details
                                                         </button>
                                                     </div>
@@ -229,39 +228,42 @@ class SessionPostings extends React.Component {
 
                                                 <li className="list-group-item">
                                                     <div>
-                                                        <span className="text-muted">Price: </span>$30/hr
-                                                    </div>
-                                                </li>
-
-                                                <li className="list-group-item">
-                                                    <div>
-                                                        <span className="text-muted">Pet Breeds: </span>
-                                                    </div>
-                                                </li>
-
-                                                <li className="list-group-item">
-                                                    <div>
-                                                        <span className="text-muted">Bidders: </span>{session.bidderPrincipals.toString()}
+                                                        <span className="text-muted">Price: </span>{_.isDefined(session.price) && !_.isNil(session.price) ? '$' + session.price + '/hr' : 'Not set!'}
                                                     </div>
                                                 </li>
 
                                                 {/*Pet owner details*/}
-                                                {this.state.usersWithSessions.has(session.ownerPrincipal) && this.state.usersWithSessions.get(session.ownerPrincipal).details &&
-                                                <li className="list-group-item">
-                                                    <div>
-                                                        <span className="text-muted">Owner: </span>{this.state.usersWithSessions.get(session.ownerPrincipal).attributes.fname + ' ' +
-													this.state.usersWithSessions.get(session.ownerPrincipal).attributes.lname}
-                                                    </div>
-                                                </li>
+                                                {this.state.usersWithSessions.has(session.ownerPrincipal) && session.details &&
+                                                    <span>
+                                                        <li className="list-group-item">
+                                                            <div>
+                                                                <span className="text-muted">Owner: </span>{this.state.usersWithSessions.get(session.ownerPrincipal).attributes.fname + ' ' +
+                                                            this.state.usersWithSessions.get(session.ownerPrincipal).attributes.lname}
+                                                            </div>
+                                                        </li>
+                                                        <li className="list-group-item">
+                                                            <div>
+                                                                <span className="text-muted">Pets: </span>{session.pets.length > 0 ? session.pets.toString() : 'No pets'}
+                                                            </div>
+                                                        </li>
+
+                                                        <li className="list-group-item">
+                                                            <div>
+                                                                <span className="text-muted">Bidders: </span>{session.bidderPrincipals.length > 0 ? session.bidderPrincipals.toString() : 'No bidders'}
+                                                            </div>
+                                                        </li>
+                                                        <li className="list-group-item">
+                                                            <div className={'container-fluid'}>
+                                                                <div style={{textAlign: 'center'}}
+                                                                     className={'row justify-content-center'}>
+                                                                    <button className={'btn btn-danger col-6'}
+                                                                            onClick={() => this.bid(session)}> Bid
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+                                                        </li>
+                                                    </span>
                                                 }
-                                                <div className={'container-fluid'}>
-                                                    <div style={{textAlign: 'center'}}
-                                                         className={'row justify-content-center'}>
-                                                        <button className={'btn btn-danger col-6'}
-                                                                onClick={() => this.bid(session)}> Bid
-                                                        </button>
-                                                    </div>
-                                                </div>
                                             </ul>
                                         </div>
                                     ))

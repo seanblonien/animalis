@@ -131,7 +131,6 @@ class RegistrationForm extends React.Component {
                         Users.updateUser(userToUpdate).then(() => {
                             user.fname = user.lname = user.phone = user.street = user.city = user.state = user.zip = user.passwordConfirm = this.state.stateChoice = null;
                             this.props.fetchUser().then(() => {
-                                console.error('Set user ^ ^');
                                 makeToast(Toasts.Successful.ProfileUpdate);
                                 this.updateState();
                             });
