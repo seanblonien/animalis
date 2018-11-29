@@ -68,16 +68,27 @@ class MySessions extends React.Component {
 			<div className="row">
 				<div className="col-8">
 					<div>
-						{_.isDefined(this.props.user) && !_.isNil(this.props.user) && !_.isEmpty(this.props.user) &&
+						{_.isDefined(this.props.user) &&
+						!_.isNil(this.props.user) &&
+						!_.isEmpty(this.props.user) &&
 						<h5>{this.props.user.attributes.fname} {this.props.user.attributes.lname}</h5>
 						}
 
-						{_.isDefined(this.props.user) && !_.isNil(this.props.user) && !_.isEmpty(this.props.user) && this.props.user.roles.includes('OWNER') && !_.isEmpty(this.props.sessions) &&
+						{_.isDefined(this.props.user) &&
+						!_.isNil(this.props.user) &&
+						!_.isEmpty(this.props.user) &&
+						this.props.user.roles.includes('OWNER') &&
+						!_.isEmpty(this.props.sessions) &&
 						<h6>Owner Sessions:</h6>
 						}
 
-						{_.isDefined(this.props.sessions) && !_.isEmpty(this.props.sessions) && !_.isNil(this.props.user) && this.props.user.roles.includes('OWNER') && this.props.sessions.map(session => (
-							session.startDate >= getCurrentDate() && session.ownerPrincipal === this.props.user.principal &&
+						{_.isDefined(this.props.sessions) &&
+						!_.isEmpty(this.props.sessions) &&
+						!_.isNil(this.props.user) &&
+						this.props.user.roles.includes('OWNER') &&
+						this.props.sessions.map(session => (
+							session.startDate >= getCurrentDate() &&
+							session.ownerPrincipal === this.props.user.principal &&
 							<div key={session.id} className="card m-md-3">
 								<div className="card-header">
 									<div className={'row'}>
@@ -209,12 +220,20 @@ class MySessions extends React.Component {
 						))
 						}
 
-						{_.isDefined(this.props.user) && !_.isNil(this.props.user) && !_.isEmpty(this.props.user) && this.props.user.roles.includes('SITTER') &&
+						{_.isDefined(this.props.user) &&
+						!_.isNil(this.props.user) &&
+						!_.isEmpty(this.props.user) &&
+						this.props.user.roles.includes('SITTER') &&
 						<h6>Sitter Sessions:</h6>
 						}
 
-						{_.isDefined(this.props.sessions) && !_.isEmpty(this.props.sessions) && !_.isNil(this.props.user) && this.props.user.roles.includes('SITTER') && this.props.sessions.map(session => (
-							session.startDate >= getCurrentDate() && session.sitterPrincipal === this.props.user.principal &&
+						{_.isDefined(this.props.sessions) &&
+						!_.isEmpty(this.props.sessions) &&
+						!_.isNil(this.props.user) &&
+						this.props.user.roles.includes('SITTER') &&
+						this.props.sessions.map(session => (
+							session.startDate >= getCurrentDate() &&
+							session.sitterPrincipal === this.props.user.principal &&
 							<div key={session.id} className="card m-md-3">
 								<div className="card-header">
 									<div className={'row'}>
