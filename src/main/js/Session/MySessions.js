@@ -87,7 +87,7 @@ class MySessions extends React.Component {
 						!_.isNil(this.props.user) &&
 						this.props.user.roles.includes('OWNER') &&
 						this.props.sessions.map(session => (
-							session.endDate >= getCurrentDate() &&
+							session.startDate >= getCurrentDate() &&
 							session.ownerPrincipal === this.props.user.principal &&
 							<div key={session.id} className="card m-md-3">
 								<div className="card-header">
