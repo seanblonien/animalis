@@ -100,6 +100,43 @@ class SessionPostings extends React.Component {
                             const b = new Date(self.state.filter.startDate);
                             console.log((a >= b).toString());
                             if(!(a >= b)) result =  false;
+                            break;
+                        }
+                        case 'endDate': {
+                            console.log('Session end: ' + session.endDate);
+                            console.log('Filter end: ' + self.state.filter.endDate);
+                            const a = new Date(session.endDate);
+                            const b = new Date(self.state.filter.endDate);
+                            console.log((a <= b).toString());
+                            if(!(a <= b)) result =  false;
+                            break;
+                        }
+                        case 'startTime': {
+                            console.log('Session end: ' + session.startTime);
+                            console.log('Filter end: ' + self.state.filter.startTime);
+                            const a = new Date(session.startTime);
+                            const b = new Date(self.state.filter.startTime);
+                            console.log((a >= b).toString());
+                            if(!(a >= b)) result =  false;
+                            break;
+                        }
+                        case 'endTime': {
+                            console.log('Session end: ' + session.endTime);
+                            console.log('Filter end: ' + self.state.filter.endTime);
+                            const a = new Date(session.endTime);
+                            const b = new Date(self.state.filter.endTime);
+                            console.log((a <= b).toString());
+                            if(!(a <= b)) result =  false;
+                            break;
+                        }
+                        case 'sessionType': {
+                            console.log('Session end: ' + session.sessionType);
+                            console.log('Filter end: ' + self.state.filter.sessionType);
+                            const a = new Date(session.sessionType);
+                            const b = new Date(self.state.filter.sessionType);
+                            console.log((a === b).toString());
+                            if(!(a === b)) result =  false;
+                            break;
                         }
                     }
                 }
