@@ -1,3 +1,4 @@
+import * as Validation from 'js/alloy/utils/validation';
 import { makeToast, Toasts } from 'js/Common/Toasts';
 import React from 'react';
 import * as Users from 'js/User/Users';
@@ -44,9 +45,10 @@ class SessionPostings extends React.Component {
 
         this.state = {
             usersWithSessions: new Map(),
-            filter: new Map(),
+            filter: {},
             checkedItems: new Map(),
             hasLoaded: false,
+            sessionType: null,
         };
     }
 
@@ -56,6 +58,13 @@ class SessionPostings extends React.Component {
             this.setState(this.state);
         });
     }
+
+    handleSessionTypeChange = e => {
+        if (e != null) {
+            this.state.sessionType = e;
+            this.setState(this.state);
+        }
+    };
 
     getSessionDetails = (session) => {
         let principal = session.ownerPrincipal;
@@ -118,12 +127,40 @@ class SessionPostings extends React.Component {
                 if (result) {
                     switch (field) {
                         case 'startDate': {
-                            console.log('Session start: ' + session.startDate);
-                            console.log('Filter start: ' + self.state.filter.startDate);
                             const a = new Date(session.startDate);
                             const b = new Date(self.state.filter.startDate);
                             console.log((a >= b).toString());
                             if (!(a >= b)) result = false;
+                            break;
+                        }
+                        case 'endDate': {
+                            const a = new Date(session.endDate);
+                            const b = new Date(self.state.filter.endDate);
+                            console.log((a <= b).toString());
+                            if(!(a <= b)) result =  false;
+                            break;
+                        }
+                        case 'startTime': {
+                            const a = new Date(session.startTime);
+                            const b = new Date(self.state.filter.startTime);
+                            console.log((a >= b).toString());
+                            if(!(a >= b)) result =  false;
+                            break;
+                        }
+                        case 'endTime': {
+                            const a = new Date(session.endTime);
+                            const b = new Date(self.state.filter.endTime);
+                            console.log((a <= b).toString());
+                            if(!(a <= b)) result =  false;
+                            break;
+                        }
+                        case 'sessionType': {
+                            if((session.sessionType !== self.state.filter.sessionType)) result =  false;
+                            break;
+                        }
+                        case 'price': {
+                            if((session.price > self.state.filter.price)) result = false;
+                            break;
                         }
                     }
                 }
@@ -162,10 +199,22 @@ class SessionPostings extends React.Component {
                                             field={<input type="time"
                                                           className={'form-control'}/>}/>
 
+                            <label>Session Type</label>
+                            <Bessemer.Select style={{marginBottom: '2.5%'}} name="sessionType"
+                                             label={'Session Type'}
+                                             friendlyName="Session Type" placeholder={sessionTypes[0].label}
+                                             options={sessionTypes} value={this.state.sessionType}
+                                             onChange={opt => this.handleSessionTypeChange(opt)}/>
+
+                            <Bessemer.Field name="price" friendlyName="Price"
+                                            field={<input type="number"
+                                                          className={'form-control'}/>}/>
+
                             <Bessemer.Button loading={submitting}>Apply Filter</Bessemer.Button>
                         </div>
                     </form>
                 </div>
+                `
                 {/* Postings Listing */}
                 <div className="col-md-5">
                     <h4>All Session Postings</h4>

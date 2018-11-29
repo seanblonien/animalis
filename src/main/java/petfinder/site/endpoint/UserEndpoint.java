@@ -111,10 +111,9 @@ public class UserEndpoint {
         // Get current user
         String currUser = SecurityContextHolder.getContext().getAuthentication().getName();
         UserDto user = userService.findUserByPrincipal(currUser).get();
-        String subject = "New Bid!!";
+        String subject = "New Bid";
         String text = "Hey there " + user.getAttributes().get("fname") + "," +
-                "\n A new sitter has applied for your post : " + " CURR POSTING HERE" +
-                " Check it out! \n " + "LINK HERE" + "\n";
+                "\n A new sitter has bid for your pos. Check it out now! \n\nAnimalis";
 
         // Send email and display confirmation to system
         System.out.println(MGEmail.sendSimpleMessage(subject, text, user.getPrincipal()));

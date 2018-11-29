@@ -123,7 +123,7 @@ class ScheduleSession extends React.Component {
                 {!_.isEmpty(this.props.pets) && this.props.pets.length > 0 &&
                     <form name="name" onSubmit={handleSubmit(form => this.onSubmit(form))}>
 
-                        <label>Session Service</label>
+                        <label>Session Type</label>
                         <Bessemer.Select style={{marginBottom: '2.5%'}} name="session_type"
                                          label={'Session Type'}
                                          friendlyName="Session Type" placeholder={sessionTypes[0].label}
