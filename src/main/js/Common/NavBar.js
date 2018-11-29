@@ -6,14 +6,26 @@ import connect from 'react-redux/es/connect/connect';
 import * as Users from 'js/User/Users';
 
 export class NavBar extends React.Component {
-    logoutClick = () => {
-        return this.props.logout();
-    };
-
     constructor(props) {
         super(props);
         document.title = 'Animalis';
+        this.state = {
+            greeting: 'Hi, ',
+        };
     }
+
+    componentWillMount() {
+        let hrs = (new Date()).getHours();
+        if (hrs >  0) this.state.greeting = 'You\'re an early riser, '; // REALLY early
+        if (hrs >  6) this.state.greeting = 'Good morning, ';      // After 6am
+        if (hrs > 12) this.state.greeting = 'Good afternoon, ';    // After 12pm
+        if (hrs > 17) this.state.greeting = 'Good evening, ';      // After 5pm
+        this.setState(this.state);
+    }
+
+    logoutClick = () => {
+        return this.props.logout();
+    };
 
     render() {
         return (
@@ -37,7 +49,7 @@ export class NavBar extends React.Component {
                                 {_.isDefined(this.props.user) && !_.isNil(this.props.user) && !_.isEmpty(this.props.user) &&
                                 <li style={{borderRight: '1.5px solid white'}}>
                                     <a className="nav-link"
-                                       style={{color: 'white'}}> Hi, {this.props.user.attributes.fname} </a>
+                                       style={{color: 'white'}}>{this.state.greeting + this.props.user.attributes.fname} </a>
                                 </li>
                                 }
                                 <li className="nav-item ">

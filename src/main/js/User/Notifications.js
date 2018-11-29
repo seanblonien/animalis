@@ -3,6 +3,7 @@ import * as ReduxForm from 'redux-form';
 import connect from 'react-redux/es/connect/connect';
 import * as Users from 'js/User/Users';
 import _ from 'lodash';
+import 'babel-polyfill';
 
 class Notifications extends React.Component {
     constructor(props) {

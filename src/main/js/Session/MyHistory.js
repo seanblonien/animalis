@@ -104,11 +104,6 @@ class MyHistory extends React.Component {
 							</div>
 						))
 						}
-
-						{/*{_.isDefined(this.props.user) && !_.isNil(this.props.user) && !_.isEmpty(this.props.user) && this.props.user.roles.includes('SITTER') &&*/}
-						{/*<h6>Sessions as Sitter:</h6>*/}
-						{/*}*/}
-
 					</div>
 				</div>
 			</div>

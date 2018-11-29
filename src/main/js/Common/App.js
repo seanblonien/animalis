@@ -11,7 +11,7 @@ import Index from 'js/Common/index';
 import * as Users from 'js/User/Users';
 import * as Utils from 'js/alloy/utils/core-utils';
 import Cookies from 'universal-cookie';
-import Bootstrap from 'bootstrap';
+import Bootstrap from 'bootstrap'; // DO NOT REMOVE THIS - IT IS NECESSARY TO LOAD
 import 'styles/main.scss';
 
 // Set our initial reducers for User actions
