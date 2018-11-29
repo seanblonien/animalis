@@ -44,14 +44,8 @@ export class NavBar extends React.Component {
                         </button>
 
                         <div className="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
-                            <ul style={{color: 'white', float: 'right', marginRight: 75}}
+                            <ul style={{color: 'white', float: 'right'}}
                                 className="navbar-nav ml-auto">
-                                {_.isDefined(this.props.user) && !_.isNil(this.props.user) && !_.isEmpty(this.props.user) &&
-                                <li style={{borderRight: '1.5px solid white'}}>
-                                    <a className="nav-link"
-                                       style={{color: 'white'}}>{this.state.greeting + this.props.user.attributes.fname} </a>
-                                </li>
-                                }
                                 <li className="nav-item ">
                                     <a className="nav-link" href="/#" style={{color: 'white'}}>🏠 Home</a>
                                 </li>
@@ -117,6 +111,12 @@ export class NavBar extends React.Component {
                                                 }
                                             </div>
                                         </li>
+                                        {_.isDefined(this.props.user) && !_.isNil(this.props.user) && !_.isEmpty(this.props.user) &&
+                                        <li style={{borderLeft: '1.5px solid white'}}>
+                                            <a className="nav-link"
+                                               style={{color: 'white'}}>{this.state.greeting + this.props.user.attributes.fname} </a>
+                                        </li>
+                                        }
                                     </span>
                                     :
                                     <div className="d-inline-flex">
