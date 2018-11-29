@@ -24,7 +24,7 @@ class MySessions extends React.Component {
                 	if(s.endDate < getCurrentDate()){
                 		s.isComplete = true;
 					}
-				})
+				});
 			}
 		});
     }
