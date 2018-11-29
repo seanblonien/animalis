@@ -31,6 +31,7 @@ class MyHistory extends React.Component {
 						!_.isNil(this.props.user) &&
 						!_.isEmpty(this.props.user) &&
 						this.props.user.roles.includes('OWNER') &&
+						!_.isEmpty(this.props.sessions) &&
 						<h6>Owner Sessions:</h6>
 						}
 
@@ -38,7 +39,7 @@ class MyHistory extends React.Component {
 						!_.isEmpty(this.props.sessions) &&
 						!_.isNil(this.props.user) &&
 						this.props.sessions.map(session => (
-							session.startDate < getCurrentDate() &&
+							session.endDate < getCurrentDate() &&
 							session.ownerPrincipal === this.props.user.principal &&
 							<div key={session.id} className="card m-md-3">
 								<div className="card-header">
@@ -118,6 +119,7 @@ class MyHistory extends React.Component {
 						!_.isNil(this.props.user) &&
 						!_.isEmpty(this.props.user) &&
 						this.props.user.roles.includes('SITTER') &&
+						!_.isEmpty(this.props.sessions) &&
 						<h6>Sitter Sessions:</h6>
 						}
 
@@ -125,7 +127,7 @@ class MyHistory extends React.Component {
 						!_.isEmpty(this.props.sessions) &&
 						!_.isNil(this.props.user) &&
 						this.props.sessions.map(session => (
-							session.startDate < getCurrentDate() &&
+							session.endDate < getCurrentDate() &&
 							session.sitterPrincipal === this.props.user.principal &&
 							<div key={session.id} className="card m-md-3">
 								<div className="card-header">
