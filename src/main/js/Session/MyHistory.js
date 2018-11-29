@@ -9,12 +9,28 @@ import {sessionTypes} from 'js/Session/SessionTypes';
 class MyHistory extends React.Component {
 	constructor(props) {
 		super(props);
+
+		this.state = {
+			toggle: false,
+		};
 	}
 
 	componentDidMount() {
         this.props.fetchSessions();
         this.props.fetchPets();
     }
+
+    clickRateSession = (session) => {
+		if(session.hasOwnProperty('showRating')) delete session.showRating;
+        else session.showRating = true;
+
+        this.state.toggle = !this.state.toggle;
+        this.setState(this.state);
+	};
+
+    submitRating = session => {
+
+	};
 
 	render() {
 		return (
@@ -109,6 +125,26 @@ class MyHistory extends React.Component {
 											<span className="text-muted">Notes: </span>{session.notes}
 										</div>
 									</li>
+
+                                    <li className="list-group-item">
+                                        {_.isDefined(session.showRating) && !_.isNil(session.showRating) && session.showRating ?
+                                            <div>
+                                                <div>
+                                                    ⭐⭐⭐⭐⭐
+												</div>
+                                                <div onClick={() => this.clickRateSession(session)} className="btn btn-danger">
+                                                    Cancel
+                                                </div>
+                                                <div onClick={() => this.submitRating(session)} className="btn btn-success">
+                                                    Submit
+                                                </div>
+											</div>
+                                            :
+                                            <div onClick={() => this.clickRateSession(session)} className="btn btn-warning">
+                                                Rate
+                                            </div>
+                                        }
+                                    </li>
 								</ul>
 							</div>
 						))

@@ -35,8 +35,15 @@ class AddPetForm extends React.Component {
         pet.pet_size = this.state.pet_size;
         pet.pet_age = Number(pet.pet_age);
         console.log('Keys: ' + Object.keys(pet).join(', '));
+        this.resetForm();
 
         this.props.addPet(pet);
+    };
+
+    resetForm = () => {
+        this.props.dispatch(ReduxForm.reset('addPet'));
+        this.state.pet_size = this.state.pet_sex = null;
+        this.setState(this.state);
     };
 
     handleSexChange = e => {
@@ -91,6 +98,7 @@ class AddPetForm extends React.Component {
                                 validators={[Validation.safeValidator]}/>
 
                 <Bessemer.Button loading={submitting}>Add Pet</Bessemer.Button>
+                <div className="btn btn-secondary mx-3" onClick={() => this.resetForm()}>Reset Form</div>
             </form>
         );
     }

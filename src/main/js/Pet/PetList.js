@@ -31,7 +31,7 @@ class PetList extends React.Component {
             this.state.toggle = !this.state.toggle;
             this.setState(this.state);
         });
-        this.intervalID = setInterval(() => this.fetchPets(), 3000);
+        this.intervalID = setInterval(() => this.fetchPets(), 1000);
     }
 
     componentWillUnmount() {
