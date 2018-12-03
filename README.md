@@ -1,19 +1,29 @@
-# Readme
-This is Group 5's Tempeturs project.
+# Animalis ![Animalis Logo](project_documentation/animalis_logo.png)
+
+This is team Ctrl Alt Elite's CSI 3335 Software Engineering II semester long group project. This project was a chance for us develop a full-stack web application using new technologies in a team environment over multiple months using agile development processes. With the help of [Credera's](https://www.credera.com/) mentorship and [template project](https://github.com/jlutteringer/petfinder-site), we built a pet sitting service web application called Animalis. 
 
 
-[Our Heroku page link](https://temperature-group5.herokuapp.com/)
+You can view the Animalis application on our [Heroku page](https://animalis-site.herokuapp.com/).
 
 
-[Our Trello page link](https://trello.com/b/XZJmAk9w/tempetur-web-app)
+You can view our task management and progress tracker through our [Trello page](https://trello.com/b/XZJmAk9w).
 
+Here's a screen shot of our website running:
 
+![Animalis Screenshot](project_documentation/animalis_screenshot.png)
 
-## Elastic Search
+## Ctrl Alt Elite (Group 5) Team Members
+* [Sean Blonien](https://www.linkedin.com/in/seanblonien/) - Project Manager
+* [John Eyre](https://www.linkedin.com/in/john-eyre-264315124/) - Requirements Engineer
+* [Jack Titzman](https://www.linkedin.com/in/jrt0799/) - Design Engineer
+* [Jacob Sembroksi](https://www.linkedin.com/in/jacob-sembroski-41014013b/) - Project Librarian
+
+## Running the Project Locally
+
+### Running elasticsearch
 This application uses elastic search as a data backend. To run the app you will have to either install elastic search locally or point to a remote elastic search instance. Configuration options are provided in `application.yml`.
-
-## Development
-In development there are three components to the running application. A Java app server, which runs your backend code, elasticsearch, which is the data store, and a webpack development server which serves up the frontend resources and does hot reloading.
+1. Install elasticsearch 6.4.2 https://www.elastic.co/downloads/past-releases/elasticsearch-6-4-2
+2. Run `elasticsearch` and confirm it started with `curl -XGET 'localhost:9200'`
 
 ### Running the Backend in IntelliJ
 1. Install Java, Gradle, IntelliJ if you don't already have them
@@ -25,18 +35,14 @@ In development there are three components to the running application. A Java app
   * Run the application again, and it should start correctly
 5. Go to `http://localhost:8080/` and verify the application is running (you may see a blank page if the frontend isn't running yet, but if it doesn't 404 you are good)
 
-### Running elasticsearch
-1. Install elasticsearch 6.0.1 https://www.elastic.co/downloads/past-releases/elasticsearch-6-0-1
-2. Run `elasticsearch` and confirm it started with `curl -XGET 'localhost:9200'`
-
 ### Running the Frontend
 1. Install node if you don't already have it
 2. In the project directory run `npm install` from the command line
 3. In the project directory run `npm run dev` from the command line
-4. Go to `http://localhost:8080/` - you should see simple output which reads "This is the home page."
-5. Navigate to page 1 and click the "Login as User" button - you should see a token print and the text "Welcome, user!" show on the page. This means everything is working.
+4. Go to `http://localhost:8080/`
+5. You should see Animalis logo and website interface if all of the above steps were done correctly!
 
-## QA/Heroku/Running as QA Locally
+#### QA/Heroku/Running as QA Locally
 In qa there is just a single executable jar which contains the static resources produced from webpack.
 
 1. To build run `gradle install`
