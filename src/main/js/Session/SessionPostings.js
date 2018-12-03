@@ -223,8 +223,9 @@ class SessionPostings extends React.Component {
                             {!_.isNil(this.props.allSessions) && this.props.allSessions.length > 0?
                                 <div>
                                     {this.props.allSessions.map(session => (
-										session.endDate >= getCurrentDate() &&
+										session.startDate >= getCurrentDate() &&
 										this.isInFilter(session) &&
+                                            !_.isEmpty(session.sitterPrincipal) &&
                                         <div key={session.id} className="card"
                                              style={{width: '20rem', marginBottom: 10}}>
                                             <div className="card-header">
