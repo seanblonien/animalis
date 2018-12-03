@@ -44,4 +44,9 @@ public class SessionEndpoint {
     public void deleteSession(@PathVariable("id") String id) {
         sessionService.deleteSession(Long.parseLong(id));
     }
+
+    @PostMapping(value = "/cancel/{id}")
+    public void cancelSession(@PathVariable("id") String id) {
+        sessionService.cancelSession(Long.parseLong(id));
+    }
 }

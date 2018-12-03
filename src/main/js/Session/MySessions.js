@@ -1,4 +1,4 @@
-import {addNotification} from 'js/User/Users';
+import {addNotification, cancelSession} from 'js/User/Users';
 import React from 'react';
 import * as ReduxForm from 'redux-form';
 import connect from 'react-redux/es/connect/connect';
@@ -32,7 +32,7 @@ class MySessions extends React.Component {
 	handleSitterChoice = e => {
 		if (e != null) {
 			this.state.sitter_choice = e;
-			this.forceUpdate();
+			this.setState(this.state);
 		}
 	};
 
@@ -63,6 +63,14 @@ class MySessions extends React.Component {
 		this.props.updateSession(session);
 	};
 
+    cancelSession = session => {
+    	if(session && session.id) {
+    		cancelSession(session.id).then(() => {
+                this.props.updateSession(session);
+			});
+		}
+	};
+
 	render() {
 		return (
 			<div className="row">
@@ -89,8 +97,10 @@ class MySessions extends React.Component {
 						this.props.sessions.map(session => (
 							session.startDate >= getCurrentDate() &&
 							session.ownerPrincipal === this.props.user.principal &&
-							<div key={session.id} className="card m-md-3">
-								<div className="card-header">
+                            session.isCancelled != true &&
+							<div key={session.id} className={'card m-md-3'}>
+								{session.isCancelled}
+								<div className={'card-header'}>
 									<div className={'row'}>
 										{sessionTypes.map((type) => (
 											<div key={type.label}>
@@ -117,7 +127,7 @@ class MySessions extends React.Component {
 									</div>
 								</div>
 
-								<ul className="list-group list-group-flush">
+                                <ul className={'list-group list-group-flush'}>
 
 									<li className="list-group-item">
 										<div>
@@ -215,6 +225,12 @@ class MySessions extends React.Component {
 											<span className="text-muted">Notes: </span>{session.notes}
 										</div>
 									</li>
+
+                                    <li className="list-group-item">
+                                        <button className={'btn btn-danger'}
+                                                onClick={() => this.cancelSession(session)}>Cancel Session
+                                        </button>
+                                    </li>
 								</ul>
 							</div>
 						))
@@ -235,6 +251,7 @@ class MySessions extends React.Component {
 						this.props.sessions.map(session => (
 							session.endDate >= getCurrentDate() &&
 							session.sitterPrincipal === this.props.user.principal &&
+                            session.isCancelled != true &&
 							<div key={session.id} className="card m-md-3">
 								<div className="card-header">
 									<div className={'row'}>
@@ -263,7 +280,7 @@ class MySessions extends React.Component {
 									</div>
 								</div>
 
-								<ul className="list-group list-group-flush">
+								<ul className={'list-group list-group-flush'}>
 
 									<li className="list-group-item">
 										<div>
@@ -371,12 +388,178 @@ class MySessions extends React.Component {
 											<span className="text-muted">Notes: </span>{session.notes}
 										</div>
 									</li>
+
+                                    <li className="list-group-item">
+                                        <button className={'btn btn-danger'}
+                                                onClick={() => this.cancelSession(session)}>Cancel Session
+                                        </button>
+                                    </li>
 								</ul>
 							</div>
 						))
 						}
 
+                        {_.isDefined(this.props.user) &&
+                        !_.isNil(this.props.user) &&
+                        !_.isEmpty(this.props.user) &&
+                        !_.isEmpty(this.props.sessions) &&
+                        <h6>Cancelled Sessions:</h6>
+                        }
 
+                        {_.isDefined(this.props.sessions) &&
+                        !_.isEmpty(this.props.sessions) &&
+                        !_.isNil(this.props.user) &&
+                        this.props.sessions.map(session => (
+                            session.endDate >= getCurrentDate() &&
+                            session.sitterPrincipal === this.props.user.principal &&
+							_.isDefined(session.isCancelled) && !_.isNil(session.isCancelled) &&
+                            session.isCancelled == true &&
+                            <div key={session.id} className="card m-md-3">
+                                <div className="card-header">
+                                    <div className={'row'}>
+                                        {sessionTypes.map((type) => (
+                                            <div key={type.label}>
+                                                {type.value === session.sessionType &&
+                                                <div className={'col-4'}>
+                                                    <img src={type.image} style={{height: 50, width: 50}}/>
+                                                </div>
+                                                }
+                                            </div>
+                                        ))
+                                        }
+                                    </div>
+                                    <div className={'mt-1'}>
+                                        {sessionTypes.map((type) => (
+                                            <div key={type.label}>
+                                                {type.value === session.sessionType &&
+                                                <div>
+                                                    <p>{type.label}</p>
+                                                </div>
+                                                }
+                                            </div>
+                                        ))
+                                        }
+                                    </div>
+                                </div>
+
+                                <ul className={'list-group list-group-flush'}>
+
+                                    <li className="list-group-item">
+                                        <div>
+                                            <span className="text-muted">Session ID: </span>{session.id}
+                                        </div>
+                                    </li>
+
+                                    <li className="list-group-item">
+                                        <div>
+											<span
+                                                className="text-muted">From: </span>{session.startDate + ' ' + session.startTime}
+                                        </div>
+                                    </li>
+
+                                    <li className="list-group-item">
+                                        <div>
+											<span
+                                                className="text-muted">To: </span>{session.endDate + ' ' + session.endTime}
+                                        </div>
+                                    </li>
+
+                                    {!_.isEmpty(session.sitterPrincipal) &&
+                                    <li className="list-group-item">
+                                        <div>
+                                            <span className="text-muted">Sitter: </span>{session.sitterPrincipal}
+                                        </div>
+                                    </li>
+                                    }
+
+                                    {!_.isEmpty(session.bidderPrincipals) &&
+                                    <li className="list-group-item">
+                                        <div>
+											<span
+                                                className="text-muted">Bidders: </span>{session.bidderPrincipals !== null && session.bidderPrincipals.map((bidder) => (
+                                            <span key={bidder}>{bidder}, </span>
+                                        ))}
+                                        </div>
+                                    </li>
+                                    }
+
+                                    {_.isEmpty(session.sitterPrincipal) && !_.isEmpty(session.bidderPrincipals) &&
+                                    <li className="list-group-item">
+                                        <div>
+                                            <span className="text-muted">Sitter Choice:</span>
+                                            <div>
+													<span className={'row'}
+                                                          style={{
+                                                              verticalAlign: 'middle',
+                                                              width: '100%',
+                                                              marginBottom: 15
+                                                          }}>
+														<label className={'col-4 d-inline-block'}>Sitter Choice</label>
+														<Bessemer.Select name="sitter_choice"
+                                                                         className={'col-8 d-inline-block'}
+                                                                         friendlyName="Choose Sitter"
+                                                                         placeholder="Choose a Sitter"
+                                                                         validators={[Validation.requiredValidator, Validation.safeValidator]}
+                                                                         options={this.getBidders(session.bidderPrincipals)}
+                                                                         value={this.state.sitter_choice}
+                                                                         onChange={opt => this.handleSitterChoice(opt)}/>
+													</span>
+                                            </div>
+
+                                            {!_.isBlank(this.state.sitter_choice) &&
+                                            <div className={'container-fluid'}>
+                                                <div style={{textAlign: 'center'}}
+                                                     className={'row justify-content-center'}>
+                                                    <a href={'/#/profile/' + this.state.sitter_choice}><button className={'btn btn-secondary '}
+                                                    >View Sitter Profile
+                                                    </button></a>
+                                                </div>
+                                            </div>
+                                            }
+                                            {!_.isBlank(this.state.sitter_choice) &&
+                                            <div className={'container-fluid'}>
+                                                <div style={{textAlign: 'center'}}
+                                                     className={'row justify-content-center'}>
+                                                    <button className={'btn btn-danger '}
+                                                            onClick={() => this.chooseSitter(session)}>Confirm Sitter
+                                                        Choice
+                                                    </button>
+                                                </div>
+                                            </div>
+                                            }
+                                        </div>
+                                    </li>
+                                    }
+
+                                    {_.isEmpty(session.sitterPrincipal) && _.isEmpty(session.bidderPrincipals) &&
+                                    <li className="list-group-item">
+                                        <div>
+                                            <span className="text-muted">Sitter Choice: </span>No bids on this session.
+                                        </div>
+                                    </li>
+                                    }
+
+                                    <li className="list-group-item">
+                                        <div>
+                                            <span className="text-muted">Pets: </span>{session.pets.toString()}
+                                        </div>
+                                    </li>
+
+                                    <li className="list-group-item">
+                                        <div>
+                                            <span className="text-muted">Notes: </span>{session.notes}
+                                        </div>
+                                    </li>
+
+                                    <li className="list-group-item">
+                                        <button className={'btn btn-danger'}
+                                                onClick={() => this.cancelSession(session)}>Cancel Session
+                                        </button>
+                                    </li>
+                                </ul>
+                            </div>
+                        ))
+                        }
 					</div>
 				</div>
 			</div>

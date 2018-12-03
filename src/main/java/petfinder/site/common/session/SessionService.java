@@ -31,6 +31,10 @@ public class SessionService {
         sessionDao.delete(id);
     }
 
+    public void cancelSession(Long id) {
+        sessionDao.cancel(id);
+    }
+
     public static class SessionQuery {
         private List<String> sessionTypes;
         private List<String> petSpecies;

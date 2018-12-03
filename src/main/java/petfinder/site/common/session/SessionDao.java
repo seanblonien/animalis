@@ -9,6 +9,7 @@ import petfinder.site.common.user.UserDto;
 import petfinder.site.elasticsearch.SessionElasticsearchRepository;
 import petfinder.site.elasticsearch.UserElasticSearchRepository;
 
+import javax.websocket.Session;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -74,5 +75,14 @@ public class SessionDao {
 
     public void delete(Long id) {
         sessionElasticsearchRepository.delete(id);
+    }
+
+    public void cancel(Long id) {
+        Optional<SessionDto> optSessionDto = findSession(id);
+        if(optSessionDto.isPresent()){
+            SessionDto sessionDto = optSessionDto.get();
+            sessionDto.setCancelled(true);
+            sessionElasticsearchRepository.save(sessionDto);
+        }
     }
 }

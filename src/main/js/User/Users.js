@@ -160,6 +160,10 @@ export function deleteRating(id) {
     }).catch(error => handleHTTPError(error));
 }
 
+export function cancelSession(id){
+    return axios.post('/api/sessions/cancel/' + id).catch(error => handleHTTPError(error));
+}
+
 /* Error handler for API calls and HTTP requests */
 const handleHTTPError = error => {
     if (error.response) {

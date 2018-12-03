@@ -5,6 +5,7 @@ import * as Users from 'js/User/Users';
 import _ from 'lodash';
 import {getCurrentDate} from 'js/Session/ScheduleSession';
 import {sessionTypes} from 'js/Session/SessionTypes';
+import {cancelSession} from 'js/User/Users';
 
 class MyHistory extends React.Component {
 	constructor(props) {
@@ -31,6 +32,14 @@ class MyHistory extends React.Component {
     submitRating = session => {
 
 	};
+
+    cancelSession = session => {
+        if(session && session.id) {
+            cancelSession(session.id).then(() => {
+                this.props.updateSession(session);
+            });
+        }
+    };
 
 	render() {
 		return (
@@ -128,13 +137,19 @@ class MyHistory extends React.Component {
 									</li>
 
                                     <li className="list-group-item">
+                                        <button className={'btn btn-danger'}
+                                                onClick={() => this.cancelSession(session)}>Cancel Session
+                                        </button>
+                                    </li>
+
+                                    <li className="list-group-item">
                                         {_.isDefined(session.showRating) && !_.isNil(session.showRating) && session.showRating ?
                                             <div>
                                                 <div>
                                                     ⭐⭐⭐⭐⭐
 												</div>
                                                 <div onClick={() => this.clickRateSession(session)} className="btn btn-danger">
-                                                    Cancel
+                                                    Cancel Rating
                                                 </div>
                                                 <div onClick={() => this.submitRating(session)} className="btn btn-success">
                                                     Submit
@@ -234,6 +249,12 @@ class MyHistory extends React.Component {
 											<span className="text-muted">Notes: </span>{session.notes}
 										</div>
 									</li>
+
+                                    <li className="list-group-item">
+                                        <button className={'btn btn-danger'}
+                                                onClick={() => this.cancelSession(session)}>Cancel Session
+                                        </button>
+                                    </li>
 								</ul>
 							</div>
 						))
