@@ -1,6 +1,8 @@
-# Animalis ![Animalis Logo](project_documentation/animalis_logo.png)
+<!--<img src="project_documentation/animalis_logo.png" alt="Animalis Logo" width="250" height="250" align="right"/>-->
 
-This is team Ctrl Alt Elite's CSI 3335 Software Engineering II semester long group project. This project was a chance for us develop a full-stack web application using new technologies in a team environment over multiple months using agile development processes. With the help of [Credera's](https://www.credera.com/) mentorship and [template project](https://github.com/jlutteringer/petfinder-site), we built a pet sitting service web application called Animalis. 
+# Animalis
+
+This is team Ctrl Alt Elite's Baylor CSI 3335 Software Engineering II semester long group project. This project was a chance for us develop a full-stack web application using new technologies in a team environment over multiple months using agile development processes. With the help of [Credera's](https://www.credera.com/) consulting mentorship and [template project](https://github.com/jlutteringer/petfinder-site), we built a pet sitting service web application called Animalis. 
 
 
 You can view the Animalis application on our [Heroku page](https://animalis-site.herokuapp.com/).
@@ -10,13 +12,16 @@ You can view our task management and progress tracker through our [Trello page](
 
 Here's a screen shot of our website running:
 
-![Animalis Screenshot](project_documentation/animalis_screenshot.png)
+![Animalis Screenshot](project_documentation/animalis_screenshot.PNG)
 
 ## Ctrl Alt Elite (Group 5) Team Members
 * [Sean Blonien](https://www.linkedin.com/in/seanblonien/) - Project Manager
 * [John Eyre](https://www.linkedin.com/in/john-eyre-264315124/) - Requirements Engineer
 * [Jack Titzman](https://www.linkedin.com/in/jrt0799/) - Design Engineer
 * [Jacob Sembroksi](https://www.linkedin.com/in/jacob-sembroski-41014013b/) - Project Librarian
+
+## Documentation
+Please view our documentation including the user guide in this [report](project_documentation/Animalis_Project_Report_and_Documentation.docx).
 
 ## Running the Project Locally
 
